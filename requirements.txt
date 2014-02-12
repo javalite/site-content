@@ -1,0 +1,11 @@
+PyCrypto
+paramiko
+fabric
+markdown
+pelican
+webassets
+webassets-recess
+cssmin
+BeautifulSoup4
+lxml
+feedparser
