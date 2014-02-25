@@ -32,7 +32,7 @@ The main idea is to replace "assert" language with "should" language and make it
 
 JSpec uses 'should' word instead of 'assert'. Here is an example of an old style test:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 @Test
 public void testCalculator(){
    Calculator c = new Calculator();
@@ -43,7 +43,7 @@ public void testCalculator(){
 
 The JSpec style of writing this test would be:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 @Test
 public void shouldAddNumbersCorrectly(){
    Calculator c = new Calculator();
@@ -71,13 +71,13 @@ All the three methods 'the', 'a' and 'it' return the expectation object. The 'a'
 
 Additionally, there is an interesting feature of the 'a' and 'the' methods: they are numeric type agnostic. In JUnit this will fail:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 assertEqual(3, 3L); // will fail
 ~~~~
 
 while the two numbers are identical in value for all practical purposes, the JUnit assertion will fail just because the types are different, one being an Integer, and another a Long. The same test in JSpec using either 'a' or 'the' will succeed:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 a(3).shouldBeEqual(3L); // will succeed
 ~~~~
 
@@ -86,7 +86,7 @@ The 'it'
 
 The only difference between the 'it' method and 'a' or 'the' is that in the 'it' method the tested object type and expected object type are parametrized with Java Generics. This means that they must be the same type:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 it(3).shouldBeEqual(3L);// will not compile
 ~~~~
 
@@ -98,20 +98,20 @@ shouldEqual, shouldBeEqual and shouldNotBeEqual
 
 Expect that the two objects are equal with the use of a standard `java.lang.Object.equals()` method:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 a(obj1).shouldEqual(obj2);
 ~~~~
 
 The great thing about this method is that it will check that the objects are the same type, has a protection for `null` and will produce a good quality message in case objects are not equal. This code:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 String a = "a", b = "b";
 a(a).shouldBeEqual(b);
 ~~~~
 
 Will produce this message:
 
-~~~~ {.prettyprint}
+~~~~ {.bash }
 Test object: 
 java.lang.String == <a> 
 and expected
@@ -120,14 +120,14 @@ java.lang.String == <b>
 
 while this code:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 String a = "a", b = null;
 a(a).shouldBeEqual(b);
 ~~~~
 
 will produce this message:
 
-~~~~ {.prettyprint}
+~~~~ {.bash }
 Test object: 
 java.lang.String == <a> 
 and expected
@@ -147,7 +147,7 @@ There are three dynamic boolean methods that are supported by JSpec:
 
 For all three methods, the argument is an abridged boolean method of a tested class. This means that if there is such a class Person:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 class Person{
   private String name;
   ... setter/getter
@@ -157,7 +157,7 @@ class Person{
 
 you can write an expectation in this style:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 Person person = new Person();
 a(person).shouldBe("valid");
 ~~~~
@@ -166,7 +166,7 @@ What happens here is that the JSpec will dynamically execute the method `person.
 
 Example for shouldHave:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 class Validation{
   public boolean hasErrors(){...};
 }
@@ -174,7 +174,7 @@ class Validation{
 
 and the expectation is:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 Validation validation = new Validation();
 a(validation).shouldHave("errors");
 ~~~~
@@ -186,13 +186,13 @@ shouldBeNull and shouldNotBeNull
 
 Expects that the tested reference is not null (or is):
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 a(x).shouldNotBeNull();
 ~~~~
 
 In case the x is actually `null`, the test will fail with:
 
-~~~~ {.prettyprint}
+~~~~ {.bash }
 javalite.test.jspec.TestException: Object is null, while it is not expected
 ~~~~
 
@@ -201,13 +201,13 @@ shouldBeType and shouldBeA
 
 Sets up expectation for a tested object's type:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 a(a).shouldBeType(Long.class);
 ~~~~
 
 If expectation not met, the error can be:
 
-~~~~ {.prettyprint}
+~~~~ {.bash }
 javalite.test.jspec.TestException: class java.lang.String is not class java.lang.Long
 ~~~~
 
@@ -218,13 +218,13 @@ shouldBeFalse and shouldBeTrue
 
 These are self-explanatory:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 a( 2 * 2 == 4).shouldBeTrue();
 ~~~~
 
 and:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 a( 2 * 2 == 5).shouldBeFalse();
 ~~~~
 
@@ -240,19 +240,19 @@ Tests that an expected value is contained in the tested object. The tested objec
 
 -   Any object - in this case, the string representation of this object is tested to contain a string representation of expected value as a substring. For example, this will pass:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
   the("meaning of life is 42").shouldContain("meaning");
 ~~~~
 
 -   `java.util.List` - in this case, the tested list is expected to contain an expected object. For example, this will pass:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
   a(Arrays.asList(1, 2, 3)).shouldContain(3);
 ~~~~
 
 -   `java.util.Map` - in this case, the tested map is expected to contain an object whose key is the expected object. For example, this will pass:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
   Map map = new HashMap();
   map.put("one", 1);
   map.put("two", 2);
@@ -267,7 +267,7 @@ Expecting difference
 
 Often times you need to ensure that some number before and after the operation is different. For instance, this could be a total count of specific records in a table, or a size of a list. Here is an example of using a difference expectation with JSpec:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 expect(new DifferenceExpectation(Person.find("last_name like ?", "Smith").size()) {
   public Object exec() {
      Person.updateAll("last_name = ?", "Smith");
@@ -278,7 +278,7 @@ expect(new DifferenceExpectation(Person.find("last_name like ?", "Smith").size()
 
 In the code snippet above, the constructor of `DifferenceExpectation(..)` is passed an initial value, and the method `exec()` returns a final value. The initial and final are compared to be different at the end of a test. If they are the same, then the test fails. An example message:
 
-~~~~ {.prettyprint}
+~~~~ {.bash .numberLines}
 javalite.test.jspec.TestException: Objects: '1' and '1' are equal, but they should not be
 ~~~~
 

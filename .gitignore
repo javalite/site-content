@@ -1,6 +1,5 @@
 *.iml
 .DS_Store
 *.pyc
-*.pid
 .idea/
 output/

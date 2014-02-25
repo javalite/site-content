@@ -1,11 +1,10 @@
-Getting Started
+# Getting Started
 
-1. if you don't have Python 2.7.6 and virtualenv installed run setup.sh
-2. virtualenv --python=/opt/python2.7.6/bin/python ~/.javalite_website
-3. Activate website virtual env: source ~/.javalite_website/bin/activate
-4. pip install -r requirements.txt
+We are going to compile markdown file using pandoc tool, so you need to install it first:
 
-Development Process
+`sudo apt-get install pandoc`
 
-1. use develop_server.sh to start and stop dev server
+# Build
+
+Run build.sh
 

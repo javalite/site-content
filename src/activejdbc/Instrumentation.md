@@ -21,7 +21,7 @@ What is instrumentation?
 
 Instrumentation is byte code manipulation that happens after compile phase. It adds static methods from super class to a subclass. Instrumentation makes writing code like this possible:
 
-~~~~ {.prettyprint}
+~~~~ {.java .numberLines}
 List<Person> retirees = Person.where("age >= ?", 65);
 ~~~~
 
@@ -36,20 +36,20 @@ The simple usage of a Maven plugin is provided by a Maven ActiveJDBC Simple Exam
 
 https://activejdbc.googlecode.com/svn/trunk/examples/simple-example/ Specifically, the plugin is added to a pom like this:
 
-~~~~ {.prettyprint}
-           <plugin>
-                <groupId>activejdbc</groupId>
-                <artifactId>activejdbc-instrumentation</artifactId>
-                <version>1.4.1</version>
-                <executions>
-                    <execution>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>instrument</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+~~~~ {.xml .numberLines}
+<plugin>
+    <groupId>activejdbc</groupId>
+    <artifactId>activejdbc-instrumentation</artifactId>
+    <version>1.4.1</version>
+    <executions>
+        <execution>
+            <phase>process-classes</phase>
+                <goals>
+                    <goal>instrument</goal>
+                </goals>
+        </execution>
+    </executions>
+</plugin>
 ~~~~
 
 and as you can see, binds to a "process-classes" phase. It will automatically instrument your classes during the build.
@@ -61,7 +61,7 @@ Instrumenting models with Ant projects is easy too: https://activejdbc.googlecod
 
 The class responsible for instrumentation is called `activejdbc.instrumentation.Main`, and here is an example of using it:
 
-~~~~ {.prettyprint}
+~~~~ {.xml .numberLines}
     <target name="instrument" depends="compile">
         <java classname="activejdbc.instrumentation.Main">
             <sysproperty key="outputDirectory" value="${classes}"/>
