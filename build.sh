@@ -1,3 +1,5 @@
-for file in $(ls src/**/*.md); do pandoc -f markdown -t html "${file}" -o "${file%md}html"; done
-find src/activeweb/ -name '*.html' -exec mv {} output/activeweb/ \;
-find src/activejdbc/ -name '*.html' -exec mv {} output/activejdbc/ \;
+#rm -rf output/*
+#for file in `ls src/activejdbc/* | tr '/' ' ' | awk '{print $3}'`; do  pandoc -f markdown -t html src/activejdbc/$file -o output/$file.html; done
+for file in `ls src/activeweb/* | tr '/' ' ' | awk '{print $3}'`; do  pandoc -f markdown -t html src/activeweb/$file -o output/$file.html; done
+cp src/index.html output
+echo "Rebuilt: `date`"
