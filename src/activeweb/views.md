@@ -481,228 +481,332 @@ There is a "locale" argument you can pass to the tag to override the locale from
 
 
 
-<h2 id="heading_toc_j_27" tabindex="-1">link_to tag and unobtrusibe JavaScript</h2>
+## link_to tag and unobtrusibe JavaScript
 
-ActiveWeb provides a&lt;@link_to/&gt;. This tag generates an HTML anchor tag and is capable of regular HTML links, as well as Ajax capability.
-
-<h3 id="heading_toc_j_28" tabindex="-1">Attributes for configuration</h3>
-<ul>
-  <li> `controller` : path to controller, such as: `/admin/permissions` where "admin" is a sub-package and "permissions" is a name of a controller. In this example, the controller class name would be: `app.controllers.admin.PermissionsController`. If a controller path is specified, the preceding slash is mandatory. Optionally this could be a name of a controller from a default package: "permissions", and in this case, the controller class name is expected to be `app.controllers.PermissionsController`. If a name of controller is specified, the preceding slash can be omitted. This attribute is optional. If this attribute is omitted, the tag will use the controller which was used to generate the current page. This makes it convenient to write links on pages for the same controller.</li>
-  <li> `action` : name of a controller action, not HTML form action. Optional. If this attribute is omitted, the action will default to "index".</li>
-  <li> `id`: id, as in a route: /controller/action/id. Optional.</li>
-  <li> `html_id` : value of this attribute will be used to set the HTML ID of the Anchor element. Optional.</li>
-  <li> `query_string`: query string as is usually used in GET HTTP calls - the part of a URL after the question mark. Optional. Either query_string or query_params allowed, but not both.</li>
-  <li> `query_params` : java.util.Map with key/value pairs to be converted to query string. Optional. Either query_string or query_params allowed, but not both.</li>
-  <li> destination : id of an element on page whose content will be set with a result of an Ajax call. Optional.</li>
-  <li> `form` : id of a form element on the page, whose content will be serialized into the Ajax call. This content will be submitted to the server controller/action as input. Optional.</li>
-  <li> `method` : HTTP method to use. Acceptable values: GET (default), POST, PUT, DELETE. Optional.</li>
-  <li> `before` : Name of a JavaScript function to call before making Ajax call. Optional. This function does not receive any arguments.</li>
-  <li> `before_arg` : Value for the JS function argument provided in "before" attribute. This could be an ID of an element, string, or any other arbitrary parameter. Any object will be converted to string. Optional.</li>
-  <li> `after` : Name of a JavaScript function to call after making Ajax call. This function receives the value of a "after_arg" attribute as a first argument and result of the Ajax call as a second argument. Optional.</li>
-  <li> `after_arg` : Value for the JS function argument provided in "after" attribute. This could be an ID of an element, string, or any other arbitrary parameter. Any object will be converted to string. Optional.</li>
-  <li> `confirm` :  Presents a JavaScript confirmation dialog before making an Ajax call. The dialog will present the text with content from the attribute value.  If No or Cancel was selected on the dialog, the Ajax call is not made. Optional.</li>
-  <li> `error` : Name of a JS function which will be called in case there was an Ajax error of some sort. The first parameter is HTTP status code, the second is response text sent from server.</li>
+ActiveWeb provides a `<@link_to/>`. This tag generates an HTML anchor tag and is capable of regular HTML links, as
+well as Ajax capability.
 
 
-<h3 id="heading_toc_j_29" tabindex="-1">Example 1: Non-Ajax link</h3>
-<div><div id="highlighter_349774" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;</code><code class="java color1">@link_to</code> <code class="java plain">controller=</code><code class="java string">"books"</code> <code class="java plain">action=</code><code class="java string">"fetch"</code><code class="java plain">&gt;Get Books&lt;--@--&gt;</code></div></div></td></tr></tbody></table></div></div>
+### Attributes for configuration
+
+* `controller` : path to controller, such as: `/admin/permissions` where "admin" is a sub-package and "permissions" is a
+name of a controller. In this example, the controller class name would be: `app.controllers.admin.PermissionsController`.
+If a controller path is specified, the preceding slash is mandatory. Optionally this could be a name of a controller
+from a default package: "permissions", and in this case, the controller class name is expected to be `app.controllers.PermissionsController`.
+If a name of controller is specified, the preceding slash can be omitted. This attribute is optional. If this attribute is omitted,
+ the tag will use the controller which was used to generate the current page. It makes it convenient to write links on
+ pages for the same controller.
+* `action` : name of a controller action (method). Optional. If this attribute is omitted,
+the action will default to "index".
+* `id`: id, as in a route: `/controller/action/id`. Optional.
+* `html_id` : value of this attribute will be used to set the HTML ID of the Anchor element. Optional.
+* `query_string`: query string as is usually used in GET HTTP calls - part of a URL after the question mark.
+Optional. Either `query_string` or `query_params` allowed, but not both.
+* `query_params` : `java.util.Map` with key/value pairs to be converted to query string. Optional. Either
+`query_string` or `query_params` allowed, but not both.
+* `destination` : id of an element on page whose content will be set with a result of an Ajax call. Optional.
+* `form` : id of a form element on the page, whose content will be serialized into the Ajax call. This content will be submitted to the server controller/action as input. Optional.
+* `method` : HTTP method to use. Acceptable values: GET (default), POST, PUT, DELETE. Optional.
+* `before` : Name of a JavaScript function to call before making Ajax call. Optional. This function does not receive any arguments.
+* `before_arg` : Value for the JS function argument provided in "before" attribute. This could be an ID of an element,
+string, or any other arbitrary parameter. Any object will be converted to string. Optional.
+* `after` : Name of a JavaScript function to call after making Ajax call. This function receives the value of a
+`after_arg` attribute as a first argument and result of the Ajax call as a second argument. Optional.
+* `after_arg` : Value for the JS function argument provided in "after" attribute. This could be an ID of an element,
+string, or any other arbitrary parameter. Any object will be converted to string. Optional.
+* `confirm` :  Presents a JavaScript confirmation dialog before making an Ajax call. The dialog will present the text
+with content from the attribute value.  If No or Cancel was selected on the dialog, the Ajax call is not made. Optional.
+* `error` : Name of a JS function which will be called in case there was an Ajax error of some sort. The first
+parameter is HTTP status code, the second is response text sent from server.
+
+
+### Example 1: Non-Ajax link
+
+~~~~ {.html}
+<@link_to controller="books" action="fetch">Get Books</@>
+~~~~
 
 This will generate a simple non-Ajax link, such as: "..books/fetch"
 
-<h3 id="heading_toc_j_30" tabindex="-1">Example 2: Ajax link, sets data to destination element</h3>
-<div><div id="highlighter_384371" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;</code><code class="java color1">@link_to</code> <code class="java plain">controller=</code><code class="java string">"books"</code> <code class="java plain">action=</code><code class="java string">"fetch"</code> <code class="java plain">destination=</code><code class="java string">"result"</code> <code class="java plain">&gt;Get Books&lt;--@--&gt;</code></div></div></td></tr></tbody></table></div></div>
+### Example 2: Ajax link, sets data to destination element
 
-This will generate a simple Ajax link. The method by default is GET. After Ajax call, the result will be inserted into an element with ID: "result", similar to: `<div id="result"></div>`
+~~~~ {.html}
+<@link_to controller="books" action="fetch" destination="result">Get Books</@>
+~~~~
+
+This will generate a simple Ajax link. The method by default is GET. After Ajax call, the result will be inserted into
+an element with ID: "result", similar to: `<div id="result"></div>`
 
 
-<h3 id="heading_toc_j_31" tabindex="-1">Example 3: Confirmation and before/after callbacks</h3>
-<div><div id="highlighter_670370" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;</code><code class="java color1">@link_to</code> <code class="java plain">controller=</code><code class="java string">"books"</code>&nbsp; <code class="java plain">id=</code><code class="java string">"123"</code></div><div class="line number2 index1 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">method=</code><code class="java string">"delete"</code> <code class="java plain">before=</code><code class="java string">"beforeDelete"</code> <code class="java plain">after=</code><code class="java string">"afterDelete"</code></div><div class="line number3 index2 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">confirm=</code><code class="java string">"Are you really sure you want to delete this book?"</code><code class="java plain">&gt;Delete Book&lt;--@--&gt;</code></div><div class="line number4 index3 alt1">&nbsp;</div><div class="line number5 index4 alt2">&nbsp;</div><div class="line number6 index5 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;</code><code class="java plain">function beforeDelete(beforeArg) {</code></div><div class="line number7 index6 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">...</code></div><div class="line number8 index7 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number9 index8 alt2">&nbsp;</div><div class="line number10 index9 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;</code><code class="java plain">function afterDelete(afterArg, data) {</code></div><div class="line number11 index10 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">...</code></div><div class="line number12 index11 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div></div></td></tr></tbody></table></div></div>
+### Example 3: Confirmation and before/after callbacks
 
-Here, the JS confirmation dialog will present the message before posting an Ajax call, then function "beforeDelete" will be called. After that, it will make an Ajax call, and will execute function "afterDelete", passing it the result of Ajax invocation as an argument. In the JS code above, the "beforeArg" and "afterArg" arguments have values null since the "before_arg" and "after_arg" attributes were not used.
 
-<h3 id="heading_toc_j_32" tabindex="-1">Example 4: Before/after callback arguments</h3>
-<div><div id="highlighter_675485" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;</code><code class="java color1">@link_to</code> <code class="java plain">controller=</code><code class="java string">"books"</code> <code class="java plain">action=</code><code class="java string">"fetch"</code> <code class="java plain">before=</code><code class="java string">"doBeforeWithArg"</code> <code class="java plain">before_arg=</code><code class="java string">"books_result"</code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div class="line number2 index1 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">after=</code><code class="java string">"doAfterWithArg"</code> <code class="java plain">after_arg=</code><code class="java string">"books_result"</code><code class="java plain">&gt;Get Books&lt;--@--&gt;</code></div></div></td></tr></tbody></table></div></div>
+~~~~ {.html}
+<@link_to controller="books"  id="123"
+         method="delete" before="beforeDelete" after="afterDelete"
+         confirm="Are you really sure you want to delete this book?">Delete Book</@>
+
+function beforeDelete(beforeArg) { ... }
+function afterDelete(afterArg, data) { ... }
+~~~~
+
+Here, the JS confirmation dialog will present the message before posting an Ajax call,
+then function `beforeDelete` will be called. After that, it will make an Ajax call,
+and will execute function `afterDelete`, passing it the result of Ajax invocation as an argument. In the JS code
+above, the `beforeArg` and `afterArg` arguments have values null since the `before_arg` and `after_arg` attributes were not used.
+
+### Example 4: Before/after callback arguments
+
+~~~~ {.html}
+<@link_to controller="books" action="fetch" before="doBeforeWithArg" before_arg="books_result" after="doAfterWithArg"
+ after_arg="books_result">Get Books</@>
+~~~~
 
 This code expects to find JS functions similar to these:
-<div><div id="highlighter_161214" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">function doBeforeWithArg(elm) {</code></div><div class="line number2 index1 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">$(</code><code class="java string">"#"</code> <code class="java plain">+ elm).html(</code><code class="java string">"wait..."</code><code class="java plain">);</code></div><div class="line number3 index2 alt2"><code class="java plain">}</code></div><div class="line number4 index3 alt1"><code class="java spaces">&nbsp;</code>&nbsp;</div><div class="line number5 index4 alt2"><code class="java plain">function doAfterWithArg(elm, data) {</code></div><div class="line number6 index5 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">$(</code><code class="java string">"#"</code> <code class="java plain">+ elm).html(data);</code></div><div class="line number7 index6 alt2"><code class="java plain">}</code></div></div></td></tr></tbody></table></div></div>
+
+~~~~ {.javascript}
+function doBeforeWithArg(elm) {
+    $("#" + elm).html("wait...");
+}
+
+function doAfterWithArg(elm, data) {
+    $("#" + elm).html(data);
+}
+~~~~
 
 This is presuming that there is an element like this on the page:
-<div><div id="highlighter_962354" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;div id=</code><code class="java string">"books_result"</code><code class="java plain">&gt;&lt;/div&gt;</code></div></div></td></tr></tbody></table></div></div>
+
+~~~~ {.html}
+<div id="books_result"></div>
+~~~~
+
 In this example, the "books_result" string is passed as argument to "doBeforeWithArg" as only one argument and the same is passed as a first argument to function "doAfterWithArg". The second argument to the "doAfterWithArg" is a result of Ajax invocation (presumably HTML representing books generated from some partial).
 
-<h3 id="heading_toc_j_33" tabindex="-1">Example 5 - Error handling</h3>
-<div><div id="highlighter_907680" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;</code><code class="java color1">@link_to</code> <code class="java plain">controller=</code><code class="java string">"books"</code> <code class="java plain">action=</code><code class="java string">"doesnotexist"</code> <code class="java plain">error=</code><code class="java string">"onError"</code> <code class="java plain">destination=</code><code class="java string">"callbacks_result"</code><code class="java plain">&gt;Will cause error&lt;--@--&gt;</code></div><div class="line number2 index1 alt1">&nbsp;</div><div class="line number3 index2 alt2"><code class="java plain">...</code></div><div class="line number4 index3 alt1"><code class="java plain">function onError(status, responseText) {</code></div><div class="line number5 index4 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">alert(</code><code class="java string">"Got error, status: "</code> <code class="java plain">+ status + </code><code class="java string">", Response: "</code> <code class="java plain">+ responseText);</code></div><div class="line number6 index5 alt1"><code class="java spaces">&nbsp;</code><code class="java plain">}</code></div></div></td></tr></tbody></table></div></div>
+### Example 5 - Error handling
 
- In this example, the link is making an Ajax call to a controlled action which does not exists. This causes onError() function to be triggered.
+~~~~ {.html}
+<@link_to controller="books" action="doesnotexist" error="onError" destination="callbacks_result">Will cause error</@>
 
-<h2 id="heading_toc_j_34" tabindex="-1">flash tag</h2>
+<script>
+function onError(status, responseText) {
+    alert("Got error, status: " + status + ", Response: " + responseText);
+}
+</script>
+~~~~
 
-Please, see: [FlashTag]
+
+In this example, the link is making an Ajax call to a controlled action which does not exists. This causes onError() function to be triggered.
+
+## FlashTag
+
+Please, see: [FlashTag](flash_tag)
 
 
-<h2 id="heading_toc_j_35" tabindex="-1">select tag</h2>
-Select tag is to generate the `<select>` HTML tag based on data passed in dynamically into a view.
+## SelectTag
+
+Select tag generates the `<select>` HTML tag based on data passed in dynamically into a view.
 Parameters:
 
- list - this is a mandatory parameter, and it needs to be type of java.util.List filled with instances of SelectOption
+*  **list** - is a mandatory parameter, and it needs to be type of `java.util.List<SelectOption>`
 
 In addition to the collection, you can also add body to the tag. For instance, if you write the tag like this:
 
-   &lt;@select list=books&gt;
-       <option value="3">A Tale of Two Cities</option>
-   <--@-->
+~~~~ {.html}
+<@select list=books>
+   <option value="3">A Tale of Two Cities</option>
+</@>
+~~~~
 
 And pass this data from controller:
 
-       view("books", list(new SelectOption(1, "The Hitchhiker's Guide to the Galaxy"), new SelectOption(2, "All Quiet on Western Front", true)));
-
+~~~~ {.java}
+public class BooksController extends AppController{
+   public void index(){
+       view("books", list(new SelectOption(1, "The Hitchhiker's Guide to the Galaxy"),
+                          new SelectOption(2, "All Quiet on Western Front", true)));
+   }
+}
+~~~~
 
 then the output from the tag will be:
 
-</select><option value="3">A Tale of Two Cities</option>
-<option value="1">The Hitchhiker&amp;aposs Guide to the Galaxy</option><option value="2" selected="true">All Quiet on Western Front</option><option value="3">A Tale of Two Cities</option>
+~~~~ {.html}
+<select><option value="3">A Tale of Two Cities</option>
+    <option value="1">The Hitchhiker&amp;aposs Guide to the Galaxy</option>
+    <option value="2" selected="true">All Quiet on Western Front</option>
+    <option value="3">A Tale of Two Cities</option>
+</select>
+~~~~
 
 
-Which means that the generated code is appended to hand-written body.
+## FormTag
 
-
-<h2 id="heading_toc_j_36" tabindex="-1">form tag</h2>
-
-`&lt;@form/&gt;` tag generates an HTML form tag and has functionality specific for ActiveWeb.<br>
-Like any other ActiveWeb tag, it has ability to pass through any non - ActiveWeb attributes. This means that if you
-specify any attribute that is not mentioned here, it will be passed through as a regular HTML attribute.
-
+`<@form/>` tag generates an HTML form tag and has functionality specific for ActiveWeb. Like any other ActiveWeb tag,
+it has ability to pass through any non - ActiveWeb attributes. This means that if you specify any attribute that is not
+mentioned here, it will be passed through as a regular HTML attribute.
 
 Attributes:
-<ul>
-  <li> `controller` - name of a controller to post this form to. Optional. If this attribute is not provided, the tag will find a current controller in context which was used to generate a data for the current view and uses it.  It makes it convenient to write many views for the same controller.</li>
-  <li> `action` - name of an action to post this form to.This is different from  regular HTML form@action attribute, as controller, action and id attributes will be used to form an appropriate HTML form action value.  Optional. </li>
-  <li> `id` - value of URI "id". Used as URI "id" in forming an HTML Form action attribute, such as: `<form action="controller/action/id" `.="" do="" not="" confuse="" with="" html="" element="" id.="" optional.<="" li=""></form>
-  </li><li> `html_id` - value of HTML Form element ID, as in `
-  </li><li> `method` - this is an HTTP method. Allowed values: GET (default), POST, PUT, DELETE.</li>
-</ul>
-In case the values are "put" or "delete", additional hidden input names `_method` will be generated, and the actual HTML method will be set to "post". This workaround is necessary because browsers still do not support PUT and DELETE. Optional. <br>
+
+* `controller` - name of a controller to post this form to. Optional. If this attribute is not provided, the tag will
+find a current controller in context which was used to generate a data for the current view and uses it.  It makes
+it convenient to write many views for the same controller.
+* `action` - name of an action to post this form to.This is different from  regular HTML form@action attribute, as
+controller, action and id attributes will be used to form an appropriate HTML form action value.  Optional.
+* `id` - value of URI "id". Used as URI "id" in forming an HTML Form action attribute, such as: `<form action="controller/action/id"`
+do not confuse with html element id optional
+* `html_id` - value of HTML Form element ID, as in `<form id="my_form" ... >`
+* `method` - HTTP method. Allowed values: GET (default), POST, PUT, DELETE
+
+In case the values are "put" or "delete", additional hidden input names `_method` will be generated, and the actual HTML
+method will be set to "post". This workaround is necessary because browsers still do not support PUT and DELETE. Optional.
 
 
-Examples (given that the current context is "simple_context"):
-<h3 id="heading_toc_j_37" tabindex="-1">Simple form</h3>
+Examples (given that the current context is "example"):
+
+### Simple form
+
 code:
-<div><div id="highlighter_105181" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;</code><code class="java color1">@form</code> <code class="java plain">controller=</code><code class="java string">"simple"</code> <code class="java plain">action=</code><code class="java string">"index"</code> <code class="java plain">method=</code><code class="java string">"get"</code><code class="java plain">/&gt;</code></div></div></td></tr></tbody></table></div></div>
+
+~~~~ {.html}
+<@form controller="simple" action="index" method="get"/>
+~~~~
+
 will generate this HMTL:
-<div><div id="highlighter_185912" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2">&nbsp;</div></div></td></tr></tbody></table></div></div>
 
-<h3 id="heading_toc_j_38" tabindex="-1">POST form with ID</h3>
+~~~~ {.html}
+<form action="/example/simple/index" method="get" />
+~~~~
+
+POST form with ID
 code:
-<div><div id="highlighter_940327" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;</code><code class="java color1">@form</code> <code class="java plain">controller=</code><code class="java string">"simple"</code> <code class="java plain">action=</code><code class="java string">"index"</code> <code class="java plain">id=</code><code class="java string">"123"</code> <code class="java plain">method=</code><code class="java string">"post"</code> <code class="java plain">html_id=</code><code class="java string">"formA"</code><code class="java plain">/&gt;</code></div></div></td></tr></tbody></table></div></div>
+
+~~~~ {.html}
+<@form controller="simple" action="index" id="123" method="post" html_id="formA"/>
+~~~~
+
 will generate:
-<div><div id="highlighter_571740" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2">&nbsp;</div></div></td></tr></tbody></table></div></div>
 
-<h3 id="heading_toc_j_39" tabindex="-1">PUT form</h3>
+~~~~ {.html}
+<form action="/example/simple/index/123" method="get" id="formA" />
+~~~~
+
+
+
+### PUT form
+
 code:
-<div><div id="highlighter_513113" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;</code><code class="java color1">@form</code> <code class="java plain">controller=</code><code class="java string">"simple"</code> <code class="java plain">action=</code><code class="java string">"index"</code> <code class="java plain">method=</code><code class="java string">"put"</code><code class="java plain">&gt;</code></div><div class="line number2 index1 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">&lt;input type=</code><code class="java string">"hidden"</code> <code class="java plain">name=</code><code class="java string">"blah"</code><code class="java plain">&gt;</code></div><div class="line number3 index2 alt2"><code class="java plain">&lt;--</code><code class="java color1">@form</code><code class="java plain">--&gt;</code></div></div></td></tr></tbody></table></div></div>
+
+~~~~ {.html}
+<@form controller="simple" action="index" method="put">
+     <input type="hidden" name="blah">
+</@>
+~~~~ {.html}
+
 will generate this HMTL:
-<div><div id="highlighter_169105" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;input type=</code><code class="java string">"hidden"</code> <code class="java plain">name=</code><code class="java string">"_method"</code> <code class="java plain">value=</code><code class="java string">"put"</code><code class="java plain">&gt;</code></div><div class="line number2 index1 alt1"><code class="java plain">&lt;input type=</code><code class="java string">"hidden"</code> <code class="java plain">name=</code><code class="java string">"blah"</code><code class="java plain">&gt;</code></div></div></td></tr></tbody></table></div></div>
 
-<h3 id="heading_toc_j_40" tabindex="-1">PUT form for RESTful controller</h3>
+~~~~ {.html}
+<form action="/example/simple/index" method="put" id="formA" >
+    <input type="hidden" name="_method" value="put">
+    <input type="hidden" name="blah">
+</form>
+~~~~
 
-This tag also is REST-aware, and will generate appropriate formats for HTML Form tag action value depending if the controller is RESTful or not.<br>
+
+### PUT form for RESTful controller
+
+FormTag also is REST-aware, and will generate appropriate formats for HTML Form tag action value depending if the
+controller is RESTful or not.
 
 code:
-<div><div id="highlighter_69001" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;</code><code class="java color1">@form</code> <code class="java plain">controller=</code><code class="java string">"photos"</code>&nbsp; <code class="java plain">id=</code><code class="java string">"x123"</code> <code class="java plain">method=</code><code class="java string">"put"</code> <code class="java plain">html_id=</code><code class="java string">"formA"</code><code class="java plain">&gt;</code></div><div class="line number2 index1 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">&lt;input type=</code><code class="java string">"hidden"</code> <code class="java plain">name=</code><code class="java string">"blah"</code><code class="java plain">&gt;</code></div><div class="line number3 index2 alt2"><code class="java plain">&lt;--</code><code class="java color1">@form</code><code class="java plain">--&gt;</code></div></div></td></tr></tbody></table></div></div>
+
+~~~~ {.html}
+<@form controller="photos"  id="x123" method="put" html_id="formA">
+      <input type="hidden" name="blah">
+</@>
+~~~~
+
 will generate:
-<div><div id="highlighter_888622" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;form action=</code><code class="java string">"/simple_context/photos/x123"</code> <code class="java plain">method=</code><code class="java string">"post"</code> <code class="java plain">id=</code><code class="java string">"formA"</code><code class="java plain">&gt;&lt;/form&gt;</code></div><div class="line number2 index1 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">&lt;input type=</code><code class="java string">"hidden"</code> <code class="java plain">name=</code><code class="java string">"_method"</code> <code class="java plain">value=</code><code class="java string">"put"</code><code class="java plain">&gt;</code></div><div class="line number3 index2 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">&lt;input type=</code><code class="java string">"hidden"</code> <code class="java plain">name=</code><code class="java string">"blah"</code><code class="java plain">&gt; </code></div></div></td></tr></tbody></table></div></div>
 
-<h2 id="heading_toc_j_41" tabindex="-1">Debug tag</h2>
-Debug tag is for printing an arbitrary object from page context. FreeMarker special handling of types sometimes makes it hard to see the value(s) of an object when debugging, but this tag makes it easy:
-<div><div id="highlighter_605106" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;</code><code class="java color1">@debug</code> <code class="java plain">print=objectname/&gt;;</code></div></div></td></tr></tbody></table></div></div>
+~~~~ {.html}
+<form action="/example/photos/index" method="put" id="formA" >
+    <input type="hidden" name="_method" value="put">
+    <input type="hidden" name="blah">
+</form>
+~~~~
 
-For instance, for a `java,util.Map` object it will print this:
-<div><div id="highlighter_286461" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">{key1=value1, key2=value2}</code></div></div></td></tr></tbody></table></div></div>
+## Debug tag
 
-<wiki:comment><br>
-To be completed:
-<ul>
-  <li> ActiveWeb objects in context</li>
-  <li> confirmation</li>
-  <li> Custom tag development</li>
-</ul>
-</wiki:comment>
+Debug tag prints an arbitrary object from page context. FreeMarker special handling of types sometimes makes it hard
+to see the value(s) of an object when debugging, but this tag makes it easy:
 
+~~~~ {.html}
+<@debug print=objectname/>;
+~~~~
 
-<h2 id="heading_toc_j_42" tabindex="-1">System error pages</h2>
+For instance, for a `java.util.Map` object it will print this:
 
-<h3 id="heading_toc_j_43" tabindex="-1">General</h3>
+~~~~ {.prettyprint}
+{key1=value1, key2=value2}
+~~~~
 
-ActiveWeb will render two system error pages under typical error conditions:
-<div><div id="highlighter_528900" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">/views/system/</code><code class="java value">404</code><code class="java plain">.ftl</code></div><div class="line number2 index1 alt1"><code class="java plain">and:</code></div><div class="line number3 index2 alt2"><code class="java plain">/views/system/error.ftl</code></div></div></td></tr></tbody></table></div></div>
+## Custom tag development
+
+TODO
+
+## System error pages
+
+### General
+
+ActiveWeb will render two system error pages under typical error conditions: `/views/system/404.ftl` and `/views/system/error.ftl`.
+
 The 404.ftl is rendered in cases resources are not found:
-<ul>
-  <li> Controller is missing </li>
-  <li> Controller has a compilation problem (development mode )</li>
-  <li> Action method is missing</li>
-  <li> View template is missing</li>
-</ul>
-The error.ftl will be rendered in cases:
-<ul>
-  <li> Template has a problem rendering</li>
-  <li> Any internal application problem</li>
-  <li> Internal framework exception</li>
-</ul>
+
+* Controller is missing
+* Controller has a compilation problem (development mode )
+* Action method is missing
+* View template is missing
+
+The `error.ftl` will be rendered in cases:
+
+* Template has a problem rendering
+* Any internal application problem
+* Internal framework exception
+
 In all these cases, the definitive exception will be printed to the log.
 
-<h3 id="heading_toc_j_44" tabindex="-1">Use custom layouts with system error pages</h3>
+### Use custom layouts with system error pages
 
-By default, error pages are displayed in default layout (/views/layouts/default_layout.ftl). In some cases, you want to conditionally display error pages in different layouts. This can be achieved by turning the default layout for error pages off:
-<div><div id="highlighter_672255" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java keyword">public</code> <code class="java keyword">class</code> <code class="java plain">AppBootstrap </code><code class="java keyword">extends</code> <code class="java plain">Bootstrap {</code></div><div class="line number2 index1 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java keyword">public</code> <code class="java keyword">void</code> <code class="java plain">init(AppContext context) {</code></div><div class="line number3 index2 alt2"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">Configuration.setUseDefaultLayoutForErrors(</code><code class="java keyword">false</code><code class="java plain">);</code></div><div class="line number4 index3 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">}</code></div><div class="line number5 index4 alt2"><code class="java plain">}</code></div></div></td></tr></tbody></table></div></div>
-and then using a `&lt;@wrap ..&gt;` tag inside pages:
-<div><div id="highlighter_11109" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">&lt;</code><code class="java color1">@wrap</code> <code class="java plain">with=</code><code class="java string">"/layouts/system_error_layout"</code><code class="java plain">&gt;</code></div><div class="line number2 index1 alt1"><code class="java spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="java plain">&lt;h1&gt;</code><code class="java value">404</code> <code class="java plain">- Resource Not Found&lt;/h1&gt;</code></div><div class="line number3 index2 alt2"><code class="java plain">&lt;--</code><code class="java color1">@wrap</code><code class="java plain">--&gt;</code></div></div></td></tr></tbody></table></div></div>
+By default, error pages are displayed in default layout `/views/layouts/default_layout.ftl`. In some cases, you want to conditionally display error pages in different layouts. This can be achieved by turning the default layout for error pages off:
 
-<h3 id="heading_toc_j_45" tabindex="-1">Exception parameters passed into error views</h3>
+~~~~ {.java}
+public class AppBootstrap extends Bootstrap {
+    public void init(AppContext context) {
+        Configuration.setUseDefaultLayoutForErrors(false);
+    }
+}
+~~~~
+
+and then using a `<@wrap ..>` tag inside pages:
+
+~~~~ {.html}
+<@wrap with="/layouts/system_error_layout">
+    <h1>404 - Resource Not Found</h1>
+</@>
+~~~~
+
+### Exception parameters passed into error views
+
 There are two parameters that the framework passes into error views:
-<ul>
-  <li> message</li>
-  <li> stack_trace</li>
-</ul>
+
+
+* `message`
+* `stack_trace`
+
 These can be rendered on a page as any other parameters:
-<div><div id="highlighter_171213" class="syntaxhighlighter  java"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="java plain">Error message: &lt;span&gt;${message}&lt;/span&gt; &lt;br&gt;</code></div><div class="line number2 index1 alt1"><code class="java plain">Stack trace:</code></div><div class="line number3 index2 alt2"><code class="java plain">&lt;pre&gt;${stack_trace}</code></div><div class="line number4 index3 alt1"><code class="java plain">&lt;/pre&gt;</code></div></div></td></tr></tbody></table></div></div>
+
+~~~~ {.html}
+Error message: <code>${message}</code>
+Stack trace: <code>{stack_trace}</code>
+~~~~
 
 However, this information is only interesting to developers, and usually not displayed to end users.
-
-<hr>
-
-
-<div style="height: 20px"></div>
-
-<div id="disqus_thread"><iframe id="dsq-2" data-disqus-uid="2" allowtransparency="true" frameborder="0" tabindex="0" title="Disqus" width="100%" src="http://disqus.com/embed/comments/?base=default&amp;disqus_version=821b243c&amp;f=javalite&amp;t_u=http%3A%2F%2Fjavalite.io%2Fviews&amp;t_d=JavaLite%3A%20Views&amp;t_t=JavaLite%3A%20Views&amp;s_o=default#2" scrolling="no" horizontalscrolling="no" verticalscrolling="no" style="width: 100% important; border: none important; overflow: hidden important; height: 321px important;"></iframe></div>
-<script type="text/javascript">
-
-   var disqus_shortname = 'javalite';
-
-   /* * * DON'T EDIT BELOW THIS LINE * * */
-   (function () {
-       var dsq = document.createElement('script');
-       dsq.type = 'text/javascript';
-       dsq.async = true;
-       dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-   })();
-</script>
-<noscript>Please enable JavaScript to view comments</noscript>
-
-
-
-
-
-<footer class="footer">
-
-    <p class="pull-left">
-        © 2009 - 2014 Igor Polevoy. All JavaLite projects are released under <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License, Version 2.0</a>
-    </p>
-
-    <p class="pull-right"><a href="#">Back to top</a></p>
-</footer>
-
-
-
-
-</ul></ul><table></table></div>
