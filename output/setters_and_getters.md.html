@@ -1,0 +1,53 @@
+<p>Working with getters and setters | <a href="/activejdbc">ActiveJDBC</a>,Setters and getters</p>
+<h1 id="setters-and-getters">Setters and getters</h1>
+<div id="toc"></div>
+
+<p>Java development is all about getters and setters. Ever since the Java Beans framework introduced in 1997, this has become a blessing (and a plague some argue) in modern Java applications. ActiveJDBC does not require getters and setters for models. Since models already know all the allowable metadata from database at startup, they will perform validations of names of attributes.</p>
+<h2 id="built-in-getters-and-setters">Built in getters and setters</h2>
+<p>ActiveJDBC provides two base methods for getting information from DB and putting it in:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person p = Person.<span class="fu">findById</span>();
+name = p.<span class="fu">get</span>(<span class="st">&quot;name&quot;</span>);</code></pre>
+<p>The <code>name</code> is a name of a column from a table PEOPLE. Same goes for a setter:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
+p.<span class="fu">set</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;John&quot;</span>);
+p.<span class="fu">save</span>();</code></pre>
+<h2 id="no-standard-settersgetters">No &quot;standard&quot; setters/getters???</h2>
+<p>Well, no. ActiveJDBC will not provide these, and it will not generate them either (for now). However, you can have them if you like:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model{
+   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setFirstName</span>(String firstName){
+      <span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, firstName);
+   }
+}</code></pre>
+<p>This will provide a safety net to those wishing some compiler static checking. Same goes for getters. If you are starting out with ActiveJDBC, I suggest you do not write setters and getters, but rather use the provided methods. After a day or two you will be surprised you ever wrote them before.</p>
+<p>Correction: a year after not using getters and setters, we started adding them in order to achieve a few things:</p>
+<ul>
+<li>IDE help - this actually improves productivity, since IDE helps typing and I do not have to remember the schema by heart</li>
+<li>Self - documenting the schema</li>
+<li>no need to use conversion methods like <code>getFloat(&quot;name&quot;)</code></li>
+<li>easy refactoring, since there is no need to track dynamic setters and getters across the project</li>
+</ul>
+<p>With ActiveJDBC you can use any style you like.</p>
+<h2 id="type-conversion-getters">Type conversion getters</h2>
+<p>ActiveJDBC provides a number of type conversion getters:</p>
+<pre class="sourceCode java"><code class="sourceCode java">
+Person p = Person.<span class="fu">findById</span>();
+String  name = p.<span class="fu">getString</span>(<span class="st">&quot;name&quot;</span>);
+Timestamp dob = p.<span class="fu">getTimestamp</span>(<span class="st">&quot;dob&quot;</span>);
+...</code></pre>
+<p>ActiveJDBC will do all possible to convert your data into the type. This also goes for CLOBs:</p>
+<pre class="sourceCode java"><code class="sourceCode java">String body = article.<span class="fu">get</span>(<span class="st">&quot;body&quot;</span>);</code></pre>
+<p>If the &quot;BODY&quot; column in your table is CLOB, ActiveJDBC will automatically convert it to Java String.</p>
+<p>Please, see <a href="clob_support_and_caching">Clob support and caching</a> as well as <a href="http://javalite.github.io/activejdbc/org/javalite/common/Convert.html">JavaLite Commons Convert</a> class for more information.</p>
+<h2 id="recommendation-use-tdd-in-combination-with-setters-and-getters">Recommendation: Use TDD, in combination with setters and getters</h2>
+<p>In our work, we start writing a test before writing much code. We create a one line model code, then start writing a test. Inside the test, we write a piece of code I know will fail:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Page p  = <span class="kw">new</span> <span class="fu">Page</span>();
+p.<span class="fu">set</span>(<span class="st">&quot;blah&quot;</span>, <span class="dv">1</span>);</code></pre>
+<p>The table PEOPLE does not have a column &quot;BLAH&quot;, and ActiveJDBC is conveniently telling me this:</p>
+<pre class="prettyprint"><code>java.lang.IllegalArgumentException: Attribute: &#39;blah&#39; is not defined in model: &#39;class activejdbc.test_models.Person and also, did not find an association by the same name, 
+available attributes: [id, updated_at, graduation_date, dob, name, last_name, created_at]</code></pre>
+<p>From this message, I see that the allowed attributes are:</p>
+<pre class="prettyprint"><code>id, updated_at, graduation_date, dob, name, last_name, created_at</code></pre>
+<p>which gives me all the information I need to start writing a real test.</p>
+<p>Since I know from <a href="autogenerated_fields">Autogenerated Fields</a> that <code>id</code>, <code>updated_at</code> and <code>created_at</code> are auto-generated columns and I need not touch them, I'm left with these to work:</p>
+<pre class="prettyprint"><code>graduation_date, dob, name, last_name</code></pre>
+<p>When we are done with the test, we have a piece of durable code which has captured required model behaviour. We then proceed to implement the rest of the model code - necessary validations, other code, until the test starts to pass.</p>

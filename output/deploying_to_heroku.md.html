@@ -1,0 +1,249 @@
+<p>Title: How to deploy and ActiveWeb app to Heroku</p>
+<h1 id="introduction">Introduction</h1>
+<p>This guide uses the ClearDB mysql service, but it could easily be adapted to the Heroku Postgres service.</p>
+<p>FYI: its completely possible that I forgot something in this guide and that it will need to be updated by the very first person that tries to use it. Post something on the GoogleGroup if you need help.</p>
+<p>The basic idea is that Heroku puts a specific environment variables in your apps config that you need to be able to read at runtime to setup your db connections. Try this command in your Heroku toolbelt to see your current config vars. You might see something like this:</p>
+<pre class="prettyprint"><code>~&gt; heroku config
+=== your app Config Vars
+
+CLEARDB_DATABASE_URL: mysql://zzzzzz@us-cdbr-east-03.cleardb.com/heroku_yyyyyy?reconnect=true
+DATABASE_URL:         mysql://zzzzzz@us-cdbr-east-03.cleardb.com/heroku_yyyyyy?reconnect=true
+SENDGRID_PASSWORD:    PPPPPPP
+SENDGRID_USERNAME:    UUUUUU@heroku.com</code></pre>
+<h1 id="database_url">DATABASE_URL</h1>
+<p>The recommended practice by Heroku is to have the full database url in an environment variable named DATABASE_URL. By default ClearDB puts the URL in a different var (shown above) and you have to copy the value into a new var with this name. Try this to learn about setting up config vars</p>
+<pre class="prettyprint"><code>heroku help config</code></pre>
+<h1 id="at-runtime">At runtime</h1>
+<p>Your next task is to be able to read this variable at runtime. Here's a class and its spec for the Utility that I use to do so</p>
+<pre class="prettyprint"><code>
+package app.utils;
+
+import org.junit.Test;
+
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import static org.javalite.test.jspec.JSpec.the;
+
+/**
+ * Created By
+ * User: Evan Leonard
+ * Date: 3/30/13
+ */
+public class HerokuDbUrlParserSpec {
+
+    private static String clear_db_url = &quot;mysql://THE_USERNAME:THE_PASSWORD@us-cdbr-east-03.cleardb.com/heroku_759ea2a30074fe9?reconnect=true&quot;;
+    //private static String test_db_url = &quot;mysql://aw:awawaw@localhost/ayah_test?reconnect=true&quot;;
+
+    @Test
+    public void shouldParseUrl() throws URISyntaxException {
+
+        Map&lt;String, String&gt; mockEnv = mockEnv();
+        HerokuDbUrlParser herokuDbUrlParser = new HerokuDbUrlParser(mockEnv);
+
+        Properties jdbcProperties = herokuDbUrlParser.getJdbcProperties();
+        the(jdbcProperties.getProperty(&quot;driver&quot;)).shouldEqual(&quot;com.mysql.jdbc.Driver&quot;);
+        the(jdbcProperties.getProperty(&quot;url&quot;)).shouldEqual(&quot;jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_759ea2a30074fe9?reconnect=true&quot;);
+        the(jdbcProperties.getProperty(&quot;user&quot;)).shouldEqual(&quot;THE_USERNAME&quot;);
+        the(jdbcProperties.getProperty(&quot;password&quot;)).shouldEqual(&quot;THE_PASSWORD&quot;);
+
+        the(herokuDbUrlParser.getDriver()).shouldEqual(&quot;com.mysql.jdbc.Driver&quot;);
+        the(herokuDbUrlParser.getUrl()).shouldEqual(&quot;jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_759ea2a30074fe9?reconnect=true&quot;);
+        the(herokuDbUrlParser.getUser()).shouldEqual(&quot;THE_USERNAME&quot;);
+        the(herokuDbUrlParser.getPassword()).shouldEqual(&quot;THE_PASSWORD&quot;);
+
+    }
+
+    private Map&lt;String, String&gt; mockEnv() {
+        Map&lt;String, String&gt; mockEnv = new HashMap&lt;String, String&gt;();
+        mockEnv.put(&quot;DATABASE_URL&quot;, clear_db_url);
+        return mockEnv;
+    }
+}</code></pre>
+<p>And the implementation:</p>
+<pre class="prettyprint"><code>
+package app.utils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Map;
+import java.util.Properties;
+
+/**
+ * Created By
+ * User: evan
+ * Date: 3/27/13
+ *
+ * Heroku sets the production database url into an environment variable named DATABASE_URL.
+ *
+ * This class is parses that at runtime for ActiveWeb to use in DbConfig.java
+ */
+public class HerokuDbUrlParser {
+
+    private static final Logger logger = LoggerFactory.getLogger(HerokuDbUrlParser.class);
+
+    public static final String DATABASE_URL = &quot;DATABASE_URL&quot;;
+
+    private boolean databaseUrlFound = false;
+    private String driver;
+    private String user;
+    private String password;
+    private String url;
+
+    public HerokuDbUrlParser(Map&lt;String, String&gt; environmentVariables) {
+        String database_url = getHerokuDatabaseUrl(environmentVariables);
+        if(database_url != null) {
+            databaseUrlFound = true;
+            if (logger.isInfoEnabled()) logger.info(&quot;Found DATABASE_URL: &quot;+database_url);
+            parseDatabaseUrl(database_url);
+        }
+        else {
+            if (logger.isInfoEnabled()) logger.info(&quot;DID NOT FIND DATABASE_URL ENV VARIABLE!&quot;);
+        }
+    }
+
+    private void parseDatabaseUrl(String database_url) {
+        try {
+            URI dbUri = new URI(database_url);
+            driver = inferDriverClass(database_url);
+            user = dbUri.getUserInfo().split(&quot;:&quot;)[0];
+            password = dbUri.getUserInfo().split(&quot;:&quot;)[1];
+
+            String authPart = user + &quot;:&quot; + password + &quot;@&quot;;
+            url = &quot;jdbc:&quot;+database_url.replace(authPart, &quot;&quot;);
+        } catch (URISyntaxException e) {
+            logger.error(&quot;Failed to parse Heroku DB Url&quot;, e);
+            driver = url = user = password = null;
+            throw new RuntimeException(&quot;Failed to parse Heroku DB Url&quot;,e);
+        }
+    }
+
+    private static String getHerokuDatabaseUrl(Map&lt;String, String&gt; environmentVariables) {
+        String database_url = environmentVariables.get(DATABASE_URL);
+        if(database_url != null) {
+            logger.error(&quot;FOUND DB URL IN ENVIRONMENT VARIABLES&quot;);
+        }
+        else {
+            database_url = System.getProperty(DATABASE_URL);
+            if(database_url != null){
+                logger.error(&quot;FOUND DB URL IN SYSTEM PROPERTIES&quot;);
+            }
+        }
+        return database_url;
+    }
+
+    private static String inferDriverClass(String database_url) {
+        String driver;
+        if(database_url.contains(&quot;mysql&quot;)) {
+            driver = &quot;com.mysql.jdbc.Driver&quot;;
+        }
+        else {
+            throw new NotImplementedException();
+        }
+        return driver;
+    }
+
+    public String getDriver() {
+        return driver;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @return Property set that contains: &#39;driver&#39;, &#39;url&#39;, &#39;user&#39;, and &#39;password&#39; with no prefix
+     */
+    public Properties getJdbcProperties() {
+        if(!databaseUrlFound) {
+            return null;
+        }
+
+        String driver = getDriver();
+        String url = getUrl();
+        String user = getUser();
+        String password = getPassword();
+
+        Properties properties = new Properties();
+        properties.setProperty(&quot;driver&quot;, driver);
+        properties.setProperty(&quot;url&quot;, url);
+        properties.setProperty(&quot;user&quot;, user);
+        properties.setProperty(&quot;password&quot;, password);
+
+        return properties;
+    }
+}</code></pre>
+<p>With that in place you call this use this method in your DbConfig with &quot;production&quot; and the jdbcProperties returned by the parser above to setup your ActiveJdbc connection</p>
+<pre class="prettyprint"><code> private void createConnection(String env, Properties jdbcProperties) {
+        String driver = jdbcProperties.getProperty(&quot;driver&quot;);
+        String url = jdbcProperties.getProperty(&quot;url&quot;);
+        environment(env).jdbc(driver, url, jdbcProperties);
+        environment(env).testing().jdbc(driver, url, jdbcProperties);
+    }</code></pre>
+<h1 id="building-on-heroku">Building on Heroku</h1>
+<p>Heroku of course will try to build your app as soon as you push its git repo. It does a good job of detecting that its a java app and running maven. Where I ran into trouble was that I had configured my POM to do different things based on the value of the ACTIVE_ENV environment variable. Even thought I could set a config var of that name, <strong>config vars are not available at build time</strong></p>
+<p>The approach I found was to fork the heroku java build pack and hardcode -DACTIVE_ENV=production into the java properties used to run maven. Here is the location of my forked buildpack:</p>
+<pre class="prettyprint"><code>https://github.com/evanleonard/heroku-buildpack-java</code></pre>
+<p>To have your app use it to if you want, you just set a config var like this:</p>
+<pre class="prettyprint"><code>BUILDPACK_URL:        https://github.com/evanleonard/heroku-buildpack-java</code></pre>
+<p><strong>Note: after my first successful build I noticed that these config vars appeared. It may be possible to modify them to eliminate the need for this custom build pack. But I haven't tried to do this yet:WIKI PARSE WARNING: unterminated '*'!</strong></p>
+<pre class="prettyprint"><code>JAVA_OPTS:            -Xmx384m -Xss512k -XX:+UseCompressedOops
+MAVEN_OPTS:           -Xmx384m -Xss512k -XX:+UseCompressedOops</code></pre>
+<h1 id="disabling-tests">Disabling Tests</h1>
+<p>Also had to disable running of Selenium tests in my POM.</p>
+<p>TODO</p>
+<h1 id="heroku-ssl-support">Heroku SSL support</h1>
+<p>There's two things you need to do after you've enabled your SSL endpoint add-on in heroku. The first is to force traffic from regular http to https. This is easily done in a filter with methods like these</p>
+<pre class="prettyprint"><code> /**
+     * http://stackoverflow.com/questions/7185074/heroku-nodejs-http-to-https-ssl-forced-redirect
+     */
+    private boolean isHttpsRequest() {
+        String header = header(&quot;x-forwarded-proto&quot;);
+        return header != null &amp;&amp; header.equals(&quot;https&quot;);
+    }
+
+    private void redirectToHttps() {
+        flash(Constants.PJAX_FORCE_RELOAD, true);
+        StringBuilder newUrl = getHttpsUrl();
+        redirect(newUrl.toString());
+    }</code></pre>
+<p>The next is to rewrite incoming requests so they appear as though they came straight from the client, eventhough they've been routed through the SSL endpoint. The best way I found to do this was with the XForwardedFilter from Xebia. To enable put this in your pom:</p>
+<pre class="prettyprint"><code>        &lt;dependency&gt;
+            &lt;groupId&gt;fr.xebia.web&lt;/groupId&gt;
+            &lt;artifactId&gt;xebia-servlet-extras&lt;/artifactId&gt;
+            &lt;version&gt;1.0.8&lt;/version&gt;
+        &lt;/dependency&gt;</code></pre>
+<p>and then add this to your web.xml above the dispatcher's filter-mapping:</p>
+<pre class="prettyprint"><code> &lt;filter&gt;
+        &lt;filter-name&gt;XForwardedFilter&lt;/filter-name&gt;
+        &lt;filter-class&gt;fr.xebia.servlet.filter.XForwardedFilter&lt;/filter-class&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;protocolHeader&lt;/param-name&gt;
+            &lt;param-value&gt;x-forwarded-proto&lt;/param-value&gt;
+        &lt;/init-param&gt;
+    &lt;/filter&gt;
+
+    &lt;!-- This must be before the dispatcher so that it is executed first in the filter chain --&gt;
+    &lt;filter-mapping&gt;
+        &lt;filter-name&gt;XForwardedFilter&lt;/filter-name&gt;
+        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+        &lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;
+    &lt;/filter-mapping&gt;</code></pre>
+<h1 id="summary">Summary</h1>
+<p>That should be it, go ahead and push to your git repo, let Heroku do its thing and see if you get a new build live on the web. Then enjoy continuous deployment!</p>
+<p>Oh, and please post something on the GoogleGroup if (when?) you run into a problem. As I said at the start, its very likely I missed something here.</p>
+<p>Best Evan</p>

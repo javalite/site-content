@@ -1,0 +1,45 @@
+<p>5 minute guide to ActiveWeb| <a href="/activeweb">ActiveWeb</a>,5 minute guide to ActiveWeb</p>
+<h1 id="minute-guide-to-activeweb">5 minute guide to ActiveWeb</h1>
+<div id="toc"></div>
+
+<p>At the heart of an ActiveWeb application is a controller. A controller is a component whose role is to accept and process an HTTP request. This is similar to a Servlet, or a controller class other web frameworks.</p>
+<blockquote>
+<p>ActiveWeb is a convention-based framework. It requires no configuration by default.</p>
+</blockquote>
+<p>Here is an example of the simplest controller:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){}
+}</code></pre>
+<h2 id="url-mapping-convention">URL mapping convention</h2>
+<p>Controllers are automatically mapped to a URL, such that a controller name underscored or hyphened is converted to CaleCase controller class nane (without the word Controller). Here is an example:</p>
+<pre class="prettyprint"><code>http://localhost:8080/testapp/greeting</code></pre>
+<p>When this URL is accessed, the <code>GreetingController</code> is executed. Since no further information is provided on the URL, the <code>index()</code> method will be processed.</p>
+<blockquote>
+<p>Controller methods processed as a result of an HTTP request are called <strong>actions</strong>.</p>
+</blockquote>
+<p>For more information, please see <a href="routing">Routing</a></p>
+<h2 id="action-mapping-convention">Action mapping convention</h2>
+<p>If the URL contained more information, let's say:</p>
+<pre class="prettyprint"><code>http://localhost:8080/testapp/greeting/hello</code></pre>
+<p>then the system would expect that the controller would have a &quot;hello&quot; action, as in:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">hello</span>(){}
+}</code></pre>
+<p>However in the previous example if the action is omitted, it causes the framework to fall back on a default action &quot;index&quot;.</p>
+<h2 id="view-mapping-convention">View mapping convention</h2>
+<p>In this case, since the action <code>index</code> does not have any code, the framework will pass control to a view. This view will be looked for under:</p>
+<pre class="prettyprint"><code>/WEB-INF/views/greeting/index.ftl</code></pre>
+<p>Where <code>/WEB-INF/views/</code> is a base location for all views, directory <code>greeting</code> is named after controller, and a view template <code>index.ftl</code> is called to render because action <code>index</code> of the controller was executed. The content of the <code>index.ftl</code> will be displayed in browser wrapped in a default layout.</p>
+<h2 id="example-passing-data-to-view">Example passing data to view</h2>
+<p>In the graphic below, you see how ActiveWeb routes the request to <code>GreetingController</code> and action &quot;hello&quot;. The complete sequence of operations:</p>
+<ol style="list-style-type: decimal">
+<li>A URL <code>http://localhost:8080/simple-example/greeting/hello?name=Bob</code> is entered into the browser.</li>
+<li>ActiveWeb upon receiving the request, routes it to the controller <code>GreetingController</code>, action &quot;<code>hello</code>. The controller passes some data to view - <code>date</code> as internally generated data, as well as <code>name</code> - HTTP request parameter, accessed with <code>param(&quot;name&quot;)</code> method</li>
+<li>The Framework then passes the data to a view template <code>WEB-INF/views/greeting/hello.ftl</code> for rendering</li>
+</ol>
+<div class="figure">
+<img src="images/aw.png" alt="ActiveWeb flow" /><p class="caption">ActiveWeb flow</p>
+</div>
+<blockquote>
+<p>The code you see on above is all that there is. There are no XML files, no property or any other configuration files.</p>
+</blockquote>

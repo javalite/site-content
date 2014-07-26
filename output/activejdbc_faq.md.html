@@ -1,0 +1,23 @@
+<p>Title: ActiveJDBC FAQ</p>
+<ul>
+<li><a href="#What_the_heck_is_instrumentation_">What the heck is instrumentation?</a></li>
+<li><a href="#How_to_integrate_AJ_projects_into_Netbeans_">How to integrate AJ projects into Netbeans?</a></li>
+<li><a href="#Does_it_support_database_pools_">Does it support database pools?</a></li>
+<li><a href="#How_to_use_Instrumentation_plugin_with_Eclipse_">How to use Instrumentation plugin with Eclipse?</a></li>
+<li><a href="#Does_ActiveJDBC_support_SQL_IN_statement_">Does ActiveJDBC support SQL IN statement?</a></li>
+</ul>
+<h1 id="what-the-heck-is-instrumentation">What the heck is instrumentation?</h1>
+<p>See this page: <a href="Instrumentation">Instrumentation</a></p>
+<h1 id="how-to-integrate-aj-projects-into-netbeans">How to integrate AJ projects into Netbeans?</h1>
+<p>Look here: <a href="NetbeansIntegration">NetbeansIntegration</a></p>
+<h1 id="does-it-support-database-pools">Does it support database pools?</h1>
+<p>YES, please see here: <a href="http://code.google.com/p/activejdbc/wiki/DatabaseConnectionManagement#Database_connection_pools">Database connection pools</a>, and also see example of pool usage: <a href="http://code.google.com/p/activejdbc/source/browse/trunk/activejdbc/src/test/java/activejdbc/C3P0PoolTest.java">C3P0PoolTest</a></p>
+<h1 id="how-to-use-instrumentation-plugin-with-eclipse">How to use Instrumentation plugin with Eclipse?</h1>
+<p>Please, take a look at this thread: https://groups.google.com/forum/?fromgroups=#!searchin/activejdbc-group/eclipse/activejdbc-group/xQ5gUSnCalc/ZuuPrHsriuAJ</p>
+<h1 id="does-activejdbc-support-sql-in-statement">Does ActiveJDBC support SQL IN statement?</h1>
+<p>This is one not supported by JDBC: http://stackoverflow.com/questions/178479/preparedstatement-in-clause-alternatives</p>
+<p>However, there are workaround alternatives, most of them centered around concatenating strings. Basically you need to construct a full query as string:</p>
+<p><code>String sql = &quot;name IN ('John', 'Hellen', 'Henry')&quot;;</code></p>
+<p>To make this, you can do: <code>String sql = String.format(&quot;name IN ('%s')&quot;, join(list(&quot;John&quot;, &quot;Hellen&quot;, &quot;Henry&quot;), &quot;', '&quot;); long  count = Person.count(sql);</code></p>
+<p>where <code>join()</code> method can be statically imported from: http://ipsolutionsdev.com/activejdbc/org/javalite/common/Util.html#join%28java.util.Collection,%20java.lang.String%29</p>
+<p>and <code>list()</code> method can be statically imported from: http://ipsolutionsdev.com/activejdbc/org/javalite/common/Collections.html#list%28T...%29 both of these classes are already on your classpath.</p>

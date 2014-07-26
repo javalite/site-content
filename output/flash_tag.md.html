@@ -1,0 +1,35 @@
+<p>Title: How to use Flash - single use message</p>
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Working_with_flash_message">Working with flash message</a></li>
+<li><a href="#Rendering_dynamic_snippets_of_HTML">Rendering dynamic snippets of HTML</a></li>
+</ul>
+<h1 id="introduction">Introduction</h1>
+<p>Flash is a concept which does not exist in standard Java API, but is very useful in web applications. Flash is a snippet of HTML whose life cycle is limited by the next HTTP request. In other words, a flash is created during a request, then it can be used in a subsequent request (of the same session), after which it dies.</p>
+<p>Flash messages are useful in cases when a POST/Redirect to GET pattern is used.</p>
+<h1 id="working-with-flash-message">Working with flash message</h1>
+<p>Flash messages are created in controllers (or filters) like so:</p>
+<pre class="prettyprint"><code>1. public class BooksController extends AppController {
+2.     @POST
+3.     public void create(){
+4.         Book book = new Book();
+5.         book.fromMap(params1st());
+6.         if(book.save()){ 
+7.             flash(&quot;message&quot;, &quot;New book was added: &quot; + book.get(&quot;title&quot;));
+8.             redirect(BooksController.class);
+9.         }else{
+10.           //handle errors
+11.        }
+12.    }
+13. }</code></pre>
+<p>In a code of controller above, a new book is submitted in a POST request. Line 6 is making attempt to save the book information to DB. If this succeeds, the flash message is sent to view on line 7, and request is redirected to BooksController index method. The file <code>/views/books/index.ftl</code> would have a flash message displayed with &quot;flash&quot; tag:</p>
+<pre class="prettyprint"><code>&lt;@flash name=&quot;message&quot;/&gt;</code></pre>
+<p>The Flash tag automatically detects if a flash message exists and displays it. If a message is missing, nothing is rendered.</p>
+<p>Since the user was redirected to the BooksController with an HTTP GET method, the page can simply be reloaded if a user presses &quot;Reload&quot; button on browser. However, if a user actually reloads the page, the flash message will disappear, because it cannot survive across more than one request.</p>
+<p>In general, POST/Redirect to GET is a good programming pattern to use in case you need &quot;destructive&quot; operations. Leaving a user on a POSTed page is a bad idea, because the same request can be re-submitted if user presses Reload.</p>
+<h1 id="rendering-dynamic-snippets-of-html">Rendering dynamic snippets of HTML</h1>
+<p>In the example above, a flash message is a simple string. However, it is possible to have it render entire chunks of HTML based on presence or absence of a flash object:</p>
+<pre class="prettyprint"><code>&lt;#if (flasher.message) ??&gt;
+   &lt;span style=&quot;background-color:red&quot;&gt; Information was successfully saved&lt;/span&gt;
+&lt;/#if&gt;</code></pre>
+<p>The HTML code inside the IF condition has no restrictions to use any dynamic values from session of those passed into view by controller.</p>

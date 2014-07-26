@@ -1,0 +1,20 @@
+<p>Statistics reporting| <a href="/activejdbc">ActiveJDBC</a>,Statistics reporting</p>
+<h1 id="statistics-reporting">Statistics reporting</h1>
+<div id="toc"></div>
+
+<p>ActiveJDBC can report on times queries are taking to execute. If statistics collection is enabled, then AJ will start accumulating times it takes to execute various queries. This information can help identify bottlenecks in application performance.</p>
+<h2 id="configuration">Configuration</h2>
+<p>In order to configure ActiveJDBC to collect statistical data on queries, you need to add one property to <code>activejdbc.properties</code> file:</p>
+<pre class="prettyprint"><code>collectStatistics = true</code></pre>
+<p>On the next start of the application, ActiveJDBC will collect statistical data on queries.</p>
+<h2 id="how-to-get-queries-execution-times">How to get queries execution times</h2>
+<p>The API to get statistical data is:</p>
+<pre class="sourceCode java"><code class="sourceCode java">List&lt;QueryStats&gt;  statistics = Registry.<span class="fu">instance</span>().<span class="fu">getStatisticsQueue</span>().<span class="fu">getReportSortedBy</span>(<span class="st">&quot;avg&quot;</span>);</code></pre>
+<p>Where argument to <code>getReportSortedBy(...)</code> methods can be one of: &quot;total&quot;, &quot;avg&quot;, &quot;min&quot;, &quot;max&quot;, &quot;count&quot; and this indicates how you want to sort the results (the values are self-explanatory). The <a href="http://javalite.github.io/activejdbc/org/javalite/activejdbc/statistics/QueryStats.html#getAvg()">QueryStats</a> object is a simple bean which contains the query text, as well as values: &quot;total&quot;, &quot;avg&quot;, &quot;min&quot;, &quot;max&quot;, &quot;count&quot;.</p>
+<blockquote>
+<p>Caution: in case you are building a large number of dynamic queries, you will have a large number of <code>QueryStats</code> objects. Statistics best work in cases when the same queries are reused.</p>
+</blockquote>
+<h2 id="how-to-generate-non---activejdbc-statistics-report">How to generate non - ActiveJDBC statistics report</h2>
+<p>In some cases, you might want to accumulate statistical information for actions in your application which have nothing to do with ActiveJDBC. You can then perform this operation:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Registry.<span class="fu">instance</span>().<span class="fu">getStatisticsQueue</span>().<span class="fu">enqueue</span>(<span class="kw">new</span> <span class="fu">QueryExecutionEvent</span>(query, System.<span class="fu">currentTimeMillis</span>() - start));</code></pre>
+<p>Where &quot;query&quot; is your custom operation, and &quot;start&quot; was a time before it started. The statistical information for your operation will then be accumulated and available for reporting just as any other ActiveJDBC query.</p>

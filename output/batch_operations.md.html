@@ -1,0 +1,29 @@
+<p>Batch operations | <a href="/activejdbc">ActiveJDBC</a>,Batch operations</p>
+<h1 id="batch-operations">Batch operations</h1>
+<div id="toc"></div>
+
+<p>In some cases, you will need to make changes or delete to all or some records in a tables. ActiveJDBC provides a couple of convenience methods for this.</p>
+<h2 id="updating-all-records-in-table">Updating all records in table</h2>
+<p>The static method <code>Model.updateAll()</code> provides a way to update all records in a corresponding table:</p>
+<pre class="prettyprint"><code>Person.updateAll(&quot;last_name = ?&quot;, &quot;Smith&quot;);</code></pre>
+<p>In the example above, all records in a table PEOPLE will be updates such, that the <code>last_name</code> column will be set to value &quot;Smith&quot;.</p>
+<h2 id="updating-selected-records-in-table">Updating selected records in table</h2>
+<p>The static method <code>Model.update()</code> will do the job:</p>
+<pre class="prettyprint"><code>Person.update(&quot;name = ?, last_name = ?&quot;, &quot;name like ?&quot;, &quot;Steve&quot;, &quot;Johnson&quot;, &quot;%J%&quot;);</code></pre>
+<p>In the example above, all records <code>where name like '%J%'</code> will be updated to have name = Steve and last name = &quot;Johnson&quot;. In other words, the first argument to the method is what to update to, the second is conditions for selection, followed by a list of replacement arguments for both.</p>
+<h2 id="updating-of-updated_at">Updating of updated_at</h2>
+<p>Both batch methods described above will respect ActiveJDBC conventions and will also update the <code>updated_at</code> column to the current system time for all updated records.</p>
+<h2 id="deleting-records">Deleting records</h2>
+<p>Following the same pattern, <code>Model.delete()</code> is a convenient way to delete selected records:</p>
+<pre class="prettyprint"><code>Person.delete(&quot;age &gt; ?&quot;, &quot;10&quot;);</code></pre>
+<p>Here, all records will be deleted where column <code>age</code> has a value greater than 10. This is self-explanatory</p>
+<h2 id="deleting-all-records">Deleting all records</h2>
+<pre class="prettyprint"><code>Person.deleteAll();</code></pre>
+<p>This does not require explanation.</p>
+<h2 id="complex-batch-operations">Complex batch operations</h2>
+<p>ActiveJDBC provides a way to actually batch destructive operations into a single batch. In some cases it can provide significant performance improvements</p>
+<pre class="sourceCode java"><code class="sourceCode java"> PreparedStatement ps = Base.<span class="fu">startBatch</span>(<span class="st">&quot;insert into people (NAME, LAST_NAME, DOB) values(?, ?, ?)&quot;</span>);
+ Base.<span class="fu">addBatch</span>(ps, <span class="st">&quot;Mic&quot;</span>, <span class="st">&quot;Jagger&quot;</span>, <span class="st">&quot;1962-01-01&quot;</span>);
+ Base.<span class="fu">addBatch</span>(ps, <span class="st">&quot;Marilyn&quot;</span>, <span class="st">&quot;Monroe&quot;</span>, <span class="st">&quot;1932-01-01&quot;</span>);
+ Base.<span class="fu">executeBatch</span>(ps);
+ ps.<span class="fu">close</span>();</code></pre>
