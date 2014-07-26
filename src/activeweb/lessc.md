@@ -5,7 +5,12 @@ Less compiler| <a href="/activeweb">ActiveWeb</a>,Less compiler
 # Less compiler
 
 [Less compiler](http://lesscss.org/) is a better way to write CSS. ActiveWeb provides a built-in mechanism to generate
-CSS file on the fly with a use of a Less compiler. Here is how to configure:
+CSS file on the fly with a use of a Less compiler.
+
+> Less configuration below requires that you install a Less compiler from: [Less compiler](http://lesscss.org/)
+
+
+Here is how to configure:
 
 First, configure the routes to ignore "/bootstrap.css" route in all environments except development:
 
