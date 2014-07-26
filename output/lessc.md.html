@@ -2,7 +2,11 @@
 <div id="toc"></div>
 
 <h1 id="less-compiler">Less compiler</h1>
-<p><a href="http://lesscss.org/">Less compiler</a> is a better way to write CSS. ActiveWeb provides a built-in mechanism to generate CSS file on the fly with a use of a Less compiler. Here is how to configure:</p>
+<p><a href="http://lesscss.org/">Less compiler</a> is a better way to write CSS. ActiveWeb provides a built-in mechanism to generate CSS file on the fly with a use of a Less compiler.</p>
+<blockquote>
+<p>Less configuration below requires that you install a Less compiler from: <a href="http://lesscss.org/">Less compiler</a></p>
+</blockquote>
+<p>Here is how to configure:</p>
 <p>First, configure the routes to ignore &quot;/bootstrap.css&quot; route in all environments except development:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> RouteConfig <span class="kw">extends</span> AbstractRouteConfig {
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext appContext) {
