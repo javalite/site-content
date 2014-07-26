@@ -20,9 +20,9 @@ and how to perform dependency injection.
 * `simple_development`
 * `simple_test`
 
-## Download example app
+## Get example app
 
-Download the app: [ActiveWeb simple example](https://github.com/javalite/activeweb-simple/)
+Clone the app: [ActiveWeb simple example](https://github.com/javalite/activeweb-simple/)
 
 ## Code modifications
 

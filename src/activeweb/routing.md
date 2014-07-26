@@ -242,3 +242,26 @@ Of course the action `save()` needs to have a @POST annotation for this to work.
 The class `app.config.RouteConfig` is recompiled and reloaded in development environment in case a system property
 `active_reload` is set to true. This makes it easy and fun to play with the routes during development. Please see
 [Running in development mode](running_in_development_mode) for more information.
+
+
+## Excluding some routes
+
+Exclusion of some routes is necessary for most applications. Static content, such as CSS, HTML, images, etc. should not be
+  processed by the framework, but rather should be served by container directly.
+  Please, see the "exclusions" section  of the filter configuration in: [RequestDispatcher configuration](structure_of_activeweb_project#requestdispatcher-configuration)
+  for more information.
+
+## Ignoring some routes
+
+Exclusions mechanism described above is sometimes too crude. Lets say we want to dynamically compile Less files into CSS
+in development environment, but also want the same URL be served directly from container in any environment except development.
+
+Here is an example configuration:
+
+~~~~ {.java}
+public class RouteConfig extends AbstractRouteConfig {
+    public void init(AppContext appContext) {
+        ignore("/bootstrap.css").exceptIn("development");
+    }
+}
+~~~~

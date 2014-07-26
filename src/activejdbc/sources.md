@@ -1,5 +1,4 @@
 JavaLite sources  | JavaLite sources
 
-
-* [ActiveJDBC, JSpec, HTTP sources](http://javalite.github.io/activejdbc/)
-* [ActiveWeb source](http://javalite.github.io/activejdbc/)
+<a class="btn btn-primary btn-large" href="https://github.com/javalite/activejdbc">ActiveJDBC, JSpec, HTTP</a>
+<a class="btn btn-primary btn-large" href="https://github.com/javalite/activeweb">ActiveWeb</a>

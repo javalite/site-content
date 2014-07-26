@@ -108,7 +108,8 @@ There are three parameters you can use to configure the framework:
     We recommend to always set it to UTF-8 to avoid issues with internationalization
 * **exclusions** - this is a comma-separated list of strings on URI which the framework should ignore
     (not attempt to process are requests to controllers). These are static files, like images, HTML, CSS,
-    JavaScript, PDF downloads, etc.
+    JavaScript, PDF downloads, etc. The format is a comma separated list of sub-strings that are present on URIs of
+    requests that are to be excluded.
 * **root_controller** - this is a name if a controller that the framework will automatically call if no path
     is provided, such as: `http://yourdomain.com`. For this specific example, the controller called will be
     `app.controllers.HomeController` with default action `index`.

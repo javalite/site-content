@@ -41,6 +41,7 @@ ActiveWeb - Java Web Framework for rapid development| ActiveWeb
 * [Routing](routing)
 * [Captcha](captcha)
 * [Application context](app_context)
+* [Less compiler](lessc)
 
 
 

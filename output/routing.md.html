@@ -270,3 +270,13 @@
 </blockquote>
 <h3 id="routeconfig-reloaded">RouteConfig reloaded</h3>
 <p>The class <code>app.config.RouteConfig</code> is recompiled and reloaded in development environment in case a system property <code>active_reload</code> is set to true. This makes it easy and fun to play with the routes during development. Please see <a href="running_in_development_mode">Running in development mode</a> for more information.</p>
+<h2 id="excluding-some-routes">Excluding some routes</h2>
+<p>Exclusion of some routes is necessary for most applications. Static content, such as CSS, HTML, images, etc. should not be processed by the framework, but rather should be served by container directly. Please, see the &quot;exclusions&quot; section of the filter configuration in: <a href="structure_of_activeweb_project#requestdispatcher-configuration">RequestDispatcher configuration</a> for more information.</p>
+<h2 id="ignoring-some-routes">Ignoring some routes</h2>
+<p>Exclusions mechanism described above is sometimes too crude. Lets say we want to dynamically compile Less files into CSS in development environment, but also want the same URL be served directly from container in any environment except development.</p>
+<p>Here is an example configuration:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> RouteConfig <span class="kw">extends</span> AbstractRouteConfig {
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext appContext) {
+        <span class="fu">ignore</span>(<span class="st">&quot;/bootstrap.css&quot;</span>).<span class="fu">exceptIn</span>(<span class="st">&quot;development&quot;</span>);
+    }
+}</code></pre>
