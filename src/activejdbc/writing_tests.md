@@ -24,7 +24,7 @@ public class Person extends Model{}
 
 Usually, at this point it is time to write a test:
 
-~~~~ {.java. numberLines}
+~~~~ {.java  .numberLines}
 public class PersonSpec{
   @Test
   public void shouldValidatePresenceOfFirstNameAndLastName(){
