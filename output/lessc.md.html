@@ -37,4 +37,17 @@
         <span class="kw">&lt;/execution&gt;</span>
     <span class="kw">&lt;/executions&gt;</span>
 <span class="kw">&lt;/plugin&gt;</span></code></pre>
+<p>Additionally, configure to package the CSS file into the app with a Wwar plugin:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
+    <span class="kw">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="kw">&lt;/groupId&gt;</span>
+    <span class="kw">&lt;artifactId&gt;</span>maven-war-plugin<span class="kw">&lt;/artifactId&gt;</span>
+    <span class="kw">&lt;version&gt;</span>2.4<span class="kw">&lt;/version&gt;</span>
+    <span class="kw">&lt;configuration&gt;</span>
+        <span class="kw">&lt;webResources&gt;</span>
+            <span class="kw">&lt;resource&gt;</span>
+                <span class="kw">&lt;directory&gt;</span>target/web<span class="kw">&lt;/directory&gt;</span>
+            <span class="kw">&lt;/resource&gt;</span>
+        <span class="kw">&lt;/webResources&gt;</span>
+    <span class="kw">&lt;/configuration&gt;</span>
+<span class="kw">&lt;/plugin&gt;</span></code></pre>
 <p>As a result, when your application is running in development environment, the <code>BootstrapController</code> is compiling CSS from less files in cases there are changes in the files. It checks for changes and re-compiles if needed on each request. During the build, the plugin fully compiles all Less files into a single target CSS file, which then gets packaged into the war file. The file <code>bootstrap.css</code> is then served from container, because this path is ignored in any environment except development. In fact, in a real production system this file like any other static files will be served by a web server or a CDN.</p>

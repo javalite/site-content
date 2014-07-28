@@ -56,6 +56,23 @@ Additionally, add a Maven plugin to your pom file:
 </plugin>
 ~~~~
 
+Additionally, configure to package the CSS file into the app with a Wwar plugin:
+
+~~~~ {.xml}
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-war-plugin</artifactId>
+    <version>2.4</version>
+    <configuration>
+        <webResources>
+            <resource>
+                <directory>target/web</directory>
+            </resource>
+        </webResources>
+    </configuration>
+</plugin>
+~~~~ 
+
 As a result, when your application is running in development environment, the `BootstrapController` is compiling CSS
 from less files in cases there are changes in the files. It checks for changes and re-compiles if needed on each request.
 During the build, the plugin fully compiles all Less files into a single target CSS file, which then gets packaged
