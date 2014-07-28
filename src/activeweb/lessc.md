@@ -56,7 +56,7 @@ Additionally, add a Maven plugin to your pom file:
 </plugin>
 ~~~~
 
-Additionally, configure to package the CSS file into the app with a Wwar plugin:
+Additionally, configure to package the CSS file into the app with a War plugin:
 
 ~~~~ {.xml}
 <plugin>
