@@ -47,7 +47,7 @@ The file `/views/books/index.ftl` would have a flash message displayed with "fla
 ~~~~
 
 > For a complete example of using FlashTag, please refer to [BooksController#save()](https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/controllers/BooksController.java#L45)
-and corresponding views. Also, please see[ActiveJDBC Validation](validations)
+and corresponding views. Also, please see [ActiveJDBC Validation](validations)
 
 
 The Flash tag automatically detects if a flash message exists and displays it. If a message is missing, nothing is rendered.

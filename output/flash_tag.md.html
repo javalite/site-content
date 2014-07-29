@@ -42,7 +42,7 @@
 </ul>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@flash name=&quot;message&quot;/&gt;</code></pre>
 <blockquote>
-<p>For a complete example of using FlashTag, please refer to <a href="https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/controllers/BooksController.java#L45">BooksController#save()</a> and corresponding views. Also, please see<a href="validations">ActiveJDBC Validation</a></p>
+<p>For a complete example of using FlashTag, please refer to <a href="https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/controllers/BooksController.java#L45">BooksController#save()</a> and corresponding views. Also, please see <a href="validations">ActiveJDBC Validation</a></p>
 </blockquote>
 <p>The Flash tag automatically detects if a flash message exists and displays it. If a message is missing, nothing is rendered.</p>
 <p>Since the user was redirected to the BooksController with an HTTP GET method, the page can simply be reloaded if a user presses &quot;Reload&quot; button on browser. However, if a user actually reloads the page, the flash message will disappear, because it cannot survive across more than one request.</p>
