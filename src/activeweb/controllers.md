@@ -445,6 +445,18 @@ public class GetPdfController extends AppController{
 }
 ~~~~
 
+-   Steaming a file to a client with a file name
+
+~~~~ {.java}
+public class GetCsvController extends AppController{
+   public void index(){
+     OutputStream out = outputStream("text/csv", map("Content-Disposition", "attachment;filename=metadata_" + param("type") + ".csv"), 200);
+     out.write(...); // write content of file here
+     // no need to close the stream, container will do that
+   }
+}
+~~~~
+
 ## Uploading files
 
 Controllers have a two ways for uploading data. Here is one:

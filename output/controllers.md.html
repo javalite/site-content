@@ -279,6 +279,16 @@ p.<span class="fu">fromMap</span>(<span class="fu">params1st</span>());</code></
      <span class="fu">streamOut</span>(in).<span class="fu">contentType</span>(<span class="st">&quot;applicaiton/pdf&quot;</span>);
    }
 }</code></pre>
+<ul>
+<li>Steaming a file to a client with a file name</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GetCsvController <span class="kw">extends</span> AppController{
+   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+     OutputStream out = <span class="fu">outputStream</span>(<span class="st">&quot;text/csv&quot;</span>, <span class="fu">map</span>(<span class="st">&quot;Content-Disposition&quot;</span>, <span class="st">&quot;attachment;filename=metadata_&quot;</span> + <span class="fu">param</span>(<span class="st">&quot;type&quot;</span>) + <span class="st">&quot;.csv&quot;</span>), <span class="dv">200</span>);
+     out.<span class="fu">write</span>(...); <span class="co">// write content of file here</span>
+     <span class="co">// no need to close the stream, container will do that</span>
+   }
+}</code></pre>
 <h2 id="uploading-files">Uploading files</h2>
 <p>Controllers have a two ways for uploading data. Here is one:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> UploadController <span class="kw">extends</span> AppController{
