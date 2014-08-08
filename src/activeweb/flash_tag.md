@@ -14,7 +14,7 @@ Flash messages are useful in cases when a POST/Redirect to GET pattern is used.
 
 Flash messages are created in controllers (or filters) like so:
 
-~~~~ {.java .numberLines}
+~~~~ {.java .numberLines .sp-code-number}
 @POST
 public void create(){
     Book book = new Book();

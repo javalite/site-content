@@ -53,7 +53,7 @@ DBSpec class will look for connections configured with a method `testing()`.
 
 Example:
 
-~~~~ {.java .numberLines}
+~~~~ {.java .numberLines .sp-code-number}
 public class DbConfig extends AbstractDBConfig {
     public void init(AppContext context) {
          environment("development").jndi("jdbc/kitchensink_development");
@@ -147,7 +147,7 @@ the controller to be tested
 
 ### Sending HTTP requests from specs
 
-~~~~{.java .numberLines}
+~~~~{.java .numberLines .sp-code-number}
 public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldSendGetToIndex() {
@@ -201,7 +201,7 @@ in test, as if the application was running? Well, with ActiveWeb you can finally
 Here is a modification on the previous example, but with the `integrateViews()`
 
 
-~~~~{.java .numberLines}
+~~~~{.java .numberLines .sp-code-number}
 public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldSendParamsToIndexAndGenerateHTML() {
@@ -334,7 +334,7 @@ to write entire scenarios for testing multiple controllers.
 
 Example:
 
-~~~~{.java .numberLines}
+~~~~{.java .numberLines .sp-code-number}
 public class SimpleSpec extends IntegrationSpec {
     @Test
     public void shouldNavigateToTwoControllers() {

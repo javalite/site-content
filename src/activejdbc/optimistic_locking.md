@@ -64,7 +64,7 @@ As you can see, ActiveJDBC tracks versions of the same record.
 
 Sometimes you might have code that reads the same record from a table in order to be updated. In those cases, the first update succeeds, but the second does not. Let's examine this situation:
 
-~~~~ {.java .numberLines}
+~~~~ {.java .numberLines .sp-code-number}
 Profile p1 = Profile.findById(1);
 Profile p2 = Profile.findById(1);
 

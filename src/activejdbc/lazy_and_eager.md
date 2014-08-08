@@ -29,7 +29,7 @@ DB as many times as this getter is called.
 
 Let's consider an example where an ORM could unexpectedly generate a huge number of inefficient queries:
 
-~~~~ {.java .numberLines}
+~~~~ {.java .numberLines .sp-code-number}
 List<Address> addresses = Address.findAll();
 
 for(Address address: addresses){
@@ -79,7 +79,7 @@ see if eager loading is improving or degrading performance.
 When a model with included children is converted to a map, all the dependencies are converted to maps and inserted
 into a parent model map too. Here is an example:
 
-~~~~ {.java .numberLines}
+~~~~ {.java .numberLines .sp-code-number}
 LazyList<User> users = User.findAll().include(Address.class);
 List<Map> maps = users.toMaps();
 

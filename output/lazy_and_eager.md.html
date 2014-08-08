@@ -13,7 +13,7 @@
 </blockquote>
 <h2 id="improve-efficiency-with-eager-loading">Improve efficiency with eager loading</h2>
 <p>Let's consider an example where an ORM could unexpectedly generate a huge number of inefficient queries:</p>
-<table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
 2
 3
 4
@@ -44,7 +44,7 @@
 <p>The above code will generate only three queries to DB, one per each table. This of course will create an object graph in memory with certain implications. While it is going to be a more efficient approach from the point of DB IO view, it certainly will consume more memory. Developers will need to understand the implications and perform test cases to see if eager loading is improving or degrading performance.</p>
 <h2 id="conversion-to-maps">Conversion to Maps</h2>
 <p>When a model with included children is converted to a map, all the dependencies are converted to maps and inserted into a parent model map too. Here is an example:</p>
-<table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
 2
 3
 4

@@ -15,7 +15,7 @@ managers as in other Java ORMs.
 
 Here is a simple program:
 
-~~~~ {.java .numberLines}
+~~~~ {.java .numberLines .sp-code-number}
 public static void main(String[] args) {
    Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "the_user", "the_password");
    Employee.findAll().dump();

@@ -60,7 +60,7 @@ The `Guice.createInjector(..)` takes a varargs, meaning you can inject multiple 
 
 Whenever you need a service inside a controller, you will use an `@Inject` annotation provided by Google Guice:
 
-~~~~ {.java .numberLines}
+~~~~ {.java .numberLines .sp-code-number}
 public class HelloController extends AppController {
  @Inject
  private Greeter greeter;
@@ -120,7 +120,7 @@ public class GreeterMockModule extends AbstractModule {
 
 Once we have this done, we can inject the mock module during the test of a controller:
 
-~~~~ {.java .numberLines}
+~~~~ {.java .numberLines .sp-code-number}
  public class HelloControllerSpec extends ControllerSpec {
      @Before
      public void before(){

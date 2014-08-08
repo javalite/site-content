@@ -12,7 +12,7 @@ has Captcha built-in and does not depend on any third party library for it.
 
 Here is an example of a CaptchaController:
 
-~~~~ {.java .numberLines}
+~~~~ {.java .numberLines .sp-code-number}
 public class CaptchaController extends AppController {
     public void index() throws IOException {
         String captchaText = Captcha.generateText();

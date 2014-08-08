@@ -24,7 +24,7 @@ public class Person extends Model{}
 
 Usually, at this point it is time to write a test:
 
-~~~~ {.java  .numberLines}
+~~~~ {.java  .numberLines .sp-code-number}
 public class PersonSpec{
   @Test
   public void shouldValidatePresenceOfFirstNameAndLastName(){
@@ -48,7 +48,7 @@ When you re-run test, it will pass.
 
 At this point, we need to add values for first and last name, as well as an expectation of a valid state of the model:
 
-~~~~ {.java .numberLines}
+~~~~ {.java .numberLines .sp-code-number}
 public class PersonSpec{
   @Test
   public void shouldValidatePresenceOfFirstNameAndLastName(){
@@ -73,7 +73,7 @@ complete to satisfy it.
 In a real scenario, you would also need to open a database connection before the test and close it after the test.
 This provides an example of a real working test from one of the example projects:
 
-~~~~ {.java .numberLines}
+~~~~ {.java .numberLines .sp-code-number}
 @Test
 public void shouldValidateMandatoryFields(){
     Employee employee = new Employee();
