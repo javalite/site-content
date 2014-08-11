@@ -38,7 +38,7 @@ there is no access to database. All that is happening is that the [LazyList](htt
 
 ## Lazy dependencies
 
-This means that if you have a model User and a model Address, and they have a one to many relationship, when a
+If you have a model User and a model Address, and they have a one to many relationship, when a
 user has many addresses, the code:
 
 ~~~~ {.java}
