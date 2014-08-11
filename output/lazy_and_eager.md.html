@@ -3,6 +3,29 @@
 <div id="toc"></div>
 
 <p>ActiveJDBC is lazy by default. In this sense, it has semantics closer to ActiveRecord than Hibernate.</p>
+<h2 id="lazy-list">Lazy List</h2>
+<p>In a code like this:</p>
+<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">List&lt;User&gt; users = User.<span class="fu">findAll</span>(); <span class="co">// or User.where(&quot;.. query here&quot;);</span>
+<span class="kw">for</span>(User u: users){
+    System.<span class="fu">out</span>.<span class="fu">println</span>(u);
+}</code></pre></td></tr></table>
+<p>the list <code>users</code> is a type of <a href="http://javalite.github.io/activejdbc/org/javalite/activejdbc/LazyList.html">LazyList</a>.</p>
+<p>Despite what it looks, the line 1. is not when the framework makes a call to the database. Only when the objects are queried from loop on line 2, the framework pulls data from the database.</p>
+<p>In fact, in this example:</p>
+<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">List&lt;Employee&gt; people = Employee.<span class="fu">where</span>(<span class="st">&quot;department = ? and hire_date &gt; ? &quot;</span>, <span class="st">&quot;IT&quot;</span>, hireDate)
+    .<span class="fu">offset</span>(<span class="dv">21</span>)
+    .<span class="fu">limit</span>(<span class="dv">10</span>)
+    .<span class="fu">orderBy</span>(<span class="st">&quot;hire_date asc&quot;</span>);</code></pre></td></tr></table>
+<p>there is no access to database. All that is happening is that the <a href="http://javalite.github.io/activejdbc/org/javalite/activejdbc/LazyList.html">LazyList</a> is progressively configured on lines 2, 3 and 4 in order to build a correct SQL query when the objects are requested from the list.</p>
+<h2 id="lazy-dependencies">Lazy dependencies</h2>
 <p>This means that if you have a model User and a model Address, and they have a one to many relationship, when a user has many addresses, the code:</p>
 <pre class="sourceCode java"><code class="sourceCode java">User u = User.<span class="fu">findById</span>(<span class="dv">1</span>);</code></pre>
 <p>does not load the associated addresses. Only when you call the getter for addresses, a query is generated and executed against DB:</p>

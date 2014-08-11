@@ -6,6 +6,38 @@ Lazy and eager| <a href="/activejdbc">ActiveJDBC</a>,Lazy and eager
 
 ActiveJDBC is lazy by default. In this sense, it has semantics closer to ActiveRecord than Hibernate.
 
+## Lazy List
+
+In a code like this:
+
+~~~~ {.java .numberLines .sp-code-number}
+List<User> users = User.findAll(); // or User.where(".. query here");
+for(User u: users){
+    System.out.println(u);
+}
+~~~~
+
+the list `users` is a type of [LazyList](http://javalite.github.io/activejdbc/org/javalite/activejdbc/LazyList.html).
+
+Despite what it looks, the line 1. is not when the framework makes a call to the database. Only when the objects are
+ queried from loop  on line 2, the framework pulls data from the database.
+
+
+In fact, in this example:
+
+~~~~ {.java .numberLines .sp-code-number}
+List<Employee> people = Employee.where("department = ? and hire_date > ? ", "IT", hireDate)
+    .offset(21)
+    .limit(10)
+    .orderBy("hire_date asc");
+~~~~
+
+there is no access to database. All that is happening is that the [LazyList](http://javalite.github.io/activejdbc/org/javalite/activejdbc/LazyList.html)
+ is progressively configured on lines 2, 3 and 4 in order to build a correct SQL query when the objects are requested from the list.
+
+
+## Lazy dependencies
+
 This means that if you have a model User and a model Address, and they have a one to many relationship, when a
 user has many addresses, the code:
 
