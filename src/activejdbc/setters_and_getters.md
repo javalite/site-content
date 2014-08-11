@@ -23,29 +23,24 @@ p.set("name", "John");
 p.save();
 ~~~~
 
-## No "standard" setters/getters???
+## Wrapper setters/getters???
 
-Well, no. ActiveJDBC will not provide these, and it will not generate them either (for now).
-However, you can have them if you like:
+ActiveJDBC will not provide these. However, you can have them if you like:
 
 ~~~~ {.java}
 public class Person extends Model{
    public void setFirstName(String firstName){
       set("first_name", firstName);
    }
+   public String getFirstName(){
+      return getString("first_name");
+   }
 }
 ~~~~
 
-This will provide a safety net to those wishing some compiler static checking. Same goes for getters. If you are starting out with ActiveJDBC, I suggest you do not write setters and getters, but rather use the provided methods. After a day or two you will be surprised you ever wrote them before.
-
-Correction: a year after not using getters and setters, we started adding them in order to achieve a few things:
-
--   IDE help - this actually improves productivity, since IDE helps typing and I do not have to remember the schema by heart
--   Self - documenting the schema
--   no need to use conversion methods like `getFloat("name")`
--   easy refactoring, since there is no need to track dynamic setters and getters across the project
-
-With ActiveJDBC you can use any style you like.
+This will provide a safety net to those wishing some compiler static checking.
+With ActiveJDBC you can use dynamic getters and setters or write wrapper getter and setter methods.
+Please, see [Recommendation](#recommendation-use-tdd-in-combination-with-some-setters-and-getters) below for mor information.
 
 ##Type conversion getters
 
@@ -70,7 +65,7 @@ If the "BODY" column in your table is CLOB, ActiveJDBC will automatically conver
 Please, see [Clob support and caching](clob_support_and_caching)
 as well as [JavaLite Commons Convert](http://javalite.github.io/activejdbc/org/javalite/common/Convert.html) class for more information.
 
-## Recommendation: Use TDD, in combination with setters and getters
+## Recommendation: Use TDD, in combination with *some* setters and getters
 
 
 In our work, we start writing a test before writing much code. We create a one line model code, then start writing a test.
@@ -105,3 +100,28 @@ graduation_date, dob, name, last_name
 
 When we are done with the test, we have a piece of durable code which has captured required model behaviour.
 We then proceed to implement the rest of the model code - necessary validations, other code, until the test starts to pass.
+
+
+> **General rule of thumb** : only write setters and getters for attributes you are actually using in code.
+
+In our projects over the past 5 years using [ActiveJDBC](activejdbc) and [ActiveWeb](activeweb), we progressed through
+three stages of understanding our coding patterns:
+
+* **Stage 1:** First we were excited and used dynamic setters and getters across the project, a la Ruby on Rails: `String  name = p.getString("name");`.
+  Then we realized that like Ruby developers we were not getting any benefits from static typing of Java or from autocomplete from IDEs,
+  no refactoring help, and moved to Stage 2:
+* **Stage 2:** Write setter and getters fr every attribute. We immediately got refactoring, IDE support and static typing.
+However, nobody was happy writing them. There was even an attempt to autogenerate them, but due dynamic nature of ActiveJDBC
+(attributes based on columns in tables), this prove too much work, we progressed to stage 3:
+* **Stage 3:** Write only getters and setters that are used in code verbatim. In most cases, when reading a submitted form
+from a web page, or reflecting attributes on a web page, ActiveWeb or a JSP can read these attributes dynamically, which means you
+do not need setters and getters. In rare cases we use them verbatim in code, and for those cases, the attributes are wrapped
+in setters and getters.
+
+For example, here is the [Book](https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/models/Book.java) model.
+As you can see it has no setters and getters. Here is its use in controller: [BookController](https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/controllers/BooksController.java)
+as well as view: [books/index.ftl](https://github.com/javalite/activeweb-simple/blob/master/src/main/webapp/WEB-INF/views/books/index.ftl).
+
+As you can see, nowhere in code we had to access attribute directly, therefore we did not write setters and getters.
+
+

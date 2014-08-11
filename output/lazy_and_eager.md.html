@@ -26,7 +26,7 @@
     .<span class="fu">orderBy</span>(<span class="st">&quot;hire_date asc&quot;</span>);</code></pre></td></tr></table>
 <p>there is no access to database. All that is happening is that the <a href="http://javalite.github.io/activejdbc/org/javalite/activejdbc/LazyList.html">LazyList</a> is progressively configured on lines 2, 3 and 4 in order to build a correct SQL query when the objects are requested from the list.</p>
 <h2 id="lazy-dependencies">Lazy dependencies</h2>
-<p>This means that if you have a model User and a model Address, and they have a one to many relationship, when a user has many addresses, the code:</p>
+<p>If you have a model User and a model Address, and they have a one to many relationship, when a user has many addresses, the code:</p>
 <pre class="sourceCode java"><code class="sourceCode java">User u = User.<span class="fu">findById</span>(<span class="dv">1</span>);</code></pre>
 <p>does not load the associated addresses. Only when you call the getter for addresses, a query is generated and executed against DB:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Address&gt; addresses = u.<span class="fu">getAll</span>(Address.<span class="fu">class</span>);</code></pre>
