@@ -5,19 +5,33 @@
 <h2 id="design-principles">Design principles</h2>
 <ul>
 <li>Infers metadata from DB</li>
-<li>Reduces amount of code to a minimum</li>
 <li>No configuration, just conventions. <em>Really no configuration!</em></li>
-<li>Some conventions are overridable in code</li>
+<li>Conventions are overridable in code</li>
 <li>No need to learn another QL. SQL is sufficient</li>
-<li>Code is lightweight and intuitive, reads like English</li>
+<li>Code often reads like English</li>
 <li>No sessions, no &quot;attaching, re-attaching&quot;</li>
 <li>No persistence managers.</li>
-<li>No classes outside your own models.</li>
 <li>Models are lightweight, simple POJOs</li>
 <li>No proxy-ing. What you write is what you get (WYWIWYG :))</li>
 <li>No getters and setters. You can still write them if you like.</li>
 <li>No DAOs and DTOs</li>
+<li>No <a href="http://www.martinfowler.com/bliki/AnemicDomainModel.html">Anemic Domain Model</a></li>
 </ul>
+<h2 id="getting-started">Getting started</h2>
+<p>If you want to get started, follow these links:</p>
+<p>Please, see <a href="getting_started">Getting Started</a> for a working example.</p>
+<p>Look through these:</p>
+<ul>
+<li>See <a href="#minute-introduction">5 minute introduction</a> below</li>
+<li>Familiarize yourself with <a href="instrumentation">Instrumentation</a></li>
+</ul>
+<p>Other working examples:</p>
+<ul>
+<li><a href="https://github.com/javalite/simple-example">Maven example</a></li>
+<li><a href="https://github.com/javalite/ant-example">Ant example</a></li>
+<li><a href="https://github.com/javalite/standalone-example">Standalone example</a> - neither Maven nor Ant</li>
+</ul>
+<p>Here is <a href="http://javalite.github.io/activejdbc/">JavaDoc for ActiveJDBC</a></p>
 <h2 id="documentation">Documentation</h2>
 <p><a id="expand" href="javascript:void(0);"
    onclick="$('#docs').show('slow'); $('#expand').hide(); $('#collapse').show();" style="display:none">Expand table of contents</a> <a id="collapse" href="javascript:void(0);"
@@ -58,8 +72,7 @@
 <li><a href="eclipseIntegration">Eclipse Integration</a></li>
 <li><a href="intellij_idea_integration">Intellij Idea Integration</a></li>
 <li><a href="ide_integrations">IDE Integrations</a></li>
-<li><a href="faq">FAQ</a></li>
-<li><a href="getting_started">Getting Started</a>
+<li><a href="faq">FAQ</a>
 </div>
 
 
@@ -76,9 +89,9 @@
   created_at DATETIME,
   updated_at DATETIME
   );</code></pre>
-<p>ActiveJDBC infers DB schema parameters from a database. This means you do not have to provide it in code, the simplest example model looks like this:</p>
+<p>ActiveJDBC infers DB schema parameters from a database. This means you do not have to provide it in code. The simplest model looks like this:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model {}</code></pre>
-<p>Despite the fact that there is no code in it, it is fully functional and will map to a table called <code>PEOPLE</code> <em>automatically</em>.</p>
+<p>Despite the fact that there is no code in the body of the class, it is fully functional and will map to a table called <code>PEOPLE</code> <em>automatically</em>.</p>
 <h3 id="how-to-query">How to query</h3>
 <p>Simplest query example:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; people = Person.<span class="fu">where</span>(<span class="st">&quot;name = &#39;John&#39;&quot;</span>);

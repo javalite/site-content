@@ -15,7 +15,8 @@ Although ActiveJDBC has advanced features, simple things are very easy. This pag
 ## Create a standard Maven project structure
 
 While ActiveJDBC does not have to be used with Maven, this example (as well as ActiveJDBC itself) was built with Maven.
-See example project: [https://github.com/javalite/simple-example](https://github.com/javalite/simple-example).
+
+> See example project: [Simple Maven - based example](https://github.com/javalite/simple-example).
 
 ## Create a table
 

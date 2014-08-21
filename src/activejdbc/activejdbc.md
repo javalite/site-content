@@ -7,19 +7,37 @@ ActiveJDBC - Fast Java ORM| ActiveJDBC
 ## Design principles
 
 * Infers metadata from DB
-* Reduces amount of code to a minimum
 * No configuration, just conventions. *Really no configuration!*
-* Some conventions are overridable in code
+* Conventions are overridable in code
 * No need to learn another QL. SQL is sufficient
-* Code is lightweight and intuitive, reads like English
+* Code often reads like English
 * No sessions, no "attaching, re-attaching"
 * No persistence managers.
-* No classes outside your own models.
 * Models are lightweight,  simple POJOs
 * No proxy-ing. What you write is what you get (WYWIWYG :))
 * No getters and setters. You can still write them if you like.
 * No DAOs and DTOs
+* No [Anemic Domain Model](http://www.martinfowler.com/bliki/AnemicDomainModel.html)
 
+
+## Getting started
+
+If you want to get started, follow these links:
+
+Please, see [Getting Started](getting_started) for a working example.
+
+Look through these:
+
+* See [5 minute introduction](#minute-introduction) below
+* Familiarize yourself with [Instrumentation](instrumentation)
+
+Other working examples:
+
+* [Maven example](https://github.com/javalite/simple-example)
+* [Ant example](https://github.com/javalite/ant-example)
+* [Standalone example](https://github.com/javalite/standalone-example) - neither Maven nor Ant
+
+Here is [JavaDoc for ActiveJDBC](http://javalite.github.io/activejdbc/)
 
 ## Documentation
 
@@ -66,7 +84,6 @@ ActiveJDBC - Fast Java ORM| ActiveJDBC
 * [Intellij Idea Integration ](intellij_idea_integration)
 * [IDE Integrations](ide_integrations)
 * [FAQ](faq)
-* [Getting Started](getting_started)
 </div>
 
 
@@ -87,14 +104,15 @@ CREATE TABLE people (
   );
 ~~~~
 
-ActiveJDBC infers DB schema parameters from a database. This means you do not have to provide it in code,
-the simplest example model looks like this:
+ActiveJDBC infers DB schema parameters from a database. This means you do not have to provide it in code.
+The simplest model looks like this:
 
 ~~~~ {.java}
 public class Person extends Model {}
 ~~~~
 
-Despite the fact that there is no code in it, it is fully functional and will map to a table called `PEOPLE` *automatically*.
+Despite the fact that there is no code in the body of the class, it is fully functional and will
+map to a table called `PEOPLE` *automatically*.
 
 ### How to query
 
