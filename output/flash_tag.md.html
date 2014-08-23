@@ -50,6 +50,8 @@
 <h2 id="rendering-dynamic-snippets-of-html">Rendering dynamic snippets of HTML</h2>
 <p>In the example above, a flash message is a simple string. However, it is possible to have it render entire chunks of HTML based on presence or absence of a flash object:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>#if (flasher.message) ??&gt;
-   <span class="kw">&lt;span</span><span class="ot"> style=</span><span class="st">&quot;background-color:red&quot;</span><span class="kw">&gt;</span> Information was successfully saved<span class="kw">&lt;/span&gt;</span>
+   <span class="kw">&lt;span</span><span class="ot"> style=</span><span class="st">&quot;background-color:red&quot;</span><span class="kw">&gt;</span>
+   <span class="er">&lt;</span>@flash name=&quot;message&quot;/&gt;
+   <span class="kw">&lt;/span&gt;</span>
 <span class="er">&lt;</span>/#if&gt;</code></pre>
 <p>The HTML code inside the IF condition has no restrictions to use any dynamic values from session of those passed into view by controller.</p>

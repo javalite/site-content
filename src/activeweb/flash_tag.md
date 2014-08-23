@@ -69,7 +69,9 @@ HTML based on presence or absence of a flash object:
 
 ~~~~ {.html}
 <#if (flasher.message) ??>
-   <span style="background-color:red"> Information was successfully saved</span>
+   <span style="background-color:red">
+   <@flash name="message"/>
+   </span>
 </#if>
 ~~~~
 
