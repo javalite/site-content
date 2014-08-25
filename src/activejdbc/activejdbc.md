@@ -83,6 +83,7 @@ Here is [JavaDoc for ActiveJDBC](http://javalite.github.io/activejdbc/)
 * [Eclipse Integration](eclipseIntegration)
 * [Intellij Idea Integration ](intellij_idea_integration)
 * [IDE Integrations](ide_integrations)
+* [IN Clause](in_clause)
 * [FAQ](faq)
 </div>
 
