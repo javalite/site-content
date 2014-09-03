@@ -2,9 +2,6 @@ ActiveJDBC - Fast Java ORM| ActiveJDBC
 
 # ActiveJDBC - Fast Java ORM
 
-!TOC!
-
- sed 's/!TOC!/<@partial name="toc"\/>/g' src/activejdbc/activejdbc.md | less
 
 ## Design principles
 
