@@ -2,7 +2,9 @@ ActiveJDBC - Fast Java ORM| ActiveJDBC
 
 # ActiveJDBC - Fast Java ORM
 
-<div id="toc"></div>
+!TOC!
+
+ sed 's/!TOC!/<@partial name="toc"\/>/g' src/activejdbc/activejdbc.md | less
 
 ## Design principles
 
@@ -206,6 +208,9 @@ If you use Maven add this to your pom:
 ~~~~
 
 Do not forget to replace LATEST_VERSION with the latest version deployed to Maven Central (see above)
+
+Current latest version: 1.4.9.
+
 
 Additionally, configure Instrumentation plugin:
 
