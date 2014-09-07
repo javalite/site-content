@@ -189,3 +189,5 @@ then you can add a property like this:
 ~~~~ {.prettyprint}
 -Dactivejdbc.university.schema=myschema
 ~~~~
+
+> The schema specification is used in order to retrive metadata for tables at start time, and not used in generating queries. 
