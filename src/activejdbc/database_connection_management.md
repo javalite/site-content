@@ -1,8 +1,6 @@
-Database connection management| <a href="/activejdbc">ActiveJDBC</a>, Database connection management
-
 # Database connection management
 
-<div id="toc"></div>
+
 
 ActiveJDBC provides two classes for connection management: [Base.java](http://javalite.github.io/activejdbc/org/javalite/activejdbc/Base.html)
 and [DB.java](http://javalite.github.io/activejdbc/org/javalite/activejdbc/DB.html).

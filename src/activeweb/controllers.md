@@ -1,8 +1,6 @@
-ActiveWeb Controllers| <a href="/activeweb">ActiveWeb</a>,ActiveWeb controllers
-
 # ActiveWeb controllers
 
-<div id="toc"></div>
+
 
 
 ## Introduction

@@ -1,7 +1,3 @@
-Application context| <a href="/activeweb">ActiveWeb</a>,Application context
-
-<div id="toc"></div>
-
 # Application Context
 
 

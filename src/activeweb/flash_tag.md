@@ -1,8 +1,6 @@
-Flash tag| <a href="/activeweb">ActiveWeb</a>,Flash tag
-
 # Flash tag
 
-<div id="toc"></div>
+
 
 Flash is a concept which does not exist in standard Java API, but is very useful in web applications. Flash is a snippet
 of HTML whose life cycle is limited by the next HTTP request. In other words, a flash is created during a request, then

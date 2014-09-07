@@ -1,8 +1,6 @@
-Statistics reporting| <a href="/activejdbc">ActiveJDBC</a>,Statistics reporting
-
 # Statistics reporting
 
-<div id="toc"></div>
+
 
 ActiveJDBC can report on times queries are taking to execute. If statistics collection is enabled, then AJ will
 start accumulating times it takes to execute various queries. This information can help identify bottlenecks in

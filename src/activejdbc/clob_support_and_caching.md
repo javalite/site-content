@@ -1,8 +1,7 @@
-Clob support and caching| <a href="/activejdbc">ActiveJDBC</a>,Clob support and caching
 
 # Clob support and caching
 
-<div id="toc"></div>
+
 
 
 While ActiveJDBC supports Clobs, developers should be aware that even though the APIs are easy to use, they could

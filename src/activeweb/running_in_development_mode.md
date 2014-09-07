@@ -1,7 +1,3 @@
-Development mode| <a href="/activeweb">ActiveWeb</a>,Development mode
-
-<div id="toc"></div>
-
 # Development mode
 
 ActiveWeb will recompile and reload routes and controllers on each request in development environment. It makes it possible

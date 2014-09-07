@@ -1,7 +1,4 @@
-ActiveJDBC - Fast Java ORM| ActiveJDBC
-
 # ActiveJDBC - Fast Java ORM
-
 
 ## Design principles
 

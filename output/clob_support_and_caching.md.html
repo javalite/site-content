@@ -1,32 +1,42 @@
-<p>Clob support and caching| <a href="/activejdbc">ActiveJDBC</a>,Clob support and caching</p>
-<h1 id="clob-support-and-caching">Clob support and caching</h1>
-<div id="toc"></div>
+<div class="row">
 
+    <div id="TOC" class="span3 bs-docs-sidebar">
+        <ul>
+        <li><a href="#clob-support-and-caching">Clob support and caching</a><ul>
+        <li><a href="#writing-a-clob">Writing a Clob</a></li>
+        <li><a href="#reading-from-a-clob-directly">Reading from a Clob directly</a></li>
+        <li><a href="#convenient-method-for-reading-from-a-clob">Convenient method for reading from a Clob</a></li>
+        <li><a href="#clobs-in-cached-models">Clobs in cached models</a></li>
+        </ul></li>
+        </ul>
+    </div>
 
-<p>While ActiveJDBC supports Clobs, developers should be aware that even though the APIs are easy to use, they could stumble upon performance problems due to Clob sizes.</p>
-<h2 id="writing-a-clob">Writing a Clob</h2>
-<p>For instance, if you have a table ARTICLES, which has a column CONTENT type of Clob, the writing into this column is not any different than writing into a VARCHAR or any other text field:</p>
-<pre class="sourceCode java"><code class="sourceCode java">Article a = <span class="kw">new</span> <span class="fu">Article</span>():
-a.<span class="fu">set</span>(<span class="st">&quot;content&quot;</span>, articleContent);
-a.<span class="fu">saveIt</span>();</code></pre>
-<p>Here, the string <code>articleContent</code> will be converted to a Clob by underlying JDBC driver. In other words, ActiveJDBC support here is minimal.</p>
-<h2 id="reading-from-a-clob-directly">Reading from a Clob directly</h2>
-<p>ActiveJDBC does not perform an implicit data conversion. This means that the <code>get(&quot;name&quot;)</code> method will return exactly the type that is provided by the driver. Armed with this knowledge, we can write code to fully read information from the Clob:</p>
-<pre class="sourceCode java"><code class="sourceCode java">Article a = Article.<span class="fu">findById</span>(<span class="dv">100</span>);
-Clob c = (Clob)a.<span class="fu">get</span>(<span class="st">&quot;content&quot;</span>);
-<span class="co">///read from Clob...</span></code></pre>
-<h2 id="convenient-method-for-reading-from-a-clob">Convenient method for reading from a Clob</h2>
-<p>Since ActiveJDBC does not do implicit data conversions, it does provide explicit convenient methods for conversion. One such method is <code>getString()</code>:</p>
-<pre class="sourceCode java"><code class="sourceCode java">Article a = Article.<span class="fu">findById</span>(<span class="dv">100</span>);
-String content = a.<span class="fu">getString</span>(<span class="st">&quot;content&quot;</span>);</code></pre>
-<p>In the example above, the Model will detect if this value is type Clob, and will read all content from it completely, converting it into a String.</p>
-<h2 id="clobs-in-cached-models">Clobs in cached models</h2>
-<p>ActiveJDBC provides a mechanism of <a href="caching">Caching</a>. This means that entire resultsets of models filled with data will be cached, and will exist in memory for some time. Clobs themselves would need an original JDBC <code>Connection</code> object to read the data from (that was not closed yet). Unfortunately, there is no guarantee, that the connection is still around if you are accessing a cached list of objects from a Cache Manager after the connection was closed.</p>
-<p>ActiveJDBC then makes a distinction between cached models and the ones that are not cached. In cases of regular models, it does not do anything special because it assumes that the Clobs are read immediately after models are selected and hydrated.</p>
-<p>In cases of Cached models, ActiveJDBC performs an exhaustive read of content from Clobs, and conversion of them into <code>java.lang.String</code>s. This allows to access the content of Clobs from cached models long after the connection was closed.</p>
-<p>Getting strings is the same as in the first case:</p>
-<pre class="sourceCode java"><code class="sourceCode java">String articleContent = a.<span class="fu">getString</span>(<span class="st">&quot;content&quot;</span>);</code></pre>
-<blockquote>
-<p>If your model is cached, and uses Clobs that are large in size, you will (eventually) have huge RAM allocation problems. Try to keep Clob sizes small for cached models, or not cache them at all.</p>
-</blockquote>
-<p>For more information on caching, see <a href="caching">Caching</a>.</p>
+<div class="span9"><h1 id="clob-support-and-caching"><a href="#TOC">Clob support and caching</a></h1>
+                   <p>While ActiveJDBC supports Clobs, developers should be aware that even though the APIs are easy to use, they could stumble upon performance problems due to Clob sizes.</p>
+                   <h2 id="writing-a-clob"><a href="#TOC">Writing a Clob</a></h2>
+                   <p>For instance, if you have a table ARTICLES, which has a column CONTENT type of Clob, the writing into this column is not any different than writing into a VARCHAR or any other text field:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Article a = <span class="kw">new</span> <span class="fu">Article</span>():
+                   a.<span class="fu">set</span>(<span class="st">&quot;content&quot;</span>, articleContent);
+                   a.<span class="fu">saveIt</span>();</code></pre>
+                   <p>Here, the string <code>articleContent</code> will be converted to a Clob by underlying JDBC driver. In other words, ActiveJDBC support here is minimal.</p>
+                   <h2 id="reading-from-a-clob-directly"><a href="#TOC">Reading from a Clob directly</a></h2>
+                   <p>ActiveJDBC does not perform an implicit data conversion. This means that the <code>get(&quot;name&quot;)</code> method will return exactly the type that is provided by the driver. Armed with this knowledge, we can write code to fully read information from the Clob:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Article a = Article.<span class="fu">findById</span>(<span class="dv">100</span>);
+                   Clob c = (Clob)a.<span class="fu">get</span>(<span class="st">&quot;content&quot;</span>);
+                   <span class="co">///read from Clob...</span></code></pre>
+                   <h2 id="convenient-method-for-reading-from-a-clob"><a href="#TOC">Convenient method for reading from a Clob</a></h2>
+                   <p>Since ActiveJDBC does not do implicit data conversions, it does provide explicit convenient methods for conversion. One such method is <code>getString()</code>:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Article a = Article.<span class="fu">findById</span>(<span class="dv">100</span>);
+                   String content = a.<span class="fu">getString</span>(<span class="st">&quot;content&quot;</span>);</code></pre>
+                   <p>In the example above, the Model will detect if this value is type Clob, and will read all content from it completely, converting it into a String.</p>
+                   <h2 id="clobs-in-cached-models"><a href="#TOC">Clobs in cached models</a></h2>
+                   <p>ActiveJDBC provides a mechanism of <a href="caching">Caching</a>. This means that entire resultsets of models filled with data will be cached, and will exist in memory for some time. Clobs themselves would need an original JDBC <code>Connection</code> object to read the data from (that was not closed yet). Unfortunately, there is no guarantee, that the connection is still around if you are accessing a cached list of objects from a Cache Manager after the connection was closed.</p>
+                   <p>ActiveJDBC then makes a distinction between cached models and the ones that are not cached. In cases of regular models, it does not do anything special because it assumes that the Clobs are read immediately after models are selected and hydrated.</p>
+                   <p>In cases of Cached models, ActiveJDBC performs an exhaustive read of content from Clobs, and conversion of them into <code>java.lang.String</code>s. This allows to access the content of Clobs from cached models long after the connection was closed.</p>
+                   <p>Getting strings is the same as in the first case:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">String articleContent = a.<span class="fu">getString</span>(<span class="st">&quot;content&quot;</span>);</code></pre>
+                   <blockquote>
+                   <p>If your model is cached, and uses Clobs that are large in size, you will (eventually) have huge RAM allocation problems. Try to keep Clob sizes small for cached models, or not cache them at all.</p>
+                   </blockquote>
+                   <p>For more information on caching, see <a href="caching">Caching</a>.</p></div></div>
+

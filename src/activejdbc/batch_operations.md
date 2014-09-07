@@ -1,8 +1,7 @@
-Batch operations | <a href="/activejdbc">ActiveJDBC</a>,Batch operations
 
 # Batch operations
 
-<div id="toc"></div>
+
 
 In some cases, you will need to make changes or delete to all or some records in a tables. ActiveJDBC provides a couple of convenience methods for this.
 

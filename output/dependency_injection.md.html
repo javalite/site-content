@@ -1,112 +1,123 @@
-<p>Dependency injection | <a href="/activeweb">ActiveWeb</a>,Dependency injection</p>
-<h1 id="dependency-injection">Dependency injection</h1>
-<div id="toc"></div>
+<div class="row">
 
-<p>Dependency injection is an integral part of a typical Java application. ActiveWeb supports seamless integration with <a href="http://code.google.com/p/google-guice/">Google Guice</a>.</p>
-<p>At the heart of a Google Guice DI, there is a concept of a module.</p>
-<h2 id="creation-of-a-guice-module">Creation of a Guice module</h2>
-<p>Lets say we have a simple interface Greeter:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">interface</span> Greeter {
-    String <span class="fu">greet</span>();
-}</code></pre>
-<p>and implementation of this interface:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreeterImpl <span class="kw">implements</span> Greeter{    
-    <span class="kw">public</span> String <span class="fu">greet</span>() {
-        <span class="kw">return</span> <span class="st">&quot;Hello from real greeter&quot;</span>;        
-    }
-}</code></pre>
-<p>We can then create a new Guice module:</p>
-<pre class="prettyprint"><code>public class GreeterModule extends AbstractModule {
-    protected void configure() {
-        bind(Greeter.class).to(GreeterImpl.class).asEagerSingleton();
-    }
-}</code></pre>
-<p>In this module, we are binding a <code>GreeterImpl</code> to <code>Greater</code> interface as a singleton. You can call <code>bind()</code> method many times, setting up your object graph.</p>
-<h2 id="injection-of-module-into-the-application">Injection of module into the application</h2>
-<p>The injection of a Guice module is executed as one line of code inside <code>AppBootstrap</code> class, like so:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> AppBootstrap <span class="kw">extends</span> Bootstrap {
-    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext context) {       
-        <span class="fu">setInjector</span>(Guice.<span class="fu">createInjector</span>(<span class="kw">new</span> <span class="fu">GreeterModule</span>()));
-    }
-}</code></pre>
-<p>The <code>Guice.createInjector(..)</code> takes a varargs, meaning you can inject multiple modules at once.</p>
-<h2 id="consumption-of-injected-dependencies">Consumption of injected dependencies</h2>
-<p>Whenever you need a service inside a controller, you will use an <code>@Inject</code> annotation provided by Google Guice:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloController <span class="kw">extends</span> AppController {
- @Inject
- <span class="kw">private</span> Greeter greeter;
- <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-     <span class="fu">view</span>(<span class="st">&quot;message&quot;</span>, greeter.<span class="fu">greet</span>());
- }
-}</code></pre></td></tr></table>
-<p>The <code>greeter</code> (line 3) method is set by the framework and injected an instance of a <code>GreeterImpl</code> into the <code>HelloController</code> controller just before it executes an action. Once the controller has a reference to the service, it can consume it (line 5).</p>
-<p>Where can you inject dependencies this way? There are three general application components that are injected dependencies:</p>
-<ul>
-<li><strong>Controllers</strong></li>
-<li><strong>Controller Filters</strong></li>
-<li><strong>Custom Tags</strong></li>
-</ul>
-<p>The technique is exactly the same, just add @Inject annotation that requires a service from a Guice module, and you can use it in code inside the component</p>
-<h2 id="mocking-and-testing">Mocking and testing</h2>
-<p>In testing, it is typical to replace real implementation of services with mocks. For explanation of mocks and stubs, follow this link <a href="http://martinfowler.com/articles/mocksArentStubs.html">http://martinfowler.com/articles/mocksArentStubs.html</a>.</p>
-<p>Why would someone want to use a mock instead of a real implementation? Here are some reasons:</p>
-<ul>
-<li>Real implementation submits a sensitive transaction (you do not want that during a build!)</li>
-<li>Real implementation requires a network connection to external resource</li>
-<li>Real implementation is really... slow.</li>
-<li>Real implementation does not always cover all conditions in your code at a given time</li>
-<li>many others</li>
-</ul>
-<blockquote>
-<p>when you use a real implementation of a service in tests, your test is not only testing your code, but also the implementation of a service, mushing everything together.</p>
-</blockquote>
-<p>Now, lets create an mock service (this can also be created using any other mocking libraries, such as <a href="https://code.google.com/p/mockito/">Mockito</a>):</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreeterMock <span class="kw">implements</span> Greeter{
-    <span class="kw">public</span> String <span class="fu">greet</span>() {
-        <span class="kw">return</span> <span class="st">&quot;Hello from &quot;</span> + <span class="kw">this</span>.<span class="fu">getClass</span>().<span class="fu">toString</span>();  
-    }
-}</code></pre>
-<p>and a new mock module we will use in tests:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreeterMockModule <span class="kw">extends</span> AbstractModule {
-    @Override
-    <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">configure</span>() {
-        <span class="fu">bind</span>(Greeter.<span class="fu">class</span>).<span class="fu">to</span>(GreeterMock.<span class="fu">class</span>).<span class="fu">asEagerSingleton</span>();
-    }
-}</code></pre>
-<p>Once we have this done, we can inject the mock module during the test of a controller:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"> <span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-     @Before
-     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">before</span>(){
-         <span class="fu">setInjector</span>(Guice.<span class="fu">createInjector</span>(<span class="kw">new</span> <span class="fu">GreeterMockModule</span>()));
-     }
-     @Test
-     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldInjectMockService</span>(){
-         <span class="fu">request</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
-         <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello from class app.services.GreeterMock&quot;</span>);
-     }
- }</code></pre></td></tr></table>
-<p>Lets examine this test line by line:</p>
-<ul>
-<li>Line 4 - this is where we tell the test scaffolding which module to use, and we chose a mock module</li>
-<li>Line 8 - we construct a GET request for HelloController, action &quot;index&quot; and execute the controller.</li>
-<li>Line 10 - we inspect that the controller did in fact send <code>message</code> to a view, but the value of this message will be generated by the mock service.</li>
-</ul>
-<p>Please, refer to <a href="https://github.com/javalite/kitchensink">Kitchensink</a> for a working example of DI in ActiveWeb.</p>
+    <div id="TOC" class="span3 bs-docs-sidebar">
+        <ul>
+        <li><a href="#dependency-injection">Dependency injection</a><ul>
+        <li><a href="#creation-of-a-guice-module">Creation of a Guice module</a></li>
+        <li><a href="#injection-of-module-into-the-application">Injection of module into the application</a></li>
+        <li><a href="#consumption-of-injected-dependencies">Consumption of injected dependencies</a></li>
+        <li><a href="#mocking-and-testing">Mocking and testing</a></li>
+        </ul></li>
+        </ul>
+    </div>
+
+<div class="span9"><h1 id="dependency-injection"><a href="#TOC">Dependency injection</a></h1>
+                   <p>Dependency injection is an integral part of a typical Java application. ActiveWeb supports seamless integration with <a href="http://code.google.com/p/google-guice/">Google Guice</a>.</p>
+                   <p>At the heart of a Google Guice DI, there is a concept of a module.</p>
+                   <h2 id="creation-of-a-guice-module"><a href="#TOC">Creation of a Guice module</a></h2>
+                   <p>Lets say we have a simple interface Greeter:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">interface</span> Greeter {
+                       String <span class="fu">greet</span>();
+                   }</code></pre>
+                   <p>and implementation of this interface:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreeterImpl <span class="kw">implements</span> Greeter{    
+                       <span class="kw">public</span> String <span class="fu">greet</span>() {
+                           <span class="kw">return</span> <span class="st">&quot;Hello from real greeter&quot;</span>;        
+                       }
+                   }</code></pre>
+                   <p>We can then create a new Guice module:</p>
+                   <pre class="prettyprint"><code>public class GreeterModule extends AbstractModule {
+                       protected void configure() {
+                           bind(Greeter.class).to(GreeterImpl.class).asEagerSingleton();
+                       }
+                   }</code></pre>
+                   <p>In this module, we are binding a <code>GreeterImpl</code> to <code>Greater</code> interface as a singleton. You can call <code>bind()</code> method many times, setting up your object graph.</p>
+                   <h2 id="injection-of-module-into-the-application"><a href="#TOC">Injection of module into the application</a></h2>
+                   <p>The injection of a Guice module is executed as one line of code inside <code>AppBootstrap</code> class, like so:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> AppBootstrap <span class="kw">extends</span> Bootstrap {
+                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext context) {       
+                           <span class="fu">setInjector</span>(Guice.<span class="fu">createInjector</span>(<span class="kw">new</span> <span class="fu">GreeterModule</span>()));
+                       }
+                   }</code></pre>
+                   <p>The <code>Guice.createInjector(..)</code> takes a varargs, meaning you can inject multiple modules at once.</p>
+                   <h2 id="consumption-of-injected-dependencies"><a href="#TOC">Consumption of injected dependencies</a></h2>
+                   <p>Whenever you need a service inside a controller, you will use an <code>@Inject</code> annotation provided by Google Guice:</p>
+                   <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+                   2
+                   3
+                   4
+                   5
+                   6
+                   7
+                   </pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloController <span class="kw">extends</span> AppController {
+                    @Inject
+                    <span class="kw">private</span> Greeter greeter;
+                    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                        <span class="fu">view</span>(<span class="st">&quot;message&quot;</span>, greeter.<span class="fu">greet</span>());
+                    }
+                   }</code></pre></td></tr></table>
+                   <p>The <code>greeter</code> (line 3) method is set by the framework and injected an instance of a <code>GreeterImpl</code> into the <code>HelloController</code> controller just before it executes an action. Once the controller has a reference to the service, it can consume it (line 5).</p>
+                   <p>Where can you inject dependencies this way? There are three general application components that are injected dependencies:</p>
+                   <ul>
+                   <li><strong>Controllers</strong></li>
+                   <li><strong>Controller Filters</strong></li>
+                   <li><strong>Custom Tags</strong></li>
+                   </ul>
+                   <p>The technique is exactly the same, just add @Inject annotation that requires a service from a Guice module, and you can use it in code inside the component</p>
+                   <h2 id="mocking-and-testing"><a href="#TOC">Mocking and testing</a></h2>
+                   <p>In testing, it is typical to replace real implementation of services with mocks. For explanation of mocks and stubs, follow this link <a href="http://martinfowler.com/articles/mocksArentStubs.html">http://martinfowler.com/articles/mocksArentStubs.html</a>.</p>
+                   <p>Why would someone want to use a mock instead of a real implementation? Here are some reasons:</p>
+                   <ul>
+                   <li>Real implementation submits a sensitive transaction (you do not want that during a build!)</li>
+                   <li>Real implementation requires a network connection to external resource</li>
+                   <li>Real implementation is really... slow.</li>
+                   <li>Real implementation does not always cover all conditions in your code at a given time</li>
+                   <li>many others</li>
+                   </ul>
+                   <blockquote>
+                   <p>when you use a real implementation of a service in tests, your test is not only testing your code, but also the implementation of a service, mushing everything together.</p>
+                   </blockquote>
+                   <p>Now, lets create an mock service (this can also be created using any other mocking libraries, such as <a href="https://code.google.com/p/mockito/">Mockito</a>):</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreeterMock <span class="kw">implements</span> Greeter{
+                       <span class="kw">public</span> String <span class="fu">greet</span>() {
+                           <span class="kw">return</span> <span class="st">&quot;Hello from &quot;</span> + <span class="kw">this</span>.<span class="fu">getClass</span>().<span class="fu">toString</span>();  
+                       }
+                   }</code></pre>
+                   <p>and a new mock module we will use in tests:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreeterMockModule <span class="kw">extends</span> AbstractModule {
+                       @Override
+                       <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">configure</span>() {
+                           <span class="fu">bind</span>(Greeter.<span class="fu">class</span>).<span class="fu">to</span>(GreeterMock.<span class="fu">class</span>).<span class="fu">asEagerSingleton</span>();
+                       }
+                   }</code></pre>
+                   <p>Once we have this done, we can inject the mock module during the test of a controller:</p>
+                   <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+                   2
+                   3
+                   4
+                   5
+                   6
+                   7
+                   8
+                   9
+                   10
+                   11
+                   </pre></td><td class="sourceCode"><pre><code class="sourceCode java"> <span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
+                        @Before
+                        <span class="kw">public</span> <span class="dt">void</span> <span class="fu">before</span>(){
+                            <span class="fu">setInjector</span>(Guice.<span class="fu">createInjector</span>(<span class="kw">new</span> <span class="fu">GreeterMockModule</span>()));
+                        }
+                        @Test
+                        <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldInjectMockService</span>(){
+                            <span class="fu">request</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
+                            <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello from class app.services.GreeterMock&quot;</span>);
+                        }
+                    }</code></pre></td></tr></table>
+                   <p>Lets examine this test line by line:</p>
+                   <ul>
+                   <li>Line 4 - this is where we tell the test scaffolding which module to use, and we chose a mock module</li>
+                   <li>Line 8 - we construct a GET request for HelloController, action &quot;index&quot; and execute the controller.</li>
+                   <li>Line 10 - we inspect that the controller did in fact send <code>message</code> to a view, but the value of this message will be generated by the mock service.</li>
+                   </ul>
+                   <p>Please, refer to <a href="https://github.com/javalite/kitchensink">Kitchensink</a> for a working example of DI in ActiveWeb.</p></div></div>
+

@@ -1,8 +1,6 @@
-ActiveWeb database configuration| <a href="/activeweb">ActiveWeb</a>,Database configuration
-
 # ActiveWeb database configuration
 
-<div id="toc"></div>
+
 
 ActiveWeb *does not use* property files, XML, Yaml or any other text files for configuration. Configuration
 is done in Java code. There are a few advantages of this approach: auto-suggestions by IDE, documentation at

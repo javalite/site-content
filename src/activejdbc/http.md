@@ -1,6 +1,5 @@
-JavaLite HTTP| <a href="/activejdbc">ActiveJDBC</a>,JavaLite HTTP
 
-<div id="toc"></div>
+
 
 # JavaLite HTTP
 

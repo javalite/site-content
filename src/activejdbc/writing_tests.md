@@ -2,7 +2,7 @@ ActiveJDBC - Writing tests| <a href="/activejdbc">ActiveJDBC</a>, Writing tests
 
 # Writing tests
 
-<div id="toc"></div>
+
 
 While you can use any Java technology to do this, JavaLite provides a combination of [JUnit](http://junit.org/) and
 [JSpec](jspec). Test methods are written in a style where a name of a method is a phrase reflecting the

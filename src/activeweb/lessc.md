@@ -1,7 +1,3 @@
-Less compiler| <a href="/activeweb">ActiveWeb</a>,Less compiler
-
-<div id="toc"></div>
-
 # Less compiler
 
 [Less compiler](http://lesscss.org/) is a better way to write CSS. ActiveWeb provides a built-in mechanism to generate

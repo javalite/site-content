@@ -1,4 +1,3 @@
-IDE Integrations| <a href="/activejdbc">ActiveJDBC</a>, IDE Integrations
 
 # IDE Integrations
 

@@ -1,8 +1,6 @@
-JSpec| <a href="/activejdbc">ActiveJDBC</a>,JSpec
-
 # JSpec
 
-<div id="toc"></div>
+
 
 
 This page describes functionality and usage of a small testing library called JSpec. JSpec was originated from ActiveJDBC

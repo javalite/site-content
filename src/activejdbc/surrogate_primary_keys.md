@@ -1,8 +1,6 @@
-Surrogate primary keys | <a href="/activejdbc">ActiveJDBC</a>,Surrogate primary keys
-
 # Surrogate primary keys
 
-<div id="toc"></div>
+
 
 ActiveJDBC, relies on the surrogate primary keys. Description is
 found here:[http://en.wikipedia.org/wiki/Surrogate\_key](http://en.wikipedia.org/wiki/Surrogate_key).

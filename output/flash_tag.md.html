@@ -1,57 +1,66 @@
-<p>Flash tag| <a href="/activeweb">ActiveWeb</a>,Flash tag</p>
-<h1 id="flash-tag">Flash tag</h1>
-<div id="toc"></div>
+<div class="row">
 
-<p>Flash is a concept which does not exist in standard Java API, but is very useful in web applications. Flash is a snippet of HTML whose life cycle is limited by the next HTTP request. In other words, a flash is created during a request, then it can be used in a subsequent request (of the same session), after which it dies.</p>
-<p>Flash messages are useful in cases when a POST/Redirect to GET pattern is used.</p>
-<h2 id="working-with-flash-message">Working with flash message</h2>
-<p>Flash messages are created in controllers (or filters) like so:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java">@POST
-<span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(){
-    Book book = <span class="kw">new</span> Book();
-    book.<span class="fu">fromMap</span>(<span class="fu">params1st</span>());
-    <span class="kw">if</span>(!book.<span class="fu">save</span>()){
-        <span class="fu">flash</span>(<span class="st">&quot;message&quot;</span>, <span class="st">&quot;Something went wrong, please  fill out all fields&quot;</span>);
-        <span class="fu">flash</span>(<span class="st">&quot;errors&quot;</span>, book.<span class="fu">errors</span>());
-        <span class="fu">flash</span>(<span class="st">&quot;params&quot;</span>, <span class="fu">params1st</span>());
-        <span class="fu">redirect</span>(BooksController.<span class="fu">class</span>, <span class="st">&quot;new_form&quot;</span>);
-    }<span class="kw">else</span>{
-        <span class="fu">flash</span>(<span class="st">&quot;message&quot;</span>, <span class="st">&quot;New book was added: &quot;</span> + book.<span class="fu">get</span>(<span class="st">&quot;title&quot;</span>));
-        <span class="fu">redirect</span>(BooksController.<span class="fu">class</span>);
-    }
-}</code></pre></td></tr></table>
-<p>In a code of controller above, a new book is submitted in a POST request.</p>
-<ul>
-<li><p>Line 5 is making attempt to save the book information to DB.</p></li>
-<li><p>Lines 6, 7, 8 - in case of failure, three instances of flash are created: &quot;message&quot;, &quot;errors&quot; and &quot;params&quot;, where &quot;message&quot; is a generic message displayed at the top of page, &quot;params&quot; is a map with submitted values (it is used to re-populate input fields) and the &quot;error&quot; is a map with error messages</p></li>
-<li><p>Line 11 - In case of success request is redirected to BooksController index method and the flash message is sent to view. The file <code>/views/books/index.ftl</code> would have a flash message displayed with &quot;flash&quot; tag:</p></li>
-</ul>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@flash name=&quot;message&quot;/&gt;</code></pre>
-<blockquote>
-<p>For a complete example of using FlashTag, please refer to <a href="https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/controllers/BooksController.java#L45">BooksController#save()</a> and corresponding views. Also, please see <a href="validations">ActiveJDBC Validation</a></p>
-</blockquote>
-<p>The Flash tag automatically detects if a flash message exists and displays it. If a message is missing, nothing is rendered.</p>
-<p>Since the user was redirected to the BooksController with an HTTP GET method, the page can simply be reloaded if a user presses &quot;Reload&quot; button on browser. However, if a user actually reloads the page, the flash message will disappear, because it cannot survive across more than one request.</p>
-<p>In general, POST/Redirect to GET is a good programming pattern to use in case you need &quot;destructive&quot; operations. Leaving a user on a POSTed page is a bad idea, because the same request can be re-submitted if user presses Reload.</p>
-<h2 id="rendering-dynamic-snippets-of-html">Rendering dynamic snippets of HTML</h2>
-<p>In the example above, a flash message is a simple string. However, it is possible to have it render entire chunks of HTML based on presence or absence of a flash object:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>#if (flasher.message) ??&gt;
-   <span class="kw">&lt;span</span><span class="ot"> style=</span><span class="st">&quot;background-color:red&quot;</span><span class="kw">&gt;</span>
-   <span class="er">&lt;</span>@flash name=&quot;message&quot;/&gt;
-   <span class="kw">&lt;/span&gt;</span>
-<span class="er">&lt;</span>/#if&gt;</code></pre>
-<p>The HTML code inside the IF condition has no restrictions to use any dynamic values from session of those passed into view by controller.</p>
+    <div id="TOC" class="span3 bs-docs-sidebar">
+        <ul>
+        <li><a href="#flash-tag">Flash tag</a><ul>
+        <li><a href="#working-with-flash-message">Working with flash message</a></li>
+        <li><a href="#rendering-dynamic-snippets-of-html">Rendering dynamic snippets of HTML</a></li>
+        </ul></li>
+        </ul>
+    </div>
+
+<div class="span9"><h1 id="flash-tag"><a href="#TOC">Flash tag</a></h1>
+                   <p>Flash is a concept which does not exist in standard Java API, but is very useful in web applications. Flash is a snippet of HTML whose life cycle is limited by the next HTTP request. In other words, a flash is created during a request, then it can be used in a subsequent request (of the same session), after which it dies.</p>
+                   <p>Flash messages are useful in cases when a POST/Redirect to GET pattern is used.</p>
+                   <h2 id="working-with-flash-message"><a href="#TOC">Working with flash message</a></h2>
+                   <p>Flash messages are created in controllers (or filters) like so:</p>
+                   <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+                   2
+                   3
+                   4
+                   5
+                   6
+                   7
+                   8
+                   9
+                   10
+                   11
+                   12
+                   13
+                   14
+                   </pre></td><td class="sourceCode"><pre><code class="sourceCode java">@POST
+                   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(){
+                       Book book = <span class="kw">new</span> Book();
+                       book.<span class="fu">fromMap</span>(<span class="fu">params1st</span>());
+                       <span class="kw">if</span>(!book.<span class="fu">save</span>()){
+                           <span class="fu">flash</span>(<span class="st">&quot;message&quot;</span>, <span class="st">&quot;Something went wrong, please  fill out all fields&quot;</span>);
+                           <span class="fu">flash</span>(<span class="st">&quot;errors&quot;</span>, book.<span class="fu">errors</span>());
+                           <span class="fu">flash</span>(<span class="st">&quot;params&quot;</span>, <span class="fu">params1st</span>());
+                           <span class="fu">redirect</span>(BooksController.<span class="fu">class</span>, <span class="st">&quot;new_form&quot;</span>);
+                       }<span class="kw">else</span>{
+                           <span class="fu">flash</span>(<span class="st">&quot;message&quot;</span>, <span class="st">&quot;New book was added: &quot;</span> + book.<span class="fu">get</span>(<span class="st">&quot;title&quot;</span>));
+                           <span class="fu">redirect</span>(BooksController.<span class="fu">class</span>);
+                       }
+                   }</code></pre></td></tr></table>
+                   <p>In a code of controller above, a new book is submitted in a POST request.</p>
+                   <ul>
+                   <li><p>Line 5 is making attempt to save the book information to DB.</p></li>
+                   <li><p>Lines 6, 7, 8 - in case of failure, three instances of flash are created: &quot;message&quot;, &quot;errors&quot; and &quot;params&quot;, where &quot;message&quot; is a generic message displayed at the top of page, &quot;params&quot; is a map with submitted values (it is used to re-populate input fields) and the &quot;error&quot; is a map with error messages</p></li>
+                   <li><p>Line 11 - In case of success request is redirected to BooksController index method and the flash message is sent to view. The file <code>/views/books/index.ftl</code> would have a flash message displayed with &quot;flash&quot; tag:</p></li>
+                   </ul>
+                   <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@flash name=&quot;message&quot;/&gt;</code></pre>
+                   <blockquote>
+                   <p>For a complete example of using FlashTag, please refer to <a href="https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/controllers/BooksController.java#L45">BooksController#save()</a> and corresponding views. Also, please see <a href="validations">ActiveJDBC Validation</a></p>
+                   </blockquote>
+                   <p>The Flash tag automatically detects if a flash message exists and displays it. If a message is missing, nothing is rendered.</p>
+                   <p>Since the user was redirected to the BooksController with an HTTP GET method, the page can simply be reloaded if a user presses &quot;Reload&quot; button on browser. However, if a user actually reloads the page, the flash message will disappear, because it cannot survive across more than one request.</p>
+                   <p>In general, POST/Redirect to GET is a good programming pattern to use in case you need &quot;destructive&quot; operations. Leaving a user on a POSTed page is a bad idea, because the same request can be re-submitted if user presses Reload.</p>
+                   <h2 id="rendering-dynamic-snippets-of-html"><a href="#TOC">Rendering dynamic snippets of HTML</a></h2>
+                   <p>In the example above, a flash message is a simple string. However, it is possible to have it render entire chunks of HTML based on presence or absence of a flash object:</p>
+                   <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>#if (flasher.message) ??&gt;
+                      <span class="kw">&lt;span</span><span class="ot"> style=</span><span class="st">&quot;background-color:red&quot;</span><span class="kw">&gt;</span>
+                      <span class="er">&lt;</span>@flash name=&quot;message&quot;/&gt;
+                      <span class="kw">&lt;/span&gt;</span>
+                   <span class="er">&lt;</span>/#if&gt;</code></pre>
+                   <p>The HTML code inside the IF condition has no restrictions to use any dynamic values from session of those passed into view by controller.</p></div></div>
+

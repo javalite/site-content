@@ -1,8 +1,6 @@
-Many-to-many associations | <a href="/activejdbc">ActiveJDBC</a>,Many-to-many associations
-
 # Many-to-many associations
 
-<div id="toc"></div>
+
 
 Often times the database-driven applications require many to many relationships. These are the kind where an entity can
 have many other entities and also belong to the same type of entities. Examples in real life are: doctor treats

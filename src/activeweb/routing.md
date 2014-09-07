@@ -1,7 +1,3 @@
-Request routing| <a href="/activeweb">ActiveWeb</a>,Request routing
-
-<div id="toc"></div>
-
 # Request routing
 
 Routing in ActiveWeb is an act of matching an incoming request URL to a controller and action. Current implementation

@@ -1,8 +1,6 @@
-Model inheritance| <a href="/activejdbc">ActiveJDBC</a>, Model inheritance
-
 # Model inheritance
 
-<div id="toc"></div>
+
 
 
 > Currently ActiveJDBC does not support a feature called [Single Table Inheritance](http://en.wikipedia.org/wiki/Single_Table_Inheritance).

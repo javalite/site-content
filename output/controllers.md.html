@@ -1,348 +1,387 @@
-<p>ActiveWeb Controllers| <a href="/activeweb">ActiveWeb</a>,ActiveWeb controllers</p>
-<h1 id="activeweb-controllers">ActiveWeb controllers</h1>
-<div id="toc"></div>
+<div class="row">
 
+    <div id="TOC" class="span3 bs-docs-sidebar">
+        <ul>
+        <li><a href="#activeweb-controllers">ActiveWeb controllers</a><ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#controller-actions">Controller actions</a></li>
+        <li><a href="#controllers-and-http-methods">Controllers and HTTP methods</a></li>
+        <li><a href="#restful-controllers">RESTful controllers</a></li>
+        <li><a href="#location-of-controllers-in-project">Location of controllers in project</a></li>
+        <li><a href="#controller-paths">Controller paths</a></li>
+        <li><a href="#v-in-mvc">V in MVC</a></li>
+        <li><a href="#mapping-to-views">Mapping to views</a><ul>
+        <li><a href="#default-mapping-to-views">Default mapping to views</a></li>
+        <li><a href="#override-mapping-to-relative-views">Override mapping to relative views</a></li>
+        <li><a href="#override-mapping-to-absolute-views">Override mapping to absolute views</a></li>
+        <li><a href="#passing-data-to-views">Passing data to views</a></li>
+        </ul></li>
+        <li><a href="#getting-request-parameters">Getting request parameters</a><ul>
+        <li><a href="#getting-a-single-parameter">getting a single parameter</a></li>
+        <li><a href="#getting-all-parameters">getting all parameters</a></li>
+        <li><a href="#getting-all-values-for-a-single-parameter">getting all values for a single parameter</a></li>
+        <li><a href="#getting-a-first-value-from-each-submitted-parameter">getting a first value from each submitted parameter</a></li>
+        </ul></li>
+        <li><a href="#ajax-apis">Ajax APIs</a><ul>
+        <li><a href="#detecting-if-a-request-is-ajax">detecting if a request is Ajax</a></li>
+        <li><a href="#responding-to-ajax-call-directly">Responding to Ajax call directly</a></li>
+        <li><a href="#responding-to-ajax-call-with-a-view">Responding to Ajax call with a view</a></li>
+        </ul></li>
+        <li><a href="#downloading-of-files">Downloading of files</a></li>
+        <li><a href="#uploading-files">Uploading files</a></li>
+        <li><a href="#session-management">Session management</a></li>
+        <li><a href="#cookies-management">Cookies management</a><ul>
+        <li><a href="#sending-cookies-to-a-client">Sending cookies to a client</a></li>
+        <li><a href="#getting-cookies-from-request">Getting cookies from request</a></li>
+        </ul></li>
+        <li><a href="#logging">Logging</a></li>
+        <li><a href="#threading-issues">Threading issues</a></li>
+        </ul></li>
+        </ul>
+    </div>
 
-<h2 id="introduction">Introduction</h2>
-<p>Controllers are at the heart of an ActiveWeb application. These are classes which designed to process an HTTP request. Controllers are somewhat similar to Java Servlets, but even more similar to Ruby on Rails, Grails all SpringMVC controllers. A simplest controller looks like this:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){}
-}</code></pre>
-<p>A controller above is a working controller, even though it does not have any code in it. Such a controller is automatically mapped to a URL:</p>
-<pre class="prettyprint"><code>http://host:port/context/greeting</code></pre>
-<h2 id="controller-actions">Controller actions</h2>
-<p>A controller action is a method that is designed to process an HTTP request. For example, in the example above, the URL will be mapped to the action <code>index</code> by default. However, if the URL looked like this:</p>
-<pre class="prettyprint"><code>http://host:port/context/greeting/hello</code></pre>
-<p>then it would map to action <code>hello</code>:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">hello</span>(){}
-}</code></pre>
-<p>For more on mapping of URLs to controllers and actions please see <a href="routing">Routing</a>.</p>
-<h2 id="controllers-and-http-methods">Controllers and HTTP methods</h2>
-<p>The HTTP specification defines methods: GET, POST, DELETE, PUT, CONNECT and HEAD. Currently ActiveWeb supports GET, POST, DELETE, PUT and HEAD as the most used methods.</p>
-<p>An HTTP request is not only mapped to an action, but also its HTTP method must correspond to an action's HTTP method. Action HTTP methods are configured with annotations, <code>@GET</code>, <code>@POST</code>, <code>@PUT</code>, <code>@DELETE</code> and <code>@HEAD</code>.</p>
-<blockquote>
-<p>If annotation not provided, the action is mapped to HTTP GET method by default</p>
-</blockquote>
-<p>It makes it unnecessary to use annotations except cases when you need so-called &quot;destructive&quot; action. A destructive action is the one that is designed to change a state of a resource (in REST style of web programming).</p>
-<p>Here is an example of a destructive action is:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> BooksController <span class="kw">extends</span> AppController{
+<div class="span9"><h1 id="activeweb-controllers"><a href="#TOC">ActiveWeb controllers</a></h1>
+                   <h2 id="introduction"><a href="#TOC">Introduction</a></h2>
+                   <p>Controllers are at the heart of an ActiveWeb application. These are classes which designed to process an HTTP request. Controllers are somewhat similar to Java Servlets, but even more similar to Ruby on Rails, Grails all SpringMVC controllers. A simplest controller looks like this:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){}
+                   }</code></pre>
+                   <p>A controller above is a working controller, even though it does not have any code in it. Such a controller is automatically mapped to a URL:</p>
+                   <pre class="prettyprint"><code>http://host:port/context/greeting</code></pre>
+                   <h2 id="controller-actions"><a href="#TOC">Controller actions</a></h2>
+                   <p>A controller action is a method that is designed to process an HTTP request. For example, in the example above, the URL will be mapped to the action <code>index</code> by default. However, if the URL looked like this:</p>
+                   <pre class="prettyprint"><code>http://host:port/context/greeting/hello</code></pre>
+                   <p>then it would map to action <code>hello</code>:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">hello</span>(){}
+                   }</code></pre>
+                   <p>For more on mapping of URLs to controllers and actions please see <a href="routing">Routing</a>.</p>
+                   <h2 id="controllers-and-http-methods"><a href="#TOC">Controllers and HTTP methods</a></h2>
+                   <p>The HTTP specification defines methods: GET, POST, DELETE, PUT, CONNECT and HEAD. Currently ActiveWeb supports GET, POST, DELETE, PUT and HEAD as the most used methods.</p>
+                   <p>An HTTP request is not only mapped to an action, but also its HTTP method must correspond to an action's HTTP method. Action HTTP methods are configured with annotations, <code>@GET</code>, <code>@POST</code>, <code>@PUT</code>, <code>@DELETE</code> and <code>@HEAD</code>.</p>
+                   <blockquote>
+                   <p>If annotation not provided, the action is mapped to HTTP GET method by default</p>
+                   </blockquote>
+                   <p>It makes it unnecessary to use annotations except cases when you need so-called &quot;destructive&quot; action. A destructive action is the one that is designed to change a state of a resource (in REST style of web programming).</p>
+                   <p>Here is an example of a destructive action is:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> BooksController <span class="kw">extends</span> AppController{
+                   
+                      @PUT
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">updateBook</span>(){}
+                   }</code></pre>
+                   <p>ActiveWeb promotes REST-style web programming and will not allow to access an action that is configured for one HTTP method with another. For instance, if you try to access the <code>GreetingController#index</code> with HTTP method POST, you would get an exception:</p>
+                   <pre class="prettyprint"><code>activeweb.ControllerException: Cannot access action 
+                   app.controllers.GreetingController.index with HTTP method: &#39;POST&#39; because it is 
+                   configured for method: &#39;GET&#39;</code></pre>
+                   <h2 id="restful-controllers"><a href="#TOC">RESTful controllers</a></h2>
+                   <p>A restful controller is almost the same as a regular controller. The difference is that in a standard controller you can define any number of actions and configure them with annotations to accept any HTTP methods. RESTful controllers by contrast have a set of actions and these actions will accept certain HTTP methods. In order to create a RESTful controller, you need to do two things:</p>
+                   <ol style="list-style-type: decimal">
+                   <li>Add <code>@RESTful</code> annotation to the controller class</li>
+                   <li>Provide a fixed set of action methods in the body of controller</li>
+                   </ol>
+                   <p>Here is an example of a RESTful controller taken from Kitchensink application:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">@RESTful
+                   <span class="kw">public</span> <span class="kw">class</span> RpostsController <span class="kw">extends</span> AppController {
+                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){...}
+                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">newForm</span>(){...}
+                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(){...}
+                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">show</span>(){...}
+                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">destroy</span>(){...}</code></pre>
+                   <p>See the <a href="https://github.com/javalite/kitchensink">Kitchensink</a> code, as well as more on restful controllers in the <a href="routing">Routing</a> page.</p>
+                   <p>A RESTful controller is allowed to have 7 methods, and they all are automatically mapped to the following URSs and HTTP methods:</p>
+                   <table>
+                   <col width="11%" />
+                   <col width="24%" />
+                   <col width="18%" />
+                   <col width="47%" />
+                   <thead>
+                   <tr class="header">
+                   <th align="left">verb |</th>
+                   <th align="left">path</th>
+                   <th align="left">action</th>
+                   <th align="left">used for</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <tr class="odd">
+                   <td align="left">GET |</td>
+                   <td align="left">/books</td>
+                   <td align="left">index</td>
+                   <td align="left">display a list of all books</td>
+                   </tr>
+                   <tr class="even">
+                   <td align="left">GET |</td>
+                   <td align="left">/books/new_form</td>
+                   <td align="left">new_form</td>
+                   <td align="left">return an HTML form for creating a new book</td>
+                   </tr>
+                   <tr class="odd">
+                   <td align="left">POST |</td>
+                   <td align="left">/books</td>
+                   <td align="left">create</td>
+                   <td align="left">create a new book</td>
+                   </tr>
+                   <tr class="even">
+                   <td align="left">GET |</td>
+                   <td align="left">/books/id</td>
+                   <td align="left">show</td>
+                   <td align="left">display a specific book</td>
+                   </tr>
+                   <tr class="odd">
+                   <td align="left">GET |</td>
+                   <td align="left">/books/id/edit_form</td>
+                   <td align="left">edit_form</td>
+                   <td align="left">return an HTML form for editing a books</td>
+                   </tr>
+                   <tr class="even">
+                   <td align="left">PUT |</td>
+                   <td align="left">/books/id</td>
+                   <td align="left">update</td>
+                   <td align="left">update a specific book</td>
+                   </tr>
+                   <tr class="odd">
+                   <td align="left">DELETE |</td>
+                   <td align="left">/books/id</td>
+                   <td align="left">destroy</td>
+                   <td align="left">delete a specific book</td>
+                   </tr>
+                   </tbody>
+                   </table>
+                   <p>There is no need to add any other annotations to RESTful controllers.</p>
+                   <p>If you examine the table above, you will see that a combination of a path and HTTP method is mapped to an action. For instance, a path '/books' is mapped twice, with GET HTTP method to action <code>index</code>, an with POST to action <code>create</code>. This makes for elegant, REST-style URLs and leads ultimately to better user experience.</p>
+                   <h2 id="location-of-controllers-in-project"><a href="#TOC">Location of controllers in project</a></h2>
+                   <p>The page <a href="structure_of_activeweb_project">Structure of a web project</a> states that controllers are located in a package:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">app.<span class="fu">controllers</span></code></pre>
+                   <p>ActiveWeb specifies that all controllers are located in this package or sub-packages.</p>
+                   <h2 id="controller-paths"><a href="#TOC">Controller paths</a></h2>
+                   <p>A controller path is made of a sub-package and a controller name. A controller name is <em>not</em> a class name, but rather underscored, flattened name part of a class' simple name.</p>
+                   <p>Example 1:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.controllers;</span>
+                   <span class="kw">class</span> BooksController{..} <span class="co">// ===&gt; controller path: /books</span></code></pre>
+                   <p>Example 2:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.controllers;</span>
+                   <span class="kw">class</span> UniversityBooksController{..} <span class="co">// ===&gt; controller path: /university_books</span></code></pre>
+                   <p>Example 3:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.controllers.depaul;</span>
+                   <span class="kw">class</span> UniversityBooksController{..} <span class="co">// ===&gt; controller path: /depaul/university_books</span></code></pre>
+                   <p>Example 4:</p>
+                   <pre class="prettyprint"><code>package app.controllers.depaul.chicago;
+                   class UniversityBooksController{..} // ===&gt; controller path: /depaul/chicago/university_books</code></pre>
+                   <h2 id="v-in-mvc"><a href="#TOC">V in MVC</a></h2>
+                   <p>ActiveWeb does not use JSPs. Instead it uses <a href="http://freemarker.sourceforge.net/">FreeMarker</a> (FM). The FM templates are located in this directory:</p>
+                   <pre class="prettyprint"><code>src/main/webapp/WEB-INF/views</code></pre>
+                   <h2 id="mapping-to-views"><a href="#TOC">Mapping to views</a></h2>
+                   <p>The directory: <code>src/main/webapp/WEB-INF/views</code> has subdirectories. These subdirectories are named after controller paths. This makes it easy to find FM templates (views) associated with controllers.</p>
+                   <h3 id="default-mapping-to-views"><a href="#TOC">Default mapping to views</a></h3>
+                   <p>Under normal circumstances, the HTTP request is applied to an action, and then the framework passes control to a view. Under these conditions, there is no need for any configuration or code.</p>
+                   <p>Example: if a HTTP GET request is sent to this URL: <code>http://hostname/context/greeting</code>, then the framework will invoke a <code>GreetingControoller</code>, and by default action <code>index</code>:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){}
+                   }</code></pre>
+                   <p>After execution of action, the framework will find a template:</p>
+                   <pre class="prettyprint"><code>src/main/webapp/WEB-INF/views/greeting/index.ftl</code></pre>
+                   <p>will render it, and send results to the browser.</p>
+                   <p>ActiveWeb, in the same spirit as <a href="activejdbc">ActiveJDBC</a> does not have any configuration files. Most actions are based on conventions.</p>
+                   <h3 id="override-mapping-to-relative-views"><a href="#TOC">Override mapping to relative views</a></h3>
+                   <p>In some cases, you need to override default mapping to views. You will use a <code>render()</code> method for this:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                         <span class="co">//some code here</span>
+                         <span class="fu">render</span>(<span class="st">&quot;show&quot;</span>);
+                      }
+                   }</code></pre>
+                   <p>The <code>render(&quot;show&quot;);</code> will signal to ActiveWeb that instead of view <code>index</code>, you want to render a view <code>show</code>. Since you did not provide any other information, ActiveWeb will assume that this view will be found at the same location:</p>
+                   <pre class="prettyprint"><code>src/main/webapp/WEB-INF/views/greeting/show.ftl</code></pre>
+                   <h3 id="override-mapping-to-absolute-views"><a href="#TOC">Override mapping to absolute views</a></h3>
+                   <p>Sometimes you need to call a view that &quot;belongs&quot; to a different controller, or even some shared view. In that case, you can specify an &quot;absolute&quot; path to a view like this:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                         <span class="co">//some code here</span>
+                         <span class="fu">render</span>(<span class="st">&quot;/shared/show&quot;</span>);
+                      }
+                   }</code></pre>
+                   <p>ActiveWeb will use the following view to render:</p>
+                   <pre class="prettyprint"><code>src/main/webapp/WEB-INF/views/shared/show.ftl</code></pre>
+                   <h3 id="passing-data-to-views"><a href="#TOC">Passing data to views</a></h3>
+                   <p>Passing data to views is done with two methods:</p>
+                   <ul>
+                   <li>assign(name, value)</li>
+                   <li>view(name, value)</li>
+                   </ul>
+                   <p>There is no difference between these methods, they are aliases. Use whichever you like.</p>
+                   <p>Example:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                          <span class="fu">view</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;John Doe&quot;</span>);
+                      }
+                   }</code></pre>
+                   <p>The corresponding view can look like this:</p>
+                   <pre class="prettyprint"><code>Hello, my name is: ${name}</code></pre>
+                   <p>You could have guessed that the output will look like:</p>
+                   <pre class="prettyprint"><code>Hello, my name is: John Doe</code></pre>
+                   <h2 id="getting-request-parameters"><a href="#TOC">Getting request parameters</a></h2>
+                   <p>Getting request parameters is the most important part of any web application. ActiveWeb provides a few methods to achieve this goal:</p>
+                   <h3 id="getting-a-single-parameter"><a href="#TOC">getting a single parameter</a></h3>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                          String name = <span class="fu">param</span>(<span class="st">&quot;name&quot;</span>);
+                      }
+                   }</code></pre>
+                   <h3 id="getting-all-parameters"><a href="#TOC">getting all parameters</a></h3>
+                   <pre class="prettyprint"><code>public class GreetingController extends AppController{
+                      public void index(){
+                         Map&lt;String, String[]&gt; allParams = params();
+                      }
+                   }</code></pre>
+                   <h3 id="getting-all-values-for-a-single-parameter"><a href="#TOC">getting all values for a single parameter</a></h3>
+                   <p>This is in cases for submit parameters with multiple values, such as selects:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                         List&lt;String&gt; states = <span class="fu">params</span>(<span class="st">&quot;states&quot;</span>);
+                      }
+                   }</code></pre>
+                   <h3 id="getting-a-first-value-from-each-submitted-parameter"><a href="#TOC">getting a first value from each submitted parameter</a></h3>
+                   <p>This is in cases for submit parameters with multiple values, such as selects:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                         Map&lt;String, String&gt; firstValues = <span class="fu">params1st</span>()
+                      }
+                   }</code></pre>
+                   <p>The return value is a map where keys are names of all parameters, while values are first value for each parameter, even if such parameter has more than one value submitted.</p>
+                   <p>This method is used quite often whe a form is submitted. Using ActiveJDBC makes it trivial to accapet a form as well as validate it:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Post p = <span class="kw">new</span> <span class="fu">Post</span>();
+                   p.<span class="fu">fromMap</span>(<span class="fu">params1st</span>());</code></pre>
+                   <p>The <code>Post</code> is an ActiveJDBC model. <code>params1st()</code> method returns a map of first values (the most typical case) of all submitted parameters, which are set in on call on a model instance. A this point, it is easy to use ActiveJDBC validation to display a page with error messages defined on the <code>Post</code> model. See <a href="https://github.com/javalite/kitchensink/blob/master/src/main/java/app/controllers/PostsController.java">PostController</a> for more information.</p>
+                   <h2 id="ajax-apis"><a href="#TOC">Ajax APIs</a></h2>
+                   <h3 id="detecting-if-a-request-is-ajax"><a href="#TOC">detecting if a request is Ajax</a></h3>
+                   <p>Controllers (and filters alike) provide a simple way to detect if a request is a from an <a href="http://en.wikipedia.org/wiki/XMLHttpRequest">XmlHttpRequest</a> in browser:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                         <span class="kw">if</span>(<span class="fu">xhr</span>()){
+                            ...
+                         }<span class="kw">else</span>{
+                            ...
+                         }
+                      }
+                   }</code></pre>
+                   <p>The <code>xhr();</code> method also has an alias: <code>isXhr();</code>.</p>
+                   <h3 id="responding-to-ajax-call-directly"><a href="#TOC">Responding to Ajax call directly</a></h3>
+                   <p>ActiveWeb provides a simple method <code>respond(..)</code>:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                         <span class="fu">respond</span>(<span class="st">&quot;&lt;message&gt;hello&lt;/message&gt;&quot;</span>).<span class="fu">contentType</span>(<span class="st">&quot;text/xml&quot;</span>).<span class="fu">status</span>(<span class="dv">200</span>);
+                      }
+                   }</code></pre>
+                   <p>It is easy to use this method to send plain text, XML, JSON, or any other text format as a response to Ajax call.</p>
+                   <h3 id="responding-to-ajax-call-with-a-view"><a href="#TOC">Responding to Ajax call with a view</a></h3>
+                   <p>Method <code>respond()</code> is usually used to respond with quick HTML snippet, or generated JSON or other format. However, if you need to respond with a more complex structure, and potentially generate it with a view and use a full power of a view expression language for condition, iteration, etc, you can use a regular <code>render()</code> method, the one that is also used for rendering HTML pages. However, for Ajax calls layouts are not necessary, so the call will look like this:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> AjaxController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                         <span class="co">//some code here</span>
+                         <span class="fu">render</span>().<span class="fu">noLayout</span>();
+                      }
+                   }</code></pre>
+                   <blockquote>
+                   <p>The actual response could be plain text, a snippet of HTML, JavaScript, etc. This is a great method to build web services.</p>
+                   </blockquote>
+                   <p>The URL for this call will look like this: <code>http://host/context/ajax</code>. The Ajax actions act just like any other actions, they support all HTTP methods and annotations.</p>
+                   <h2 id="downloading-of-files"><a href="#TOC">Downloading of files</a></h2>
+                   <p>There are a few calls you can use for file download:</p>
+                   <ul>
+                   <li>sending files to a client:</li>
+                   </ul>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GetPdfController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){   
+                        File f;
+                         <span class="co">//... obtain file</span>
+                        <span class="fu">sendFile</span>(f).<span class="fu">contentType</span>(<span class="st">&quot;application/pdf&quot;</span>).<span class="fu">status</span>(<span class="dv">200</span>);
+                      }
+                   }</code></pre>
+                   <ul>
+                   <li>Streaming bytes to a client:</li>
+                   </ul>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GetPdfController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){   
+                        <span class="dt">byte</span>[] bytes;
+                         <span class="co">//... obtain data</span>
+                        <span class="fu">outputStream</span>(<span class="st">&quot;application/pdf&quot;</span>).<span class="fu">write</span>(bytes);
+                      }
+                   }</code></pre>
+                   <ul>
+                   <li>Reading from InputStream and sending to client:</li>
+                   </ul>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GetPdfController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){   
+                        InputStream in;
+                         <span class="co">//... point input stream to data</span>
+                        <span class="fu">streamOut</span>(in).<span class="fu">contentType</span>(<span class="st">&quot;applicaiton/pdf&quot;</span>);
+                      }
+                   }</code></pre>
+                   <ul>
+                   <li>Steaming a file to a client with a file name</li>
+                   </ul>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GetCsvController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                        OutputStream out = <span class="fu">outputStream</span>(<span class="st">&quot;text/csv&quot;</span>, <span class="fu">map</span>(<span class="st">&quot;Content-Disposition&quot;</span>, <span class="st">&quot;attachment;filename=metadata_&quot;</span> + <span class="fu">param</span>(<span class="st">&quot;type&quot;</span>) + <span class="st">&quot;.csv&quot;</span>), <span class="dv">200</span>);
+                        out.<span class="fu">write</span>(...); <span class="co">// write content of file here</span>
+                        <span class="co">// no need to close the stream, container will do that</span>
+                      }
+                   }</code></pre>
+                   <h2 id="uploading-files"><a href="#TOC">Uploading files</a></h2>
+                   <p>Controllers have a two ways for uploading data. Here is one:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> UploadController <span class="kw">extends</span> AppController{
+                   
+                      @POST
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                           Iterator&lt;FormItem&gt; iterator = <span class="fu">uploadedFiles</span>();
+                           <span class="kw">if</span> (iterator.<span class="fu">hasNext</span>()){
+                               FormItem item = iterator.<span class="fu">next</span>();
+                               String name = item.<span class="fu">getFileName</span>();
+                               <span class="kw">if</span>(item.<span class="fu">isFile</span>()){
+                                   InputStream in = item.<span class="fu">getInputStream</span>();
+                                   <span class="co">///process data</span>
+                               }               
+                           }
+                   }</code></pre>
+                   <p>.. and here is another:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> UploadsController <span class="kw">extends</span> AppController {
+                       @POST
+                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+                           List&lt;FormItem&gt; items = <span class="fu">multipartFormItems</span>();
+                           <span class="co">//process items</span>
+                       }
+                   }</code></pre>
+                   <p>The second method is preferred for large files, because they are streamed to hard drive.</p>
+                   <h2 id="session-management"><a href="#TOC">Session management</a></h2>
+                   <p>A session object is accessed with a <code>session()</code> call inside controllers:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HomeController <span class="kw">extends</span> AppController{
+                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){   
+                        <span class="co">// put a value</span>
+                        <span class="fu">session</span>(<span class="st">&quot;name&quot;</span>, value);
+                      }</code></pre>
+                   <p>Other methods available on a session object are:</p>
+                   <pre class="prettyprint"><code>  session(name);                    // to get a single value
+                     session().remove(name);           // remove object by name
+                     session().names();                // to get a list of all objects in session
+                     session().getCreationTime();      // obvious
+                     session().invalidate();           // invalidate session
+                     session().setTimeToLive(seconds); // set time to live</code></pre>
+                   <h2 id="cookies-management"><a href="#TOC">Cookies management</a></h2>
+                   <h3 id="sending-cookies-to-a-client"><a href="#TOC">Sending cookies to a client</a></h3>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="fu">sendCookie</span>(Cookie);               <span class="co">//sends a cookie to client</span>
+                   <span class="fu">sendCookie</span>(name, value);          <span class="co">//simple short cut to do the same as above </span>
+                   <span class="fu">sendPermanentCookie</span>(name, value); <span class="co">//will send a cookie with time to live == 20 years</span></code></pre>
+                   <h3 id="getting-cookies-from-request"><a href="#TOC">Getting cookies from request</a></h3>
+                   <pre class="sourceCode java"><code class="sourceCode java">List&lt;Cookie&gt; <span class="fu">cookies</span>(); <span class="co">//gets a list of all cookies sent in request</span>
+                   Cookie <span class="fu">cookie</span>(name);    <span class="co">//retrieve an individual cookie</span>
+                   <span class="fu">cookieValue</span>(name);      <span class="co">//retrieve a cookie value by name of cookie</span></code></pre>
+                   <h2 id="logging"><a href="#TOC">Logging</a></h2>
+                   <p>Controllers already have a way to log information to a log system. These methods are available for logging:</p>
+                   <pre class="prettyprint"><code>logDebug(..);
+                   logWarning(..);
+                   logError(..);
+                   logInfo(..);</code></pre>
+                   <h2 id="threading-issues"><a href="#TOC">Threading issues</a></h2>
+                   <p>Controllers are thread safe. An instance of a controller is created to process each and every request, and then discarded. This means that if you create instance variables in controller, this variable will not interfere with another value form another request.</p>
+                   <p>However, creation of instance variables in controller classes is considered a bad coding practice in general, because it is vulnerable to side effects. While controllers are objects in OO language (Java), they need to be treated as procedural devices when it comes to processing HTTP requests. This means that every action should be completely self-sufficient and not rely on some instance variable set by another action or that a method invoked from an action should not depend on an instance variable set higher up the stack.</p></div></div>
 
-   @PUT
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">updateBook</span>(){}
-}</code></pre>
-<p>ActiveWeb promotes REST-style web programming and will not allow to access an action that is configured for one HTTP method with another. For instance, if you try to access the <code>GreetingController#index</code> with HTTP method POST, you would get an exception:</p>
-<pre class="prettyprint"><code>activeweb.ControllerException: Cannot access action 
-app.controllers.GreetingController.index with HTTP method: &#39;POST&#39; because it is 
-configured for method: &#39;GET&#39;</code></pre>
-<h2 id="restful-controllers">RESTful controllers</h2>
-<p>A restful controller is almost the same as a regular controller. The difference is that in a standard controller you can define any number of actions and configure them with annotations to accept any HTTP methods. RESTful controllers by contrast have a set of actions and these actions will accept certain HTTP methods. In order to create a RESTful controller, you need to do two things:</p>
-<ol style="list-style-type: decimal">
-<li>Add <code>@RESTful</code> annotation to the controller class</li>
-<li>Provide a fixed set of action methods in the body of controller</li>
-</ol>
-<p>Here is an example of a RESTful controller taken from Kitchensink application:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@RESTful
-<span class="kw">public</span> <span class="kw">class</span> RpostsController <span class="kw">extends</span> AppController {
-    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){...}
-    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">newForm</span>(){...}
-    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(){...}
-    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">show</span>(){...}
-    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">destroy</span>(){...}</code></pre>
-<p>See the <a href="https://github.com/javalite/kitchensink">Kitchensink</a> code, as well as more on restful controllers in the <a href="routing">Routing</a> page.</p>
-<p>A RESTful controller is allowed to have 7 methods, and they all are automatically mapped to the following URSs and HTTP methods:</p>
-<table>
-<col width="11%" />
-<col width="24%" />
-<col width="18%" />
-<col width="47%" />
-<thead>
-<tr class="header">
-<th align="left">verb |</th>
-<th align="left">path</th>
-<th align="left">action</th>
-<th align="left">used for</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">GET |</td>
-<td align="left">/books</td>
-<td align="left">index</td>
-<td align="left">display a list of all books</td>
-</tr>
-<tr class="even">
-<td align="left">GET |</td>
-<td align="left">/books/new_form</td>
-<td align="left">new_form</td>
-<td align="left">return an HTML form for creating a new book</td>
-</tr>
-<tr class="odd">
-<td align="left">POST |</td>
-<td align="left">/books</td>
-<td align="left">create</td>
-<td align="left">create a new book</td>
-</tr>
-<tr class="even">
-<td align="left">GET |</td>
-<td align="left">/books/id</td>
-<td align="left">show</td>
-<td align="left">display a specific book</td>
-</tr>
-<tr class="odd">
-<td align="left">GET |</td>
-<td align="left">/books/id/edit_form</td>
-<td align="left">edit_form</td>
-<td align="left">return an HTML form for editing a books</td>
-</tr>
-<tr class="even">
-<td align="left">PUT |</td>
-<td align="left">/books/id</td>
-<td align="left">update</td>
-<td align="left">update a specific book</td>
-</tr>
-<tr class="odd">
-<td align="left">DELETE |</td>
-<td align="left">/books/id</td>
-<td align="left">destroy</td>
-<td align="left">delete a specific book</td>
-</tr>
-</tbody>
-</table>
-<p>There is no need to add any other annotations to RESTful controllers.</p>
-<p>If you examine the table above, you will see that a combination of a path and HTTP method is mapped to an action. For instance, a path '/books' is mapped twice, with GET HTTP method to action <code>index</code>, an with POST to action <code>create</code>. This makes for elegant, REST-style URLs and leads ultimately to better user experience.</p>
-<h2 id="location-of-controllers-in-project">Location of controllers in project</h2>
-<p>The page <a href="structure_of_activeweb_project">Structure of a web project</a> states that controllers are located in a package:</p>
-<pre class="sourceCode java"><code class="sourceCode java">app.<span class="fu">controllers</span></code></pre>
-<p>ActiveWeb specifies that all controllers are located in this package or sub-packages.</p>
-<h2 id="controller-paths">Controller paths</h2>
-<p>A controller path is made of a sub-package and a controller name. A controller name is <em>not</em> a class name, but rather underscored, flattened name part of a class' simple name.</p>
-<p>Example 1:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.controllers;</span>
-<span class="kw">class</span> BooksController{..} <span class="co">// ===&gt; controller path: /books</span></code></pre>
-<p>Example 2:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.controllers;</span>
-<span class="kw">class</span> UniversityBooksController{..} <span class="co">// ===&gt; controller path: /university_books</span></code></pre>
-<p>Example 3:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.controllers.depaul;</span>
-<span class="kw">class</span> UniversityBooksController{..} <span class="co">// ===&gt; controller path: /depaul/university_books</span></code></pre>
-<p>Example 4:</p>
-<pre class="prettyprint"><code>package app.controllers.depaul.chicago;
-class UniversityBooksController{..} // ===&gt; controller path: /depaul/chicago/university_books</code></pre>
-<h2 id="v-in-mvc">V in MVC</h2>
-<p>ActiveWeb does not use JSPs. Instead it uses <a href="http://freemarker.sourceforge.net/">FreeMarker</a> (FM). The FM templates are located in this directory:</p>
-<pre class="prettyprint"><code>src/main/webapp/WEB-INF/views</code></pre>
-<h2 id="mapping-to-views">Mapping to views</h2>
-<p>The directory: <code>src/main/webapp/WEB-INF/views</code> has subdirectories. These subdirectories are named after controller paths. This makes it easy to find FM templates (views) associated with controllers.</p>
-<h3 id="default-mapping-to-views">Default mapping to views</h3>
-<p>Under normal circumstances, the HTTP request is applied to an action, and then the framework passes control to a view. Under these conditions, there is no need for any configuration or code.</p>
-<p>Example: if a HTTP GET request is sent to this URL: <code>http://hostname/context/greeting</code>, then the framework will invoke a <code>GreetingControoller</code>, and by default action <code>index</code>:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){}
-}</code></pre>
-<p>After execution of action, the framework will find a template:</p>
-<pre class="prettyprint"><code>src/main/webapp/WEB-INF/views/greeting/index.ftl</code></pre>
-<p>will render it, and send results to the browser.</p>
-<p>ActiveWeb, in the same spirit as <a href="activejdbc">ActiveJDBC</a> does not have any configuration files. Most actions are based on conventions.</p>
-<h3 id="override-mapping-to-relative-views">Override mapping to relative views</h3>
-<p>In some cases, you need to override default mapping to views. You will use a <code>render()</code> method for this:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-      <span class="co">//some code here</span>
-      <span class="fu">render</span>(<span class="st">&quot;show&quot;</span>);
-   }
-}</code></pre>
-<p>The <code>render(&quot;show&quot;);</code> will signal to ActiveWeb that instead of view <code>index</code>, you want to render a view <code>show</code>. Since you did not provide any other information, ActiveWeb will assume that this view will be found at the same location:</p>
-<pre class="prettyprint"><code>src/main/webapp/WEB-INF/views/greeting/show.ftl</code></pre>
-<h3 id="override-mapping-to-absolute-views">Override mapping to absolute views</h3>
-<p>Sometimes you need to call a view that &quot;belongs&quot; to a different controller, or even some shared view. In that case, you can specify an &quot;absolute&quot; path to a view like this:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-      <span class="co">//some code here</span>
-      <span class="fu">render</span>(<span class="st">&quot;/shared/show&quot;</span>);
-   }
-}</code></pre>
-<p>ActiveWeb will use the following view to render:</p>
-<pre class="prettyprint"><code>src/main/webapp/WEB-INF/views/shared/show.ftl</code></pre>
-<h3 id="passing-data-to-views">Passing data to views</h3>
-<p>Passing data to views is done with two methods:</p>
-<ul>
-<li>assign(name, value)</li>
-<li>view(name, value)</li>
-</ul>
-<p>There is no difference between these methods, they are aliases. Use whichever you like.</p>
-<p>Example:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-       <span class="fu">view</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;John Doe&quot;</span>);
-   }
-}</code></pre>
-<p>The corresponding view can look like this:</p>
-<pre class="prettyprint"><code>Hello, my name is: ${name}</code></pre>
-<p>You could have guessed that the output will look like:</p>
-<pre class="prettyprint"><code>Hello, my name is: John Doe</code></pre>
-<h2 id="getting-request-parameters">Getting request parameters</h2>
-<p>Getting request parameters is the most important part of any web application. ActiveWeb provides a few methods to achieve this goal:</p>
-<h3 id="getting-a-single-parameter">getting a single parameter</h3>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-       String name = <span class="fu">param</span>(<span class="st">&quot;name&quot;</span>);
-   }
-}</code></pre>
-<h3 id="getting-all-parameters">getting all parameters</h3>
-<pre class="prettyprint"><code>public class GreetingController extends AppController{
-   public void index(){
-      Map&lt;String, String[]&gt; allParams = params();
-   }
-}</code></pre>
-<h3 id="getting-all-values-for-a-single-parameter">getting all values for a single parameter</h3>
-<p>This is in cases for submit parameters with multiple values, such as selects:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-      List&lt;String&gt; states = <span class="fu">params</span>(<span class="st">&quot;states&quot;</span>);
-   }
-}</code></pre>
-<h3 id="getting-a-first-value-from-each-submitted-parameter">getting a first value from each submitted parameter</h3>
-<p>This is in cases for submit parameters with multiple values, such as selects:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-      Map&lt;String, String&gt; firstValues = <span class="fu">params1st</span>()
-   }
-}</code></pre>
-<p>The return value is a map where keys are names of all parameters, while values are first value for each parameter, even if such parameter has more than one value submitted.</p>
-<p>This method is used quite often whe a form is submitted. Using ActiveJDBC makes it trivial to accapet a form as well as validate it:</p>
-<pre class="sourceCode java"><code class="sourceCode java">Post p = <span class="kw">new</span> <span class="fu">Post</span>();
-p.<span class="fu">fromMap</span>(<span class="fu">params1st</span>());</code></pre>
-<p>The <code>Post</code> is an ActiveJDBC model. <code>params1st()</code> method returns a map of first values (the most typical case) of all submitted parameters, which are set in on call on a model instance. A this point, it is easy to use ActiveJDBC validation to display a page with error messages defined on the <code>Post</code> model. See <a href="https://github.com/javalite/kitchensink/blob/master/src/main/java/app/controllers/PostsController.java">PostController</a> for more information.</p>
-<h2 id="ajax-apis">Ajax APIs</h2>
-<h3 id="detecting-if-a-request-is-ajax">detecting if a request is Ajax</h3>
-<p>Controllers (and filters alike) provide a simple way to detect if a request is a from an <a href="http://en.wikipedia.org/wiki/XMLHttpRequest">XmlHttpRequest</a> in browser:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-      <span class="kw">if</span>(<span class="fu">xhr</span>()){
-         ...
-      }<span class="kw">else</span>{
-         ...
-      }
-   }
-}</code></pre>
-<p>The <code>xhr();</code> method also has an alias: <code>isXhr();</code>.</p>
-<h3 id="responding-to-ajax-call-directly">Responding to Ajax call directly</h3>
-<p>ActiveWeb provides a simple method <code>respond(..)</code>:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreetingController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-      <span class="fu">respond</span>(<span class="st">&quot;&lt;message&gt;hello&lt;/message&gt;&quot;</span>).<span class="fu">contentType</span>(<span class="st">&quot;text/xml&quot;</span>).<span class="fu">status</span>(<span class="dv">200</span>);
-   }
-}</code></pre>
-<p>It is easy to use this method to send plain text, XML, JSON, or any other text format as a response to Ajax call.</p>
-<h3 id="responding-to-ajax-call-with-a-view">Responding to Ajax call with a view</h3>
-<p>Method <code>respond()</code> is usually used to respond with quick HTML snippet, or generated JSON or other format. However, if you need to respond with a more complex structure, and potentially generate it with a view and use a full power of a view expression language for condition, iteration, etc, you can use a regular <code>render()</code> method, the one that is also used for rendering HTML pages. However, for Ajax calls layouts are not necessary, so the call will look like this:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> AjaxController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-      <span class="co">//some code here</span>
-      <span class="fu">render</span>().<span class="fu">noLayout</span>();
-   }
-}</code></pre>
-<blockquote>
-<p>The actual response could be plain text, a snippet of HTML, JavaScript, etc. This is a great method to build web services.</p>
-</blockquote>
-<p>The URL for this call will look like this: <code>http://host/context/ajax</code>. The Ajax actions act just like any other actions, they support all HTTP methods and annotations.</p>
-<h2 id="downloading-of-files">Downloading of files</h2>
-<p>There are a few calls you can use for file download:</p>
-<ul>
-<li>sending files to a client:</li>
-</ul>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GetPdfController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){   
-     File f;
-      <span class="co">//... obtain file</span>
-     <span class="fu">sendFile</span>(f).<span class="fu">contentType</span>(<span class="st">&quot;application/pdf&quot;</span>).<span class="fu">status</span>(<span class="dv">200</span>);
-   }
-}</code></pre>
-<ul>
-<li>Streaming bytes to a client:</li>
-</ul>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GetPdfController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){   
-     <span class="dt">byte</span>[] bytes;
-      <span class="co">//... obtain data</span>
-     <span class="fu">outputStream</span>(<span class="st">&quot;application/pdf&quot;</span>).<span class="fu">write</span>(bytes);
-   }
-}</code></pre>
-<ul>
-<li>Reading from InputStream and sending to client:</li>
-</ul>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GetPdfController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){   
-     InputStream in;
-      <span class="co">//... point input stream to data</span>
-     <span class="fu">streamOut</span>(in).<span class="fu">contentType</span>(<span class="st">&quot;applicaiton/pdf&quot;</span>);
-   }
-}</code></pre>
-<ul>
-<li>Steaming a file to a client with a file name</li>
-</ul>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GetCsvController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-     OutputStream out = <span class="fu">outputStream</span>(<span class="st">&quot;text/csv&quot;</span>, <span class="fu">map</span>(<span class="st">&quot;Content-Disposition&quot;</span>, <span class="st">&quot;attachment;filename=metadata_&quot;</span> + <span class="fu">param</span>(<span class="st">&quot;type&quot;</span>) + <span class="st">&quot;.csv&quot;</span>), <span class="dv">200</span>);
-     out.<span class="fu">write</span>(...); <span class="co">// write content of file here</span>
-     <span class="co">// no need to close the stream, container will do that</span>
-   }
-}</code></pre>
-<h2 id="uploading-files">Uploading files</h2>
-<p>Controllers have a two ways for uploading data. Here is one:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> UploadController <span class="kw">extends</span> AppController{
-
-   @POST
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-        Iterator&lt;FormItem&gt; iterator = <span class="fu">uploadedFiles</span>();
-        <span class="kw">if</span> (iterator.<span class="fu">hasNext</span>()){
-            FormItem item = iterator.<span class="fu">next</span>();
-            String name = item.<span class="fu">getFileName</span>();
-            <span class="kw">if</span>(item.<span class="fu">isFile</span>()){
-                InputStream in = item.<span class="fu">getInputStream</span>();
-                <span class="co">///process data</span>
-            }               
-        }
-}</code></pre>
-<p>.. and here is another:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> UploadsController <span class="kw">extends</span> AppController {
-    @POST
-    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-        List&lt;FormItem&gt; items = <span class="fu">multipartFormItems</span>();
-        <span class="co">//process items</span>
-    }
-}</code></pre>
-<p>The second method is preferred for large files, because they are streamed to hard drive.</p>
-<h2 id="session-management">Session management</h2>
-<p>A session object is accessed with a <code>session()</code> call inside controllers:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HomeController <span class="kw">extends</span> AppController{
-   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){   
-     <span class="co">// put a value</span>
-     <span class="fu">session</span>(<span class="st">&quot;name&quot;</span>, value);
-   }</code></pre>
-<p>Other methods available on a session object are:</p>
-<pre class="prettyprint"><code>  session(name);                    // to get a single value
-  session().remove(name);           // remove object by name
-  session().names();                // to get a list of all objects in session
-  session().getCreationTime();      // obvious
-  session().invalidate();           // invalidate session
-  session().setTimeToLive(seconds); // set time to live</code></pre>
-<h2 id="cookies-management">Cookies management</h2>
-<h3 id="sending-cookies-to-a-client">Sending cookies to a client</h3>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">sendCookie</span>(Cookie);               <span class="co">//sends a cookie to client</span>
-<span class="fu">sendCookie</span>(name, value);          <span class="co">//simple short cut to do the same as above </span>
-<span class="fu">sendPermanentCookie</span>(name, value); <span class="co">//will send a cookie with time to live == 20 years</span></code></pre>
-<h3 id="getting-cookies-from-request">Getting cookies from request</h3>
-<pre class="sourceCode java"><code class="sourceCode java">List&lt;Cookie&gt; <span class="fu">cookies</span>(); <span class="co">//gets a list of all cookies sent in request</span>
-Cookie <span class="fu">cookie</span>(name);    <span class="co">//retrieve an individual cookie</span>
-<span class="fu">cookieValue</span>(name);      <span class="co">//retrieve a cookie value by name of cookie</span></code></pre>
-<h2 id="logging">Logging</h2>
-<p>Controllers already have a way to log information to a log system. These methods are available for logging:</p>
-<pre class="prettyprint"><code>logDebug(..);
-logWarning(..);
-logError(..);
-logInfo(..);</code></pre>
-<h2 id="threading-issues">Threading issues</h2>
-<p>Controllers are thread safe. An instance of a controller is created to process each and every request, and then discarded. This means that if you create instance variables in controller, this variable will not interfere with another value form another request.</p>
-<p>However, creation of instance variables in controller classes is considered a bad coding practice in general, because it is vulnerable to side effects. While controllers are objects in OO language (Java), they need to be treated as procedural devices when it comes to processing HTTP requests. This means that every action should be completely self-sufficient and not rely on some instance variable set by another action or that a method invoked from an action should not depend on an instance variable set higher up the stack.</p>

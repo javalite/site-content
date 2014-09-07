@@ -1,8 +1,7 @@
-ActiveJDBC - Eclipse Integration| <a href="/activejdbc">ActiveJDBC</a>, Eclipse Integration
 
 # Eclipse Integration
 
-<div id="toc"></div>
+
 
 
 As a general rule of thumb, instrumentation needs to be performed in case you run a program or a test that will execute ActiveJDBC models.

@@ -1,8 +1,6 @@
-Record creation | <a href="/activejdbc">ActiveJDBC</a>,Record creation
-
 # Record creation
 
-<div id="toc"></div>
+
 
 There are many ways to create new records with ActiveJDBC. Let's explore them
 

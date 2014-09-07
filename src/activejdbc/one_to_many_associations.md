@@ -1,8 +1,6 @@
-One-to-many associations | <a href="/activejdbc">ActiveJDBC</a>,One-to-many associations
-
 # One-to-many associations
 
-<div id="toc"></div>
+
 
 One to many associations are pretty common in modern projects. Examples are: university has students, library has books, etc.
 There are two sides to a one to many association, the "parent" **has a** "child" and a "child" **belongs to** "parent".

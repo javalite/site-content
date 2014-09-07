@@ -1,8 +1,7 @@
-Data conversions| <a href="/activejdbc">ActiveJDBC</a>, Data conversions
 
 # Data conversions
 
-<div id="toc"></div>
+
 
 ## Pass-through framework
 

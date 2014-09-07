@@ -1,8 +1,6 @@
-Optimistic locking | <a href="/activejdbc">ActiveJDBC</a>,Optimistic locking
-
 # Optimistic locking
 
-<div id="toc"></div>
+
 
 The idea of optimistic locking is described here: [Optimistic concurrency control](http://en.wikipedia.org/wiki/Optimistic_concurrency_control)
 

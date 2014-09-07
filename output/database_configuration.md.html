@@ -1,43 +1,56 @@
-<p>ActiveWeb database configuration| <a href="/activeweb">ActiveWeb</a>,Database configuration</p>
-<h1 id="activeweb-database-configuration">ActiveWeb database configuration</h1>
-<div id="toc"></div>
+<div class="row">
 
-<p>ActiveWeb <em>does not use</em> property files, XML, Yaml or any other text files for configuration. Configuration is done in Java code. There are a few advantages of this approach: auto-suggestions by IDE, documentation at finger tips, and some level of comfort from Java compiler.</p>
-<p>ActiveWeb uses two application classes for configuration: <code>app.config.AppControllerConfig</code> and <code>app.config.DbConfig</code>. Both of these classes are initialized from a third application level class called <code>app.config.AppBootstrap</code>.</p>
-<h2 id="database-connections-configuration">Database connections' configuration</h2>
-<p>In order to configure database connection, an application needs to provide a class called <code>app.config.DbConfig</code>. It is used to configure database connections for various <strong>environments and modes</strong>.</p>
-<h2 id="what-is-an-environment">What is an environment?</h2>
-<p>An ActiveWeb environment is a computer where a project executes. In the process of software development there can be a number of environments where a project gets executed, such as development, continuous integration, QA, staging, production and more. The number of environments for ActiveWeb is custom for every project. However, it is typical to have four: development, continuous integration, staging and production</p>
-<h2 id="how-to-specify-an-environment">How to specify an environment</h2>
-<p>An environment is specified by an environment variable: <code>ACTIVE_ENV</code> Every computer where an ActiveWeb project gets executed, needs to have this variable specified. This value is used to determine which DB connections need to be initialized.</p>
-<h2 id="default-environment">Default environment</h2>
-<p>In case an environment variable <code>ACTIVE_ENV</code> is not provided, the framework defaults to &quot;development&quot;.</p>
-<h2 id="what-is-a-mode">What is a mode?</h2>
-<p>ActiveWeb defines two modes of operation: &quot;standard&quot;, which is also implicit, and &quot;testing&quot;. Standard mode is used during regular run of the program, and testing used during the build when tests are executed. ActiveWeb promotes a style of development where one database used for testing, but a different one used under normal execution. When tests are executed, a &quot;test&quot; database is used, and when a project is run in a normal mode, a &quot;development&quot; database is used. Having sa separate database for testing ensures safety of data in the development database.</p>
-<h2 id="example-configuration">Example configuration</h2>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> DbConfig <span class="kw">extends</span> AbstractDBConfig {
-    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext context) {
-         <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_development&quot;</span>);
-         <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://localhost/kitchensink_development&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
-         <span class="fu">environment</span>(<span class="st">&quot;jenkins&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://172.30.64.31/kitchensink_jenkins&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
-         <span class="fu">environment</span>(<span class="st">&quot;production&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_production&quot;</span>);
-    }
-}</code></pre></td></tr></table>
-<p>The code above is borrowed from <a href="https://github.com/javalite/kitchensink">Kitchensink</a> project. Lets examine it line by line.</p>
-<ul>
-<li><strong>Line 3</strong>: here we provide configuration for a &quot;standard&quot; mode in &quot;development&quot; environment. This DB connection will be used when the application is running under normal conditions in development environment.</li>
-<li><strong>Line 4</strong>: This is a configuration of DB connection for &quot;development&quot; environment, but for &quot;testing&quot; mode. This connection will be used by unit and integration tests during the build.</li>
-<li><strong>Line 5</strong>: This is a configuration of DB connection for &quot;jenkins&quot; environment, but for &quot;testing&quot; mode. The &quot;jenkins&quot; environment is a computer where this project is built by Jenkins - the continuous integration server. Since Jenkins computer is fully automated, and this project is not running there in &quot;standard&quot; mode, there is no standard configuration for jenkins environment, just one for testing.</li>
-<li><strong>Line 6</strong>: This is configuration similar to one on line 3, but for &quot;production&quot; environment.</li>
-</ul>
-<blockquote>
-<p>Configuration of database connections is just that - configuration. This code only configures a connection, but does not open it. To open a connection, you need to use <a href="https://github.com/javalite/activeweb/blob/master/activeweb/src/main/java/org/javalite/activeweb/controller_filters/DBConnectionFilter.java#DBConnectionFilter">DBConnectionFilter</a>. For more, see <a href="controller_filters">Controller filters</a>.</p>
-</blockquote>
+    <div id="TOC" class="span3 bs-docs-sidebar">
+        <ul>
+        <li><a href="#activeweb-database-configuration">ActiveWeb database configuration</a><ul>
+        <li><a href="#database-connections-configuration">Database connections' configuration</a></li>
+        <li><a href="#what-is-an-environment">What is an environment?</a></li>
+        <li><a href="#how-to-specify-an-environment">How to specify an environment</a></li>
+        <li><a href="#default-environment">Default environment</a></li>
+        <li><a href="#what-is-a-mode">What is a mode?</a></li>
+        <li><a href="#example-configuration">Example configuration</a></li>
+        </ul></li>
+        </ul>
+    </div>
+
+<div class="span9"><h1 id="activeweb-database-configuration"><a href="#TOC">ActiveWeb database configuration</a></h1>
+                   <p>ActiveWeb <em>does not use</em> property files, XML, Yaml or any other text files for configuration. Configuration is done in Java code. There are a few advantages of this approach: auto-suggestions by IDE, documentation at finger tips, and some level of comfort from Java compiler.</p>
+                   <p>ActiveWeb uses two application classes for configuration: <code>app.config.AppControllerConfig</code> and <code>app.config.DbConfig</code>. Both of these classes are initialized from a third application level class called <code>app.config.AppBootstrap</code>.</p>
+                   <h2 id="database-connections-configuration"><a href="#TOC">Database connections' configuration</a></h2>
+                   <p>In order to configure database connection, an application needs to provide a class called <code>app.config.DbConfig</code>. It is used to configure database connections for various <strong>environments and modes</strong>.</p>
+                   <h2 id="what-is-an-environment"><a href="#TOC">What is an environment?</a></h2>
+                   <p>An ActiveWeb environment is a computer where a project executes. In the process of software development there can be a number of environments where a project gets executed, such as development, continuous integration, QA, staging, production and more. The number of environments for ActiveWeb is custom for every project. However, it is typical to have four: development, continuous integration, staging and production</p>
+                   <h2 id="how-to-specify-an-environment"><a href="#TOC">How to specify an environment</a></h2>
+                   <p>An environment is specified by an environment variable: <code>ACTIVE_ENV</code> Every computer where an ActiveWeb project gets executed, needs to have this variable specified. This value is used to determine which DB connections need to be initialized.</p>
+                   <h2 id="default-environment"><a href="#TOC">Default environment</a></h2>
+                   <p>In case an environment variable <code>ACTIVE_ENV</code> is not provided, the framework defaults to &quot;development&quot;.</p>
+                   <h2 id="what-is-a-mode"><a href="#TOC">What is a mode?</a></h2>
+                   <p>ActiveWeb defines two modes of operation: &quot;standard&quot;, which is also implicit, and &quot;testing&quot;. Standard mode is used during regular run of the program, and testing used during the build when tests are executed. ActiveWeb promotes a style of development where one database used for testing, but a different one used under normal execution. When tests are executed, a &quot;test&quot; database is used, and when a project is run in a normal mode, a &quot;development&quot; database is used. Having sa separate database for testing ensures safety of data in the development database.</p>
+                   <h2 id="example-configuration"><a href="#TOC">Example configuration</a></h2>
+                   <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+                   2
+                   3
+                   4
+                   5
+                   6
+                   7
+                   8
+                   </pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> DbConfig <span class="kw">extends</span> AbstractDBConfig {
+                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext context) {
+                            <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_development&quot;</span>);
+                            <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://localhost/kitchensink_development&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
+                            <span class="fu">environment</span>(<span class="st">&quot;jenkins&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://172.30.64.31/kitchensink_jenkins&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
+                            <span class="fu">environment</span>(<span class="st">&quot;production&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_production&quot;</span>);
+                       }
+                   }</code></pre></td></tr></table>
+                   <p>The code above is borrowed from <a href="https://github.com/javalite/kitchensink">Kitchensink</a> project. Lets examine it line by line.</p>
+                   <ul>
+                   <li><strong>Line 3</strong>: here we provide configuration for a &quot;standard&quot; mode in &quot;development&quot; environment. This DB connection will be used when the application is running under normal conditions in development environment.</li>
+                   <li><strong>Line 4</strong>: This is a configuration of DB connection for &quot;development&quot; environment, but for &quot;testing&quot; mode. This connection will be used by unit and integration tests during the build.</li>
+                   <li><strong>Line 5</strong>: This is a configuration of DB connection for &quot;jenkins&quot; environment, but for &quot;testing&quot; mode. The &quot;jenkins&quot; environment is a computer where this project is built by Jenkins - the continuous integration server. Since Jenkins computer is fully automated, and this project is not running there in &quot;standard&quot; mode, there is no standard configuration for jenkins environment, just one for testing.</li>
+                   <li><strong>Line 6</strong>: This is configuration similar to one on line 3, but for &quot;production&quot; environment.</li>
+                   </ul>
+                   <blockquote>
+                   <p>Configuration of database connections is just that - configuration. This code only configures a connection, but does not open it. To open a connection, you need to use <a href="https://github.com/javalite/activeweb/blob/master/activeweb/src/main/java/org/javalite/activeweb/controller_filters/DBConnectionFilter.java#DBConnectionFilter">DBConnectionFilter</a>. For more, see <a href="controller_filters">Controller filters</a>.</p>
+                   </blockquote></div></div>
+

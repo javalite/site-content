@@ -1,7 +1,3 @@
-Captcha| <a href="/activeweb">ActiveWeb</a>,Captcha
-
-<div id="toc"></div>
-
 # Captcha
 
 [Captcha](http://en.wikipedia.org/wiki/CAPTCHA) is often used in dynamic websites to protect from bots. ActiveWeb

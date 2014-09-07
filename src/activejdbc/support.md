@@ -1,6 +1,3 @@
-JavaLite support| JavaLite support
-
-
 ## Support Groups
 
 If you have a questions, feel free to post to the respective forums:

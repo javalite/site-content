@@ -1,155 +1,168 @@
-<p>Polymorphic associations | <a href="/activejdbc">ActiveJDBC</a>,Polymorphic associations</p>
-<h1 id="polymorphic-associations">Polymorphic associations</h1>
-<div id="toc"></div>
+<div class="row">
 
-<p>Polymorphic associations are used in cases when there are several one-to-many relationships that you could aggregate because for all the parents, the children are similar.</p>
-<p>In other words, a polymorphic association allows for a table to have multiple types of parents.</p>
-<p>Lets say you have products and reviews in the system . Both have to be tagged. A naive implementation would be to create two one to many relationships:</p>
-<ul>
-<li>Product has many ProductTag(s)</li>
-<li>Review has many ReviewTag(s)</li>
-</ul>
-<p>This will work... kind of, but it will violate a DRY principle because the <code>PRODUCT_TAG</code> and <code>REVIEW_TAG</code> tables will be identical (except for names!).</p>
-<p>A better approach would be to use Polymorphic associations. In the Polymorphic associations , you would create one table called 'TAGS', and add two columns to this table, besides the ones that you need:</p>
-<ul>
-<li><code>PARENT_ID</code></li>
-<li><code>PARENT_TYPE</code></li>
-</ul>
-<p>After this, you will need to provide one last bit of information to the framework by specifying relationships:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Product <span class="kw">extends</span> Model{}
+    <div id="TOC" class="span3 bs-docs-sidebar">
+        <ul>
+        <li><a href="#polymorphic-associations">Polymorphic associations</a><ul>
+        <li><a href="#adding-and-searching-for-polymorphic-children">Adding and searching for polymorphic children</a></li>
+        <li><a href="#conditional-search-for-polymorphic-children">Conditional search for polymorphic children</a></li>
+        <li><a href="#removing-polymorphic-children">Removing polymorphic children</a></li>
+        <li><a href="#deleting-polymorphic-parents">Deleting polymorphic parents</a></li>
+        <li><a href="#finding-polymorphic-parent">Finding polymorphic parent</a></li>
+        <li><a href="#override-standard-parent-type-values">Override standard parent type values</a></li>
+        </ul></li>
+        </ul>
+    </div>
 
-<span class="kw">public</span> <span class="kw">class</span> Review <span class="kw">extends</span> Model{}
+<div class="span9"><h1 id="polymorphic-associations"><a href="#TOC">Polymorphic associations</a></h1>
+                   <p>Polymorphic associations are used in cases when there are several one-to-many relationships that you could aggregate because for all the parents, the children are similar.</p>
+                   <p>In other words, a polymorphic association allows for a table to have multiple types of parents.</p>
+                   <p>Lets say you have products and reviews in the system . Both have to be tagged. A naive implementation would be to create two one to many relationships:</p>
+                   <ul>
+                   <li>Product has many ProductTag(s)</li>
+                   <li>Review has many ReviewTag(s)</li>
+                   </ul>
+                   <p>This will work... kind of, but it will violate a DRY principle because the <code>PRODUCT_TAG</code> and <code>REVIEW_TAG</code> tables will be identical (except for names!).</p>
+                   <p>A better approach would be to use Polymorphic associations. In the Polymorphic associations , you would create one table called 'TAGS', and add two columns to this table, besides the ones that you need:</p>
+                   <ul>
+                   <li><code>PARENT_ID</code></li>
+                   <li><code>PARENT_TYPE</code></li>
+                   </ul>
+                   <p>After this, you will need to provide one last bit of information to the framework by specifying relationships:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Product <span class="kw">extends</span> Model{}
+                   
+                   <span class="kw">public</span> <span class="kw">class</span> Review <span class="kw">extends</span> Model{}
+                   
+                   @<span class="fu">BelongsToPolymorphic</span>(parents = {Product.<span class="fu">class</span>, Review.<span class="fu">class</span>})
+                   <span class="kw">public</span> <span class="kw">class</span> Tag <span class="kw">extends</span> Model{}</code></pre>
+                   <p>This annotation tells ActiveJDBC that Product has many Tags as well as Review has many tags too. The annotation itself is easy to understand if you read it aloud.</p>
+                   <blockquote>
+                   <p>Operations are the same as with <a href="one_to_many_associations">One-to-many associations</a></p>
+                   </blockquote>
+                   <h2 id="adding-and-searching-for-polymorphic-children"><a href="#TOC">Adding and searching for polymorphic children</a></h2>
+                   <pre class="sourceCode java"><code class="sourceCode java">Product p =  Product.<span class="fu">findById</span>(<span class="dv">100</span>);
+                   p.<span class="fu">add</span>(Tag.<span class="fu">create</span>(<span class="st">&quot;tag&quot;</span>, <span class="st">&quot;basket&quot;</span>));
+                   p.<span class="fu">add</span>(Tag.<span class="fu">create</span>(<span class="st">&quot;tag&quot;</span>, <span class="st">&quot;toy&quot;</span>));
+                   List&lt;Tag&gt; tags = p.<span class="fu">getAll</span>(Tag.<span class="fu">class</span>);
+                   ...<span class="fu">iterate</span>
+                   
+                   Review customerReview =  Review.<span class="fu">findById</span>(<span class="dv">2024</span>);
+                   customerReview.<span class="fu">add</span>(Tag.<span class="fu">create</span>(<span class="st">&quot;tag&quot;</span>, <span class="st">&quot;fun&quot;</span>));
+                   customerReview.<span class="fu">add</span>(Tag.<span class="fu">create</span>(<span class="st">&quot;tag&quot;</span>, <span class="st">&quot;useful&quot;</span>));
+                   List&lt;Tag&gt; tags = customerReview.<span class="fu">getAll</span>(Tag.<span class="fu">class</span>);
+                   <span class="kw">... </span>iterate</code></pre>
+                   <p>The table TAG content might look like this after operations above:</p>
+                   <table>
+                   <col width="6%" />
+                   <col width="13%" />
+                   <col width="16%" />
+                   <col width="29%" />
+                   <thead>
+                   <tr class="header">
+                   <th align="left">id</th>
+                   <th align="left">tag</th>
+                   <th align="left">parent_id</th>
+                   <th align="left">parent_type</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <tr class="odd">
+                   <td align="left">1</td>
+                   <td align="left">toy</td>
+                   <td align="left">100</td>
+                   <td align="left">com.acme.Product</td>
+                   </tr>
+                   <tr class="even">
+                   <td align="left">2</td>
+                   <td align="left">basket</td>
+                   <td align="left">100</td>
+                   <td align="left">com.acme.Product</td>
+                   </tr>
+                   <tr class="odd">
+                   <td align="left">3</td>
+                   <td align="left">fun</td>
+                   <td align="left">2024</td>
+                   <td align="left">com.acme.Review</td>
+                   </tr>
+                   <tr class="even">
+                   <td align="left">4</td>
+                   <td align="left">useful</td>
+                   <td align="left">2024</td>
+                   <td align="left">com.acme.Review</td>
+                   </tr>
+                   </tbody>
+                   </table>
+                   <h2 id="conditional-search-for-polymorphic-children"><a href="#TOC">Conditional search for polymorphic children</a></h2>
+                   <p>While the <code>getAll(type)</code> method returns all relations, the <code>get(type)</code> method allows for a selection criteria on the child table:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">List&lt;Tag&gt; tags = product.<span class="fu">get</span>(Tag.<span class="fu">class</span>, <span class="st">&quot;tag = ?&quot;</span>, <span class="st">&quot;toy&quot;</span>);</code></pre>
+                   <h2 id="removing-polymorphic-children"><a href="#TOC">Removing polymorphic children</a></h2>
+                   <p>Removing children is as easy as expected;</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Product toyBasket =  Product.<span class="fu">findById</span>(<span class="dv">100</span>);
+                   Tag t = Tag.<span class="fu">findById</span>(<span class="dv">1</span>);
+                   toyBasket.<span class="fu">remove</span>(t);</code></pre>
+                   <p>This will remove a child record from the <code>TAGS</code> table.</p>
+                   <h2 id="deleting-polymorphic-parents"><a href="#TOC">Deleting polymorphic parents</a></h2>
+                   <p>When deleting a record that is a parent to polymorphic children, you have two options:</p>
+                   <ul>
+                   <li>Only delete the parent itself. This will leave orphan children:</li>
+                   </ul>
+                   <pre class="sourceCode java"><code class="sourceCode java">toyBasket.<span class="fu">delete</span>();</code></pre>
+                   <ul>
+                   <li>Delete parent along with all the children:</li>
+                   </ul>
+                   <pre class="sourceCode java"><code class="sourceCode java">toyBasket.<span class="fu">deleteCascade</span>(); <span class="co">// or toyBasket.delete(true);</span></code></pre>
+                   <p>The latter will delete the parent along with all associated polymorphic children. See <a href="delete_cascade">Delete cascade</a> for more information.</p>
+                   <h2 id="finding-polymorphic-parent"><a href="#TOC">Finding polymorphic parent</a></h2>
+                   <p>Navigate from children to parents in relationships:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Tag t = Tag.<span class="fu">findById</span>(<span class="dv">1</span>);
+                   Product p = t.<span class="fu">parent</span>(Product.<span class="fu">class</span>);
+                   ...</code></pre>
+                   <h2 id="override-standard-parent-type-values"><a href="#TOC">Override standard parent type values</a></h2>
+                   <p>In some cases, it is not possible to have a fully qualified class name in the &quot;parent_type&quot; column. This is usually a case when the same table backs a different ORM which also supports polymorphic associations (Ruby on Rails ActiveRecord for example).</p>
+                   <p>When faced with this problem, you can use annotation to override default behavior:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">BelongsToPolymorphic</span>(
+                   parents     = { Vehicle.<span class="fu">class</span>, Mammal.<span class="fu">class</span>}, 
+                   typeLabels  = {<span class="st">&quot;Vehicle&quot;</span>,     <span class="st">&quot;Mammal&quot;</span>} )
+                   <span class="kw">public</span> <span class="kw">class</span> Classification <span class="kw">extends</span> Model {}</code></pre>
+                   <p>This defines polymorphic associations between models Classification, Mammal and Vehicle, such that the <code>parent_type</code> column of <code>CLASSIFICATIONS</code> table will contain values <code>Vehicle</code> and <code>Mammal</code> for corresponding parent records from <code>VEHICLE</code> and <code>MAMMAL</code> tables. The order of parent classes and type labels is important, they must correspond to one another.</p>
+                   <p>Here is an example of CLASSIFICATIONS table:</p>
+                   <table>
+                   <col width="6%" />
+                   <col width="22%" />
+                   <col width="16%" />
+                   <col width="22%" />
+                   <thead>
+                   <tr class="header">
+                   <th align="left">id</th>
+                   <th align="left">name</th>
+                   <th align="left">parent_id</th>
+                   <th align="left">parent_type</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <tr class="odd">
+                   <td align="left">1</td>
+                   <td align="left">four wheeled</td>
+                   <td align="left">100</td>
+                   <td align="left">Vehicle</td>
+                   </tr>
+                   <tr class="even">
+                   <td align="left">2</td>
+                   <td align="left">sedan</td>
+                   <td align="left">23</td>
+                   <td align="left">Vehicle</td>
+                   </tr>
+                   <tr class="odd">
+                   <td align="left">3</td>
+                   <td align="left">four legged</td>
+                   <td align="left">2024</td>
+                   <td align="left">Mammal</td>
+                   </tr>
+                   <tr class="even">
+                   <td align="left">4</td>
+                   <td align="left">furry</td>
+                   <td align="left">2023</td>
+                   <td align="left">Mammal</td>
+                   </tr>
+                   </tbody>
+                   </table></div></div>
 
-@<span class="fu">BelongsToPolymorphic</span>(parents = {Product.<span class="fu">class</span>, Review.<span class="fu">class</span>})
-<span class="kw">public</span> <span class="kw">class</span> Tag <span class="kw">extends</span> Model{}</code></pre>
-<p>This annotation tells ActiveJDBC that Product has many Tags as well as Review has many tags too. The annotation itself is easy to understand if you read it aloud.</p>
-<blockquote>
-<p>Operations are the same as with <a href="one_to_many_associations">One-to-many associations</a></p>
-</blockquote>
-<h2 id="adding-and-searching-for-polymorphic-children">Adding and searching for polymorphic children</h2>
-<pre class="sourceCode java"><code class="sourceCode java">Product p =  Product.<span class="fu">findById</span>(<span class="dv">100</span>);
-p.<span class="fu">add</span>(Tag.<span class="fu">create</span>(<span class="st">&quot;tag&quot;</span>, <span class="st">&quot;basket&quot;</span>));
-p.<span class="fu">add</span>(Tag.<span class="fu">create</span>(<span class="st">&quot;tag&quot;</span>, <span class="st">&quot;toy&quot;</span>));
-List&lt;Tag&gt; tags = p.<span class="fu">getAll</span>(Tag.<span class="fu">class</span>);
-...<span class="fu">iterate</span>
-
-Review customerReview =  Review.<span class="fu">findById</span>(<span class="dv">2024</span>);
-customerReview.<span class="fu">add</span>(Tag.<span class="fu">create</span>(<span class="st">&quot;tag&quot;</span>, <span class="st">&quot;fun&quot;</span>));
-customerReview.<span class="fu">add</span>(Tag.<span class="fu">create</span>(<span class="st">&quot;tag&quot;</span>, <span class="st">&quot;useful&quot;</span>));
-List&lt;Tag&gt; tags = customerReview.<span class="fu">getAll</span>(Tag.<span class="fu">class</span>);
-<span class="kw">... </span>iterate</code></pre>
-<p>The table TAG content might look like this after operations above:</p>
-<table>
-<col width="6%" />
-<col width="13%" />
-<col width="16%" />
-<col width="29%" />
-<thead>
-<tr class="header">
-<th align="left">id</th>
-<th align="left">tag</th>
-<th align="left">parent_id</th>
-<th align="left">parent_type</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">1</td>
-<td align="left">toy</td>
-<td align="left">100</td>
-<td align="left">com.acme.Product</td>
-</tr>
-<tr class="even">
-<td align="left">2</td>
-<td align="left">basket</td>
-<td align="left">100</td>
-<td align="left">com.acme.Product</td>
-</tr>
-<tr class="odd">
-<td align="left">3</td>
-<td align="left">fun</td>
-<td align="left">2024</td>
-<td align="left">com.acme.Review</td>
-</tr>
-<tr class="even">
-<td align="left">4</td>
-<td align="left">useful</td>
-<td align="left">2024</td>
-<td align="left">com.acme.Review</td>
-</tr>
-</tbody>
-</table>
-<h2 id="conditional-search-for-polymorphic-children">Conditional search for polymorphic children</h2>
-<p>While the <code>getAll(type)</code> method returns all relations, the <code>get(type)</code> method allows for a selection criteria on the child table:</p>
-<pre class="sourceCode java"><code class="sourceCode java">List&lt;Tag&gt; tags = product.<span class="fu">get</span>(Tag.<span class="fu">class</span>, <span class="st">&quot;tag = ?&quot;</span>, <span class="st">&quot;toy&quot;</span>);</code></pre>
-<h2 id="removing-polymorphic-children">Removing polymorphic children</h2>
-<p>Removing children is as easy as expected;</p>
-<pre class="sourceCode java"><code class="sourceCode java">Product toyBasket =  Product.<span class="fu">findById</span>(<span class="dv">100</span>);
-Tag t = Tag.<span class="fu">findById</span>(<span class="dv">1</span>);
-toyBasket.<span class="fu">remove</span>(t);</code></pre>
-<p>This will remove a child record from the <code>TAGS</code> table.</p>
-<h2 id="deleting-polymorphic-parents">Deleting polymorphic parents</h2>
-<p>When deleting a record that is a parent to polymorphic children, you have two options:</p>
-<ul>
-<li>Only delete the parent itself. This will leave orphan children:</li>
-</ul>
-<pre class="sourceCode java"><code class="sourceCode java">toyBasket.<span class="fu">delete</span>();</code></pre>
-<ul>
-<li>Delete parent along with all the children:</li>
-</ul>
-<pre class="sourceCode java"><code class="sourceCode java">toyBasket.<span class="fu">deleteCascade</span>(); <span class="co">// or toyBasket.delete(true);</span></code></pre>
-<p>The latter will delete the parent along with all associated polymorphic children. See <a href="delete_cascade">Delete cascade</a> for more information.</p>
-<h2 id="finding-polymorphic-parent">Finding polymorphic parent</h2>
-<p>Navigate from children to parents in relationships:</p>
-<pre class="sourceCode java"><code class="sourceCode java">Tag t = Tag.<span class="fu">findById</span>(<span class="dv">1</span>);
-Product p = t.<span class="fu">parent</span>(Product.<span class="fu">class</span>);
-...</code></pre>
-<h2 id="override-standard-parent-type-values">Override standard parent type values</h2>
-<p>In some cases, it is not possible to have a fully qualified class name in the &quot;parent_type&quot; column. This is usually a case when the same table backs a different ORM which also supports polymorphic associations (Ruby on Rails ActiveRecord for example).</p>
-<p>When faced with this problem, you can use annotation to override default behavior:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">BelongsToPolymorphic</span>(
-parents     = { Vehicle.<span class="fu">class</span>, Mammal.<span class="fu">class</span>}, 
-typeLabels  = {<span class="st">&quot;Vehicle&quot;</span>,     <span class="st">&quot;Mammal&quot;</span>} )
-<span class="kw">public</span> <span class="kw">class</span> Classification <span class="kw">extends</span> Model {}</code></pre>
-<p>This defines polymorphic associations between models Classification, Mammal and Vehicle, such that the <code>parent_type</code> column of <code>CLASSIFICATIONS</code> table will contain values <code>Vehicle</code> and <code>Mammal</code> for corresponding parent records from <code>VEHICLE</code> and <code>MAMMAL</code> tables. The order of parent classes and type labels is important, they must correspond to one another.</p>
-<p>Here is an example of CLASSIFICATIONS table:</p>
-<table>
-<col width="6%" />
-<col width="22%" />
-<col width="16%" />
-<col width="22%" />
-<thead>
-<tr class="header">
-<th align="left">id</th>
-<th align="left">name</th>
-<th align="left">parent_id</th>
-<th align="left">parent_type</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">1</td>
-<td align="left">four wheeled</td>
-<td align="left">100</td>
-<td align="left">Vehicle</td>
-</tr>
-<tr class="even">
-<td align="left">2</td>
-<td align="left">sedan</td>
-<td align="left">23</td>
-<td align="left">Vehicle</td>
-</tr>
-<tr class="odd">
-<td align="left">3</td>
-<td align="left">four legged</td>
-<td align="left">2024</td>
-<td align="left">Mammal</td>
-</tr>
-<tr class="even">
-<td align="left">4</td>
-<td align="left">furry</td>
-<td align="left">2023</td>
-<td align="left">Mammal</td>
-</tr>
-</tbody>
-</table>

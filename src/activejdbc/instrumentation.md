@@ -1,8 +1,6 @@
-Instrumentation | <a href="/activejdbc">ActiveJDBC</a>,Instrumentation
-
 # Instrumentation
 
-<div id="toc"></div>
+
 
 ActiveJDBC requires instrumentation of class files after they are compiled. This is accomplished with an Instrumentation
 tool provided by the project. There are three ways to use it: with a Maven plugin, Ant, and as a standalone Java

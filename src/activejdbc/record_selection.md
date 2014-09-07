@@ -1,8 +1,6 @@
-Record selection | <a href="/activejdbc">ActiveJDBC</a>,Record selection
-
 # Record selection
 
-<div id="toc"></div>
+
 
 ## Writing a Model
 

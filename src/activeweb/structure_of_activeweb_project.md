@@ -2,7 +2,7 @@ Structure of ActiveWeb project| <a href="/activeweb">ActiveWeb</a>,Structure of 
 
 # Structure of ActiveWeb project
 
-<div id="toc"></div>
+
 
 
 An ActiveWeb project a Maven project, therefore it has all the usual Maven conventions.

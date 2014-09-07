@@ -1,8 +1,6 @@
-ActiveJDBC - Netbeans Integration| <a href="/activejdbc">ActiveJDBC</a>, Netbeans Integration
-
 # Netbeans Integration
 
-<div id="toc"></div>
+
 
 For general questions, refer to [Instrumentation](instrumentation) page.
 

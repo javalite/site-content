@@ -1,8 +1,7 @@
-Generation of JSON | <a href="/activejdbc">ActiveJDBC</a>,Generation of JSON
 
 # Generation of JSON
 
-<div id="toc"></div>
+
 
 
 # Generation of JSON

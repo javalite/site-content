@@ -1,7 +1,5 @@
-Lifecycle callbacks | <a href="/activejdbc">ActiveJDBC</a>,Lifecycle callbacks
 
 
-<div id="toc"></div>
 
 # Lifecycle callbacks
 

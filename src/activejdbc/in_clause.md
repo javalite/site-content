@@ -1,8 +1,6 @@
-IN Clause| <a href="/activejdbc">ActiveJDBC</a>, IN Clause
-
 # 'IN' Clause
 
-<div id="toc"></div>
+
 
 
 In some cases you need to write something like this:

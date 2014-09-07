@@ -1,8 +1,6 @@
-Lazy and eager| <a href="/activejdbc">ActiveJDBC</a>,Lazy and eager
-
 # Lazy and eager (lazy by default)
 
-<div id="toc"></div>
+
 
 ActiveJDBC is lazy by default. In this sense, it has semantics closer to ActiveRecord than Hibernate.
 

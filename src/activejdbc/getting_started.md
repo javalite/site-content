@@ -1,8 +1,8 @@
-ActiveJDBC getting started| <a href="/activejdbc">ActiveJDBC</a>, ActiveJDBC getting started
+
 
 # ActiveJDBC getting started
 
-<div id="toc"></div>
+
 
 Although ActiveJDBC has advanced features, simple things are very easy. This page shows simplest cases of DB access with ActiveJDBC.
 

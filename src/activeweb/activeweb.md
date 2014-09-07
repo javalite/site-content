@@ -1,4 +1,4 @@
-ActiveWeb - Java Web Framework for rapid development| ActiveWeb
+ActiveWeb: Java Web Framework for rapid development| ActiveWeb
 
 # ActiveWeb
 
@@ -42,11 +42,14 @@ ActiveWeb - Java Web Framework for rapid development| ActiveWeb
 * [Captcha](captcha)
 * [Application context](app_context)
 * [Less compiler](lessc)
-
+* [Deploying to Heroku](deploying_to_heroku)
+* [Developing on a Mac](mac_osx)
 
 
 ## 5 minute video to understand ActiveWeb
-Watch a quick video on Youtube that demonstrates ActiveWeb's ability to add code to the application dynamically, at run time
+
+Watch a quick video on Youtube that demonstrates ActiveWeb's ability to add code to the application
+dynamically, at run time
 
 <iframe width="425" height="344" frameborder="0" src="http://www.youtube.com/embed/YX1TAtuSqQE"></iframe>
 

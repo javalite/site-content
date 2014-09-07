@@ -1,8 +1,7 @@
-Caching | <a href="/activejdbc">ActiveJDBC</a>,Caching
 
 # Caching
 
-<div id="toc"></div>
+
 
 
 Caching is an integral part of every major system, It improves performance, reduces IO and makes overall user

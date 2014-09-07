@@ -1,8 +1,6 @@
-ActiveWeb Testing| <a href="/activeweb">ActiveWeb</a>,Testing
-
 # Testing
 
-<div id="toc"></div>
+
 
 ActiveWeb promotes [TDD/BDD](http://en.wikipedia.org/wiki/Test-driven_development) approach to testing of web applications.
 At the heart, it uses [JUnit](http://www.junit.org) as a testing framework, but it provides a number of

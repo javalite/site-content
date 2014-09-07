@@ -2,7 +2,7 @@ Getting started with ActiveWeb| <a href="/activeweb">ActiveWeb</a>,Getting start
 
 # Getting started with ActiveWeb
 
-<div id="toc"></div>
+
 
 This simple ActiveWeb project available for download demonstrates main principles of the framework.
 It is a CRUD application, which can list/add/view books. It also shows how to write model and controller specs (tests),

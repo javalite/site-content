@@ -1,8 +1,6 @@
-Database transactions | <a href="/activejdbc">ActiveJDBC</a>,Transactions
-
 # Transactions
 
-<div id="toc"></div>
+
 
 The goal of AciveJDBC from the ground up was to be a very thin veneer on top of JDBC. As such, the attention was
 given to simplify the DB access API, but at the same time not take control away from a developer.

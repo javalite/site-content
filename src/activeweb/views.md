@@ -1,8 +1,5 @@
-ActiveWeb Views| <a href="/activeweb">ActiveWeb</a>,Views
+# ActiveWeb Views
 
-# Views
-
-<div id="toc"></div>
 
 Views in ActiveWeb are also called templates. They are located in the following directory:
 
@@ -12,9 +9,8 @@ src/main/webapp/WEB-INF/views
 
 ## No JSPs
 
-ActiveWeb does not use JSPs. The main reason for not using JSPs is inability to test generated HTML with JSPs in a
-test environment.
-
+ActiveWeb does not use JSPs. The main reason for not using JSPs is thir inability to test generated HTML with JSPs in a
+test environment. For more on testing, see ... [Generating views in tests](testing#generating-views-during-testing).
 
 ## ActiveWeb uses FreeMarker
 

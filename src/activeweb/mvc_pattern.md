@@ -1,8 +1,6 @@
-MVC Pattern| <a href="/activeweb">ActiveWeb</a>,MVC Pattern
-
 # MVC Pattern
 
-<div id="toc"></div>
+
 
 At the heart of the ActiveWeb project there is an MVC pattern - [Model-View-Controller](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller).
 ActiveWeb project is an implementation of a famous MVC pattern but adopted for the web.

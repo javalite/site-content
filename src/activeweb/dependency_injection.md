@@ -1,8 +1,6 @@
-Dependency injection | <a href="/activeweb">ActiveWeb</a>,Dependency injection
-
 # Dependency injection
 
-<div id="toc"></div>
+
 
 Dependency injection is an integral part of a typical Java application. ActiveWeb supports seamless integration
 with [Google Guice](http://code.google.com/p/google-guice/).

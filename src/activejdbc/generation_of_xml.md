@@ -1,8 +1,6 @@
-Generation of XML | <a href="/activejdbc">ActiveJDBC</a>,Generation of XML
-
 # Generation of XML
 
-<div id="toc"></div>
+
 
 # Generation of XML
 

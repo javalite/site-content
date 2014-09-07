@@ -1,87 +1,112 @@
-<p>ActiveJDBC getting started| <a href="/activejdbc">ActiveJDBC</a>, ActiveJDBC getting started</p>
-<h1 id="activejdbc-getting-started">ActiveJDBC getting started</h1>
-<div id="toc"></div>
+<div class="row">
 
-<p>Although ActiveJDBC has advanced features, simple things are very easy. This page shows simplest cases of DB access with ActiveJDBC.</p>
-<h2 id="pre-requisite">Pre-requisite</h2>
-<ul>
-<li>Java :)</li>
-<li>Maven</li>
-<li>Database</li>
-</ul>
-<h2 id="create-a-standard-maven-project-structure">Create a standard Maven project structure</h2>
-<p>While ActiveJDBC does not have to be used with Maven, this example (as well as ActiveJDBC itself) was built with Maven.</p>
-<blockquote>
-<p>See example project: <a href="https://github.com/javalite/simple-example">Simple Maven - based example</a>.</p>
-</blockquote>
-<h2 id="create-a-table">Create a table</h2>
-<p>This is an SQL statement to create a table (MySQL used for this example):</p>
-<pre class="prettyprint"><code>CREATE TABLE employees (
-      id  int(11) DEFAULT NULL auto_increment PRIMARY KEY,
-      first_name VARCHAR(56),
-      last_name VARCHAR(56)
-  );</code></pre>
-<h2 id="maven-configuration">Maven configuration</h2>
-<h3 id="add-activejdbc-dependency">Add ActiveJDBC dependency</h3>
-<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;dependency&gt;</span>
-    <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
-    <span class="kw">&lt;artifactId&gt;</span>activejdbc<span class="kw">&lt;/artifactId&gt;</span>
-    <span class="kw">&lt;version&gt;</span>1.4.9<span class="kw">&lt;/version&gt;</span>
-<span class="kw">&lt;/dependency&gt;</span></code></pre>
-<blockquote>
-<p>Change version to latest.</p>
-</blockquote>
-<h3 id="add-activejdbc-instrumentation-plugin">Add ActiveJDBC Instrumentation plugin</h3>
-<p>Add the following to the plugins section of the POM:</p>
-<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
-    <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
-    <span class="kw">&lt;artifactId&gt;</span>activejdbc-instrumentation<span class="kw">&lt;/artifactId&gt;</span>
-    <span class="kw">&lt;version&gt;</span>1.4.9<span class="kw">&lt;/version&gt;</span>
-    <span class="kw">&lt;executions&gt;</span>
-        <span class="kw">&lt;execution&gt;</span>
-            <span class="kw">&lt;phase&gt;</span>process-classes<span class="kw">&lt;/phase&gt;</span>
-            <span class="kw">&lt;goals&gt;</span>
-                <span class="kw">&lt;goal&gt;</span>instrument<span class="kw">&lt;/goal&gt;</span>
-            <span class="kw">&lt;/goals&gt;</span>
-        <span class="kw">&lt;/execution&gt;</span>
-    <span class="kw">&lt;/executions&gt;</span>
-<span class="kw">&lt;/plugin&gt;</span></code></pre>
-<h2 id="write-a-model">Write a model</h2>
-<p>This is the easiest thing - writing a simple model is usually done with one line of code:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import org.javalite.activejdbc.Model;</span>
+    <div id="TOC" class="span3 bs-docs-sidebar">
+        <ul>
+        <li><a href="#activejdbc-getting-started">ActiveJDBC getting started</a><ul>
+        <li><a href="#pre-requisite">Pre-requisite</a></li>
+        <li><a href="#create-a-standard-maven-project-structure">Create a standard Maven project structure</a></li>
+        <li><a href="#create-a-table">Create a table</a></li>
+        <li><a href="#maven-configuration">Maven configuration</a><ul>
+        <li><a href="#add-activejdbc-dependency">Add ActiveJDBC dependency</a></li>
+        <li><a href="#add-activejdbc-instrumentation-plugin">Add ActiveJDBC Instrumentation plugin</a></li>
+        </ul></li>
+        <li><a href="#write-a-model">Write a model</a></li>
+        <li><a href="#open-a-connection">Open a connection</a></li>
+        <li><a href="#create-a-new-record">Create a new record</a></li>
+        <li><a href="#finding-a-single-record">Finding a single record</a></li>
+        <li><a href="#finding-some-records">Finding some records</a></li>
+        <li><a href="#updating-a-record">Updating a record</a></li>
+        <li><a href="#deleting-a-record">Deleting a record</a></li>
+        <li><a href="#deleting-all-records">Deleting all records</a></li>
+        <li><a href="#selecting-all-records">Selecting all records</a></li>
+        <li><a href="#sample-project-using-ant">Sample project using Ant</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+        </ul></li>
+        </ul>
+    </div>
 
-<span class="kw">public</span> <span class="kw">class</span> Employee <span class="kw">extends</span> Model {}</code></pre>
-<p>Please, note that the name of a table is &quot;employees&quot; - plural, and the name of a model is &quot;Employee&quot; - singular. If you are wondering how this is done, you can take a look at the <a href="https://github.com/javalite/activejdbc/blob/master/javalite-common/src/main/java/org/javalite/common/Inflector.java#L120">Inflector</a> class. ActiveJDBC uses inflections of English language to do conversion of plural and singular forms of words. This of course can be overridden by a <code>@Table</code> annotation.</p>
-<h2 id="open-a-connection">Open a connection</h2>
-<pre class="sourceCode java"><code class="sourceCode java">Base.<span class="fu">open</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://localhost/test&quot;</span>, <span class="st">&quot;user1&quot;</span>, <span class="st">&quot;xxxxx&quot;</span>);</code></pre>
-<p>Replace the values for the ones that make sense for your environment. Base is a utility class that allows to perform some basic (hence the name) JDBC operations, one of them is opening a connection. The connection object is then attached to the current thread, and can be consumed by any ActiveJDBC API.</p>
-<h2 id="create-a-new-record">Create a new record</h2>
-<pre class="sourceCode java"><code class="sourceCode java">Employee e = <span class="kw">new</span> <span class="fu">Employee</span>();
-e.<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>);
-e.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Doe&quot;</span>);
-e.<span class="fu">saveIt</span>();</code></pre>
-<p>This is self-explanatory. Models are somewhat like maps. There are no setters or getters. You can still write them if you like, see <a href="setters_and_getters">Setters and getters</a> for more information.</p>
-<p>The same logic can be written in one line:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">new</span> <span class="fu">Employee</span>().<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Doe&quot;</span>).<span class="fu">saveIt</span>();</code></pre>
-<p>The framework has quite a few shortcuts like this one.</p>
-<h2 id="finding-a-single-record">Finding a single record</h2>
-<pre class="sourceCode java"><code class="sourceCode java">Employee e = Employee.<span class="fu">findFirst</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);</code></pre>
-<p>This line will find an instance of Employee (conditionally), if one exists, or null if one does not exist.</p>
-<h2 id="finding-some-records">Finding some records</h2>
-<pre class="sourceCode java"><code class="sourceCode java">List&lt;Employee&gt; employees = Employee.<span class="fu">where</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);</code></pre>
-<h2 id="updating-a-record">Updating a record</h2>
-<p>This snippet should also be self-explanatory:</p>
-<pre class="sourceCode java"><code class="sourceCode java">Employee e = Employee.<span class="fu">findFirst</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);
-e.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Steinbeck&quot;</span>).<span class="fu">saveIt</span>();</code></pre>
-<h2 id="deleting-a-record">Deleting a record</h2>
-<pre class="sourceCode java"><code class="sourceCode java">Employee e = Employee.<span class="fu">findFirst</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);
-e.<span class="fu">delete</span>();</code></pre>
-<h2 id="deleting-all-records">Deleting all records</h2>
-<pre class="sourceCode java"><code class="sourceCode java">Employee.<span class="fu">deleteAll</span>();</code></pre>
-<h2 id="selecting-all-records">Selecting all records</h2>
-<pre class="sourceCode java"><code class="sourceCode java">List&lt;Employee&gt; employees = Employee.<span class="fu">findAll</span>();</code></pre>
-<h2 id="sample-project-using-ant">Sample project using Ant</h2>
-<p>If you are not using Maven, you can use Ant. Example of exactly the same project with all necessary dependencies can be found here: <a href="https://github.com/javalite/ant-example">https://github.com/javalite/ant-example</a> Please see README file there.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>This introduction provides enough information to get started. It also shows how simple ActiveJDBC APIs are. This ORM has many advanced features, such as automatic recognition of associations, caching, validations, polymorphic associations, etc. The code used on this page can be found in this simple project: <a href="https://github.com/javalite/simple-example">https://github.com/javalite/simple-example</a>.</p>
-<p>Enjoy :)</p>
+<div class="span9"><h1 id="activejdbc-getting-started"><a href="#TOC">ActiveJDBC getting started</a></h1>
+                   <p>Although ActiveJDBC has advanced features, simple things are very easy. This page shows simplest cases of DB access with ActiveJDBC.</p>
+                   <h2 id="pre-requisite"><a href="#TOC">Pre-requisite</a></h2>
+                   <ul>
+                   <li>Java :)</li>
+                   <li>Maven</li>
+                   <li>Database</li>
+                   </ul>
+                   <h2 id="create-a-standard-maven-project-structure"><a href="#TOC">Create a standard Maven project structure</a></h2>
+                   <p>While ActiveJDBC does not have to be used with Maven, this example (as well as ActiveJDBC itself) was built with Maven.</p>
+                   <blockquote>
+                   <p>See example project: <a href="https://github.com/javalite/simple-example">Simple Maven - based example</a>.</p>
+                   </blockquote>
+                   <h2 id="create-a-table"><a href="#TOC">Create a table</a></h2>
+                   <p>This is an SQL statement to create a table (MySQL used for this example):</p>
+                   <pre class="prettyprint"><code>CREATE TABLE employees (
+                         id  int(11) DEFAULT NULL auto_increment PRIMARY KEY,
+                         first_name VARCHAR(56),
+                         last_name VARCHAR(56)
+                     );</code></pre>
+                   <h2 id="maven-configuration"><a href="#TOC">Maven configuration</a></h2>
+                   <h3 id="add-activejdbc-dependency"><a href="#TOC">Add ActiveJDBC dependency</a></h3>
+                   <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;dependency&gt;</span>
+                       <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
+                       <span class="kw">&lt;artifactId&gt;</span>activejdbc<span class="kw">&lt;/artifactId&gt;</span>
+                       <span class="kw">&lt;version&gt;</span>1.4.9<span class="kw">&lt;/version&gt;</span>
+                   <span class="kw">&lt;/dependency&gt;</span></code></pre>
+                   <blockquote>
+                   <p>Change version to latest.</p>
+                   </blockquote>
+                   <h3 id="add-activejdbc-instrumentation-plugin"><a href="#TOC">Add ActiveJDBC Instrumentation plugin</a></h3>
+                   <p>Add the following to the plugins section of the POM:</p>
+                   <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
+                       <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
+                       <span class="kw">&lt;artifactId&gt;</span>activejdbc-instrumentation<span class="kw">&lt;/artifactId&gt;</span>
+                       <span class="kw">&lt;version&gt;</span>1.4.9<span class="kw">&lt;/version&gt;</span>
+                       <span class="kw">&lt;executions&gt;</span>
+                           <span class="kw">&lt;execution&gt;</span>
+                               <span class="kw">&lt;phase&gt;</span>process-classes<span class="kw">&lt;/phase&gt;</span>
+                               <span class="kw">&lt;goals&gt;</span>
+                                   <span class="kw">&lt;goal&gt;</span>instrument<span class="kw">&lt;/goal&gt;</span>
+                               <span class="kw">&lt;/goals&gt;</span>
+                           <span class="kw">&lt;/execution&gt;</span>
+                       <span class="kw">&lt;/executions&gt;</span>
+                   <span class="kw">&lt;/plugin&gt;</span></code></pre>
+                   <h2 id="write-a-model"><a href="#TOC">Write a model</a></h2>
+                   <p>This is the easiest thing - writing a simple model is usually done with one line of code:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import org.javalite.activejdbc.Model;</span>
+                   
+                   <span class="kw">public</span> <span class="kw">class</span> Employee <span class="kw">extends</span> Model {}</code></pre>
+                   <p>Please, note that the name of a table is &quot;employees&quot; - plural, and the name of a model is &quot;Employee&quot; - singular. If you are wondering how this is done, you can take a look at the <a href="https://github.com/javalite/activejdbc/blob/master/javalite-common/src/main/java/org/javalite/common/Inflector.java#L120">Inflector</a> class. ActiveJDBC uses inflections of English language to do conversion of plural and singular forms of words. This of course can be overridden by a <code>@Table</code> annotation.</p>
+                   <h2 id="open-a-connection"><a href="#TOC">Open a connection</a></h2>
+                   <pre class="sourceCode java"><code class="sourceCode java">Base.<span class="fu">open</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://localhost/test&quot;</span>, <span class="st">&quot;user1&quot;</span>, <span class="st">&quot;xxxxx&quot;</span>);</code></pre>
+                   <p>Replace the values for the ones that make sense for your environment. Base is a utility class that allows to perform some basic (hence the name) JDBC operations, one of them is opening a connection. The connection object is then attached to the current thread, and can be consumed by any ActiveJDBC API.</p>
+                   <h2 id="create-a-new-record"><a href="#TOC">Create a new record</a></h2>
+                   <pre class="sourceCode java"><code class="sourceCode java">Employee e = <span class="kw">new</span> <span class="fu">Employee</span>();
+                   e.<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>);
+                   e.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Doe&quot;</span>);
+                   e.<span class="fu">saveIt</span>();</code></pre>
+                   <p>This is self-explanatory. Models are somewhat like maps. There are no setters or getters. You can still write them if you like, see <a href="setters_and_getters">Setters and getters</a> for more information.</p>
+                   <p>The same logic can be written in one line:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">new</span> <span class="fu">Employee</span>().<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Doe&quot;</span>).<span class="fu">saveIt</span>();</code></pre>
+                   <p>The framework has quite a few shortcuts like this one.</p>
+                   <h2 id="finding-a-single-record"><a href="#TOC">Finding a single record</a></h2>
+                   <pre class="sourceCode java"><code class="sourceCode java">Employee e = Employee.<span class="fu">findFirst</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);</code></pre>
+                   <p>This line will find an instance of Employee (conditionally), if one exists, or null if one does not exist.</p>
+                   <h2 id="finding-some-records"><a href="#TOC">Finding some records</a></h2>
+                   <pre class="sourceCode java"><code class="sourceCode java">List&lt;Employee&gt; employees = Employee.<span class="fu">where</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);</code></pre>
+                   <h2 id="updating-a-record"><a href="#TOC">Updating a record</a></h2>
+                   <p>This snippet should also be self-explanatory:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Employee e = Employee.<span class="fu">findFirst</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);
+                   e.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Steinbeck&quot;</span>).<span class="fu">saveIt</span>();</code></pre>
+                   <h2 id="deleting-a-record"><a href="#TOC">Deleting a record</a></h2>
+                   <pre class="sourceCode java"><code class="sourceCode java">Employee e = Employee.<span class="fu">findFirst</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);
+                   e.<span class="fu">delete</span>();</code></pre>
+                   <h2 id="deleting-all-records"><a href="#TOC">Deleting all records</a></h2>
+                   <pre class="sourceCode java"><code class="sourceCode java">Employee.<span class="fu">deleteAll</span>();</code></pre>
+                   <h2 id="selecting-all-records"><a href="#TOC">Selecting all records</a></h2>
+                   <pre class="sourceCode java"><code class="sourceCode java">List&lt;Employee&gt; employees = Employee.<span class="fu">findAll</span>();</code></pre>
+                   <h2 id="sample-project-using-ant"><a href="#TOC">Sample project using Ant</a></h2>
+                   <p>If you are not using Maven, you can use Ant. Example of exactly the same project with all necessary dependencies can be found here: <a href="https://github.com/javalite/ant-example">https://github.com/javalite/ant-example</a> Please see README file there.</p>
+                   <h2 id="conclusion"><a href="#TOC">Conclusion</a></h2>
+                   <p>This introduction provides enough information to get started. It also shows how simple ActiveJDBC APIs are. This ORM has many advanced features, such as automatic recognition of associations, caching, validations, polymorphic associations, etc. The code used on this page can be found in this simple project: <a href="https://github.com/javalite/simple-example">https://github.com/javalite/simple-example</a>.</p>
+                   <p>Enjoy :)</p></div></div>
+

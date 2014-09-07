@@ -1,89 +1,110 @@
-<p>Record selection | <a href="/activejdbc">ActiveJDBC</a>,Record selection</p>
-<h1 id="record-selection">Record selection</h1>
-<div id="toc"></div>
+<div class="row">
 
-<h2 id="writing-a-model">Writing a Model</h2>
-<p>Lets say this is SQL for the DB table (for MySQL)</p>
-<pre class="sourceCode sql"><code class="sourceCode sql"><span class="kw">CREATE</span> <span class="kw">TABLE</span> people (
-   <span class="kw">id</span>  <span class="dt">int</span>(<span class="dv">11</span>) <span class="kw">DEFAULT</span> <span class="kw">NULL</span> auto_increment <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,
-   name <span class="dt">VARCHAR</span>(<span class="dv">56</span>),
-   last_name <span class="dt">VARCHAR</span>(<span class="dv">56</span>),
-   dob <span class="dt">DATE</span>,
-   graduation_date <span class="dt">DATE</span>,
-   created_at DATETIME,
-   updated_at DATETIME
-   );</code></pre>
-<p>Simple models are written in one line of code. No need for setters or getters.</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model {}</code></pre>
-<p>Tip: name of the model reflects a singular form of the table name. ActiveJDBC models feel similar to Map interface (although they do not implement it). In order to access a model attributes, you usually use built-in dynamic setters and getters:</p>
-<pre class="sourceCode java"><code class="sourceCode java">person.<span class="fu">get</span>(<span class="st">&quot;first_name&quot;</span>);
-...
-person.<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>);</code></pre>
-<h2 id="simple-selection">Simple selection</h2>
-<pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; list = Person.<span class="fu">where</span>(<span class="st">&quot;name = &#39;John&#39;&quot;</span>);</code></pre>
-<p>This will search a table PEOPLE. The framework will generate a SQL similar to this one:</p>
-<pre class="sourceCode sql"><code class="sourceCode sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> PEOPLE <span class="kw">WHERE</span> name = <span class="st">&#39;John&#39;</span></code></pre>
-<p>As you can see, the framework generates the query from SELECT to the WHERE. The only part that the developer is required to provide is the actual criteria. This is just plain old SQL, albeit only a portion.</p>
-<h2 id="parametrized-search">Parametrized search</h2>
-<pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; list = Person.<span class="fu">where</span>(<span class="st">&quot;name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);</code></pre>
-<p>In this case, the value &quot;John&quot; will be substituted for a question mark. The number of question marks and substitute values is flexible, but must match one another.</p>
-<h2 id="processing-large-result-sets">Processing large result sets</h2>
-<p>In all previous results, the entire result set was loaded into memory. This approach is fine in case of relatively small results, but might prove a performance bottleneck for very large data sets. The approach below is somewhat reminiscent of SAX approach, where a super large data set from a DB is read, and for every one record found, it produces a callback. Within that callback, you perform whatever operation that makes sense for the application. The advantage of this approach is not needing to allocate a ton of memory. This is usually a preferred method for batch processes. Think of this as streaming of data from the database.</p>
-<pre class="sourceCode java"><code class="sourceCode java">Person.<span class="fu">find</span>(<span class="st">&quot;name=&#39;John&#39;&quot;</span>, <span class="kw">new</span> ModelListener&lt;Person&gt;() {
-    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">onModel</span>(Person person) {
-        System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Found person: &quot;</span> + person);
-    }
-});</code></pre>
-<h2 id="finding-one-record">Finding one record</h2>
-<p>Finding just one record can be achieved with <code>findFirst</code> method. As name suggests, even if the query can result in multiple records, only the first one is returned.</p>
-<pre class="sourceCode java"><code class="sourceCode java">Person person = Person.<span class="fu">findFirst</span>(<span class="st">&quot;id = 2&quot;</span>);
-<span class="co">//parametrized:</span>
-person = Person.<span class="fu">findFirst</span>(<span class="st">&quot;id = ?&quot;</span>, <span class="dv">2</span>);
-...</code></pre>
-<h2 id="finding-all-records">Finding all records</h2>
-<p>This is a method or returning all records from a table, use carefully as this will load them all into memory (when you start processing the result, not when this method is called)</p>
-<pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; list = Person.<span class="fu">findAll</span>();
-<span class="kw">for</span>(Person p: list){   <span class="co">//&lt;==== this line of code will initiate the actual query to DB</span>
-   System.<span class="fu">out</span>.<span class="fu">println</span>(p);
-}</code></pre>
-<h2 id="dumping-all-records">Dumping all records</h2>
-<p>This convenience method is used while writing tests.</p>
-<pre class="sourceCode java"><code class="sourceCode java">Person.<span class="fu">findAll</span>().<span class="fu">dump</span>();</code></pre>
-<p>Statement above will dump all records into standard output. Do not execute for large data sets.</p>
-<h2 id="create-and-save">Create and save</h2>
-<p>There are many (more concise) methods of creation of models, this is being the most simple and self-explanatory:</p>
-<pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
-p.<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;Marilyn&quot;</span>);
-p.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Monroe&quot;</span>);
-p.<span class="fu">set</span>(<span class="st">&quot;dob&quot;</span>, <span class="st">&quot;1935-12-06&quot;</span>);
-p.<span class="fu">saveIt</span>();
+    <div id="TOC" class="span3 bs-docs-sidebar">
+        <ul>
+        <li><a href="#record-selection">Record selection</a><ul>
+        <li><a href="#writing-a-model">Writing a Model</a></li>
+        <li><a href="#simple-selection">Simple selection</a></li>
+        <li><a href="#parametrized-search">Parametrized search</a></li>
+        <li><a href="#processing-large-result-sets">Processing large result sets</a></li>
+        <li><a href="#finding-one-record">Finding one record</a></li>
+        <li><a href="#finding-all-records">Finding all records</a></li>
+        <li><a href="#dumping-all-records">Dumping all records</a></li>
+        <li><a href="#create-and-save">Create and save</a></li>
+        <li><a href="#metadata-is-used-to-check-valid-attributes">Metadata is used to check valid attributes</a></li>
+        <li><a href="#lookup-and-save">Lookup and save</a></li>
+        <li><a href="#find-by-id">Find by id</a></li>
+        <li><a href="#count-all-records">Count all records</a></li>
+        <li><a href="#conditional-count">Conditional count</a></li>
+        <li><a href="#use-raw-sql">Use raw SQL</a></li>
+        </ul></li>
+        </ul>
+    </div>
 
-System.<span class="fu">out</span>.<span class="fu">println</span>(p.<span class="fu">getId</span>());<span class="co">// &lt;== this will print an ID assigned by DB.</span></code></pre>
-<p>See more ways to <a href="record_creation">Create records</a></p>
-<h2 id="metadata-is-used-to-check-valid-attributes">Metadata is used to check valid attributes</h2>
-<p>If you look at the SQL at the top of this page, you will see that the table backing up the model does not have a column &quot;name1&quot;. Since the framework will interrogate the DB at the startup and retrieve all metadata information for each table, it will know which model has which attributes. As such, setting a wrong attribute will generate a runtime exception.</p>
-<pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
-p.<span class="fu">set</span>(<span class="st">&quot;name1&quot;</span>, <span class="st">&quot;Bob&quot;</span>); <span class="co">//&lt;=== this will throw exception</span></code></pre>
-<p>Here is an example exception (generated from code snippet above):</p>
-<pre class="prettyprint"><code>java.lang.IllegalArgumentException: Attribute: &#39;name1&#39; is not defined in model: &#39;class activejdbc.test_models.Person&#39;, available attributes: [id, updated_at, graduation_date, dob, name, last_name, created_at]
-...</code></pre>
-<p>We often cause this exception in tests on purpose, just to see the attributes of a model in question.</p>
-<h2 id="lookup-and-save">Lookup and save</h2>
-<p>Putting it together, it is trivial to look up data from DB, modify it, and then save.</p>
-<pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; list = Person.<span class="fu">find</span>(<span class="st">&quot;id = 1&quot;</span>);
-Person p = list.<span class="fu">get</span>(<span class="dv">0</span>);
-p.<span class="fu">set</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;Bob&quot;</span>);
-p.<span class="fu">saveIt</span>();</code></pre>
-<h2 id="find-by-id">Find by id</h2>
-<p>This is self-explanatory. If you know the ID, it is easy to get the model that represents this record.</p>
-<pre class="sourceCode java"><code class="sourceCode java">Person p = Person.<span class="fu">findById</span>(<span class="dv">1</span>);</code></pre>
-<h2 id="count-all-records">Count all records</h2>
-<p>Counting all records is as simple as calling the &quot;count()&quot; method</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="dt">long</span> personCount = Person.<span class="fu">count</span>();</code></pre>
-<h2 id="conditional-count">Conditional count</h2>
-<p>Counting some records is equally easy, all you have to do is to provide criteria.</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="dt">long</span> johnCount = Person.<span class="fu">count</span>(<span class="st">&quot;name = ? &quot;</span>, <span class="st">&quot;John&quot;</span>);</code></pre>
-<h2 id="use-raw-sql">Use raw SQL</h2>
-<p>In case, a query is really complicated, you can always resort to raw SQL like this:</p>
-<pre class="sourceCode java"><code class="sourceCode java">List&lt;Book&gt; books = Book.<span class="fu">findBySQL</span>(<span class="st">&quot;select books.*, address from books, libraries where books.lib_id = libraries.id order by address&quot;</span>);</code></pre>
-<p>The only requirement to this method is that your select statement should select all columns from a table that this model represents. Since model knows which attributes belong to it, it will pluck them from the result set, and you will have a normal list of models (Book in this case) that are initialized from your query.</p>
+<div class="span9"><h1 id="record-selection"><a href="#TOC">Record selection</a></h1>
+                   <h2 id="writing-a-model"><a href="#TOC">Writing a Model</a></h2>
+                   <p>Lets say this is SQL for the DB table (for MySQL)</p>
+                   <pre class="sourceCode sql"><code class="sourceCode sql"><span class="kw">CREATE</span> <span class="kw">TABLE</span> people (
+                      <span class="kw">id</span>  <span class="dt">int</span>(<span class="dv">11</span>) <span class="kw">DEFAULT</span> <span class="kw">NULL</span> auto_increment <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,
+                      name <span class="dt">VARCHAR</span>(<span class="dv">56</span>),
+                      last_name <span class="dt">VARCHAR</span>(<span class="dv">56</span>),
+                      dob <span class="dt">DATE</span>,
+                      graduation_date <span class="dt">DATE</span>,
+                      created_at DATETIME,
+                      updated_at DATETIME
+                      );</code></pre>
+                   <p>Simple models are written in one line of code. No need for setters or getters.</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model {}</code></pre>
+                   <p>Tip: name of the model reflects a singular form of the table name. ActiveJDBC models feel similar to Map interface (although they do not implement it). In order to access a model attributes, you usually use built-in dynamic setters and getters:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">person.<span class="fu">get</span>(<span class="st">&quot;first_name&quot;</span>);
+                   ...
+                   person.<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>);</code></pre>
+                   <h2 id="simple-selection"><a href="#TOC">Simple selection</a></h2>
+                   <pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; list = Person.<span class="fu">where</span>(<span class="st">&quot;name = &#39;John&#39;&quot;</span>);</code></pre>
+                   <p>This will search a table PEOPLE. The framework will generate a SQL similar to this one:</p>
+                   <pre class="sourceCode sql"><code class="sourceCode sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> PEOPLE <span class="kw">WHERE</span> name = <span class="st">&#39;John&#39;</span></code></pre>
+                   <p>As you can see, the framework generates the query from SELECT to the WHERE. The only part that the developer is required to provide is the actual criteria. This is just plain old SQL, albeit only a portion.</p>
+                   <h2 id="parametrized-search"><a href="#TOC">Parametrized search</a></h2>
+                   <pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; list = Person.<span class="fu">where</span>(<span class="st">&quot;name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);</code></pre>
+                   <p>In this case, the value &quot;John&quot; will be substituted for a question mark. The number of question marks and substitute values is flexible, but must match one another.</p>
+                   <h2 id="processing-large-result-sets"><a href="#TOC">Processing large result sets</a></h2>
+                   <p>In all previous results, the entire result set was loaded into memory. This approach is fine in case of relatively small results, but might prove a performance bottleneck for very large data sets. The approach below is somewhat reminiscent of SAX approach, where a super large data set from a DB is read, and for every one record found, it produces a callback. Within that callback, you perform whatever operation that makes sense for the application. The advantage of this approach is not needing to allocate a ton of memory. This is usually a preferred method for batch processes. Think of this as streaming of data from the database.</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Person.<span class="fu">find</span>(<span class="st">&quot;name=&#39;John&#39;&quot;</span>, <span class="kw">new</span> ModelListener&lt;Person&gt;() {
+                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">onModel</span>(Person person) {
+                           System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Found person: &quot;</span> + person);
+                       }
+                   });</code></pre>
+                   <h2 id="finding-one-record"><a href="#TOC">Finding one record</a></h2>
+                   <p>Finding just one record can be achieved with <code>findFirst</code> method. As name suggests, even if the query can result in multiple records, only the first one is returned.</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Person person = Person.<span class="fu">findFirst</span>(<span class="st">&quot;id = 2&quot;</span>);
+                   <span class="co">//parametrized:</span>
+                   person = Person.<span class="fu">findFirst</span>(<span class="st">&quot;id = ?&quot;</span>, <span class="dv">2</span>);
+                   ...</code></pre>
+                   <h2 id="finding-all-records"><a href="#TOC">Finding all records</a></h2>
+                   <p>This is a method or returning all records from a table, use carefully as this will load them all into memory (when you start processing the result, not when this method is called)</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; list = Person.<span class="fu">findAll</span>();
+                   <span class="kw">for</span>(Person p: list){   <span class="co">//&lt;==== this line of code will initiate the actual query to DB</span>
+                      System.<span class="fu">out</span>.<span class="fu">println</span>(p);
+                   }</code></pre>
+                   <h2 id="dumping-all-records"><a href="#TOC">Dumping all records</a></h2>
+                   <p>This convenience method is used while writing tests.</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Person.<span class="fu">findAll</span>().<span class="fu">dump</span>();</code></pre>
+                   <p>Statement above will dump all records into standard output. Do not execute for large data sets.</p>
+                   <h2 id="create-and-save"><a href="#TOC">Create and save</a></h2>
+                   <p>There are many (more concise) methods of creation of models, this is being the most simple and self-explanatory:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
+                   p.<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;Marilyn&quot;</span>);
+                   p.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Monroe&quot;</span>);
+                   p.<span class="fu">set</span>(<span class="st">&quot;dob&quot;</span>, <span class="st">&quot;1935-12-06&quot;</span>);
+                   p.<span class="fu">saveIt</span>();
+                   
+                   System.<span class="fu">out</span>.<span class="fu">println</span>(p.<span class="fu">getId</span>());<span class="co">// &lt;== this will print an ID assigned by DB.</span></code></pre>
+                   <p>See more ways to <a href="record_creation">Create records</a></p>
+                   <h2 id="metadata-is-used-to-check-valid-attributes"><a href="#TOC">Metadata is used to check valid attributes</a></h2>
+                   <p>If you look at the SQL at the top of this page, you will see that the table backing up the model does not have a column &quot;name1&quot;. Since the framework will interrogate the DB at the startup and retrieve all metadata information for each table, it will know which model has which attributes. As such, setting a wrong attribute will generate a runtime exception.</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
+                   p.<span class="fu">set</span>(<span class="st">&quot;name1&quot;</span>, <span class="st">&quot;Bob&quot;</span>); <span class="co">//&lt;=== this will throw exception</span></code></pre>
+                   <p>Here is an example exception (generated from code snippet above):</p>
+                   <pre class="prettyprint"><code>java.lang.IllegalArgumentException: Attribute: &#39;name1&#39; is not defined in model: &#39;class activejdbc.test_models.Person&#39;, available attributes: [id, updated_at, graduation_date, dob, name, last_name, created_at]
+                   ...</code></pre>
+                   <p>We often cause this exception in tests on purpose, just to see the attributes of a model in question.</p>
+                   <h2 id="lookup-and-save"><a href="#TOC">Lookup and save</a></h2>
+                   <p>Putting it together, it is trivial to look up data from DB, modify it, and then save.</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; list = Person.<span class="fu">find</span>(<span class="st">&quot;id = 1&quot;</span>);
+                   Person p = list.<span class="fu">get</span>(<span class="dv">0</span>);
+                   p.<span class="fu">set</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;Bob&quot;</span>);
+                   p.<span class="fu">saveIt</span>();</code></pre>
+                   <h2 id="find-by-id"><a href="#TOC">Find by id</a></h2>
+                   <p>This is self-explanatory. If you know the ID, it is easy to get the model that represents this record.</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">Person p = Person.<span class="fu">findById</span>(<span class="dv">1</span>);</code></pre>
+                   <h2 id="count-all-records"><a href="#TOC">Count all records</a></h2>
+                   <p>Counting all records is as simple as calling the &quot;count()&quot; method</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="dt">long</span> personCount = Person.<span class="fu">count</span>();</code></pre>
+                   <h2 id="conditional-count"><a href="#TOC">Conditional count</a></h2>
+                   <p>Counting some records is equally easy, all you have to do is to provide criteria.</p>
+                   <pre class="sourceCode java"><code class="sourceCode java"><span class="dt">long</span> johnCount = Person.<span class="fu">count</span>(<span class="st">&quot;name = ? &quot;</span>, <span class="st">&quot;John&quot;</span>);</code></pre>
+                   <h2 id="use-raw-sql"><a href="#TOC">Use raw SQL</a></h2>
+                   <p>In case, a query is really complicated, you can always resort to raw SQL like this:</p>
+                   <pre class="sourceCode java"><code class="sourceCode java">List&lt;Book&gt; books = Book.<span class="fu">findBySQL</span>(<span class="st">&quot;select books.*, address from books, libraries where books.lib_id = libraries.id order by address&quot;</span>);</code></pre>
+                   <p>The only requirement to this method is that your select statement should select all columns from a table that this model represents. Since model knows which attributes belong to it, it will pluck them from the result set, and you will have a normal list of models (Book in this case) that are initialized from your query.</p></div></div>
+
