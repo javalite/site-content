@@ -10,7 +10,7 @@ and [DB.java](http://javalite.github.io/activejdbc/org/javalite/activejdbc/DB.ht
 ## Thread connection propagation
 
 ActiveJDBC models when operate, utilize a connection found on a current thread. This connection is put on the local thread by
-Base or DB class before any DB operation. approach allows for more concise API where there is no need for DB Session or persistent
+Base or DB class before any DB operation. This approach allows for more concise API where there is no need for DB Session or persistent
 managers as in other Java ORMs.
 
 Here is a simple program:
