@@ -1,6 +1,268 @@
 <div class="row">
 
-    <div id="TOC" class="span3 bs-docs-sidebar">
+
+<div class="col-md-9">
+<h1 id="testing"><a href="#TOC">Testing</a></h1>
+<p>ActiveWeb promotes <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD/BDD</a> approach to testing of web applications. At the heart, it uses <a href="http://www.junit.org">JUnit</a> as a testing framework, but it provides a number of test classes to be sub-classed for various purposes. ActiveWeb allows to do a full test of any web functionality during a regular build. ActiveWeb provides a number of classes for testing.</p>
+<p>All test classes have a suffix &quot;Spec&quot;. This is a nod to <a href="http://rspec.info/">RSpec</a>, but also a good practice - think of these not as tests that assert values, but as specs, or specifications of behavior. The more you think of them as specifications/blueprints, the more you will think of writing them before actual implementations.</p>
+<blockquote>
+<p>This page is not an exhaustive list of test APIs, but rather a directional guide and a set of how-to instructions</p>
+</blockquote>
+<h2 id="jspec"><a href="#TOC">JSpec</a></h2>
+<p>While ActiveWeb tests are written with the popular JUnit testing framework, traditionally expectations are written with <a href="JSpec">JSpec</a></p>
+<h2 id="dbspec-for-database-tests"><a href="#TOC">DBSpec for database tests</a></h2>
+<p><code>org.javalite.activeweb.DBSpec</code> is a super-class for tests that require a database connection. It is integrated with <a href="database_configuration">database configuration</a> and will automatically open a corresponding database connection before a test execution and close it after the test.</p>
+<p>It is customary for ActiveWeb projects to use one database for testing and a different one for running the system locally on a developers workstation. It makers it easy to preserve data in place in the &quot;development&quot; database, and still use the full power of database CRUD access to your test database.</p>
+<p>For example, you could have some user data in a development database which will allow you to log in, and perform other operations, and yet you can run test logic against your test database, destroy and re-create any data in it, without having to destroy your development database.</p>
+<blockquote>
+<p>Please, see more on environments and modes on <a href="database_configuration">database configuration</a> page.</p>
+</blockquote>
+<p>While DBSpec is usually used to test models, it can be used to test any code that require a database connection. If you need to get a hold of that connection, you can use class Base from ActiveJDBC:</p>
+<pre class="sourceCode java"><code class="sourceCode java">java.<span class="fu">sql</span>.<span class="fu">Connection</span> connection = Base.<span class="fu">connection</span>();</code></pre>
+<h2 id="configuration"><a href="#TOC">Configuration</a></h2>
+<p>Database configuration is described on <a href="database_configuration">database configuration</a> page. DBSpec class will look for connections configured with a method <code>testing()</code>.</p>
+<p>Example:</p>
+<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> DbConfig <span class="kw">extends</span> AbstractDBConfig {
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext context) {
+         <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_development&quot;</span>);
+         <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://localhost/kitchensink_development&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
+         <span class="fu">environment</span>(<span class="st">&quot;jenkins&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://172.30.64.31/kitchensink_jenkins&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
+         <span class="fu">environment</span>(<span class="st">&quot;production&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_production&quot;</span>);
+    }
+}</code></pre></td></tr></table>
+<p>Specifically, line 4 configures a test connection to be used during the test. In case you work with multiple databases, you can configure more than one test connection. DBSpec will open all connections marked for tests.</p>
+<h2 id="transaction-management"><a href="#TOC">Transaction management</a></h2>
+<p>DBSpec will start a transaction before the test and roll it back after the test, ensuring that you have:</p>
+<ol style="list-style-type: decimal">
+<li>integrity of data in your test</li>
+<li>no conflicts of data in the database from one test to another</li>
+</ol>
+<h2 id="example-of-a-dbspec-test"><a href="#TOC">Example of a DBSpec test</a></h2>
+<p>Lets say we are developing a blog, and we need to persist a post. A post will have title, content and author. All these attributes are required. A test will look like this then:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> PostSpec <span class="kw">extends</span> DBSpec {
+    @Test
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldValidateRequiredAttributes</span>() {
+        Post post = <span class="kw">new</span> <span class="fu">Post</span>();
+        <span class="fu">a</span>(post).<span class="fu">shouldNotBe</span>(<span class="st">&quot;valid&quot;</span>);
+        <span class="fu">a</span>(post.<span class="fu">errors</span>().<span class="fu">get</span>(<span class="st">&quot;author&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Author must be provided&quot;</span>);
+        post.<span class="fu">set</span>(<span class="st">&quot;title&quot;</span>, <span class="st">&quot;fake title&quot;</span>, <span class="st">&quot;author&quot;</span>, <span class="st">&quot;fake author&quot;</span>, <span class="st">&quot;content&quot;</span>, <span class="st">&quot;fake content&quot;</span>);
+        <span class="fu">a</span>(post).<span class="fu">shouldBe</span>(<span class="st">&quot;valid&quot;</span>);
+        post.<span class="fu">save</span>();
+        <span class="fu">a</span>(post.<span class="fu">getId</span>()).<span class="fu">shouldNotBeNull</span>();
+        <span class="fu">a</span>(Post.<span class="fu">count</span>()).<span class="fu">shouldBeEqual</span>(<span class="dv">1</span>);
+    }
+}</code></pre>
+<p>Technically speaking you can use it for any test requiring a connection, but it also easy to use for Model tests. Model tests are tests for ActiveJDBC models.</p>
+<p>Here is an example of a model we are testing:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Post <span class="kw">extends</span> Model {
+    <span class="dt">static</span> {
+        <span class="fu">validatePresenceOf</span>(<span class="st">&quot;title&quot;</span>, <span class="st">&quot;content&quot;</span>);
+        <span class="fu">validatePresenceOf</span>(<span class="st">&quot;author&quot;</span>).<span class="fu">message</span>(<span class="st">&quot;Author must be provided&quot;</span>);
+    }
+}</code></pre>
+<h2 id="controllerspec---test-your-controllers"><a href="#TOC">ControllerSpec - test your controllers</a></h2>
+<p><code>org.javalite.activeweb.ControllerSpec</code> is a super class for controller tests. This class is used by unit tests that test a single controller. Controllers are tested by simulating a web request to a controller (no physical network is involved, and no container initialized).</p>
+<blockquote>
+<p>All APIs available to controllers in <code>ControllerSpec</code> are also available to all other controller and integration specs</p>
+</blockquote>
+<h3 id="naming-convention"><a href="#TOC">Naming convention</a></h3>
+<blockquote>
+<p><strong>Subclass naming convention</strong>: subclass name must be made of two words: controller short class name and word &quot;Spec&quot;.</p>
+</blockquote>
+<p>Here is an example: Jf there is a controller:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.controllers;</span>
+<span class="kw">public</span> <span class="kw">class</span> GreeterController <span class="kw">extends</span> AppController {
+   <span class="co">///...</span>
+}</code></pre>
+<p>then the spec will look like this:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.controllers;</span>
+<span class="kw">public</span> <span class="kw">class</span> GreeterControllerSpec <span class="kw">extends</span> ControllerSpec {
+ <span class="co">///...</span>
+}</code></pre>
+<p>Note that the package name is the same for spec as it is for controller, since ActiveWeb will use reflection to determine the controller to be tested</p>
+<h3 id="sending-http-requests-from-specs"><a href="#TOC">Sending HTTP requests from specs</a></h3>
+<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
+    @Test
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendGetToIndex</span>() {
+        <span class="fu">request</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
+     }
+}</code></pre></td></tr></table>
+<p>In a snippet above on line 4, the method <code>request()</code> allows to simulate a call to a controller <code>HomeController</code>. This line reads like this: <em>Send GET request to <code>HomeController</code>, action <code>index</code></em>. There are other methods for sending different HTTP methods:</p>
+<ul>
+<li><code>post(action)</code></li>
+<li><code>put(action)</code></li>
+<li><code>delete(action)</code></li>
+</ul>
+<h2 id="sending-parameters-with-http-requests"><a href="#TOC">Sending parameters with HTTP requests</a></h2>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
+    @Test
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendParamsToIndex</span>() {
+        <span class="fu">request</span>().<span class="fu">param</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>).<span class="fu">param</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Deere&quot;</span>).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
+        <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello, John Deere, welcome back&quot;</span>);
+    }
+}</code></pre>
+<p>This test is a little more complex, we are sending two parameters with the request, and also checking the value controller assigned to a view.</p>
+<p>The above example can be simplified with a use of a <code>params()</code> method that takes an even number of names an values for parameters:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
+    @Test
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendParamsToIndex</span>() {
+         <span class="fu">request</span>().<span class="fu">params</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Deere&quot;</span>).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
+         <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello, John Deere, welcome back&quot;</span>);
+    }
+}</code></pre>
+<h2 id="generating-views-during-testing"><a href="#TOC">Generating views during testing</a></h2>
+<p>How many times you wished when developing a web application in Java to be able to generate a full HTML from the application in test, as if the application was running? Well, with ActiveWeb you can finally do this by using the <code>integrateViews()</code> method.</p>
+<p>Here is a modification on the previous example, but with the <code>integrateViews()</code></p>
+<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
+    @Test
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendParamsToIndexAndGenerateHTML</span>() {
+        <span class="fu">request</span>().<span class="fu">params</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Deere&quot;</span>).<span class="fu">integrateViews</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
+        <span class="fu">a</span>(<span class="fu">responseContent</span>()).<span class="fu">shouldContain</span>(<span class="st">&quot;&lt;span class=&quot;</span>greeting<span class="st">&quot;&gt;Hello, John Deere, welcome back&lt;/span&gt;&quot;</span>);
+    }
+}</code></pre></td></tr></table>
+<p>Line 4 causes the framework to execute the controller, and pass all data from it to the view and the generate HTML as in a normal application flow.</p>
+<p>Method <code>responseContent()</code> simply returns entire HTML generated by the view. At which point, you can use variety of technologies in Java to test its structure (easier if you stick to XHTML in your templates), as well as content.</p>
+<p>We simply test on line 5 that there exists a span with specific content merged by template from data passed in from controller.</p>
+<h2 id="mocking-and-testing"><a href="#TOC">Mocking and testing</a></h2>
+<p>Mocking and testing of services is related to the concept of Dependency Injection and is described in <a href="dependency_injection#mocking-and-testing">Dependency Injection</a> section.</p>
+<h2 id="posting-binary-content"><a href="#TOC">Posting binary content</a></h2>
+<p>Sometimes you need to test a case when binary data is POSTed to a web application. This can be easily tested with the <code>content()</code> method:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
+    @Test
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendBytes</span>() {
+        <span class="dt">byte</span>[] mybytes = ...
+        <span class="fu">request</span>().<span class="fu">content</span>(mybytes).<span class="fu">post</span>(<span class="st">&quot;index&quot;</span>);
+        <span class="fu">a</span>(<span class="fu">responseContent</span>()).<span class="fu">shouldBe</span>(<span class="st">&quot;&lt;message&gt;success&lt;/message&gt;&quot;</span>);
+    }
+}</code></pre>
+<h2 id="uploading-files"><a href="#TOC">Uploading files</a></h2>
+<p>Simulating file upload can be done with the formItem() method:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
+    @Test
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldUploadImageFile</span>() {
+        <span class="dt">byte</span>[] imagebytes = ...
+        <span class="fu">request</span>().<span class="fu">contentType</span>(<span class="st">&quot;multipart/form-data&quot;</span>).<span class="fu">formItem</span>(<span class="st">&quot;file.png&quot;</span>, <span class="st">&quot;image&quot;</span>, <span class="kw">true</span>,  <span class="st">&quot;applicaiton/png&quot;</span>, imagebytes).<span class="fu">post</span>(<span class="st">&quot;upload&quot;</span>);
+        <span class="fu">a</span>(<span class="fu">responseContent</span>()).<span class="fu">shouldContain</span>(<span class="st">&quot;&lt;message&gt;success&lt;/message&gt;&quot;</span>);
+    }
+}</code></pre>
+<p>Most methods chained after method <code>request()</code> are chained because they all return a special instance of <code>RequestBuilder</code>. This allows to call the same method more than once, including <code>formItem()</code> to simulate uploading of multiple files.</p>
+<h2 id="working-with-sessions"><a href="#TOC">Working with sessions</a></h2>
+<p>The <code>session()</code> method allows to setting objects into session before a test and also used to inspect objects in session after some action (execution of a controller)</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> LoginControllerSpec <span class="kw">extends</span> ControllerSpec {
+   @Test
+   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldLoginByIdAndPassword</span>() {
+        <span class="fu">request</span>().<span class="fu">params</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;mmonroe&quot;</span>, <span class="st">&quot;password&quot;</span>, <span class="st">&quot;kennedy&quot;</span>).<span class="fu">post</span>(<span class="st">&quot;index&quot;</span>);
+        <span class="fu">a</span>(<span class="fu">session</span>(<span class="st">&quot;user&quot;</span>)).<span class="fu">shouldNotBeNull</span>();
+  }
+}</code></pre>
+<p>Conversely, you could &quot;login&quot; by placing a User object into a session before executing a controller of interest.</p>
+<h2 id="working-with-cookies"><a href="#TOC">Working with cookies</a></h2>
+<p>Cookies can be sent with a response using a <code>cookie()</code> method:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
+    @Test
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldCookie</span>() {
+        <span class="fu">request</span>().<span class="fu">cookie</span>(<span class="kw">new</span> <span class="fu">Cookie</span>(<span class="st">&quot;app_id&quot;</span>, <span class="st">&quot;12345&quot;</span>)).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
+        <span class="fu">a</span>(<span class="fu">cookie</span>(<span class="st">&quot;last_access&quot;</span>)).<span class="fu">shouldNotBeNull</span>();
+    }
+}</code></pre>
+<p>In this spec, we are sending one cookie with the request, but also are checking that &quot;HelloController&quot; sent another cookie to the client.</p>
+<h2 id="great-for-tdd"><a href="#TOC">Great for TDD</a></h2>
+<p>ActiveWeb controller specs allow for true TDD, since they do not have a compiler dependency on controllers. You can describe full behavior of your controller before a controller class even exists. Simplest example:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> GreeterControllerSpec <span class="kw">extends</span> ControllerSpec {
+    @Test
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldRespondWithGreetingMessage</span>() {
+        <span class="fu">request</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
+        <span class="fu">a</span>(<span class="fu">responseCode</span>()).<span class="fu">shouldBeEqual</span>(<span class="dv">200</span>);
+        <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello, earthlings&quot;</span>);
+    }
+}</code></pre>
+<p>In a code snippet above, a request with HTTP GET method is simulated to the <code>GreeterController</code>, <code>index()</code> action. Controller is expected to assign an object called &quot;message&quot; with value &quot;Hello, earthlings&quot; to a view.</p>
+<p>It is easy to describe a controller behavior in a <code>ControllerSpec</code>, making it easy to practice real TDD.</p>
+<h2 id="dbcontrollerspec---test-controllers-with-db-connection"><a href="#TOC">DBControllerSpec - test controllers with DB connection</a></h2>
+<p><code>org.javalite.activeweb.DBCOntrollerSpec</code> class serves as a super class for controller tests requiring database connections. In effect, this class combines the logic of <code>ControllerSpec</code> and <code>DBSpec</code>. When it comes to naming convention of a controller to be tested, the functionality is identical that of <code>ControllerSpec</code>, but at the same time it will open a connection to DB before test and close after (will also roll back transaction)</p>
+<h2 id="integrationspec---test-multiple-controllers-together"><a href="#TOC">IntegrationSpec - test multiple controllers together</a></h2>
+<p>While <code>ControllerSpec</code> and <code>DBControllerSpec</code> allow to test a single controller, the class <code>IntegrationSpec</code> allows to write entire scenarios for testing multiple controllers.</p>
+<p>Example:</p>
+<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> SimpleSpec <span class="kw">extends</span> IntegrationSpec {
+    @Test
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldNavigateToTwoControllers</span>() {
+        <span class="fu">controller</span>(<span class="st">&quot;home&quot;</span>).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
+        <span class="fu">a</span>(<span class="fu">statusCode</span>()).<span class="fu">shouldBeEqual</span>(<span class="dv">200</span>);
+        <span class="fu">controller</span>(<span class="st">&quot;greeter&quot;</span>).<span class="fu">param</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;Bob&quot;</span>).<span class="fu">integrateViews</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
+        <span class="fu">a</span>(<span class="fu">responseContent</span>()).<span class="fu">shouldContain</span>(<span class="st">&quot;Our special greeting is extended to Bob&quot;</span>);
+    }
+}</code></pre></td></tr></table>
+<p>Lets decompose code snippet:</p>
+<ul>
+<li><strong>Line 4</strong>: a controller <code>HomeController</code> is executed with HTTP GET request which is dispatched to its action <code>index()</code></li>
+<li><strong>Line 5</strong>: we verify that the response code of execution was 200</li>
+<li><strong>Line 6</strong>: controller GreeterController's index() action is executed with HTTP GET and parameter name=Bob. Additionally, we call method <code>integrateViews()</code> which will require the framework to execute the corresponding view after controller, which will provide us with that view's output - usually HTML, but can be XML, Json, whatever that view is producing.</li>
+<li><strong>Line 7</strong>: we examine the content of the produced view output.</li>
+</ul>
+<p>Note that we can run this code in the absence of both controllers (of course it will fail).</p>
+<p>Lets write a <code>GreetingController</code> (as being the most &quot;complicated&quot; of the two):</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">void</span> GreeterController <span class="kw">extends</span> AppController {
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>() {
+        <span class="fu">view</span>(<span class="st">&quot;name&quot;</span>, <span class="fu">param</span>(<span class="st">&quot;name&quot;</span>));
+    }
+}</code></pre>
+<p>The corresponding view might look like:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;span&gt;</span>Our special greeting is extended to ${name}<span class="kw">&lt;/span&gt;</span></code></pre>
+<p>and will be located in file:</p>
+<pre class="prettyprint"><code>/greeter/index.ftl</code></pre>
+<h2 id="dbintegrationspec---combines-integrationspec-and-dbspec"><a href="#TOC">DBIntegrationSpec - combines IntegrationSpec and DBSpec</a></h2>
+<p><code>org.javalite.activeweb.DBIntegrationSpec</code> class serves as a super class for controller integration tests requiring database connections. In effect, this class combines the logic of IntegrationSpec and DBSpec. It will allow to write scenarios to test multiple controllers, but at the same time it will open a connection to DB before the test and will close after (will also roll back transaction).</p>
+<h2 id="appintegrationspec---bootstraps-controllerfilters-into-test"><a href="#TOC">AppIntegrationSpec - bootstraps ControllerFilters into test</a></h2>
+<p><code>org.javalite.activeweb.AppIntegrationSpec</code> is a class that will bootstrap entire application, complete with ControllerFilters. The only difference of running your application under AppIntegrationSpec and running it live, is that the <code>DBConnectionFilter</code> is disabled, and instead database connection is provided exactly the same way as in <code>DBSpec</code>, <code>DBControllerSpec</code> or <code>DBIntegrationSpec</code>.</p>
+<p>In other words, think of <code>AppIntegrationSpec</code> as the same with <code>DBIntegrationSpec</code>, but all filters will trigger as in a real application.</p>
+<blockquote>
+<p>None of the IntegrationSpecs require the same naming convention as <code>ControllerSpec</code> or <code>DBControllerSpec</code>.</p>
+</blockquote>
+<h2 id="testing-views"><a href="#TOC">Testing Views</a></h2>
+<p>It is possible to test just a view template with ActiveWeb. There is a special class for that called ViewSpec. Here is an example of a template to be tested:</p>
+<p>Template file name <code>/person/show.ftl</code>:</p>
+<pre class="prettyprint"><code>Name: ${name}</code></pre>
+<p>The view test might look something like this:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> PersonSpec <span class="kw">extends</span> ViewSpec {
+    @Test
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldRenderShow</span>() {
+        <span class="fu">a</span>(<span class="fu">render</span>(<span class="st">&quot;/person/show&quot;</span>, <span class="st">&quot;name&quot;</span>, <span class="st">&quot;John&quot;</span>).<span class="fu">shouldEqual</span>(<span class="st">&quot;Name: John&quot;</span>);
+     }
+}</code></pre>
+<p>There is also a way to test for <code>&lt;@content for&gt;</code> output, inject mock or real services into custom tags, etc. In other words, one can write very stringent tests for views independent of the rest of the application, just as if views were first grade application components.</p></div>
+
+    <div id="TOC" class="col-md-3">
+<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
         <ul>
         <li><a href="#testing">Testing</a><ul>
         <li><a href="#jspec">JSpec</a></li>
@@ -27,264 +289,8 @@
         <li><a href="#testing-views">Testing Views</a></li>
         </ul></li>
         </ul>
+</div>
     </div>
 
-<div class="span9"><h1 id="testing"><a href="#TOC">Testing</a></h1>
-                   <p>ActiveWeb promotes <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD/BDD</a> approach to testing of web applications. At the heart, it uses <a href="http://www.junit.org">JUnit</a> as a testing framework, but it provides a number of test classes to be sub-classed for various purposes. ActiveWeb allows to do a full test of any web functionality during a regular build. ActiveWeb provides a number of classes for testing.</p>
-                   <p>All test classes have a suffix &quot;Spec&quot;. This is a nod to <a href="http://rspec.info/">RSpec</a>, but also a good practice - think of these not as tests that assert values, but as specs, or specifications of behavior. The more you think of them as specifications/blueprints, the more you will think of writing them before actual implementations.</p>
-                   <blockquote>
-                   <p>This page is not an exhaustive list of test APIs, but rather a directional guide and a set of how-to instructions</p>
-                   </blockquote>
-                   <h2 id="jspec"><a href="#TOC">JSpec</a></h2>
-                   <p>While ActiveWeb tests are written with the popular JUnit testing framework, traditionally expectations are written with <a href="JSpec">JSpec</a></p>
-                   <h2 id="dbspec-for-database-tests"><a href="#TOC">DBSpec for database tests</a></h2>
-                   <p><code>org.javalite.activeweb.DBSpec</code> is a super-class for tests that require a database connection. It is integrated with <a href="database_configuration">database configuration</a> and will automatically open a corresponding database connection before a test execution and close it after the test.</p>
-                   <p>It is customary for ActiveWeb projects to use one database for testing and a different one for running the system locally on a developers workstation. It makers it easy to preserve data in place in the &quot;development&quot; database, and still use the full power of database CRUD access to your test database.</p>
-                   <p>For example, you could have some user data in a development database which will allow you to log in, and perform other operations, and yet you can run test logic against your test database, destroy and re-create any data in it, without having to destroy your development database.</p>
-                   <blockquote>
-                   <p>Please, see more on environments and modes on <a href="database_configuration">database configuration</a> page.</p>
-                   </blockquote>
-                   <p>While DBSpec is usually used to test models, it can be used to test any code that require a database connection. If you need to get a hold of that connection, you can use class Base from ActiveJDBC:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java">java.<span class="fu">sql</span>.<span class="fu">Connection</span> connection = Base.<span class="fu">connection</span>();</code></pre>
-                   <h2 id="configuration"><a href="#TOC">Configuration</a></h2>
-                   <p>Database configuration is described on <a href="database_configuration">database configuration</a> page. DBSpec class will look for connections configured with a method <code>testing()</code>.</p>
-                   <p>Example:</p>
-                   <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-                   2
-                   3
-                   4
-                   5
-                   6
-                   7
-                   8
-                   </pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> DbConfig <span class="kw">extends</span> AbstractDBConfig {
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext context) {
-                            <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_development&quot;</span>);
-                            <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://localhost/kitchensink_development&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
-                            <span class="fu">environment</span>(<span class="st">&quot;jenkins&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://172.30.64.31/kitchensink_jenkins&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
-                            <span class="fu">environment</span>(<span class="st">&quot;production&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_production&quot;</span>);
-                       }
-                   }</code></pre></td></tr></table>
-                   <p>Specifically, line 4 configures a test connection to be used during the test. In case you work with multiple databases, you can configure more than one test connection. DBSpec will open all connections marked for tests.</p>
-                   <h2 id="transaction-management"><a href="#TOC">Transaction management</a></h2>
-                   <p>DBSpec will start a transaction before the test and roll it back after the test, ensuring that you have:</p>
-                   <ol style="list-style-type: decimal">
-                   <li>integrity of data in your test</li>
-                   <li>no conflicts of data in the database from one test to another</li>
-                   </ol>
-                   <h2 id="example-of-a-dbspec-test"><a href="#TOC">Example of a DBSpec test</a></h2>
-                   <p>Lets say we are developing a blog, and we need to persist a post. A post will have title, content and author. All these attributes are required. A test will look like this then:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> PostSpec <span class="kw">extends</span> DBSpec {
-                       @Test
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldValidateRequiredAttributes</span>() {
-                           Post post = <span class="kw">new</span> <span class="fu">Post</span>();
-                           <span class="fu">a</span>(post).<span class="fu">shouldNotBe</span>(<span class="st">&quot;valid&quot;</span>);
-                           <span class="fu">a</span>(post.<span class="fu">errors</span>().<span class="fu">get</span>(<span class="st">&quot;author&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Author must be provided&quot;</span>);
-                           post.<span class="fu">set</span>(<span class="st">&quot;title&quot;</span>, <span class="st">&quot;fake title&quot;</span>, <span class="st">&quot;author&quot;</span>, <span class="st">&quot;fake author&quot;</span>, <span class="st">&quot;content&quot;</span>, <span class="st">&quot;fake content&quot;</span>);
-                           <span class="fu">a</span>(post).<span class="fu">shouldBe</span>(<span class="st">&quot;valid&quot;</span>);
-                           post.<span class="fu">save</span>();
-                           <span class="fu">a</span>(post.<span class="fu">getId</span>()).<span class="fu">shouldNotBeNull</span>();
-                           <span class="fu">a</span>(Post.<span class="fu">count</span>()).<span class="fu">shouldBeEqual</span>(<span class="dv">1</span>);
-                       }
-                   }</code></pre>
-                   <p>Technically speaking you can use it for any test requiring a connection, but it also easy to use for Model tests. Model tests are tests for ActiveJDBC models.</p>
-                   <p>Here is an example of a model we are testing:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Post <span class="kw">extends</span> Model {
-                       <span class="dt">static</span> {
-                           <span class="fu">validatePresenceOf</span>(<span class="st">&quot;title&quot;</span>, <span class="st">&quot;content&quot;</span>);
-                           <span class="fu">validatePresenceOf</span>(<span class="st">&quot;author&quot;</span>).<span class="fu">message</span>(<span class="st">&quot;Author must be provided&quot;</span>);
-                       }
-                   }</code></pre>
-                   <h2 id="controllerspec---test-your-controllers"><a href="#TOC">ControllerSpec - test your controllers</a></h2>
-                   <p><code>org.javalite.activeweb.ControllerSpec</code> is a super class for controller tests. This class is used by unit tests that test a single controller. Controllers are tested by simulating a web request to a controller (no physical network is involved, and no container initialized).</p>
-                   <blockquote>
-                   <p>All APIs available to controllers in <code>ControllerSpec</code> are also available to all other controller and integration specs</p>
-                   </blockquote>
-                   <h3 id="naming-convention"><a href="#TOC">Naming convention</a></h3>
-                   <blockquote>
-                   <p><strong>Subclass naming convention</strong>: subclass name must be made of two words: controller short class name and word &quot;Spec&quot;.</p>
-                   </blockquote>
-                   <p>Here is an example: Jf there is a controller:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.controllers;</span>
-                   <span class="kw">public</span> <span class="kw">class</span> GreeterController <span class="kw">extends</span> AppController {
-                      <span class="co">///...</span>
-                   }</code></pre>
-                   <p>then the spec will look like this:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.controllers;</span>
-                   <span class="kw">public</span> <span class="kw">class</span> GreeterControllerSpec <span class="kw">extends</span> ControllerSpec {
-                    <span class="co">///...</span>
-                   }</code></pre>
-                   <p>Note that the package name is the same for spec as it is for controller, since ActiveWeb will use reflection to determine the controller to be tested</p>
-                   <h3 id="sending-http-requests-from-specs"><a href="#TOC">Sending HTTP requests from specs</a></h3>
-                   <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-                   2
-                   3
-                   4
-                   5
-                   6
-                   </pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-                       @Test
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendGetToIndex</span>() {
-                           <span class="fu">request</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
-                        }
-                   }</code></pre></td></tr></table>
-                   <p>In a snippet above on line 4, the method <code>request()</code> allows to simulate a call to a controller <code>HomeController</code>. This line reads like this: <em>Send GET request to <code>HomeController</code>, action <code>index</code></em>. There are other methods for sending different HTTP methods:</p>
-                   <ul>
-                   <li><code>post(action)</code></li>
-                   <li><code>put(action)</code></li>
-                   <li><code>delete(action)</code></li>
-                   </ul>
-                   <h2 id="sending-parameters-with-http-requests"><a href="#TOC">Sending parameters with HTTP requests</a></h2>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-                       @Test
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendParamsToIndex</span>() {
-                           <span class="fu">request</span>().<span class="fu">param</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>).<span class="fu">param</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Deere&quot;</span>).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
-                           <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello, John Deere, welcome back&quot;</span>);
-                       }
-                   }</code></pre>
-                   <p>This test is a little more complex, we are sending two parameters with the request, and also checking the value controller assigned to a view.</p>
-                   <p>The above example can be simplified with a use of a <code>params()</code> method that takes an even number of names an values for parameters:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-                       @Test
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendParamsToIndex</span>() {
-                            <span class="fu">request</span>().<span class="fu">params</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Deere&quot;</span>).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
-                            <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello, John Deere, welcome back&quot;</span>);
-                       }
-                   }</code></pre>
-                   <h2 id="generating-views-during-testing"><a href="#TOC">Generating views during testing</a></h2>
-                   <p>How many times you wished when developing a web application in Java to be able to generate a full HTML from the application in test, as if the application was running? Well, with ActiveWeb you can finally do this by using the <code>integrateViews()</code> method.</p>
-                   <p>Here is a modification on the previous example, but with the <code>integrateViews()</code></p>
-                   <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-                   2
-                   3
-                   4
-                   5
-                   6
-                   7
-                   </pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-                       @Test
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendParamsToIndexAndGenerateHTML</span>() {
-                           <span class="fu">request</span>().<span class="fu">params</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Deere&quot;</span>).<span class="fu">integrateViews</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
-                           <span class="fu">a</span>(<span class="fu">responseContent</span>()).<span class="fu">shouldContain</span>(<span class="st">&quot;&lt;span class=&quot;</span>greeting<span class="st">&quot;&gt;Hello, John Deere, welcome back&lt;/span&gt;&quot;</span>);
-                       }
-                   }</code></pre></td></tr></table>
-                   <p>Line 4 causes the framework to execute the controller, and pass all data from it to the view and the generate HTML as in a normal application flow.</p>
-                   <p>Method <code>responseContent()</code> simply returns entire HTML generated by the view. At which point, you can use variety of technologies in Java to test its structure (easier if you stick to XHTML in your templates), as well as content.</p>
-                   <p>We simply test on line 5 that there exists a span with specific content merged by template from data passed in from controller.</p>
-                   <h2 id="mocking-and-testing"><a href="#TOC">Mocking and testing</a></h2>
-                   <p>Mocking and testing of services is related to the concept of Dependency Injection and is described in <a href="dependency_injection#mocking-and-testing">Dependency Injection</a> section.</p>
-                   <h2 id="posting-binary-content"><a href="#TOC">Posting binary content</a></h2>
-                   <p>Sometimes you need to test a case when binary data is POSTed to a web application. This can be easily tested with the <code>content()</code> method:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-                       @Test
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendBytes</span>() {
-                           <span class="dt">byte</span>[] mybytes = ...
-                           <span class="fu">request</span>().<span class="fu">content</span>(mybytes).<span class="fu">post</span>(<span class="st">&quot;index&quot;</span>);
-                           <span class="fu">a</span>(<span class="fu">responseContent</span>()).<span class="fu">shouldBe</span>(<span class="st">&quot;&lt;message&gt;success&lt;/message&gt;&quot;</span>);
-                       }
-                   }</code></pre>
-                   <h2 id="uploading-files"><a href="#TOC">Uploading files</a></h2>
-                   <p>Simulating file upload can be done with the formItem() method:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-                       @Test
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldUploadImageFile</span>() {
-                           <span class="dt">byte</span>[] imagebytes = ...
-                           <span class="fu">request</span>().<span class="fu">contentType</span>(<span class="st">&quot;multipart/form-data&quot;</span>).<span class="fu">formItem</span>(<span class="st">&quot;file.png&quot;</span>, <span class="st">&quot;image&quot;</span>, <span class="kw">true</span>,  <span class="st">&quot;applicaiton/png&quot;</span>, imagebytes).<span class="fu">post</span>(<span class="st">&quot;upload&quot;</span>);
-                           <span class="fu">a</span>(<span class="fu">responseContent</span>()).<span class="fu">shouldContain</span>(<span class="st">&quot;&lt;message&gt;success&lt;/message&gt;&quot;</span>);
-                       }
-                   }</code></pre>
-                   <p>Most methods chained after method <code>request()</code> are chained because they all return a special instance of <code>RequestBuilder</code>. This allows to call the same method more than once, including <code>formItem()</code> to simulate uploading of multiple files.</p>
-                   <h2 id="working-with-sessions"><a href="#TOC">Working with sessions</a></h2>
-                   <p>The <code>session()</code> method allows to setting objects into session before a test and also used to inspect objects in session after some action (execution of a controller)</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> LoginControllerSpec <span class="kw">extends</span> ControllerSpec {
-                      @Test
-                      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldLoginByIdAndPassword</span>() {
-                           <span class="fu">request</span>().<span class="fu">params</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;mmonroe&quot;</span>, <span class="st">&quot;password&quot;</span>, <span class="st">&quot;kennedy&quot;</span>).<span class="fu">post</span>(<span class="st">&quot;index&quot;</span>);
-                           <span class="fu">a</span>(<span class="fu">session</span>(<span class="st">&quot;user&quot;</span>)).<span class="fu">shouldNotBeNull</span>();
-                     }
-                   }</code></pre>
-                   <p>Conversely, you could &quot;login&quot; by placing a User object into a session before executing a controller of interest.</p>
-                   <h2 id="working-with-cookies"><a href="#TOC">Working with cookies</a></h2>
-                   <p>Cookies can be sent with a response using a <code>cookie()</code> method:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-                       @Test
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldCookie</span>() {
-                           <span class="fu">request</span>().<span class="fu">cookie</span>(<span class="kw">new</span> <span class="fu">Cookie</span>(<span class="st">&quot;app_id&quot;</span>, <span class="st">&quot;12345&quot;</span>)).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
-                           <span class="fu">a</span>(<span class="fu">cookie</span>(<span class="st">&quot;last_access&quot;</span>)).<span class="fu">shouldNotBeNull</span>();
-                       }
-                   }</code></pre>
-                   <p>In this spec, we are sending one cookie with the request, but also are checking that &quot;HelloController&quot; sent another cookie to the client.</p>
-                   <h2 id="great-for-tdd"><a href="#TOC">Great for TDD</a></h2>
-                   <p>ActiveWeb controller specs allow for true TDD, since they do not have a compiler dependency on controllers. You can describe full behavior of your controller before a controller class even exists. Simplest example:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> GreeterControllerSpec <span class="kw">extends</span> ControllerSpec {
-                       @Test
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldRespondWithGreetingMessage</span>() {
-                           <span class="fu">request</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
-                           <span class="fu">a</span>(<span class="fu">responseCode</span>()).<span class="fu">shouldBeEqual</span>(<span class="dv">200</span>);
-                           <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello, earthlings&quot;</span>);
-                       }
-                   }</code></pre>
-                   <p>In a code snippet above, a request with HTTP GET method is simulated to the <code>GreeterController</code>, <code>index()</code> action. Controller is expected to assign an object called &quot;message&quot; with value &quot;Hello, earthlings&quot; to a view.</p>
-                   <p>It is easy to describe a controller behavior in a <code>ControllerSpec</code>, making it easy to practice real TDD.</p>
-                   <h2 id="dbcontrollerspec---test-controllers-with-db-connection"><a href="#TOC">DBControllerSpec - test controllers with DB connection</a></h2>
-                   <p><code>org.javalite.activeweb.DBCOntrollerSpec</code> class serves as a super class for controller tests requiring database connections. In effect, this class combines the logic of <code>ControllerSpec</code> and <code>DBSpec</code>. When it comes to naming convention of a controller to be tested, the functionality is identical that of <code>ControllerSpec</code>, but at the same time it will open a connection to DB before test and close after (will also roll back transaction)</p>
-                   <h2 id="integrationspec---test-multiple-controllers-together"><a href="#TOC">IntegrationSpec - test multiple controllers together</a></h2>
-                   <p>While <code>ControllerSpec</code> and <code>DBControllerSpec</code> allow to test a single controller, the class <code>IntegrationSpec</code> allows to write entire scenarios for testing multiple controllers.</p>
-                   <p>Example:</p>
-                   <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-                   2
-                   3
-                   4
-                   5
-                   6
-                   7
-                   8
-                   9
-                   </pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> SimpleSpec <span class="kw">extends</span> IntegrationSpec {
-                       @Test
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldNavigateToTwoControllers</span>() {
-                           <span class="fu">controller</span>(<span class="st">&quot;home&quot;</span>).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
-                           <span class="fu">a</span>(<span class="fu">statusCode</span>()).<span class="fu">shouldBeEqual</span>(<span class="dv">200</span>);
-                           <span class="fu">controller</span>(<span class="st">&quot;greeter&quot;</span>).<span class="fu">param</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;Bob&quot;</span>).<span class="fu">integrateViews</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
-                           <span class="fu">a</span>(<span class="fu">responseContent</span>()).<span class="fu">shouldContain</span>(<span class="st">&quot;Our special greeting is extended to Bob&quot;</span>);
-                       }
-                   }</code></pre></td></tr></table>
-                   <p>Lets decompose code snippet:</p>
-                   <ul>
-                   <li><strong>Line 4</strong>: a controller <code>HomeController</code> is executed with HTTP GET request which is dispatched to its action <code>index()</code></li>
-                   <li><strong>Line 5</strong>: we verify that the response code of execution was 200</li>
-                   <li><strong>Line 6</strong>: controller GreeterController's index() action is executed with HTTP GET and parameter name=Bob. Additionally, we call method <code>integrateViews()</code> which will require the framework to execute the corresponding view after controller, which will provide us with that view's output - usually HTML, but can be XML, Json, whatever that view is producing.</li>
-                   <li><strong>Line 7</strong>: we examine the content of the produced view output.</li>
-                   </ul>
-                   <p>Note that we can run this code in the absence of both controllers (of course it will fail).</p>
-                   <p>Lets write a <code>GreetingController</code> (as being the most &quot;complicated&quot; of the two):</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">void</span> GreeterController <span class="kw">extends</span> AppController {
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>() {
-                           <span class="fu">view</span>(<span class="st">&quot;name&quot;</span>, <span class="fu">param</span>(<span class="st">&quot;name&quot;</span>));
-                       }
-                   }</code></pre>
-                   <p>The corresponding view might look like:</p>
-                   <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;span&gt;</span>Our special greeting is extended to ${name}<span class="kw">&lt;/span&gt;</span></code></pre>
-                   <p>and will be located in file:</p>
-                   <pre class="prettyprint"><code>/greeter/index.ftl</code></pre>
-                   <h2 id="dbintegrationspec---combines-integrationspec-and-dbspec"><a href="#TOC">DBIntegrationSpec - combines IntegrationSpec and DBSpec</a></h2>
-                   <p><code>org.javalite.activeweb.DBIntegrationSpec</code> class serves as a super class for controller integration tests requiring database connections. In effect, this class combines the logic of IntegrationSpec and DBSpec. It will allow to write scenarios to test multiple controllers, but at the same time it will open a connection to DB before the test and will close after (will also roll back transaction).</p>
-                   <h2 id="appintegrationspec---bootstraps-controllerfilters-into-test"><a href="#TOC">AppIntegrationSpec - bootstraps ControllerFilters into test</a></h2>
-                   <p><code>org.javalite.activeweb.AppIntegrationSpec</code> is a class that will bootstrap entire application, complete with ControllerFilters. The only difference of running your application under AppIntegrationSpec and running it live, is that the <code>DBConnectionFilter</code> is disabled, and instead database connection is provided exactly the same way as in <code>DBSpec</code>, <code>DBControllerSpec</code> or <code>DBIntegrationSpec</code>.</p>
-                   <p>In other words, think of <code>AppIntegrationSpec</code> as the same with <code>DBIntegrationSpec</code>, but all filters will trigger as in a real application.</p>
-                   <blockquote>
-                   <p>None of the IntegrationSpecs require the same naming convention as <code>ControllerSpec</code> or <code>DBControllerSpec</code>.</p>
-                   </blockquote>
-                   <h2 id="testing-views"><a href="#TOC">Testing Views</a></h2>
-                   <p>It is possible to test just a view template with ActiveWeb. There is a special class for that called ViewSpec. Here is an example of a template to be tested:</p>
-                   <p>Template file name <code>/person/show.ftl</code>:</p>
-                   <pre class="prettyprint"><code>Name: ${name}</code></pre>
-                   <p>The view test might look something like this:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> PersonSpec <span class="kw">extends</span> ViewSpec {
-                       @Test
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldRenderShow</span>() {
-                           <span class="fu">a</span>(<span class="fu">render</span>(<span class="st">&quot;/person/show&quot;</span>, <span class="st">&quot;name&quot;</span>, <span class="st">&quot;John&quot;</span>).<span class="fu">shouldEqual</span>(<span class="st">&quot;Name: John&quot;</span>);
-                        }
-                   }</code></pre>
-                   <p>There is also a way to test for <code>&lt;@content for&gt;</code> output, inject mock or real services into custom tags, etc. In other words, one can write very stringent tests for views independent of the rest of the application, just as if views were first grade application components.</p></div></div>
+</div>
 

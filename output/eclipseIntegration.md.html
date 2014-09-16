@@ -1,41 +1,47 @@
 <div class="row">
 
-    <div id="TOC" class="span3 bs-docs-sidebar">
+
+<div class="col-md-9">
+<h1 id="eclipse-integration"><a href="#TOC">Eclipse Integration</a></h1>
+<p>As a general rule of thumb, instrumentation needs to be performed in case you run a program or a test that will execute ActiveJDBC models. See <a href="instrumentation">Instrumentation</a> for more detail. Basically Instrumentation adds special byte code instructions for ActiveJDBC top operate properly. Since Eclipse automatically recompiles classes each time you make modifications and save, it can blow away instrumented ActiveJDBC classes and replace them with just compiled versions (non-instrumented).</p>
+<p>When this happens, you will see an exception similar to: <code>org.javalite.activejdbc.InitException: failed to determine Model class name, are you sure models have been instrumented?</code> This means that in before you run your program, model classes need to be instrumented.</p>
+<h2 id="create-instrumentation-script"><a href="#TOC">Create instrumentation script</a></h2>
+<p>This page provides instructions based on a simple Maven ActiveJDBC example. Sources can be found here: <a href="https://github.com/javalite/simple-example">https://github.com/javalite/simple-example</a></p>
+<p>Create a directory scripts:</p>
+<pre><code>mkdir scripts</code></pre>
+<p>Create instrumentation script:</p>
+<pre><code>vi ./scripts/instrumentation.sh</code></pre>
+<p>and place this content into the script:</p>
+<pre><code>mvn process-classes</code></pre>
+<p>Since Instrumentation plugin is bound to the <code>process-classes</code> phase, it will be executed when this goal is invoked. Make script executable:</p>
+<pre><code>chmod a+x ./scripts/instrumentation.sh</code></pre>
+<p>Execute script from the root of project: <code>$./scripts/instrumentation.sh</code></p>
+<p>and observe output similar to this:</p>
+<pre><code>**************************** START INSTRUMENTATION ****************************
+Directory: /home/igor/tmp/simple-example/target/classes
+Found model: activejdbc.examples.simple.Employee
+Instrumented class: activejdbc.examples.simple.Employee in directory: /home/igor/tmp/simple-example/target/classes/
+**************************** END INSTRUMENTATION ****************************</code></pre>
+<p>If you see this output, everything is fine.</p>
+<h2 id="configure-eclipse-builder"><a href="#TOC">Configure Eclipse builder</a></h2>
+<p>Now we need to configure Eclipse Builder to run Instrumentation before executing a unit test or running a program.</p>
+<p>Select: Project -&gt; Properties -&gt; Builders, create a new builder and configure it like this:</p>
+<p>eclipse-config.png</p>
+<div class="figure">
+<img src="images/eclipse-config.png" alt="Eclipse config" /><p class="caption">Eclipse config</p>
+</div>
+<p>Once this is configured you can run your Java program or a JUnit test. Your Instrumentation builder will be executed in after Java Builder and Maven Project builder, ensuring that instrumentation is executed just before run time. Eclipse is also smart to call builders only if there are changes in code.</p></div>
+
+    <div id="TOC" class="col-md-3">
+<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
         <ul>
         <li><a href="#eclipse-integration">Eclipse Integration</a><ul>
         <li><a href="#create-instrumentation-script">Create instrumentation script</a></li>
         <li><a href="#configure-eclipse-builder">Configure Eclipse builder</a></li>
         </ul></li>
         </ul>
+</div>
     </div>
 
-<div class="span9"><h1 id="eclipse-integration"><a href="#TOC">Eclipse Integration</a></h1>
-                   <p>As a general rule of thumb, instrumentation needs to be performed in case you run a program or a test that will execute ActiveJDBC models. See <a href="instrumentation">Instrumentation</a> for more detail. Basically Instrumentation adds special byte code instructions for ActiveJDBC top operate properly. Since Eclipse automatically recompiles classes each time you make modifications and save, it can blow away instrumented ActiveJDBC classes and replace them with just compiled versions (non-instrumented).</p>
-                   <p>When this happens, you will see an exception similar to: <code>org.javalite.activejdbc.InitException: failed to determine Model class name, are you sure models have been instrumented?</code> This means that in before you run your program, model classes need to be instrumented.</p>
-                   <h2 id="create-instrumentation-script"><a href="#TOC">Create instrumentation script</a></h2>
-                   <p>This page provides instructions based on a simple Maven ActiveJDBC example. Sources can be found here: <a href="https://github.com/javalite/simple-example">https://github.com/javalite/simple-example</a></p>
-                   <p>Create a directory scripts:</p>
-                   <pre><code>mkdir scripts</code></pre>
-                   <p>Create instrumentation script:</p>
-                   <pre><code>vi ./scripts/instrumentation.sh</code></pre>
-                   <p>and place this content into the script:</p>
-                   <pre><code>mvn process-classes</code></pre>
-                   <p>Since Instrumentation plugin is bound to the <code>process-classes</code> phase, it will be executed when this goal is invoked. Make script executable:</p>
-                   <pre><code>chmod a+x ./scripts/instrumentation.sh</code></pre>
-                   <p>Execute script from the root of project: <code>$./scripts/instrumentation.sh</code></p>
-                   <p>and observe output similar to this:</p>
-                   <pre><code>**************************** START INSTRUMENTATION ****************************
-                   Directory: /home/igor/tmp/simple-example/target/classes
-                   Found model: activejdbc.examples.simple.Employee
-                   Instrumented class: activejdbc.examples.simple.Employee in directory: /home/igor/tmp/simple-example/target/classes/
-                   **************************** END INSTRUMENTATION ****************************</code></pre>
-                   <p>If you see this output, everything is fine.</p>
-                   <h2 id="configure-eclipse-builder"><a href="#TOC">Configure Eclipse builder</a></h2>
-                   <p>Now we need to configure Eclipse Builder to run Instrumentation before executing a unit test or running a program.</p>
-                   <p>Select: Project -&gt; Properties -&gt; Builders, create a new builder and configure it like this:</p>
-                   <p>eclipse-config.png</p>
-                   <div class="figure">
-                   <img src="images/eclipse-config.png" alt="Eclipse config" /><p class="caption">Eclipse config</p>
-                   </div>
-                   <p>Once this is configured you can run your Java program or a JUnit test. Your Instrumentation builder will be executed in after Java Builder and Maven Project builder, ensuring that instrumentation is executed just before run time. Eclipse is also smart to call builders only if there are changes in code.</p></div></div>
+</div>
 

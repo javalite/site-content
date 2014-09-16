@@ -1,59 +1,65 @@
 <div class="row">
 
-    <div id="TOC" class="span3 bs-docs-sidebar">
+
+<div class="col-md-9">
+<h1 id="less-compiler"><a href="#TOC">Less compiler</a></h1>
+<p><a href="http://lesscss.org/">Less compiler</a> is a better way to write CSS. ActiveWeb provides a built-in mechanism to generate CSS file on the fly with a use of a Less compiler.</p>
+<blockquote>
+<p>Less configuration below requires that you install a Less compiler from: <a href="http://lesscss.org/">Less compiler</a></p>
+</blockquote>
+<p>Here is how to configure:</p>
+<p>First, configure the routes to ignore &quot;/bootstrap.css&quot; route in all environments except development:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> RouteConfig <span class="kw">extends</span> AbstractRouteConfig {
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext appContext) {
+        <span class="fu">ignore</span>(<span class="st">&quot;/bootstrap.css&quot;</span>).<span class="fu">exceptIn</span>(<span class="st">&quot;development&quot;</span>);
+    }
+}</code></pre>
+<p>Then, create a new controller:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> BootstrapController <span class="kw">extends</span> AbstractLesscController {
+    @Override
+    <span class="kw">protected</span> File <span class="fu">getLessFile</span>() {
+        <span class="kw">return</span> <span class="kw">new</span> File(<span class="st">&quot;src/main/webapp/less/bootstrap.less&quot;</span>);
+    }
+}</code></pre>
+<p>And override the <code>getLessFile()</code> method to return a location of your main Less file.</p>
+<p>Additionally, add a Maven plugin to your pom file:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
+    <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
+    <span class="kw">&lt;artifactId&gt;</span>activeweb-lessc-maven-plugin<span class="kw">&lt;/artifactId&gt;</span>
+    <span class="kw">&lt;version&gt;</span>1.11-SNAPSHOT<span class="kw">&lt;/version&gt;</span>
+    <span class="kw">&lt;configuration&gt;</span>
+        <span class="kw">&lt;lesscMain&gt;</span>${basedir}/src/main/webapp/less/bootstrap.less<span class="kw">&lt;/lesscMain&gt;</span>
+        <span class="kw">&lt;targetDirectory&gt;</span>${basedir}/target/web<span class="kw">&lt;/targetDirectory&gt;</span>
+        <span class="kw">&lt;targetFileName&gt;</span>bootstrap.css<span class="kw">&lt;/targetFileName&gt;</span>
+    <span class="kw">&lt;/configuration&gt;</span>
+    <span class="kw">&lt;executions&gt;</span>
+        <span class="kw">&lt;execution&gt;</span>
+            <span class="kw">&lt;goals&gt;&lt;goal&gt;</span>compile<span class="kw">&lt;/goal&gt;&lt;/goals&gt;</span>
+        <span class="kw">&lt;/execution&gt;</span>
+    <span class="kw">&lt;/executions&gt;</span>
+<span class="kw">&lt;/plugin&gt;</span></code></pre>
+<p>Additionally, configure to package the CSS file into the app with a War plugin:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
+    <span class="kw">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="kw">&lt;/groupId&gt;</span>
+    <span class="kw">&lt;artifactId&gt;</span>maven-war-plugin<span class="kw">&lt;/artifactId&gt;</span>
+    <span class="kw">&lt;version&gt;</span>2.4<span class="kw">&lt;/version&gt;</span>
+    <span class="kw">&lt;configuration&gt;</span>
+        <span class="kw">&lt;webResources&gt;</span>
+            <span class="kw">&lt;resource&gt;</span>
+                <span class="kw">&lt;directory&gt;</span>target/web<span class="kw">&lt;/directory&gt;</span>
+            <span class="kw">&lt;/resource&gt;</span>
+        <span class="kw">&lt;/webResources&gt;</span>
+    <span class="kw">&lt;/configuration&gt;</span>
+<span class="kw">&lt;/plugin&gt;</span></code></pre>
+<p>As a result, when your application is running in development environment, the <code>BootstrapController</code> is compiling CSS from less files in cases there are changes in the files. It checks for changes and re-compiles if needed on each request. During the build, the plugin fully compiles all Less files into a single target CSS file, which then gets packaged into the war file. The file <code>bootstrap.css</code> is then served from container, because this path is ignored in any environment except development. In fact, in a real production system this file like any other static files will be served by a web server or a CDN.</p></div>
+
+    <div id="TOC" class="col-md-3">
+<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
         <ul>
         <li><a href="#less-compiler">Less compiler</a></li>
         </ul>
+</div>
     </div>
 
-<div class="span9"><h1 id="less-compiler"><a href="#TOC">Less compiler</a></h1>
-                   <p><a href="http://lesscss.org/">Less compiler</a> is a better way to write CSS. ActiveWeb provides a built-in mechanism to generate CSS file on the fly with a use of a Less compiler.</p>
-                   <blockquote>
-                   <p>Less configuration below requires that you install a Less compiler from: <a href="http://lesscss.org/">Less compiler</a></p>
-                   </blockquote>
-                   <p>Here is how to configure:</p>
-                   <p>First, configure the routes to ignore &quot;/bootstrap.css&quot; route in all environments except development:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> RouteConfig <span class="kw">extends</span> AbstractRouteConfig {
-                       <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext appContext) {
-                           <span class="fu">ignore</span>(<span class="st">&quot;/bootstrap.css&quot;</span>).<span class="fu">exceptIn</span>(<span class="st">&quot;development&quot;</span>);
-                       }
-                   }</code></pre>
-                   <p>Then, create a new controller:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> BootstrapController <span class="kw">extends</span> AbstractLesscController {
-                       @Override
-                       <span class="kw">protected</span> File <span class="fu">getLessFile</span>() {
-                           <span class="kw">return</span> <span class="kw">new</span> File(<span class="st">&quot;src/main/webapp/less/bootstrap.less&quot;</span>);
-                       }
-                   }</code></pre>
-                   <p>And override the <code>getLessFile()</code> method to return a location of your main Less file.</p>
-                   <p>Additionally, add a Maven plugin to your pom file:</p>
-                   <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
-                       <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
-                       <span class="kw">&lt;artifactId&gt;</span>activeweb-lessc-maven-plugin<span class="kw">&lt;/artifactId&gt;</span>
-                       <span class="kw">&lt;version&gt;</span>1.11-SNAPSHOT<span class="kw">&lt;/version&gt;</span>
-                       <span class="kw">&lt;configuration&gt;</span>
-                           <span class="kw">&lt;lesscMain&gt;</span>${basedir}/src/main/webapp/less/bootstrap.less<span class="kw">&lt;/lesscMain&gt;</span>
-                           <span class="kw">&lt;targetDirectory&gt;</span>${basedir}/target/web<span class="kw">&lt;/targetDirectory&gt;</span>
-                           <span class="kw">&lt;targetFileName&gt;</span>bootstrap.css<span class="kw">&lt;/targetFileName&gt;</span>
-                       <span class="kw">&lt;/configuration&gt;</span>
-                       <span class="kw">&lt;executions&gt;</span>
-                           <span class="kw">&lt;execution&gt;</span>
-                               <span class="kw">&lt;goals&gt;&lt;goal&gt;</span>compile<span class="kw">&lt;/goal&gt;&lt;/goals&gt;</span>
-                           <span class="kw">&lt;/execution&gt;</span>
-                       <span class="kw">&lt;/executions&gt;</span>
-                   <span class="kw">&lt;/plugin&gt;</span></code></pre>
-                   <p>Additionally, configure to package the CSS file into the app with a War plugin:</p>
-                   <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
-                       <span class="kw">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="kw">&lt;/groupId&gt;</span>
-                       <span class="kw">&lt;artifactId&gt;</span>maven-war-plugin<span class="kw">&lt;/artifactId&gt;</span>
-                       <span class="kw">&lt;version&gt;</span>2.4<span class="kw">&lt;/version&gt;</span>
-                       <span class="kw">&lt;configuration&gt;</span>
-                           <span class="kw">&lt;webResources&gt;</span>
-                               <span class="kw">&lt;resource&gt;</span>
-                                   <span class="kw">&lt;directory&gt;</span>target/web<span class="kw">&lt;/directory&gt;</span>
-                               <span class="kw">&lt;/resource&gt;</span>
-                           <span class="kw">&lt;/webResources&gt;</span>
-                       <span class="kw">&lt;/configuration&gt;</span>
-                   <span class="kw">&lt;/plugin&gt;</span></code></pre>
-                   <p>As a result, when your application is running in development environment, the <code>BootstrapController</code> is compiling CSS from less files in cases there are changes in the files. It checks for changes and re-compiles if needed on each request. During the build, the plugin fully compiles all Less files into a single target CSS file, which then gets packaged into the war file. The file <code>bootstrap.css</code> is then served from container, because this path is ignored in any environment except development. In fact, in a real production system this file like any other static files will be served by a web server or a CDN.</p></div></div>
+</div>
 

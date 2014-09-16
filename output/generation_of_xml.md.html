@@ -1,6 +1,156 @@
 <div class="row">
 
-    <div id="TOC" class="span3 bs-docs-sidebar">
+
+<div class="col-md-9">
+<h1 id="generation-of-xml"><a href="#TOC">Generation of XML</a></h1>
+<h1 id="generation-of-xml-1"><a href="#TOC">Generation of XML</a></h1>
+<p>Often developers need to generate XML from models. In more complicated situation, they probably would write some XML generation code. However under simple condition, classes Model and LazyList already provide the basics.</p>
+<h2 id="generate-simple-xml-from-a-model"><a href="#TOC">Generate simple XML from a model</a></h2>
+<p>Here is code that will provide stock XML from a model:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person p  = (Person)Person.<span class="fu">findById</span>(<span class="dv">1</span>);
+String xml = p.<span class="fu">toXml</span>(<span class="dv">2</span>, <span class="kw">true</span>);</code></pre>
+<p>The XML produced will look something like this:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; <span class="kw">?&gt;</span>
+  <span class="kw">&lt;person&gt;</span>
+    <span class="kw">&lt;updated_at&gt;</span>2010-11-09 19:02:11.0<span class="kw">&lt;/updated_at&gt;</span>
+    <span class="kw">&lt;created_at&gt;</span>2010-11-09 19:02:11.0<span class="kw">&lt;/created_at&gt;</span>
+    <span class="kw">&lt;dob&gt;</span>1934-12-01<span class="kw">&lt;/dob&gt;</span>
+    <span class="kw">&lt;last_name&gt;</span>Smith<span class="kw">&lt;/last_name&gt;</span>
+    <span class="kw">&lt;graduation_date&gt;</span>1954-12-01<span class="kw">&lt;/graduation_date&gt;</span>
+    <span class="kw">&lt;name&gt;</span>John<span class="kw">&lt;/name&gt;</span>
+    <span class="kw">&lt;id&gt;</span>1<span class="kw">&lt;/id&gt;</span>
+  <span class="kw">&lt;/person&gt;</span></code></pre>
+<p>The first parameter (2) is a number of spaces for indent, and second whether to add an XML declaration or not.</p>
+<h2 id="include-attributes-into-generated-xml"><a href="#TOC">Include attributes into generated XML</a></h2>
+<p>A variation on the example above is to provide a list of attributes that you are interested in, so that only these attributes are included:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person p  = (Person)Person.<span class="fu">findById</span>(<span class="dv">1</span>);
+String xml = p.<span class="fu">toXml</span>(<span class="dv">2</span>, <span class="kw">true</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;dob&quot;</span>);</code></pre>
+<p>The resulting XML will have nothing but the attributes specified:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; <span class="kw">?&gt;</span>
+<span class="kw">&lt;person&gt;</span>
+    <span class="kw">&lt;dob&gt;</span>1934-12-01<span class="kw">&lt;/dob&gt;</span>
+    <span class="kw">&lt;last_name&gt;</span>Smith<span class="kw">&lt;/last_name&gt;</span>
+<span class="kw">&lt;/person&gt;</span></code></pre>
+<h2 id="inclusion-of-dependencies"><a href="#TOC">Inclusion of dependencies</a></h2>
+<p>When a model has relationships, the generated XML will loop through them to include their XML into the parent XML as well:</p>
+<pre class="sourceCode java"><code class="sourceCode java">List&lt;User&gt; personList = User.<span class="fu">findAll</span>().<span class="fu">orderBy</span>(<span class="st">&quot;id&quot;</span>).<span class="fu">include</span>(Address.<span class="fu">class</span>);
+User u = personList.<span class="fu">get</span>(<span class="dv">0</span>);
+String xml = u.<span class="fu">toXml</span>(<span class="dv">2</span>, <span class="kw">true</span>);</code></pre>
+<p>result:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; <span class="kw">?&gt;</span>
+  <span class="kw">&lt;user&gt;</span>
+    <span class="kw">&lt;addresses&gt;</span>
+      <span class="kw">&lt;address&gt;</span>
+        <span class="kw">&lt;user_id&gt;</span>1<span class="kw">&lt;/user_id&gt;</span>
+        <span class="kw">&lt;address2&gt;</span>apt 31<span class="kw">&lt;/address2&gt;</span>
+        <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
+        <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
+        <span class="kw">&lt;address1&gt;</span>123 Pine St.<span class="kw">&lt;/address1&gt;</span>
+        <span class="kw">&lt;id&gt;</span>1<span class="kw">&lt;/id&gt;</span>
+        <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
+      <span class="kw">&lt;/address&gt;</span>
+      <span class="kw">&lt;address&gt;</span>
+        <span class="kw">&lt;user_id&gt;</span>1<span class="kw">&lt;/user_id&gt;</span>
+   ...
+    truncated for brevity
+   ...
+    <span class="kw">&lt;/addresses&gt;</span>
+    <span class="kw">&lt;email&gt;</span>mmonroe@yahoo.com<span class="kw">&lt;/email&gt;</span>
+    <span class="kw">&lt;last_name&gt;</span>Monroe<span class="kw">&lt;/last_name&gt;</span>
+    <span class="kw">&lt;id&gt;</span>1<span class="kw">&lt;/id&gt;</span>
+    <span class="kw">&lt;first_name&gt;</span>Marilyn<span class="kw">&lt;/first_name&gt;</span>
+  <span class="kw">&lt;/user&gt;</span></code></pre>
+<h2 id="generate-xml-from-a-resultset"><a href="#TOC">Generate XML from a resultset</a></h2>
+<p>Generating XML from a LazyList is equally easy:</p>
+<pre class="sourceCode java"><code class="sourceCode java">LazyList&lt;User&gt; personList = User.<span class="fu">findAll</span>().<span class="fu">orderBy</span>(<span class="st">&quot;id&quot;</span>).<span class="fu">include</span>(Address.<span class="fu">class</span>);
+String xml = personList.<span class="fu">toXml</span>(<span class="dv">2</span>, <span class="kw">true</span>);</code></pre>
+<p>An example of generated XML:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; <span class="kw">?&gt;</span>
+<span class="kw">&lt;users&gt;</span>
+  <span class="kw">&lt;user&gt;</span>
+    <span class="kw">&lt;addresses&gt;</span>
+      <span class="kw">&lt;address&gt;</span>
+        <span class="kw">&lt;user_id&gt;</span>1<span class="kw">&lt;/user_id&gt;</span>
+        <span class="kw">&lt;address2&gt;</span>apt 31<span class="kw">&lt;/address2&gt;</span>
+        <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
+        <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
+        <span class="kw">&lt;address1&gt;</span>123 Pine St.<span class="kw">&lt;/address1&gt;</span>
+        <span class="kw">&lt;id&gt;</span>1<span class="kw">&lt;/id&gt;</span>
+        <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
+      <span class="kw">&lt;/address&gt;</span>
+      <span class="kw">&lt;address&gt;</span>
+        <span class="kw">&lt;user_id&gt;</span>1<span class="kw">&lt;/user_id&gt;</span>
+        <span class="kw">&lt;address2&gt;</span>apt 21<span class="kw">&lt;/address2&gt;</span>
+        <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
+        <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
+        <span class="kw">&lt;address1&gt;</span>456 Brook St.<span class="kw">&lt;/address1&gt;</span>
+        <span class="kw">&lt;id&gt;</span>2<span class="kw">&lt;/id&gt;</span>
+        <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
+      <span class="kw">&lt;/address&gt;</span>
+      <span class="kw">&lt;address&gt;</span>
+        <span class="kw">&lt;user_id&gt;</span>1<span class="kw">&lt;/user_id&gt;</span>
+        <span class="kw">&lt;address2&gt;</span>apt 32<span class="kw">&lt;/address2&gt;</span>
+        <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
+        <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
+        <span class="kw">&lt;address1&gt;</span>23 Grove St.<span class="kw">&lt;/address1&gt;</span>
+        <span class="kw">&lt;id&gt;</span>3<span class="kw">&lt;/id&gt;</span>
+        <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
+      <span class="kw">&lt;/address&gt;</span>
+    <span class="kw">&lt;/addresses&gt;</span>
+    <span class="kw">&lt;email&gt;</span>mmonroe@yahoo.com<span class="kw">&lt;/email&gt;</span>
+    <span class="kw">&lt;last_name&gt;</span>Monroe<span class="kw">&lt;/last_name&gt;</span>
+    <span class="kw">&lt;id&gt;</span>1<span class="kw">&lt;/id&gt;</span>
+    <span class="kw">&lt;first_name&gt;</span>Marilyn<span class="kw">&lt;/first_name&gt;</span>
+  <span class="kw">&lt;/user&gt;</span>
+  <span class="kw">&lt;user&gt;</span>
+    <span class="kw">&lt;addresses&gt;</span>
+      <span class="kw">&lt;address&gt;</span>
+        <span class="kw">&lt;user_id&gt;</span>2<span class="kw">&lt;/user_id&gt;</span>
+        <span class="kw">&lt;address2&gt;</span>apt 34<span class="kw">&lt;/address2&gt;</span>
+        <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
+        <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
+        <span class="kw">&lt;address1&gt;</span>143 Madison St.<span class="kw">&lt;/address1&gt;</span>
+        <span class="kw">&lt;id&gt;</span>4<span class="kw">&lt;/id&gt;</span>
+        <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
+      <span class="kw">&lt;/address&gt;</span>
+      <span class="kw">&lt;address&gt;</span>
+        <span class="kw">&lt;user_id&gt;</span>2<span class="kw">&lt;/user_id&gt;</span>
+        <span class="kw">&lt;address2&gt;</span>apt 35<span class="kw">&lt;/address2&gt;</span>
+        <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
+        <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
+        <span class="kw">&lt;address1&gt;</span>153 Creek St.<span class="kw">&lt;/address1&gt;</span>
+        <span class="kw">&lt;id&gt;</span>5<span class="kw">&lt;/id&gt;</span>
+        <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
+      <span class="kw">&lt;/address&gt;</span>
+      <span class="kw">&lt;address&gt;</span>
+        <span class="kw">&lt;user_id&gt;</span>2<span class="kw">&lt;/user_id&gt;</span>
+        <span class="kw">&lt;address2&gt;</span>apt 36<span class="kw">&lt;/address2&gt;</span>
+        <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
+        <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
+        <span class="kw">&lt;address1&gt;</span>163 Gorge St.<span class="kw">&lt;/address1&gt;</span>
+        <span class="kw">&lt;id&gt;</span>6<span class="kw">&lt;/id&gt;</span>
+        <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
+      <span class="kw">&lt;/address&gt;</span>
+      <span class="kw">&lt;address&gt;</span>
+        <span class="kw">&lt;user_id&gt;</span>2<span class="kw">&lt;/user_id&gt;</span>
+        <span class="kw">&lt;address2&gt;</span>apt 37<span class="kw">&lt;/address2&gt;</span>
+        <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
+        <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
+        <span class="kw">&lt;address1&gt;</span>173 Far Side.<span class="kw">&lt;/address1&gt;</span>
+        <span class="kw">&lt;id&gt;</span>7<span class="kw">&lt;/id&gt;</span>
+        <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
+      <span class="kw">&lt;/address&gt;</span>
+    <span class="kw">&lt;/addresses&gt;</span>
+    <span class="kw">&lt;email&gt;</span>jdoe@gmail.com<span class="kw">&lt;/email&gt;</span>
+    <span class="kw">&lt;last_name&gt;</span>Doe<span class="kw">&lt;/last_name&gt;</span>
+    <span class="kw">&lt;id&gt;</span>2<span class="kw">&lt;/id&gt;</span>
+    <span class="kw">&lt;first_name&gt;</span>John<span class="kw">&lt;/first_name&gt;</span>
+  <span class="kw">&lt;/user&gt;</span>
+<span class="kw">&lt;/users&gt;</span></code></pre>
+<p>The two users were generated. Since the include was used, the corresponding children from the ADDRESSES table were queried too for their XML.</p></div>
+
+    <div id="TOC" class="col-md-3">
+<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
         <ul>
         <li><a href="#generation-of-xml">Generation of XML</a></li>
         <li><a href="#generation-of-xml-1">Generation of XML</a><ul>
@@ -10,152 +160,8 @@
         <li><a href="#generate-xml-from-a-resultset">Generate XML from a resultset</a></li>
         </ul></li>
         </ul>
+</div>
     </div>
 
-<div class="span9"><h1 id="generation-of-xml"><a href="#TOC">Generation of XML</a></h1>
-                   <h1 id="generation-of-xml-1"><a href="#TOC">Generation of XML</a></h1>
-                   <p>Often developers need to generate XML from models. In more complicated situation, they probably would write some XML generation code. However under simple condition, classes Model and LazyList already provide the basics.</p>
-                   <h2 id="generate-simple-xml-from-a-model"><a href="#TOC">Generate simple XML from a model</a></h2>
-                   <p>Here is code that will provide stock XML from a model:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java">Person p  = (Person)Person.<span class="fu">findById</span>(<span class="dv">1</span>);
-                   String xml = p.<span class="fu">toXml</span>(<span class="dv">2</span>, <span class="kw">true</span>);</code></pre>
-                   <p>The XML produced will look something like this:</p>
-                   <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; <span class="kw">?&gt;</span>
-                     <span class="kw">&lt;person&gt;</span>
-                       <span class="kw">&lt;updated_at&gt;</span>2010-11-09 19:02:11.0<span class="kw">&lt;/updated_at&gt;</span>
-                       <span class="kw">&lt;created_at&gt;</span>2010-11-09 19:02:11.0<span class="kw">&lt;/created_at&gt;</span>
-                       <span class="kw">&lt;dob&gt;</span>1934-12-01<span class="kw">&lt;/dob&gt;</span>
-                       <span class="kw">&lt;last_name&gt;</span>Smith<span class="kw">&lt;/last_name&gt;</span>
-                       <span class="kw">&lt;graduation_date&gt;</span>1954-12-01<span class="kw">&lt;/graduation_date&gt;</span>
-                       <span class="kw">&lt;name&gt;</span>John<span class="kw">&lt;/name&gt;</span>
-                       <span class="kw">&lt;id&gt;</span>1<span class="kw">&lt;/id&gt;</span>
-                     <span class="kw">&lt;/person&gt;</span></code></pre>
-                   <p>The first parameter (2) is a number of spaces for indent, and second whether to add an XML declaration or not.</p>
-                   <h2 id="include-attributes-into-generated-xml"><a href="#TOC">Include attributes into generated XML</a></h2>
-                   <p>A variation on the example above is to provide a list of attributes that you are interested in, so that only these attributes are included:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java">Person p  = (Person)Person.<span class="fu">findById</span>(<span class="dv">1</span>);
-                   String xml = p.<span class="fu">toXml</span>(<span class="dv">2</span>, <span class="kw">true</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;dob&quot;</span>);</code></pre>
-                   <p>The resulting XML will have nothing but the attributes specified:</p>
-                   <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; <span class="kw">?&gt;</span>
-                   <span class="kw">&lt;person&gt;</span>
-                       <span class="kw">&lt;dob&gt;</span>1934-12-01<span class="kw">&lt;/dob&gt;</span>
-                       <span class="kw">&lt;last_name&gt;</span>Smith<span class="kw">&lt;/last_name&gt;</span>
-                   <span class="kw">&lt;/person&gt;</span></code></pre>
-                   <h2 id="inclusion-of-dependencies"><a href="#TOC">Inclusion of dependencies</a></h2>
-                   <p>When a model has relationships, the generated XML will loop through them to include their XML into the parent XML as well:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java">List&lt;User&gt; personList = User.<span class="fu">findAll</span>().<span class="fu">orderBy</span>(<span class="st">&quot;id&quot;</span>).<span class="fu">include</span>(Address.<span class="fu">class</span>);
-                   User u = personList.<span class="fu">get</span>(<span class="dv">0</span>);
-                   String xml = u.<span class="fu">toXml</span>(<span class="dv">2</span>, <span class="kw">true</span>);</code></pre>
-                   <p>result:</p>
-                   <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; <span class="kw">?&gt;</span>
-                     <span class="kw">&lt;user&gt;</span>
-                       <span class="kw">&lt;addresses&gt;</span>
-                         <span class="kw">&lt;address&gt;</span>
-                           <span class="kw">&lt;user_id&gt;</span>1<span class="kw">&lt;/user_id&gt;</span>
-                           <span class="kw">&lt;address2&gt;</span>apt 31<span class="kw">&lt;/address2&gt;</span>
-                           <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
-                           <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
-                           <span class="kw">&lt;address1&gt;</span>123 Pine St.<span class="kw">&lt;/address1&gt;</span>
-                           <span class="kw">&lt;id&gt;</span>1<span class="kw">&lt;/id&gt;</span>
-                           <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
-                         <span class="kw">&lt;/address&gt;</span>
-                         <span class="kw">&lt;address&gt;</span>
-                           <span class="kw">&lt;user_id&gt;</span>1<span class="kw">&lt;/user_id&gt;</span>
-                      ...
-                       truncated for brevity
-                      ...
-                       <span class="kw">&lt;/addresses&gt;</span>
-                       <span class="kw">&lt;email&gt;</span>mmonroe@yahoo.com<span class="kw">&lt;/email&gt;</span>
-                       <span class="kw">&lt;last_name&gt;</span>Monroe<span class="kw">&lt;/last_name&gt;</span>
-                       <span class="kw">&lt;id&gt;</span>1<span class="kw">&lt;/id&gt;</span>
-                       <span class="kw">&lt;first_name&gt;</span>Marilyn<span class="kw">&lt;/first_name&gt;</span>
-                     <span class="kw">&lt;/user&gt;</span></code></pre>
-                   <h2 id="generate-xml-from-a-resultset"><a href="#TOC">Generate XML from a resultset</a></h2>
-                   <p>Generating XML from a LazyList is equally easy:</p>
-                   <pre class="sourceCode java"><code class="sourceCode java">LazyList&lt;User&gt; personList = User.<span class="fu">findAll</span>().<span class="fu">orderBy</span>(<span class="st">&quot;id&quot;</span>).<span class="fu">include</span>(Address.<span class="fu">class</span>);
-                   String xml = personList.<span class="fu">toXml</span>(<span class="dv">2</span>, <span class="kw">true</span>);</code></pre>
-                   <p>An example of generated XML:</p>
-                   <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; <span class="kw">?&gt;</span>
-                   <span class="kw">&lt;users&gt;</span>
-                     <span class="kw">&lt;user&gt;</span>
-                       <span class="kw">&lt;addresses&gt;</span>
-                         <span class="kw">&lt;address&gt;</span>
-                           <span class="kw">&lt;user_id&gt;</span>1<span class="kw">&lt;/user_id&gt;</span>
-                           <span class="kw">&lt;address2&gt;</span>apt 31<span class="kw">&lt;/address2&gt;</span>
-                           <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
-                           <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
-                           <span class="kw">&lt;address1&gt;</span>123 Pine St.<span class="kw">&lt;/address1&gt;</span>
-                           <span class="kw">&lt;id&gt;</span>1<span class="kw">&lt;/id&gt;</span>
-                           <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
-                         <span class="kw">&lt;/address&gt;</span>
-                         <span class="kw">&lt;address&gt;</span>
-                           <span class="kw">&lt;user_id&gt;</span>1<span class="kw">&lt;/user_id&gt;</span>
-                           <span class="kw">&lt;address2&gt;</span>apt 21<span class="kw">&lt;/address2&gt;</span>
-                           <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
-                           <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
-                           <span class="kw">&lt;address1&gt;</span>456 Brook St.<span class="kw">&lt;/address1&gt;</span>
-                           <span class="kw">&lt;id&gt;</span>2<span class="kw">&lt;/id&gt;</span>
-                           <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
-                         <span class="kw">&lt;/address&gt;</span>
-                         <span class="kw">&lt;address&gt;</span>
-                           <span class="kw">&lt;user_id&gt;</span>1<span class="kw">&lt;/user_id&gt;</span>
-                           <span class="kw">&lt;address2&gt;</span>apt 32<span class="kw">&lt;/address2&gt;</span>
-                           <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
-                           <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
-                           <span class="kw">&lt;address1&gt;</span>23 Grove St.<span class="kw">&lt;/address1&gt;</span>
-                           <span class="kw">&lt;id&gt;</span>3<span class="kw">&lt;/id&gt;</span>
-                           <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
-                         <span class="kw">&lt;/address&gt;</span>
-                       <span class="kw">&lt;/addresses&gt;</span>
-                       <span class="kw">&lt;email&gt;</span>mmonroe@yahoo.com<span class="kw">&lt;/email&gt;</span>
-                       <span class="kw">&lt;last_name&gt;</span>Monroe<span class="kw">&lt;/last_name&gt;</span>
-                       <span class="kw">&lt;id&gt;</span>1<span class="kw">&lt;/id&gt;</span>
-                       <span class="kw">&lt;first_name&gt;</span>Marilyn<span class="kw">&lt;/first_name&gt;</span>
-                     <span class="kw">&lt;/user&gt;</span>
-                     <span class="kw">&lt;user&gt;</span>
-                       <span class="kw">&lt;addresses&gt;</span>
-                         <span class="kw">&lt;address&gt;</span>
-                           <span class="kw">&lt;user_id&gt;</span>2<span class="kw">&lt;/user_id&gt;</span>
-                           <span class="kw">&lt;address2&gt;</span>apt 34<span class="kw">&lt;/address2&gt;</span>
-                           <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
-                           <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
-                           <span class="kw">&lt;address1&gt;</span>143 Madison St.<span class="kw">&lt;/address1&gt;</span>
-                           <span class="kw">&lt;id&gt;</span>4<span class="kw">&lt;/id&gt;</span>
-                           <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
-                         <span class="kw">&lt;/address&gt;</span>
-                         <span class="kw">&lt;address&gt;</span>
-                           <span class="kw">&lt;user_id&gt;</span>2<span class="kw">&lt;/user_id&gt;</span>
-                           <span class="kw">&lt;address2&gt;</span>apt 35<span class="kw">&lt;/address2&gt;</span>
-                           <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
-                           <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
-                           <span class="kw">&lt;address1&gt;</span>153 Creek St.<span class="kw">&lt;/address1&gt;</span>
-                           <span class="kw">&lt;id&gt;</span>5<span class="kw">&lt;/id&gt;</span>
-                           <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
-                         <span class="kw">&lt;/address&gt;</span>
-                         <span class="kw">&lt;address&gt;</span>
-                           <span class="kw">&lt;user_id&gt;</span>2<span class="kw">&lt;/user_id&gt;</span>
-                           <span class="kw">&lt;address2&gt;</span>apt 36<span class="kw">&lt;/address2&gt;</span>
-                           <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
-                           <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
-                           <span class="kw">&lt;address1&gt;</span>163 Gorge St.<span class="kw">&lt;/address1&gt;</span>
-                           <span class="kw">&lt;id&gt;</span>6<span class="kw">&lt;/id&gt;</span>
-                           <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
-                         <span class="kw">&lt;/address&gt;</span>
-                         <span class="kw">&lt;address&gt;</span>
-                           <span class="kw">&lt;user_id&gt;</span>2<span class="kw">&lt;/user_id&gt;</span>
-                           <span class="kw">&lt;address2&gt;</span>apt 37<span class="kw">&lt;/address2&gt;</span>
-                           <span class="kw">&lt;state&gt;</span>IL<span class="kw">&lt;/state&gt;</span>
-                           <span class="kw">&lt;zip&gt;</span>60606<span class="kw">&lt;/zip&gt;</span>
-                           <span class="kw">&lt;address1&gt;</span>173 Far Side.<span class="kw">&lt;/address1&gt;</span>
-                           <span class="kw">&lt;id&gt;</span>7<span class="kw">&lt;/id&gt;</span>
-                           <span class="kw">&lt;city&gt;</span>Springfield<span class="kw">&lt;/city&gt;</span>
-                         <span class="kw">&lt;/address&gt;</span>
-                       <span class="kw">&lt;/addresses&gt;</span>
-                       <span class="kw">&lt;email&gt;</span>jdoe@gmail.com<span class="kw">&lt;/email&gt;</span>
-                       <span class="kw">&lt;last_name&gt;</span>Doe<span class="kw">&lt;/last_name&gt;</span>
-                       <span class="kw">&lt;id&gt;</span>2<span class="kw">&lt;/id&gt;</span>
-                       <span class="kw">&lt;first_name&gt;</span>John<span class="kw">&lt;/first_name&gt;</span>
-                     <span class="kw">&lt;/user&gt;</span>
-                   <span class="kw">&lt;/users&gt;</span></code></pre>
-                   <p>The two users were generated. Since the include was used, the corresponding children from the ADDRESSES table were queried too for their XML.</p></div></div>
+</div>
 
