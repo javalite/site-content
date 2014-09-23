@@ -57,8 +57,8 @@ Then, within the same program or another, we will do the following:
 
 ~~~~ {.java}
 Person john = Person.findById(1);
-p.set("first_name", "John", "last_name", "Smithe");
-p.saveIt();
+john.set("first_name", "John", "last_name", "Smithe");
+john.saveIt();
 ~~~~
 
 We corrected the last name from "Smith" to "Smithe". After this operation, the same record will look like this:
@@ -71,3 +71,18 @@ We corrected the last name from "Smith" to "Smithe". After this operation, the s
 
 
 The `updated_at` column reflects when this record was last updated.
+
+## Disabling time attributes management
+
+In some cases, you want to have a complete control of values of `created_at` and `updated_at` fields. For instance, you need to migrate data from one 
+database to another and want to preserve these values. You can simply turn off automatic management of these fields: 
+
+~~~~ {.java}
+Person john = ...
+p.manageTime(false);
+p.set("created_at", createdVal);
+p.set("updated_at", updatedVal);
+p.saveIt();
+~~~~
+
+The model will simply save your values as any other attributes. 
