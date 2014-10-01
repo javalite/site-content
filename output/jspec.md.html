@@ -130,3 +130,12 @@ null == &lt;null&gt;</code></pre>
 });</code></pre>
 <p>In the code snippet above, the constructor of <code>DifferenceExpectation(..)</code> is passed an initial value, and the method <code>exec()</code> returns a final value. The initial and final are compared to be different at the end of a test. If they are the same, then the test fails. An example message:</p>
 <pre class="sourceCode bash"><code class="sourceCode bash">javalite.test.jspec.TestException: Objects: <span class="st">&#39;1&#39;</span> and <span class="st">&#39;1&#39;</span> are equal, but they should not be</code></pre>
+<h2 id="where-to-find">Where to find</h2>
+<p>JSpec is packaged into JavaLite Common library, which is published into <a href="http://search.maven.org/#search|ga|1|javalite-common">Maven Central</a>.</p>
+<p>Adding it to your project is easy:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;dependency&gt;</span>
+    <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
+    <span class="kw">&lt;artifactId&gt;</span>javalite-common<span class="kw">&lt;/artifactId&gt;</span>
+    <span class="kw">&lt;version&gt;</span>LATEST_VERSION<span class="kw">&lt;/version&gt;</span>
+<span class="kw">&lt;/dependency&gt;</span></code></pre>
+<p>Releases and versions of JavaLite Common are on the same schedule as <a href="activejdbc">ActiveJDBC</a>.</p>
