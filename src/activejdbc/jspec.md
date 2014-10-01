@@ -269,4 +269,19 @@ If they are the same, then the test fails. An example message:
 javalite.test.jspec.TestException: Objects: '1' and '1' are equal, but they should not be
 ~~~~
 
+## Where to find
+
+JSpec is packaged into JavaLite Common library, which is published into [Maven Central](http://search.maven.org/#search|ga|1|javalite-common). 
+
+Adding it to your project is easy:
+
+~~~~ {.xml}
+<dependency>
+    <groupId>org.javalite</groupId>
+    <artifactId>javalite-common</artifactId>
+    <version>LATEST_VERSION</version>
+</dependency>
+~~~~
+
+Releases and versions of JavaLite Common are on the same schedule as [ActiveJDBC](activejdbc).
 
