@@ -60,13 +60,11 @@ In general, POST/Redirect to GET is a good programming pattern to use in case yo
 Leaving a user on a POSTed page is a bad idea, because the same request can be re-submitted if user presses Reload.
 
 
-
-
 ## Rendering FlashTag with body
 
 If you need to display a more complex HTML than a simple string, you can do so by placing a flash tag with body on the page: 
 
-~~~~ {.html}
+~~~~ {.html .numberLines .sp-code-number}
 <@flash name="warning">
  <div class="warning">${message}</div>
 </@flash>
@@ -83,8 +81,7 @@ public void create(){
 }
 ~~~~
 
-Simply ensure that the name of the flash message is the same on page as a single argument to the `flash()` method.
-
+Simply ensure that the name of the flash message (line 1) is the same on page as the argument to the `flash()` method.
 
 The body inside the flash tag lives by the same rules as any other in the template. You can use variables, FreeMarker syntax, lists or even 
 partials: 
@@ -95,7 +92,7 @@ partials:
 </@flash>
 ~~~~
 
-IT allows to organize code for error and warning messages into reusable componets. 
+It allows to organize code for error and warning messages into reusable componets. 
 
 
 
