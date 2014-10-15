@@ -76,7 +76,8 @@ and calling a single argument method inside the controller:
 @POST
 public void create(){
 //.. code before
-    flash("warning");
+    view("message", "Your changes have been saved successfully");
+    flash();
 //.. code after
 }
 ~~~~
@@ -87,7 +88,7 @@ The body inside the flash tag lives by the same rules as any other in the templa
 partials: 
 
 ~~~~ {.html}
-<@flash name="warning">
+<@flash>
 <@render partial="message"/>
 </@flash>
 ~~~~
