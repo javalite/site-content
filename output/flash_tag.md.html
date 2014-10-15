@@ -47,7 +47,31 @@
 <p>The Flash tag automatically detects if a flash message exists and displays it. If a message is missing, nothing is rendered.</p>
 <p>Since the user was redirected to the BooksController with an HTTP GET method, the page can simply be reloaded if a user presses &quot;Reload&quot; button on browser. However, if a user actually reloads the page, the flash message will disappear, because it cannot survive across more than one request.</p>
 <p>In general, POST/Redirect to GET is a good programming pattern to use in case you need &quot;destructive&quot; operations. Leaving a user on a POSTed page is a bad idea, because the same request can be re-submitted if user presses Reload.</p>
-<h2 id="rendering-dynamic-snippets-of-html">Rendering dynamic snippets of HTML</h2>
+<h2 id="rendering-flashtag-with-body">Rendering FlashTag with body</h2>
+<p>If you need to display a more complex HTML than a simple string, you can do so by placing a flash tag with body on the page:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@flash name=&quot;warning&quot;&gt;
+ <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;warning&quot;</span><span class="kw">&gt;</span>${message}<span class="kw">&lt;/div&gt;</span>
+<span class="er">&lt;</span>/@flash&gt;</code></pre>
+<p>and calling a single argument method inside the controller:</p>
+<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">@POST
+<span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(){
+<span class="co">//.. code before</span>
+    <span class="fu">flash</span>(<span class="st">&quot;warning&quot;</span>);
+<span class="co">//.. code after</span>
+}</code></pre></td></tr></table>
+<p>Simply ensure that the name of the flash message is the same on page as a single argument to the <code>flash()</code> method.</p>
+<p>The body inside the flash tag lives by the same rules as any other in the template. You can use variables, FreeMarker syntax, lists or even partials:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@flash name=&quot;warning&quot;&gt;
+<span class="er">&lt;</span>@render partial=&quot;message&quot;/&gt;
+<span class="er">&lt;</span>/@flash&gt;</code></pre>
+<p>IT allows to organize code for error and warning messages into reusable componets.</p>
+<h2 id="rendering-dynamic-snippets-of-html-old-method">Rendering dynamic snippets of HTML (old method)</h2>
 <p>In the example above, a flash message is a simple string. However, it is possible to have it render entire chunks of HTML based on presence or absence of a flash object:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>#if (flasher.message) ??&gt;
    <span class="kw">&lt;span</span><span class="ot"> style=</span><span class="st">&quot;background-color:red&quot;</span><span class="kw">&gt;</span>
