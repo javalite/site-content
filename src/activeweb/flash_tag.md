@@ -63,7 +63,7 @@ Leaving a user on a POSTed page is a bad idea, because the same request can be r
 If you need to display a more complex HTML than a simple string, you can do so by placing a flash tag with body on the page: 
 
 ~~~~ {.html .numberLines .sp-code-number}
-<@flash name="warning">
+<@flash>
  <div class="warning">${message}</div>
 </@flash>
 ~~~~
@@ -74,6 +74,7 @@ and calling a single argument method inside the controller:
 @POST
 public void create(){
 //.. code before
+    view("message", "Your changes have been saved successfully");
     flash("warning");
 //.. code after
 }
@@ -85,7 +86,7 @@ The body inside the flash tag lives by the same rules as any other in the templa
 partials: 
 
 ~~~~ {.html}
-<@flash name="warning">
+<@flash>
 <@render partial="message"/>
 </@flash>
 ~~~~

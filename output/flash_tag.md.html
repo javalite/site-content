@@ -53,7 +53,7 @@
 <table class="sourceCode html numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
 2
 3
-</pre></td><td class="sourceCode"><pre><code class="sourceCode html"><span class="er">&lt;</span>@flash name=&quot;warning&quot;&gt;
+</pre></td><td class="sourceCode"><pre><code class="sourceCode html"><span class="er">&lt;</span>@flash&gt;
  <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;warning&quot;</span><span class="kw">&gt;</span>${message}<span class="kw">&lt;/div&gt;</span>
 <span class="er">&lt;</span>/@flash&gt;</code></pre></td></tr></table>
 <p>and calling a single argument method inside the controller:</p>
@@ -63,15 +63,17 @@
 4
 5
 6
+7
 </pre></td><td class="sourceCode"><pre><code class="sourceCode java">@POST
 <span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(){
 <span class="co">//.. code before</span>
+    <span class="fu">view</span>(<span class="st">&quot;message&quot;</span>, <span class="st">&quot;Your changes have been saved successfully&quot;</span>);
     <span class="fu">flash</span>(<span class="st">&quot;warning&quot;</span>);
 <span class="co">//.. code after</span>
 }</code></pre></td></tr></table>
 <p>Simply ensure that the name of the flash message (line 1) is the same on page as the argument to the <code>flash()</code> method.</p>
 <p>The body inside the flash tag lives by the same rules as any other in the template. You can use variables, FreeMarker syntax, lists or even partials:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@flash name=&quot;warning&quot;&gt;
+<pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@flash&gt;
 <span class="er">&lt;</span>@render partial=&quot;message&quot;/&gt;
 <span class="er">&lt;</span>/@flash&gt;</code></pre>
 <p>It allows to organize code for error and warning messages into reusable componets.</p>
