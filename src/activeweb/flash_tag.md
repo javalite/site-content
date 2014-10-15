@@ -62,7 +62,44 @@ Leaving a user on a POSTed page is a bad idea, because the same request can be r
 
 
 
-## Rendering dynamic snippets of HTML
+## Rendering FlashTag with body
+
+If you need to display a more complex HTML than a simple string, you can do so by placing a flash tag with body on the page: 
+
+~~~~ {.html}
+<@flash name="warning">
+ <div class="warning">${message}</div>
+</@flash>
+~~~~
+
+and calling a single argument method inside the controller: 
+
+~~~~ {.java .numberLines .sp-code-number}
+@POST
+public void create(){
+//.. code before
+    flash("warning");
+//.. code after
+}
+~~~~
+
+Simply ensure that the name of the flash message is the same on page as a single argument to the `flash()` method.
+
+
+The body inside the flash tag lives by the same rules as any other in the template. You can use variables, FreeMarker syntax, lists or even 
+partials: 
+
+~~~~ {.html}
+<@flash name="warning">
+<@render partial="message"/>
+</@flash>
+~~~~
+
+IT allows to organize code for error and warning messages into reusable componets. 
+
+
+
+## Rendering dynamic snippets of HTML (old method)
 
 In the example above, a flash message is a simple string. However, it is possible to have it render entire chunks of
 HTML based on presence or absence of a flash object:
@@ -76,3 +113,4 @@ HTML based on presence or absence of a flash object:
 ~~~~
 
 The HTML code inside the IF condition has no restrictions to use any dynamic values from session of those passed into view by controller.
+
