@@ -2,9 +2,9 @@
 
 
 <div class="col-md-9">
-<h1 id="setters-and-getters"><a href="#TOC">Setters and getters</a></h1>
+<h1 id="setters-and-getters">Setters and getters</h1>
 <p>Java development is all about getters and setters. Ever since the Java Beans framework introduced in 1997, this has become a blessing (and a plague some argue) in modern Java applications. ActiveJDBC does not require getters and setters for models. Since models already know all the allowable metadata from database at startup, they will perform validations of names of attributes.</p>
-<h2 id="built-in-getters-and-setters"><a href="#TOC">Built in getters and setters</a></h2>
+<h2 id="built-in-getters-and-setters">Built in getters and setters</h2>
 <p>ActiveJDBC provides two base methods for getting information from DB and putting it in:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Person p = Person.<span class="fu">findById</span>();
 name = p.<span class="fu">get</span>(<span class="st">&quot;name&quot;</span>);</code></pre>
@@ -12,7 +12,7 @@ name = p.<span class="fu">get</span>(<span class="st">&quot;name&quot;</span>);<
 <pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
 p.<span class="fu">set</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;John&quot;</span>);
 p.<span class="fu">save</span>();</code></pre>
-<h2 id="wrapper-settersgetters"><a href="#TOC">Wrapper setters/getters???</a></h2>
+<h2 id="wrapper-settersgetters">Wrapper setters/getters???</h2>
 <p>ActiveJDBC will not provide these. However, you can have them if you like:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model{
    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setFirstName</span>(String firstName){
@@ -23,7 +23,7 @@ p.<span class="fu">save</span>();</code></pre>
    }
 }</code></pre>
 <p>This will provide a safety net to those wishing some compiler static checking. With ActiveJDBC you can use dynamic getters and setters or write wrapper getter and setter methods. Please, see <a href="#recommendation-use-tdd-in-combination-with-some-setters-and-getters">Recommendation</a> below for mor information.</p>
-<h2 id="type-conversion-getters"><a href="#TOC">Type conversion getters</a></h2>
+<h2 id="type-conversion-getters">Type conversion getters</h2>
 <p>ActiveJDBC provides a number of type conversion getters:</p>
 <pre class="sourceCode java"><code class="sourceCode java">
 Person p = Person.<span class="fu">findById</span>();
@@ -34,7 +34,7 @@ Timestamp dob = p.<span class="fu">getTimestamp</span>(<span class="st">&quot;do
 <pre class="sourceCode java"><code class="sourceCode java">String body = article.<span class="fu">get</span>(<span class="st">&quot;body&quot;</span>);</code></pre>
 <p>If the &quot;BODY&quot; column in your table is CLOB, ActiveJDBC will automatically convert it to Java String.</p>
 <p>Please, see <a href="clob_support_and_caching">Clob support and caching</a> as well as <a href="http://javalite.github.io/activejdbc/org/javalite/common/Convert.html">JavaLite Commons Convert</a> class for more information.</p>
-<h2 id="recommendation-use-tdd-in-combination-with-some-setters-and-getters"><a href="#TOC">Recommendation: Use TDD, in combination with <em>some</em> setters and getters</a></h2>
+<h2 id="recommendation-use-tdd-in-combination-with-some-setters-and-getters">Recommendation: Use TDD, in combination with <em>some</em> setters and getters</h2>
 <p>In our work, we start writing a test before writing much code. We create a one line model code, then start writing a test. Inside the test, we write a piece of code I know will fail:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Page p  = <span class="kw">new</span> <span class="fu">Page</span>();
 p.<span class="fu">set</span>(<span class="st">&quot;blah&quot;</span>, <span class="dv">1</span>);</code></pre>
@@ -61,14 +61,7 @@ available attributes: [id, updated_at, graduation_date, dob, name, last_name, cr
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#setters-and-getters">Setters and getters</a><ul>
-        <li><a href="#built-in-getters-and-setters">Built in getters and setters</a></li>
-        <li><a href="#wrapper-settersgetters">Wrapper setters/getters???</a></li>
-        <li><a href="#type-conversion-getters">Type conversion getters</a></li>
-        <li><a href="#recommendation-use-tdd-in-combination-with-some-setters-and-getters">Recommendation: Use TDD, in combination with <em>some</em> setters and getters</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

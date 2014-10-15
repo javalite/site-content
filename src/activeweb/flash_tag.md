@@ -1,7 +1,6 @@
 # Flash tag
 
 
-
 Flash is a concept which does not exist in standard Java API, but is very useful in web applications. Flash is a snippet
 of HTML whose life cycle is limited by the next HTTP request. In other words, a flash is created during a request, then
 it can be used in a subsequent request (of the same session), after which it dies.
@@ -58,9 +57,44 @@ In general, POST/Redirect to GET is a good programming pattern to use in case yo
 Leaving a user on a POSTed page is a bad idea, because the same request can be re-submitted if user presses Reload.
 
 
+## Rendering FlashTag with body
+
+If you need to display a more complex HTML than a simple string, you can do so by placing a flash tag with body on the page: 
+
+~~~~ {.html}
+<@flash name="warning">
+ <div class="warning">${message}</div>
+</@flash>
+~~~~
+
+and calling a single argument method inside the controller: 
+
+~~~~ {.java .numberLines .sp-code-number}
+@POST
+public void create(){
+//.. code before
+    flash("warning");
+//.. code after
+}
+~~~~
+
+Simply ensure that the name of the flash message is the same on page as a single argument to the `flash()` method.
 
 
-## Rendering dynamic snippets of HTML
+The body inside the flash tag lives by the same rules as any other in the template. You can use variables, FreeMarker syntax, lists or even 
+partials: 
+
+~~~~ {.html}
+<@flash name="warning">
+<@render partial="message"/>
+</@flash>
+~~~~
+
+IT allows to organize code for error and warning messages into reusable componets. 
+
+
+
+## Rendering dynamic snippets of HTML (old method)
 
 In the example above, a flash message is a simple string. However, it is possible to have it render entire chunks of
 HTML based on presence or absence of a flash object:
@@ -74,3 +108,5 @@ HTML based on presence or absence of a flash object:
 ~~~~
 
 The HTML code inside the IF condition has no restrictions to use any dynamic values from session of those passed into view by controller.
+
+> This method of rendering snippets of dynamic flash code is outdated and superceeded by 

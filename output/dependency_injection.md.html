@@ -2,10 +2,10 @@
 
 
 <div class="col-md-9">
-<h1 id="dependency-injection"><a href="#TOC">Dependency injection</a></h1>
+<h1 id="dependency-injection">Dependency injection</h1>
 <p>Dependency injection is an integral part of a typical Java application. ActiveWeb supports seamless integration with <a href="http://code.google.com/p/google-guice/">Google Guice</a>.</p>
 <p>At the heart of a Google Guice DI, there is a concept of a module.</p>
-<h2 id="creation-of-a-guice-module"><a href="#TOC">Creation of a Guice module</a></h2>
+<h2 id="creation-of-a-guice-module">Creation of a Guice module</h2>
 <p>Lets say we have a simple interface Greeter:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">interface</span> Greeter {
     String <span class="fu">greet</span>();
@@ -23,7 +23,7 @@
     }
 }</code></pre>
 <p>In this module, we are binding a <code>GreeterImpl</code> to <code>Greater</code> interface as a singleton. You can call <code>bind()</code> method many times, setting up your object graph.</p>
-<h2 id="injection-of-module-into-the-application"><a href="#TOC">Injection of module into the application</a></h2>
+<h2 id="injection-of-module-into-the-application">Injection of module into the application</h2>
 <p>The injection of a Guice module is executed as one line of code inside <code>AppBootstrap</code> class, like so:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> AppBootstrap <span class="kw">extends</span> Bootstrap {
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext context) {       
@@ -31,7 +31,7 @@
     }
 }</code></pre>
 <p>The <code>Guice.createInjector(..)</code> takes a varargs, meaning you can inject multiple modules at once.</p>
-<h2 id="consumption-of-injected-dependencies"><a href="#TOC">Consumption of injected dependencies</a></h2>
+<h2 id="consumption-of-injected-dependencies">Consumption of injected dependencies</h2>
 <p>Whenever you need a service inside a controller, you will use an <code>@Inject</code> annotation provided by Google Guice:</p>
 <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
 2
@@ -55,7 +55,7 @@
 <li><strong>Custom Tags</strong></li>
 </ul>
 <p>The technique is exactly the same, just add @Inject annotation that requires a service from a Guice module, and you can use it in code inside the component</p>
-<h2 id="mocking-and-testing"><a href="#TOC">Mocking and testing</a></h2>
+<h2 id="mocking-and-testing">Mocking and testing</h2>
 <p>In testing, it is typical to replace real implementation of services with mocks. For explanation of mocks and stubs, follow this link <a href="http://martinfowler.com/articles/mocksArentStubs.html">http://martinfowler.com/articles/mocksArentStubs.html</a>.</p>
 <p>Why would someone want to use a mock instead of a real implementation? Here are some reasons:</p>
 <ul>
@@ -114,14 +114,7 @@
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#dependency-injection">Dependency injection</a><ul>
-        <li><a href="#creation-of-a-guice-module">Creation of a Guice module</a></li>
-        <li><a href="#injection-of-module-into-the-application">Injection of module into the application</a></li>
-        <li><a href="#consumption-of-injected-dependencies">Consumption of injected dependencies</a></li>
-        <li><a href="#mocking-and-testing">Mocking and testing</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

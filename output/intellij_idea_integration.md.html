@@ -2,9 +2,9 @@
 
 
 <div class="col-md-9">
-<h1 id="activejdbc---intellij-idea-integration"><a href="#TOC">ActiveJDBC - Intellij Idea Integration</a></h1>
+<h1 id="activejdbc---intellij-idea-integration">ActiveJDBC - Intellij Idea Integration</h1>
 <p>As a general rule of thumb, instrumentation needs to be performed in case you run a program or a test that will execute ActiveJDBC models. See <a href="instrumentation">Instrumentation</a> for more detail. Instrumentation needs to execute after compile and before running your code.</p>
-<h2 id="configuration"><a href="#TOC">Configuration</a></h2>
+<h2 id="configuration">Configuration</h2>
 <p>Perform these steps:</p>
 <ul>
 <li><p>Run -&gt; Edit configurations -&gt; Defaults -&gt; JUnit</p></li>
@@ -18,23 +18,17 @@
 <p>Ensure to enter the latest (or appropriate) version of the library</p>
 </blockquote>
 <p>Since you configured this as a JUnit default configuration, every new JUnit run you create will automatically have this configuration.</p>
-<h2 id="one-off-manual-instrumentation"><a href="#TOC">One-off manual instrumentation</a></h2>
+<h2 id="one-off-manual-instrumentation">One-off manual instrumentation</h2>
 <p>If you just want to execute a one-off instrumentation, simply run it from the Maven tab:</p>
 <div class="figure">
 <img src="images/idea_config.png" alt="Intellij Idea manual instrumentation" /><p class="caption">Intellij Idea manual instrumentation</p>
 </div>
-<h2 id="non-maven-integrations"><a href="#TOC">Non-Maven integrations</a></h2>
+<h2 id="non-maven-integrations">Non-Maven integrations</h2>
 <p>If you use Ant, simply add an Ant task in the same way as explained above. Same goes for simple command line scripts, as long as they are executed after Make and before run time.</p></div>
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#activejdbc---intellij-idea-integration">ActiveJDBC - Intellij Idea Integration</a><ul>
-        <li><a href="#configuration">Configuration</a></li>
-        <li><a href="#one-off-manual-instrumentation">One-off manual instrumentation</a></li>
-        <li><a href="#non-maven-integrations">Non-Maven integrations</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

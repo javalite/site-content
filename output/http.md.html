@@ -2,21 +2,21 @@
 
 
 <div class="col-md-9">
-<h1 id="javalite-http"><a href="#TOC">JavaLite HTTP</a></h1>
+<h1 id="javalite-http">JavaLite HTTP</h1>
 <p>JavaLite HTTP is a tiny library for making HTTP requests and returning responses. It has no dependencies other than the JDK.</p>
-<h2 id="how-to-get"><a href="#TOC">How to GET</a></h2>
+<h2 id="how-to-get">How to GET</h2>
 <pre class="sourceCode java"><code class="sourceCode java">Get get = Http.<span class="fu">get</span>(<span class="st">&quot;http://yahoo.com&quot;</span>);
 System.<span class="fu">out</span>.<span class="fu">println</span>(get.<span class="fu">text</span>());
 System.<span class="fu">out</span>.<span class="fu">println</span>(get.<span class="fu">headers</span>());
 System.<span class="fu">out</span>.<span class="fu">println</span>(get.<span class="fu">responseCode</span>())</code></pre>
-<h2 id="how-to-post"><a href="#TOC">How to POST</a></h2>
+<h2 id="how-to-post">How to POST</h2>
 <pre class="sourceCode java"><code class="sourceCode java">Post post = Http.<span class="fu">post</span>(<span class="st">&quot;http://yahoo.com&quot;</span>, content).<span class="fu">header</span>(headerName, headerValue);
 System.<span class="fu">out</span>.<span class="fu">println</span>(post.<span class="fu">text</span>());
 System.<span class="fu">out</span>.<span class="fu">println</span>(post.<span class="fu">headers</span>());
 System.<span class="fu">out</span>.<span class="fu">println</span>(post.<span class="fu">responseCode</span>())</code></pre>
-<h2 id="how-to-put-and-delete"><a href="#TOC">How to PUT and DELETE</a></h2>
+<h2 id="how-to-put-and-delete">How to PUT and DELETE</h2>
 <p>Similar to the above. You can find full JavaDoc here: <a href="http://javalite.github.io/activejdbc/org/javalite/http/package-summary.html">JavaLite HTTP JavaDoc</a></p>
-<h2 id="how-to-get-the-dependency"><a href="#TOC">How to get the dependency</a></h2>
+<h2 id="how-to-get-the-dependency">How to get the dependency</h2>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;dependency&gt;</span>
     <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
     <span class="kw">&lt;artifactId&gt;</span>javalite-common<span class="kw">&lt;/artifactId&gt;</span>
@@ -26,14 +26,7 @@ System.<span class="fu">out</span>.<span class="fu">println</span>(post.<span cl
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#javalite-http">JavaLite HTTP</a><ul>
-        <li><a href="#how-to-get">How to GET</a></li>
-        <li><a href="#how-to-post">How to POST</a></li>
-        <li><a href="#how-to-put-and-delete">How to PUT and DELETE</a></li>
-        <li><a href="#how-to-get-the-dependency">How to get the dependency</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

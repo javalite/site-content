@@ -2,9 +2,9 @@
 
 
 <div class="col-md-9">
-<h1 id="request-routing"><a href="#TOC">Request routing</a></h1>
+<h1 id="request-routing">Request routing</h1>
 <p>Routing in ActiveWeb is an act of matching an incoming request URL to a controller and action. Current implementation supports built-in standard routing, built-in REST - based routing as well as custom routing.</p>
-<h2 id="standard-routing"><a href="#TOC">Standard routing</a></h2>
+<h2 id="standard-routing">Standard routing</h2>
 <p>NOTE: the &quot;context&quot; in all URIs is a web application context, which is usually a WAR file name.</p>
 <table>
 <col width="32%" />
@@ -43,7 +43,7 @@
 </tbody>
 </table>
 <p>In standard routing, the HTTP method is not considered, but you might get an exception of you send an HTTP method to an action that is configured for a different HTTP method. Routing and action HTTP methods are independent in case of standard routing. For standard routing, there is no need to do anything, it works by default</p>
-<h2 id="restful-routing"><a href="#TOC">RESTful routing</a></h2>
+<h2 id="restful-routing">RESTful routing</h2>
 <p>In case of restful routing, the actions are pre-configured. RESTful routing is configured by placing a @RESTfull annotation on a controller. For more informaiton, see: <a href="controllers#restful-controllers">RESTful controllers</a></p>
 <table>
 <col width="13%" />
@@ -112,7 +112,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="routing-with-packages"><a href="#TOC">Routing with packages</a></h2>
+<h2 id="routing-with-packages">Routing with packages</h2>
 <p>While <code>app.controllers</code> is a default package for controllers, you might want to organize them into sub-packages. These sub-packages can only be children of <code>app.controllers</code> package though. In case a controller is located in a sub-packages, the path mapping would also include sub-package names:</p>
 <p>Standard routing</p>
 <table>
@@ -172,7 +172,7 @@
 </tbody>
 </table>
 <p>RESTful routing supports sub-packaging exactly the same as standard.</p>
-<h2 id="mapping-paths-to-controller-names"><a href="#TOC">Mapping paths to controller names</a></h2>
+<h2 id="mapping-paths-to-controller-names">Mapping paths to controller names</h2>
 <p>When matching a path to a controller class, ActiveWeb converts a name of a controller from underscore or hyphenated format to CamelCase:</p>
 <table>
 <thead>
@@ -196,9 +196,9 @@
 </tr>
 </tbody>
 </table>
-<h2 id="custom-routing"><a href="#TOC">Custom routing</a></h2>
+<h2 id="custom-routing">Custom routing</h2>
 <p>Besides standard and RESTful, ActiveWeb also offers custom routing. Custom routing provides ability to configure custom URIs to be forwarded to specific controllers and actions.</p>
-<h3 id="custom-routing-configuration"><a href="#TOC">Custom routing configuration</a></h3>
+<h3 id="custom-routing-configuration">Custom routing configuration</h3>
 <p>As with any other types of configuration, ActiveWeb route configuration is done in code, rather that property or XML files. Custom routing is done by adding a new class to the application: <code>app.config.RouteConfig</code>:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> RouteConfig <span class="kw">extends</span> AbstractRouteConfig {
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext appContext) {
@@ -216,7 +216,7 @@
 <li>Static</li>
 <li>User (or dynamic)</li>
 </ul>
-<h3 id="built-in-segments"><a href="#TOC">Built-in segments</a></h3>
+<h3 id="built-in-segments">Built-in segments</h3>
 <p>ActiveWeb defines three built-in segments:</p>
 <ul>
 <li><code>{controller}</code></li>
@@ -228,11 +228,11 @@
 <p>When such a route is specified, this URI:</p>
 <pre class="prettyprint"><code>/show/photo/123</code></pre>
 <p>Will be routed to: <code>app.controllers.PhotoController#show</code> with ID ==123.</p>
-<h3 id="static-segments"><a href="#TOC">Static segments</a></h3>
+<h3 id="static-segments">Static segments</h3>
 <p>Static segments are simply plain text without the braces. The are matched one to one with the incoming request. Example:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="fu">route</span>(<span class="st">&quot;/{action}/greeting/{name}&quot;</span>).<span class="fu">to</span>(HelloController.<span class="fu">class</span>);</code></pre>
 <p>In the snippet above, &quot;greeting&quot; is a static segment.</p>
-<h3 id="userdynamic-segments"><a href="#TOC">User/dynamic segments</a></h3>
+<h3 id="userdynamic-segments">User/dynamic segments</h3>
 <p>User segments are any text in braces in configuration which are then converted to parameters that can be retrieved inside controllers and filters. Here is an example:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="fu">route</span>(<span class="st">&quot;/{action}/greeting/{name}&quot;</span>).<span class="fu">to</span>(HelloController.<span class="fu">class</span>);</code></pre>
 <p>where &quot;name&quot; is a placeholder whose value will be available in controller:</p>
@@ -244,7 +244,7 @@
     String name = <span class="fu">param</span>(<span class="st">&quot;name&quot;</span>);
   }
 }</code></pre>
-<h3 id="wild-card-routing"><a href="#TOC">Wild card routing</a></h3>
+<h3 id="wild-card-routing">Wild card routing</h3>
 <p>Sometimes you need to route a really long URI to a controller. Here is how:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="fu">route</span>(<span class="st">&quot;/blog/*items&quot;</span>).<span class="fu">to</span>(PostsController.<span class="fu">class</span>).<span class="fu">action</span>(<span class="st">&quot;index&quot;</span>);</code></pre>
 <p>In a case the following URL is submitted:</p>
@@ -255,7 +255,7 @@
     <span class="fu">logInfo</span>(<span class="fu">param</span>(<span class="st">&quot;items&quot;</span>)); <span class="co">// will print: 2014/07/23/how-to-define-activeweb-routes</span>
   }
 }</code></pre>
-<h3 id="http-method---based-routing"><a href="#TOC">Http method - based routing</a></h3>
+<h3 id="http-method---based-routing">Http method - based routing</h3>
 <p>You can include an Http method used in the request into the routing rule:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="fu">route</span>(<span class="st">&quot;/{action}/greeting/{name}&quot;</span>).<span class="fu">to</span>(HelloController.<span class="fu">class</span>).<span class="fu">get</span>();</code></pre>
 <p>In this example, this route will only match the incoming request if the Http method of the request is GET. There are four corresponding methods: <code>get()</code>, <code>post()</code>, <code>put()</code> and <code>delete()</code>. They can be used in isolation or in combination. For instance, this route:</p>
@@ -269,11 +269,11 @@
 <blockquote>
 <p>Default Http method used in routing rules is <code>get()</code>.</p>
 </blockquote>
-<h3 id="routeconfig-reloaded"><a href="#TOC">RouteConfig reloaded</a></h3>
+<h3 id="routeconfig-reloaded">RouteConfig reloaded</h3>
 <p>The class <code>app.config.RouteConfig</code> is recompiled and reloaded in development environment in case a system property <code>active_reload</code> is set to true. This makes it easy and fun to play with the routes during development. Please see <a href="running_in_development_mode">Running in development mode</a> for more information.</p>
-<h2 id="excluding-some-routes"><a href="#TOC">Excluding some routes</a></h2>
+<h2 id="excluding-some-routes">Excluding some routes</h2>
 <p>Exclusion of some routes is necessary for most applications. Static content, such as CSS, HTML, images, etc. should not be processed by the framework, but rather should be served by container directly. Please, see the &quot;exclusions&quot; section of the filter configuration in: <a href="structure_of_activeweb_project#requestdispatcher-configuration">RequestDispatcher configuration</a> for more information.</p>
-<h2 id="ignoring-some-routes"><a href="#TOC">Ignoring some routes</a></h2>
+<h2 id="ignoring-some-routes">Ignoring some routes</h2>
 <p>Exclusions mechanism described above is sometimes too crude. Lets say we want to dynamically compile Less files into CSS in development environment, but also want the same URL be served directly from container in any environment except development.</p>
 <p>Here is an example configuration:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> RouteConfig <span class="kw">extends</span> AbstractRouteConfig {
@@ -284,25 +284,7 @@
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#request-routing">Request routing</a><ul>
-        <li><a href="#standard-routing">Standard routing</a></li>
-        <li><a href="#restful-routing">RESTful routing</a></li>
-        <li><a href="#routing-with-packages">Routing with packages</a></li>
-        <li><a href="#mapping-paths-to-controller-names">Mapping paths to controller names</a></li>
-        <li><a href="#custom-routing">Custom routing</a><ul>
-        <li><a href="#custom-routing-configuration">Custom routing configuration</a></li>
-        <li><a href="#built-in-segments">Built-in segments</a></li>
-        <li><a href="#static-segments">Static segments</a></li>
-        <li><a href="#userdynamic-segments">User/dynamic segments</a></li>
-        <li><a href="#wild-card-routing">Wild card routing</a></li>
-        <li><a href="#http-method---based-routing">Http method - based routing</a></li>
-        <li><a href="#routeconfig-reloaded">RouteConfig reloaded</a></li>
-        </ul></li>
-        <li><a href="#excluding-some-routes">Excluding some routes</a></li>
-        <li><a href="#ignoring-some-routes">Ignoring some routes</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

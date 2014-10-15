@@ -2,11 +2,11 @@
 
 
 <div class="col-md-9">
-<h1 id="caching"><a href="#TOC">Caching</a></h1>
+<h1 id="caching">Caching</h1>
 <p>Caching is an integral part of every major system, It improves performance, reduces IO and makes overall user experience more pleasurable. Caching in ActiveJDBC works on the level of query and creation of model instances. For instance, the call:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Library&gt; illLibs = Library.<span class="fu">where</span>(<span class="st">&quot;state = ?&quot;</span>, <span class="st">&quot;IL&quot;</span>);</code></pre>
 <p>might call into DB, or a result can come from cache, depending how cache and specifically model <code>Library</code> was configured</p>
-<h2 id="cache-annotation"><a href="#TOC">Cache annotation</a></h2>
+<h2 id="cache-annotation">Cache annotation</h2>
 <p>ActiveJDBC provides annotation to specify queries against which tables will be cached:</p>
 <pre class="sourceCode java"><code class="sourceCode java">@Cached
 <span class="kw">public</span> <span class="kw">class</span> Library <span class="kw">extends</span> Model {}</code></pre>
@@ -18,7 +18,7 @@
 <span class="dv">3077</span> [main] INFO org.<span class="fu">javalite</span>.<span class="fu">activejdbc</span>.<span class="fu">cache</span>.<span class="fu">QueryCache</span> - table cache purged <span class="kw">for</span>: books
 <span class="dv">3077</span> [main] INFO org.<span class="fu">javalite</span>.<span class="fu">activejdbc</span>.<span class="fu">cache</span>.<span class="fu">QueryCache</span> - MISS, <span class="st">&quot;SELECT * FROM libraries WHERE id = ?&quot;</span>, with parameters: [<span class="dv">1</span>]
 <span class="dv">3078</span> [main] INFO org.<span class="fu">javalite</span>.<span class="fu">activejdbc</span>.<span class="fu">DB</span> - Query: <span class="st">&quot;SELECT * FROM libraries WHERE id = ?&quot;</span>, with parameters: [<span class="dv">1</span>], took: <span class="dv">0</span> milliseconds</code></pre>
-<h2 id="cache-configuration-aj-version-1.1-and-above"><a href="#TOC">Cache Configuration (AJ Version 1.1 and above)</a></h2>
+<h2 id="cache-configuration-aj-version-1.1-and-above">Cache Configuration (AJ Version 1.1 and above)</h2>
 <p>The new cache configuration includes providing a cache manager class name in the file <code>activejdbc.properties</code>. This file will have to be on the root of classpath. Here is one example:</p>
 <pre class="prettyprint"><code>#inside file: activejdbc.properties
 #or EHCache:
@@ -26,27 +26,27 @@ cache.manager=org.javalite.activejdbc.cache.EHCacheManager
 # use OSCache
 #cache.manager=org.javalite.activejdbc.cache.OSCacheManager</code></pre>
 <p>Here two things happen: 1. Cache in general is enabled (it is not enabled even if you have @Cached annotations on classes), and 2. AJ will be using EHCacheManager as implementation of cache.</p>
-<h2 id="automatic-cache-purging"><a href="#TOC">Automatic cache purging</a></h2>
+<h2 id="automatic-cache-purging">Automatic cache purging</h2>
 <p>If you examine the log from above, you will see that after an insert statement into the &quot;LIBRARIES&quot; table, the system is purging cache related to this table, as well as &quot;BOOKS&quot; table. ActiveJDBC does this since the cache in memory might be potentially of out sync with the data in the DB, and hence will be purged. Related tables' caches are also purged. Since there exists relationship: library has many books, the books cache could also be stale, and this is a reason why a table &quot;BOOKS&quot; purged as well.</p>
-<h2 id="manual-cache-purging"><a href="#TOC">Manual cache purging</a></h2>
+<h2 id="manual-cache-purging">Manual cache purging</h2>
 <p>If you want to manually purge caches (in cases you make destructive data operations outside Model API), you can do so:</p>
 <pre class="sourceCode java"><code class="sourceCode java">org.<span class="fu">javalite</span>.<span class="fu">activejdbc</span>.<span class="fu">cache</span>.<span class="fu">QueryCache</span>.<span class="fu">instance</span>().<span class="fu">purgeTableCache</span>(<span class="st">&quot;books&quot;</span>);</code></pre>
 <p>or:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Books.<span class="fu">purgeCache</span>();</code></pre>
-<h2 id="what-to-cache"><a href="#TOC">What to cache</a></h2>
+<h2 id="what-to-cache">What to cache</h2>
 <p>While caching is a complex issue, I can suggest caching predominantly lookup data. Lookup data is something that does not change very frequently. If you start caching everything, you might run into a problem of cache thrashing where you fill cache with data, and purge it soon after, without having a benefit of caching. Instead of improving performance, you will degrade it with extra CPU, RAM and IO (is cluster is configured) used and little or no benefit of having a cache in the first place.</p>
-<h2 id="things-to-be-careful-about"><a href="#TOC">Things to be careful about</a></h2>
+<h2 id="things-to-be-careful-about">Things to be careful about</h2>
 <p>ActiveJDBC manages caches for models and their respective relationships (read above), but in some cases you will use a query that ties together unrelated models:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;User&gt; users = User.<span class="fu">where</span>(<span class="st">&quot;id not in (select user_id from restricted_users)&quot;</span>);</code></pre>
 <p>If there exists a model User that is cached, and model RestrictedUser, and these tables/models have no relationship, then the line above could present a logical problem. If you execute the line above, and later change content of RESTRICTED_USERS table, then the query above will not see the change, and will return stale data. Developers need to be aware of this, and deal with these issues carefully. Whenever you change data in RESTRICTED_USERS table, please purge User model:</p>
 <pre class="sourceCode java"><code class="sourceCode java">User.<span class="fu">purgeCache</span>();</code></pre>
-<h2 id="cache-providers"><a href="#TOC">Cache providers</a></h2>
+<h2 id="cache-providers">Cache providers</h2>
 <p>ActiveJDBC has a simple plugin framework for adding cache providers. Currently supports:</p>
 <ul>
 <li>OSCache is dead now. Although it is working just fine on many of our projects, we recommend using EHCache</li>
 <li><a href="http://ehcache.org/">EHCache</a>. EHCache is high performance popular open source project. For documentation, please refer to: <a href="http://ehcache.org/documentation">http://ehcache.org/documentation</a></li>
 </ul>
-<h2 id="ehcache-configuration"><a href="#TOC">EHCache configuration</a></h2>
+<h2 id="ehcache-configuration">EHCache configuration</h2>
 <p>Configuration needs to be provided in a file called <code>ehcache.xml</code> found at the root of a classpath. Example of a file content:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;ehcache</span><span class="ot"> xmlns:xsi=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
 <span class="ot">         xsi:noNamespaceSchemaLocation=</span><span class="st">&quot;http://ehcache.org/ehcache.xsd&quot;</span>
@@ -66,25 +66,12 @@ cache.manager=org.javalite.activejdbc.cache.EHCacheManager
             <span class="kw">/&gt;</span>
 <span class="kw">&lt;/ehcache&gt;</span></code></pre>
 <p>Please, note that ActiveJDBC does not create named caches in EHCache, but only uses default configuration specified by <code>defaultCache</code> element in this file.</p>
-<h3 id="ehcache-clustering-with-terracotta"><a href="#TOC">EHCache clustering with Terracotta</a></h3>
+<h3 id="ehcache-clustering-with-terracotta">EHCache clustering with Terracotta</h3>
 <p>The EHCache project has excellent documentation found here: <a href="http://ehcache.org/documentation">http://ehcache.org/documentation</a>. Adding clustering support to EHCache is somewhat simple, you have to add a <code>terracottaConfig</code> to the <code>ehcache.xml</code> file. For more information, please refer to the EHCache documentation.</p></div>
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#caching">Caching</a><ul>
-        <li><a href="#cache-annotation">Cache annotation</a></li>
-        <li><a href="#cache-configuration-aj-version-1.1-and-above">Cache Configuration (AJ Version 1.1 and above)</a></li>
-        <li><a href="#automatic-cache-purging">Automatic cache purging</a></li>
-        <li><a href="#manual-cache-purging">Manual cache purging</a></li>
-        <li><a href="#what-to-cache">What to cache</a></li>
-        <li><a href="#things-to-be-careful-about">Things to be careful about</a></li>
-        <li><a href="#cache-providers">Cache providers</a></li>
-        <li><a href="#ehcache-configuration">EHCache configuration</a><ul>
-        <li><a href="#ehcache-clustering-with-terracotta">EHCache clustering with Terracotta</a></li>
-        </ul></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

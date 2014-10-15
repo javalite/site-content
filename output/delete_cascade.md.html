@@ -2,10 +2,10 @@
 
 
 <div class="col-md-9">
-<h1 id="delete-cascade"><a href="#TOC">Delete-cascade</a></h1>
+<h1 id="delete-cascade">Delete-cascade</h1>
 <p>ActiveJDBC provides two methods for deleting with cascade: <code>deleteCascade()</code> and <code>deleteCascadeShallow()</code>.</p>
 <p>Method <code>deleteCascade()</code> is deep but not high performance, while <code>deleteCascadeShallow()</code>is fast, but not deep (hence the name). Please, see below for more information.</p>
-<h2 id="method-deletecascade"><a href="#TOC">Method deleteCascade()</a></h2>
+<h2 id="method-deletecascade">Method deleteCascade()</h2>
 <p>ActiveJDBC class <code>Model</code> provides a method:</p>
 <p>This method deletes current record from associated table, as well as children. Deletes current model and all of its child and many to many associations. This is not a high performance method, as it will load every row into a model instance before deleting, effectively calling (N + 1) per table queries to the DB, one to select all the associated records (per table), and one delete statement per record. Use it for small data sets.</p>
 <p>In cases of simple one to many and polymorphic associations, things are as expected, a parent is deleted an all children are deleted as well, but in more complicated cases, this method will walk entire tree of associated tables, sometimes coming back to the same one where it all started. It will follow associations of children and their associations too; consider this a true cascade delete with all implications (circular dependencies, referential integrity constraints, potential performance bottlenecks, etc.)</p>
@@ -165,32 +165,23 @@ PRESCRIPTIONS:ID=5</code></pre>
 <blockquote>
 <p>After deletion, this instance becomes <code>frozen()</code> and cannot be used anymore until <code>thaw()</code> is called.</p>
 </blockquote>
-<h2 id="method-deletecascadeexcept"><a href="#TOC">Method deleteCascadeExcept()</a></h2>
+<h2 id="method-deletecascadeexcept">Method deleteCascadeExcept()</h2>
 <p>The method <code>deleteCascade()</code> will navigate to all relationships of a model and their relationships, etc. This can lead to some unexpected results - you might find that it deleted some important records. If this is the case, use method <code>deleteCascadeExcept(Association ... associations)</code>.</p>
 <p>Lets say you have models: Article, Comment and Tag such that Article has many Comments, and Comment has many Tags.</p>
 <p>This method then allows to skip some associations of a model from following:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Comment comment = Comment.<span class="fu">findFirst</span>(...<span class="fu">criteria</span> ...);
 comment.<span class="fu">deleteCascadeExcept</span>(Comment.<span class="fu">getMetaModel</span>().<span class="fu">getAssociationForTarget</span>(<span class="st">&quot;articles&quot;</span>));</code></pre>
 <p>In the example above, the comment will be deleted along with its tags, but the article will stay intact.</p>
-<h2 id="method-deletecascadeshallow"><a href="#TOC">Method deleteCascadeShallow()</a></h2>
+<h2 id="method-deletecascadeshallow">Method deleteCascadeShallow()</h2>
 <p>Deletes current record from associated table, as well as its immediate children. This is a high performance method because it does not walk through a chain of child dependencies like <code>deleteCascade()</code> does, but rather issues one DELETE statement per child dependency table. Also, its semantics are a bit different between that <code>deleteCascade()</code>. It only deletes current record and immediate children, but not their children (no grand kinds are dead as a result :)).</p>
-<h3 id="one-to-many-and-polymorphic-associations-and-deletecascadeshallow"><a href="#TOC">One to many and polymorphic associations and deleteCascadeShallow()</a></h3>
+<h3 id="one-to-many-and-polymorphic-associations-and-deletecascadeshallow">One to many and polymorphic associations and deleteCascadeShallow()</h3>
 <p>The current record is deleted, as well as immediate children.</p>
-<h3 id="many-to-many-associations-and-deletecascadeshallow"><a href="#TOC">Many to many associations and deleteCascadeShallow()</a></h3>
+<h3 id="many-to-many-associations-and-deletecascadeshallow">Many to many associations and deleteCascadeShallow()</h3>
 <p>The current record is deleted, as well as links in a join table. Nothing else is deleted.</p></div>
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#delete-cascade">Delete-cascade</a><ul>
-        <li><a href="#method-deletecascade">Method deleteCascade()</a></li>
-        <li><a href="#method-deletecascadeexcept">Method deleteCascadeExcept()</a></li>
-        <li><a href="#method-deletecascadeshallow">Method deleteCascadeShallow()</a><ul>
-        <li><a href="#one-to-many-and-polymorphic-associations-and-deletecascadeshallow">One to many and polymorphic associations and deleteCascadeShallow()</a></li>
-        <li><a href="#many-to-many-associations-and-deletecascadeshallow">Many to many associations and deleteCascadeShallow()</a></li>
-        </ul></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

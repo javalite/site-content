@@ -2,9 +2,9 @@
 
 
 <div class="col-md-9">
-<h1 id="transactions"><a href="#TOC">Transactions</a></h1>
+<h1 id="transactions">Transactions</h1>
 <p>The goal of AciveJDBC from the ground up was to be a very thin veneer on top of JDBC. As such, the attention was given to simplify the DB access API, but at the same time not take control away from a developer.</p>
-<h2 id="basic-flow-of-db-program"><a href="#TOC">Basic flow of DB program</a></h2>
+<h2 id="basic-flow-of-db-program">Basic flow of DB program</h2>
 <p>In any DB - backed program, you would:</p>
 <ul>
 <li>Open connection</li>
@@ -12,7 +12,7 @@
 <li>Close connection</li>
 </ul>
 <p>Usually in Java ORMs there is an explicit connection or a manager object (EntityManager in JPA, SessionManager in Hibernate, etc.). Such an object is absent in ActiveJDBC.</p>
-<h2 id="simple-activejdbc-example"><a href="#TOC">Simple ActiveJDBC Example</a></h2>
+<h2 id="simple-activejdbc-example">Simple ActiveJDBC Example</h2>
 <p>Here is an example of the most basic of the ActiveJDBC application without transaction management:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(String[] args) {
    Base.<span class="fu">open</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://localhost/test&quot;</span>, <span class="st">&quot;the_user&quot;</span>, <span class="st">&quot;the_password&quot;</span>);
@@ -23,7 +23,7 @@
    Base.<span class="fu">close</span>();
 }</code></pre>
 <p>The call <code>Base.open()</code> opens a connection and attaches it to the current thread. All subsequent methods of all models reuse this connection. The call <code>Base.close()</code> closes connection and removes it from the current thread.</p>
-<h2 id="transaction-related-apis"><a href="#TOC">Transaction related APIs</a></h2>
+<h2 id="transaction-related-apis">Transaction related APIs</h2>
 <p>...so far so good, but to transactions. ActiveJDBC does provide a few transaction-related convenience calls:</p>
 <p>Starting transaction:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Base.<span class="fu">openTransaction</span>();</code></pre>
@@ -38,7 +38,7 @@
 con.<span class="fu">setAutocommit</span>(<span class="kw">false</span>);
 ...<span class="co">//or:</span>
 Base.<span class="fu">connection</span>().<span class="fu">setAutocommit</span>(<span class="kw">false</span>);</code></pre>
-<h2 id="transacted-activejdbc-example"><a href="#TOC">Transacted ActiveJDBC Example</a></h2>
+<h2 id="transacted-activejdbc-example">Transacted ActiveJDBC Example</h2>
 <p>A simple program using transactions will look like this:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(String[] args) {
    <span class="kw">try</span>{
@@ -55,7 +55,7 @@ Base.<span class="fu">connection</span>().<span class="fu">setAutocommit</span>(
       Base.<span class="fu">close</span>();
    }
 }</code></pre>
-<h2 id="transactions-with-jndi"><a href="#TOC">Transactions with JNDI</a></h2>
+<h2 id="transactions-with-jndi">Transactions with JNDI</h2>
 <p>Usually though, a connection is requested from a pool of a container, and transaction configuration is already provided by container configuration. In these cases, the usage is the same (almost), but you have to be aware that that some calls might not succeed, or you might have unexpected side effects by the driver. For example, if you request a connection from a pool, the transaction might start then, and when you call:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Base.<span class="fu">connection</span>().<span class="fu">setAutocommit</span>(<span class="kw">true</span>/<span class="kw">false</span>);</code></pre>
 <p>, you might accidentally commit a transaction in progress (...or driver will ignore your call and do nothing).</p>
@@ -81,15 +81,7 @@ Base.<span class="fu">connection</span>().<span class="fu">setAutocommit</span>(
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#transactions">Transactions</a><ul>
-        <li><a href="#basic-flow-of-db-program">Basic flow of DB program</a></li>
-        <li><a href="#simple-activejdbc-example">Simple ActiveJDBC Example</a></li>
-        <li><a href="#transaction-related-apis">Transaction related APIs</a></li>
-        <li><a href="#transacted-activejdbc-example">Transacted ActiveJDBC Example</a></li>
-        <li><a href="#transactions-with-jndi">Transactions with JNDI</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

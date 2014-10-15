@@ -2,9 +2,9 @@
 
 
 <div class="col-md-9">
-<h1 id="lazy-and-eager-lazy-by-default"><a href="#TOC">Lazy and eager (lazy by default)</a></h1>
+<h1 id="lazy-and-eager-lazy-by-default">Lazy and eager (lazy by default)</h1>
 <p>ActiveJDBC is lazy by default. In this sense, it has semantics closer to ActiveRecord than Hibernate.</p>
-<h2 id="lazy-list"><a href="#TOC">Lazy List</a></h2>
+<h2 id="lazy-list">Lazy List</h2>
 <p>In a code like this:</p>
 <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
 2
@@ -26,7 +26,7 @@
     .<span class="fu">limit</span>(<span class="dv">10</span>)
     .<span class="fu">orderBy</span>(<span class="st">&quot;hire_date asc&quot;</span>);</code></pre></td></tr></table>
 <p>there is no access to database. All that is happening is that the <a href="http://javalite.github.io/activejdbc/org/javalite/activejdbc/LazyList.html">LazyList</a> is progressively configured on lines 2, 3 and 4 in order to build a correct SQL query when the objects are requested from the list.</p>
-<h2 id="lazy-dependencies"><a href="#TOC">Lazy dependencies</a></h2>
+<h2 id="lazy-dependencies">Lazy dependencies</h2>
 <p>If you have a model User and a model Address, and they have a one to many relationship, when a user has many addresses, the code:</p>
 <pre class="sourceCode java"><code class="sourceCode java">User u = User.<span class="fu">findById</span>(<span class="dv">1</span>);</code></pre>
 <p>does not load the associated addresses. Only when you call the getter for addresses, a query is generated and executed against DB:</p>
@@ -35,7 +35,7 @@
 <blockquote>
 <p>ActiveJDBC uses a pass-through model. It means that the models do not cache relationships. Even after a call to get related objects the parent model does not retain a reference to them.</p>
 </blockquote>
-<h2 id="improve-efficiency-with-eager-loading"><a href="#TOC">Improve efficiency with eager loading</a></h2>
+<h2 id="improve-efficiency-with-eager-loading">Improve efficiency with eager loading</h2>
 <p>Let's consider an example where an ORM could unexpectedly generate a huge number of inefficient queries:</p>
 <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
 2
@@ -62,11 +62,11 @@
 <blockquote>
 <p>Relationships that were loaded by <code>include()</code> <em>are cached</em> and will be returned each time (without further access to DB) when the same getter is used!</p>
 </blockquote>
-<h2 id="eager-simultaneous-loading-of-parents-and-children"><a href="#TOC">Eager simultaneous loading of parents and children</a></h2>
+<h2 id="eager-simultaneous-loading-of-parents-and-children">Eager simultaneous loading of parents and children</h2>
 <p>Suppose we have two one to many relationships: Author has many Posts and a Post has many Comments. In cases like these, we can load a post and all corresponding Authors and Comments very efficiently:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Post&gt; todayPosts = Post.<span class="fu">where</span>(<span class="st">&quot;post_date = ?&quot;</span>, today).<span class="fu">include</span>(Author.<span class="fu">class</span>, Comment.<span class="fu">class</span>);</code></pre>
 <p>The above code will generate only three queries to DB, one per each table. This of course will create an object graph in memory with certain implications. While it is going to be a more efficient approach from the point of DB IO view, it certainly will consume more memory. Developers will need to understand the implications and perform test cases to see if eager loading is improving or degrading performance.</p>
-<h2 id="conversion-to-maps"><a href="#TOC">Conversion to Maps</a></h2>
+<h2 id="conversion-to-maps">Conversion to Maps</h2>
 <p>When a model with included children is converted to a map, all the dependencies are converted to maps and inserted into a parent model map too. Here is an example:</p>
 <table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
 2
@@ -85,15 +85,7 @@ List&lt;Map&gt; addresses = (List&lt;Map&gt;)user.<span class="fu">get</span>(<s
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#lazy-and-eager-lazy-by-default">Lazy and eager (lazy by default)</a><ul>
-        <li><a href="#lazy-list">Lazy List</a></li>
-        <li><a href="#lazy-dependencies">Lazy dependencies</a></li>
-        <li><a href="#improve-efficiency-with-eager-loading">Improve efficiency with eager loading</a></li>
-        <li><a href="#eager-simultaneous-loading-of-parents-and-children">Eager simultaneous loading of parents and children</a></li>
-        <li><a href="#conversion-to-maps">Conversion to Maps</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

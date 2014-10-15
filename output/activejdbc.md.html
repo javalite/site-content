@@ -2,8 +2,8 @@
 
 
 <div class="col-md-9">
-<h1 id="activejdbc---fast-java-orm"><a href="#TOC">ActiveJDBC - Fast Java ORM</a></h1>
-<h2 id="design-principles"><a href="#TOC">Design principles</a></h2>
+<h1 id="activejdbc---fast-java-orm">ActiveJDBC - Fast Java ORM</h1>
+<h2 id="design-principles">Design principles</h2>
 <ul>
 <li>Infers metadata from DB</li>
 <li>No configuration, just conventions. <em>Really no configuration!</em></li>
@@ -18,7 +18,7 @@
 <li>No DAOs and DTOs</li>
 <li>No <a href="http://www.martinfowler.com/bliki/AnemicDomainModel.html">Anemic Domain Model</a></li>
 </ul>
-<h2 id="getting-started"><a href="#TOC">Getting started</a></h2>
+<h2 id="getting-started">Getting started</h2>
 <p>If you want to get started, follow these links:</p>
 <p>Please, see <a href="getting_started">Getting Started</a> for a working example.</p>
 <p>Look through these:</p>
@@ -33,7 +33,7 @@
 <li><a href="https://github.com/javalite/standalone-example">Standalone example</a> - neither Maven nor Ant</li>
 </ul>
 <p>Here is <a href="http://javalite.github.io/activejdbc/">JavaDoc for ActiveJDBC</a></p>
-<h2 id="documentation"><a href="#TOC">Documentation</a></h2>
+<h2 id="documentation">Documentation</h2>
 <p><a id="expand" href="javascript:void(0);"
    onclick="$('#docs').show('slow'); $('#expand').hide(); $('#collapse').show();" style="display:none">Expand table of contents</a> <a id="collapse" href="javascript:void(0);"
    onclick="$('#docs').hide('slow'); $('#collapse').hide(); $('#expand').show();">Collapse table of contents</a></p>
@@ -80,7 +80,7 @@
 
 </li>
 </ul>
-<h2 id="minute-introduction"><a href="#TOC">5 minute introduction</a></h2>
+<h2 id="minute-introduction">5 minute introduction</h2>
 <p>For a simple example we will use a table called PEOPLE created with this MySQL DDL:</p>
 <pre class="sourceCode sql"><code class="sourceCode sql"><span class="kw">CREATE</span> <span class="kw">TABLE</span> people (
   <span class="kw">id</span>  <span class="dt">int</span>(<span class="dv">11</span>) <span class="kw">NOT</span> <span class="kw">NULL</span> auto_increment <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,
@@ -94,7 +94,7 @@
 <p>ActiveJDBC infers DB schema parameters from a database. This means you do not have to provide it in code. The simplest model looks like this:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model {}</code></pre>
 <p>Despite the fact that there is no code in the body of the class, it is fully functional and will map to a table called <code>PEOPLE</code> <em>automatically</em>.</p>
-<h3 id="how-to-query"><a href="#TOC">How to query</a></h3>
+<h3 id="how-to-query">How to query</h3>
 <p>Simplest query example:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; people = Person.<span class="fu">where</span>(<span class="st">&quot;name = &#39;John&#39;&quot;</span>);
 Person aJohn = people.<span class="fu">get</span>(<span class="dv">0</span>);
@@ -105,13 +105,13 @@ String johnsLastName = aJohn.<span class="fu">get</span>(<span class="st">&quot;
 Person aJohn = people.<span class="fu">get</span>(<span class="dv">0</span>);
 String johnsLastName = aJohn.<span class="fu">get</span>(<span class="st">&quot;last_name&quot;</span>);</code></pre>
 <p>The <code>where()</code> method takes a vararg, allowing unlimited any number of parameters to be passed into a statement.</p>
-<h3 id="paging-through-data"><a href="#TOC">Paging through data</a></h3>
+<h3 id="paging-through-data">Paging through data</h3>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Employee&gt; people = Employee.<span class="fu">where</span>(<span class="st">&quot;department = ? and hire_date &gt; ? &quot;</span>, <span class="st">&quot;IT&quot;</span>, hireDate)
     .<span class="fu">offset</span>(<span class="dv">21</span>)
     .<span class="fu">limit</span>(<span class="dv">10</span>)
     .<span class="fu">orderBy</span>(<span class="st">&quot;hire_date asc&quot;</span>);</code></pre>
 <p>This query will ensure that the returned result set will start at the 21st record and will return only 10 records, according to the <code>orderBy</code>. The ActiveJDBC has a built in facility for various database flavors and it will generate appropriate SQL statement that is specific for a DB (Oracle, MySQL, etc) and is efficient. It will not fetch all records, starting with 1.</p>
-<h3 id="creating-new-records"><a href="#TOC">Creating new records</a></h3>
+<h3 id="creating-new-records">Creating new records</h3>
 <p>There are several ways to do this, and the simplest is:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
 p.<span class="fu">set</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;Marilyn&quot;</span>);
@@ -122,14 +122,14 @@ p.<span class="fu">saveIt</span>();</code></pre>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">new</span> <span class="fu">Person</span>().<span class="fu">set</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;Marilyn&quot;</span>).<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Monroe&quot;</span>).<span class="fu">set</span>(<span class="st">&quot;dob&quot;</span>, <span class="st">&quot;1935-12-06&quot;</span>).<span class="fu">saveIt</span>();</code></pre>
 <p>and yet shorter one :</p>
 <pre class="sourceCode java"><code class="sourceCode java">Person.<span class="fu">createIt</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;Marilyn&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Monroe&quot;</span>, <span class="st">&quot;dob&quot;</span>, <span class="st">&quot;1935-12-06&quot;</span>);</code></pre>
-<h3 id="updating-a-record"><a href="#TOC">Updating a record</a></h3>
+<h3 id="updating-a-record">Updating a record</h3>
 <pre class="sourceCode java"><code class="sourceCode java">Employee e = Employee.<span class="fu">findFirst</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);
 e.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Steinbeck&quot;</span>).<span class="fu">saveIt</span>();</code></pre>
-<h3 id="deleting-a-record"><a href="#TOC">Deleting a record</a></h3>
+<h3 id="deleting-a-record">Deleting a record</h3>
 <pre class="sourceCode java"><code class="sourceCode java">Employee e = Employee.<span class="fu">findFirst</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);
 e.<span class="fu">delete</span>();</code></pre>
 <p>There are more ways to delete, follow <a href="delete_cascade">Delete cascade</a> to learn more.</p>
-<h2 id="getting-the-latest-version"><a href="#TOC">Getting the latest version</a></h2>
+<h2 id="getting-the-latest-version">Getting the latest version</h2>
 <p>For the latest version refer to <a href="http://search.maven.org/#search%7Cga%7C1%7Cactivejdbc">ActiveJDBC on Maven Central</a>. If you use Maven add this to your pom:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;dependency&gt;</span>
     <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
@@ -153,7 +153,7 @@ e.<span class="fu">delete</span>();</code></pre>
     <span class="kw">&lt;/executions&gt;</span>
 <span class="kw">&lt;/plugin&gt;</span></code></pre>
 <p>Or download from: <a href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22activejdbc-instrumentation%22">ActiveJDBC Instrumentation plugin on Maven Central</a></p>
-<h2 id="getting-latest-snapshot-versions"><a href="#TOC">Getting latest snapshot versions</a></h2>
+<h2 id="getting-latest-snapshot-versions">Getting latest snapshot versions</h2>
 <p>If you are using Maven, add these repositories to your pom:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;repositories&gt;</span>
     <span class="kw">&lt;repository&gt;</span>
@@ -185,22 +185,7 @@ e.<span class="fu">delete</span>();</code></pre>
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#activejdbc---fast-java-orm">ActiveJDBC - Fast Java ORM</a><ul>
-        <li><a href="#design-principles">Design principles</a></li>
-        <li><a href="#getting-started">Getting started</a></li>
-        <li><a href="#documentation">Documentation</a></li>
-        <li><a href="#minute-introduction">5 minute introduction</a><ul>
-        <li><a href="#how-to-query">How to query</a></li>
-        <li><a href="#paging-through-data">Paging through data</a></li>
-        <li><a href="#creating-new-records">Creating new records</a></li>
-        <li><a href="#updating-a-record">Updating a record</a></li>
-        <li><a href="#deleting-a-record">Deleting a record</a></li>
-        </ul></li>
-        <li><a href="#getting-the-latest-version">Getting the latest version</a></li>
-        <li><a href="#getting-latest-snapshot-versions">Getting latest snapshot versions</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

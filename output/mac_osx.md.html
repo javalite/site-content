@@ -2,9 +2,9 @@
 
 
 <div class="col-md-9">
-<h1 id="how-to-run-activeweb-on-mac-os-x"><a href="#TOC">How to run ActiveWeb on Mac OS X</a></h1>
+<h1 id="how-to-run-activeweb-on-mac-os-x">How to run ActiveWeb on Mac OS X</h1>
 <p>The simple example app needs a few small modification to run on OS X. See below for each.</p>
-<h2 id="setting-tools-jar-path"><a href="#TOC">Setting Tools Jar Path</a></h2>
+<h2 id="setting-tools-jar-path">Setting Tools Jar Path</h2>
 <p>On OS X there is no &quot;tools.jar&quot;, its instead named &quot;classes.jar&quot; and lives in a different directory. Here's how to pick it up in your pom.xml</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;profiles&gt;</span>
     <span class="kw">&lt;profile&gt;</span>
@@ -40,9 +40,9 @@
         <span class="kw">&lt;scope&gt;</span>system<span class="kw">&lt;/scope&gt;</span>
         <span class="kw">&lt;systemPath&gt;</span>${toolsjar}<span class="kw">&lt;/systemPath&gt;</span>
  <span class="kw">&lt;/dependency&gt;</span></code></pre>
-<h2 id="picking-an-app-server"><a href="#TOC">Picking an App Server</a></h2>
+<h2 id="picking-an-app-server">Picking an App Server</h2>
 <p>You have two choices here. You can either make a change to the jetty-env.xml file to get jetty working, or you can switch to use the Tomcat plugin instead of Jetty. Here's the details for both.</p>
-<h2 id="jetty-plugin"><a href="#TOC">Jetty plugin</a></h2>
+<h2 id="jetty-plugin">Jetty plugin</h2>
 <p>To get Jetty to work update your jetty-env.xml file like this:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml">
 <span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
@@ -50,7 +50,7 @@
 <span class="kw">&lt;Configure</span><span class="ot"> class=</span><span class="st">&quot;org.mortbay.jetty.webapp.WebAppContext&quot;</span><span class="kw">&gt;</span>
     <span class="kw">&lt;Set</span><span class="ot"> name=</span><span class="st">&quot;parentLoaderPriority&quot;</span><span class="kw">&gt;</span>true<span class="kw">&lt;/Set&gt;</span>
 <span class="kw">&lt;/Configure&gt;</span></code></pre>
-<h2 id="tomcat-plugin"><a href="#TOC">Tomcat plugin</a></h2>
+<h2 id="tomcat-plugin">Tomcat plugin</h2>
 <p>Alternatively switch to the Tomcat plugin in pom.xml. The only oddity about Tomcat plugin is that it is pinned to the &quot;compile&quot; phase, which means that unlike Jetty it will not run instrumentation automatically. Other then that, no issues with Tomcat plugin on MaxOS. Here is the configuration:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"> <span class="kw">&lt;plugin&gt;</span>
         <span class="kw">&lt;groupId&gt;</span>org.apache.tomcat.maven<span class="kw">&lt;/groupId&gt;</span>
@@ -78,14 +78,7 @@
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#how-to-run-activeweb-on-mac-os-x">How to run ActiveWeb on Mac OS X</a><ul>
-        <li><a href="#setting-tools-jar-path">Setting Tools Jar Path</a></li>
-        <li><a href="#picking-an-app-server">Picking an App Server</a></li>
-        <li><a href="#jetty-plugin">Jetty plugin</a></li>
-        <li><a href="#tomcat-plugin">Tomcat plugin</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

@@ -2,9 +2,9 @@
 
 
 <div class="col-md-9">
-<h1 id="validations"><a href="#TOC">Validations</a></h1>
+<h1 id="validations">Validations</h1>
 <p>ActiveJDBC has a validation framework that is somewhat reminiscent of ActiveRecord validation. The validation rules in ActiveJDBC are described in a model definition in a declarative way.</p>
-<h2 id="validation-of-attribute-presence"><a href="#TOC">Validation of attribute presence</a></h2>
+<h2 id="validation-of-attribute-presence">Validation of attribute presence</h2>
 <p>In order to add any validation, a model will declare a static bloc at the top of a class definition, and invoke all validation declaration inside this block:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model {
     <span class="dt">static</span>{
@@ -12,7 +12,7 @@
     }    
 }</code></pre>
 <p>The method <code>Model.validatePresenceOf()</code> takes a vararg of strings, which allows to specify a list of attribute names (column names) in one line of code.</p>
-<h2 id="triggering-of-validation"><a href="#TOC">Triggering of validation</a></h2>
+<h2 id="triggering-of-validation">Triggering of validation</h2>
 <p>triggering of validations causes these actions:</p>
 <ul>
 <li>Call <code>Model.validate()</code> method (will not throw exception)</li>
@@ -21,14 +21,14 @@
 <li>Call <code>Model.createIt()</code> method (will throw exception)</li>
 </ul>
 <p>The semantic difference of <code>save()</code> and <code>saveIt()</code> methods is described on the <a href="record_creation">Record creation</a> page.</p>
-<h2 id="consuming-validation-messages"><a href="#TOC">Consuming validation messages</a></h2>
+<h2 id="consuming-validation-messages">Consuming validation messages</h2>
 <p>After the validation triggered, you can retrieve all messages from a model as a collection:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="co">//...trigger validation</span>
 
 Map&lt;String, String&gt; errors = myPerson.<span class="fu">errors</span>();
 String firstNameError = errors.<span class="fu">get</span>(<span class="st">&quot;first_name&quot;</span>);</code></pre>
 <p>As you can imagine, it is very easy to write web applications with form validation using this ActiveJDBC.</p>
-<h2 id="usage-in-a-web-application"><a href="#TOC">Usage in a web application</a></h2>
+<h2 id="usage-in-a-web-application">Usage in a web application</h2>
 <p>This is a pseudo-code of a web application controller where a form was submitted:</p>
 <pre class="sourceCode java"><code class="sourceCode java">
 <span class="kw">public</span> <span class="dt">void</span> <span class="fu">doPost</span>(...){
@@ -65,7 +65,7 @@ String firstNameError = errors.<span class="fu">get</span>(<span class="st">&quo
     }
 }</code></pre>
 <p>Here is a link to controller: <a href="https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/controllers/BooksController.java#L45">ActiveWeb BookController</a></p>
-<h2 id="customized-messages-for-different-attributes"><a href="#TOC">Customized messages for different attributes</a></h2>
+<h2 id="customized-messages-for-different-attributes">Customized messages for different attributes</h2>
 <p>You can call method <code>validatePresenceOf().message()</code> multiple times, providing different attribute names as well as different messages:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model {
     <span class="dt">static</span>{
@@ -73,7 +73,7 @@ String firstNameError = errors.<span class="fu">get</span>(<span class="st">&quo
         <span class="fu">validatePresenceOf</span>(<span class="st">&quot;last_name&quot;</span>).<span class="fu">message</span>(<span class="st">&quot;Please, provide your last name&quot;</span>);
     }    
 }</code></pre>
-<h2 id="validation-of-numericality"><a href="#TOC">Validation of numericality</a></h2>
+<h2 id="validation-of-numericality">Validation of numericality</h2>
 <p>ActiveJDBC like ActiveRecord also provides other validators, for instance:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Account <span class="kw">extends</span> Model {
     <span class="dt">static</span>{
@@ -81,7 +81,7 @@ String firstNameError = errors.<span class="fu">get</span>(<span class="st">&quo
     }
 }</code></pre>
 <p>Like the <code>validatePresenseOf()</code>, this method also takes in a vararg of strings, which allows to specify a list of attribute names that should have a numeric format.</p>
-<h2 id="validation-of-numericality-with-additional-properties"><a href="#TOC">Validation of numericality with additional properties</a></h2>
+<h2 id="validation-of-numericality-with-additional-properties">Validation of numericality with additional properties</h2>
 <p>When checking numericality of an attribute, you can have a finer control, including specifying that it could be <code>null</code>, providing a range and a custom message. In fact, all validators allow for custom message.</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Account <span class="kw">extends</span> Model {
     <span class="dt">static</span>{
@@ -92,7 +92,7 @@ String firstNameError = errors.<span class="fu">get</span>(<span class="st">&quo
     }
 }</code></pre>
 <p>Again, ActiveJDBC is using <a href="http://martinfowler.com/bliki/FluentInterface.html">Fluent Interfaces</a> technique, as in many other places.</p>
-<h2 id="range-validator"><a href="#TOC">Range validator</a></h2>
+<h2 id="range-validator">Range validator</h2>
 <p>Besides numeric validation, there is also a specific range validator:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Temperature <span class="kw">extends</span> Model {
     <span class="dt">static</span>{
@@ -101,14 +101,14 @@ String firstNameError = errors.<span class="fu">get</span>(<span class="st">&quo
     }
 }</code></pre>
 <p>Although you can use either numeric or range validators for range, in some cases range validator will have a more concise syntax than numeric one.</p>
-<h2 id="email-validator"><a href="#TOC">Email validator</a></h2>
+<h2 id="email-validator">Email validator</h2>
 <p>The email validator exists to check a proper format of email (it does not check if email actually exists!)</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> User <span class="kw">extends</span> Model {
     <span class="dt">static</span>{
         <span class="fu">validateEmailOf</span>(<span class="st">&quot;email&quot;</span>);
     }
 }</code></pre>
-<h2 id="regular-expressions-validator"><a href="#TOC">Regular expressions validator</a></h2>
+<h2 id="regular-expressions-validator">Regular expressions validator</h2>
 <p>You can probably guess, that the email validator is a special case of a regular expression validator:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> User <span class="kw">extends</span> Model {
     <span class="dt">static</span>{
@@ -116,7 +116,7 @@ String firstNameError = errors.<span class="fu">get</span>(<span class="st">&quo
     }
 }</code></pre>
 <p>This validator provides enough freedom to developers who know regular expressions well :)</p>
-<h2 id="custom-validators"><a href="#TOC">Custom validators</a></h2>
+<h2 id="custom-validators">Custom validators</h2>
 <p>If all else fails, and ActiveJDBC does not provide a validator you want, you can extend a ValidatorAdapter class:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">interface</span> Validator {
     <span class="dt">void</span> <span class="fu">validate</span>(Model m);
@@ -146,7 +146,7 @@ Person.<span class="fu">addValidator</span>(cv).<span class="fu">message</span>(
 p.<span class="fu">save</span>();
 String errorMessage = p.<span class="fu">errors</span>().<span class="fu">get</span>(<span class="st">&quot;custom_error&quot;</span>);</code></pre>
 <p>Validators are executed during validation in the order they were added to the model. The <code>validate()</code> method is called from <code>save()</code> and <code>saveIt()</code></p>
-<h2 id="customization-of-messages"><a href="#TOC">Customization of messages</a></h2>
+<h2 id="customization-of-messages">Customization of messages</h2>
 <p>ActiveJDBC provides stock messages (one for each validator), which may not be appropriate for all projects. For instance, <code>validatePresenseOf()</code> provides a simple message &quot;value is missing&quot;. In order to customize these messages, the framework provides a DSL-ish like facility:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model {
     <span class="dt">static</span>{
@@ -157,7 +157,7 @@ String errorMessage = p.<span class="fu">errors</span>().<span class="fu">get</s
 <p>After a validation process, if there are errors, they are accessible via the <code>p.errors()</code> method, and a specific validation error message is accessed using an attribute name as a message key:</p>
 <pre class="sourceCode java"><code class="sourceCode java">String firstNameMissingErrorMessage = p.<span class="fu">errors</span>().<span class="fu">get</span>(<span class="st">&quot;first_name&quot;</span>);</code></pre>
 <p>..or you can use the <code>Errors</code> object returned from <code>errors()</code> method as a <code>Map</code> and process it generically (as is usually the case for web applications).</p>
-<h2 id="parametric-validation-messages"><a href="#TOC">Parametric validation messages</a></h2>
+<h2 id="parametric-validation-messages">Parametric validation messages</h2>
 <p>In some cases, you will need to parametrize messages coming from a resource bundle. For instance, in a file <code>activejdbc_messages.properties</code> you would have an entry:</p>
 <pre class="prettyprint"><code>temperature.outside.limits = Temperature is outside acceptable limits, while it needs to be between {0} and {1}</code></pre>
 <p>You might have a model defined like this:</p>
@@ -174,7 +174,7 @@ temp.<span class="fu">set</span>(<span class="st">&quot;temp&quot;</span>, <span
    String message = temp.<span class="fu">errors</span>().<span class="fu">get</span>(<span class="st">&quot;temp&quot;</span>);
    System.<span class="fu">out</span>.<span class="fu">println</span>(message);<span class="co">// prints: Temperature is outside acceptable limits, while it needs to be between 10 and 2000</span>
 }</code></pre>
-<h2 id="split-parameters-for-validation-messages"><a href="#TOC">Split parameters for validation messages</a></h2>
+<h2 id="split-parameters-for-validation-messages">Split parameters for validation messages</h2>
 <p>In some cases you know parameter values when declaring a model, but some other parameters are only known in the context where validation is actually used. In this case, you can split parameters between the declaration (static context) and calling for messages (dynamic context).</p>
 <p>Resource bundle:</p>
 <pre class="prettyprint"><code>temperature.outside.limits = Temperature is outside acceptable limits, while it needs to be between {0} and {1} for user: {2}</code></pre>
@@ -194,7 +194,7 @@ temp.<span class="fu">set</span>(<span class="st">&quot;temp&quot;</span>, <span
 }</code></pre>
 <p>The getter method for Errors class has this signature: <code>get(String attributeName, Object ... params)</code>, which allows to supply more than one parameter.</p>
 <p>The one rule you have to keep in mind, is that static parameters will be indexed from zero, and dynamic parameters will be appended to static. As in this case, the user name is placed in the message at index {2}.</p>
-<h2 id="internationalization-of-validation-messages-i18n"><a href="#TOC">Internationalization of validation messages (I18N)</a></h2>
+<h2 id="internationalization-of-validation-messages-i18n">Internationalization of validation messages (I18N)</h2>
 <p>In cases where there is a need for internationalization of messages, this is easy to accomplish by providing a locale instance to the <code>errors()</code> method. But first, you will need to create these messages. ActiveJDBC uses a resource bundle <code>activejdbc_messages</code>. This means:</p>
 <ul>
 <li><code>activejdbc_messages.properties</code> - default locale bundle</li>
@@ -214,25 +214,7 @@ temp.<span class="fu">set</span>(<span class="st">&quot;temp&quot;</span>, <span
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#validations">Validations</a><ul>
-        <li><a href="#validation-of-attribute-presence">Validation of attribute presence</a></li>
-        <li><a href="#triggering-of-validation">Triggering of validation</a></li>
-        <li><a href="#consuming-validation-messages">Consuming validation messages</a></li>
-        <li><a href="#usage-in-a-web-application">Usage in a web application</a></li>
-        <li><a href="#customized-messages-for-different-attributes">Customized messages for different attributes</a></li>
-        <li><a href="#validation-of-numericality">Validation of numericality</a></li>
-        <li><a href="#validation-of-numericality-with-additional-properties">Validation of numericality with additional properties</a></li>
-        <li><a href="#range-validator">Range validator</a></li>
-        <li><a href="#email-validator">Email validator</a></li>
-        <li><a href="#regular-expressions-validator">Regular expressions validator</a></li>
-        <li><a href="#custom-validators">Custom validators</a></li>
-        <li><a href="#customization-of-messages">Customization of messages</a></li>
-        <li><a href="#parametric-validation-messages">Parametric validation messages</a></li>
-        <li><a href="#split-parameters-for-validation-messages">Split parameters for validation messages</a></li>
-        <li><a href="#internationalization-of-validation-messages-i18n">Internationalization of validation messages (I18N)</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

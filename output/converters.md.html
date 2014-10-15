@@ -2,10 +2,10 @@
 
 
 <div class="col-md-9">
-<h1 id="converters"><a href="#TOC">Converters</a></h1>
+<h1 id="converters">Converters</h1>
 <p>Converters can convert an attribute from one type to another. They are very similar to <a href="validations">Validations</a> in logic and are declared the same way inside a static block of a class. Currently there are two converters available: date converter and time stamp converter. Both allow setting an attribute value in a form of a string with appropriate format.</p>
 <p>Converters trigger like validators, during validate(), save() and saveIt() methods, and are in fact validators. If a converter cannot convert from one type to another, it will add an appropriate message to the <code>model.errors()</code> collection.</p>
-<h2 id="date-converter"><a href="#TOC">Date converter</a></h2>
+<h2 id="date-converter">Date converter</h2>
 <p>Date converter can convert value for an attribute from formatted string to <code>java.sql.Date</code>. Here is an example of a date converter declaration:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model {
     <span class="dt">static</span>{
@@ -23,7 +23,7 @@ p.<span class="fu">set</span>(<span class="st">&quot;dob&quot;</span>, <span cla
 p.<span class="fu">validate</span>();
 System.<span class="fu">out</span>.<span class="fu">println</span>(p.<span class="fu">get</span>(<span class="st">&quot;dob&quot;</span>).<span class="fu">getClass</span>()); <span class="co">//prints out: class java.sql.Date</span>
 System.<span class="fu">out</span>.<span class="fu">println</span>(p.<span class="fu">get</span>(<span class="st">&quot;dob&quot;</span>));            <span class="co">//prints out: 1926-06-01</span></code></pre>
-<h2 id="timestamp-converter"><a href="#TOC">Timestamp converter</a></h2>
+<h2 id="timestamp-converter">Timestamp converter</h2>
 <p>Timestamp converter is identical to date converter, but converts to <code>java.sql.Timestamp</code>. Here is example of declaration:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Message <span class="kw">extends</span> Model {
     <span class="dt">static</span>{
@@ -36,12 +36,7 @@ System.<span class="fu">out</span>.<span class="fu">println</span>(p.<span class
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#converters">Converters</a><ul>
-        <li><a href="#date-converter">Date converter</a></li>
-        <li><a href="#timestamp-converter">Timestamp converter</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

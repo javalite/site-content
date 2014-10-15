@@ -2,7 +2,7 @@
 
 
 <div class="col-md-9">
-<h1 id="polymorphic-associations"><a href="#TOC">Polymorphic associations</a></h1>
+<h1 id="polymorphic-associations">Polymorphic associations</h1>
 <p>Polymorphic associations are used in cases when there are several one-to-many relationships that you could aggregate because for all the parents, the children are similar.</p>
 <p>In other words, a polymorphic association allows for a table to have multiple types of parents.</p>
 <p>Lets say you have products and reviews in the system . Both have to be tagged. A naive implementation would be to create two one to many relationships:</p>
@@ -27,7 +27,7 @@
 <blockquote>
 <p>Operations are the same as with <a href="one_to_many_associations">One-to-many associations</a></p>
 </blockquote>
-<h2 id="adding-and-searching-for-polymorphic-children"><a href="#TOC">Adding and searching for polymorphic children</a></h2>
+<h2 id="adding-and-searching-for-polymorphic-children">Adding and searching for polymorphic children</h2>
 <pre class="sourceCode java"><code class="sourceCode java">Product p =  Product.<span class="fu">findById</span>(<span class="dv">100</span>);
 p.<span class="fu">add</span>(Tag.<span class="fu">create</span>(<span class="st">&quot;tag&quot;</span>, <span class="st">&quot;basket&quot;</span>));
 p.<span class="fu">add</span>(Tag.<span class="fu">create</span>(<span class="st">&quot;tag&quot;</span>, <span class="st">&quot;toy&quot;</span>));
@@ -80,16 +80,16 @@ List&lt;Tag&gt; tags = customerReview.<span class="fu">getAll</span>(Tag.<span c
 </tr>
 </tbody>
 </table>
-<h2 id="conditional-search-for-polymorphic-children"><a href="#TOC">Conditional search for polymorphic children</a></h2>
+<h2 id="conditional-search-for-polymorphic-children">Conditional search for polymorphic children</h2>
 <p>While the <code>getAll(type)</code> method returns all relations, the <code>get(type)</code> method allows for a selection criteria on the child table:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Tag&gt; tags = product.<span class="fu">get</span>(Tag.<span class="fu">class</span>, <span class="st">&quot;tag = ?&quot;</span>, <span class="st">&quot;toy&quot;</span>);</code></pre>
-<h2 id="removing-polymorphic-children"><a href="#TOC">Removing polymorphic children</a></h2>
+<h2 id="removing-polymorphic-children">Removing polymorphic children</h2>
 <p>Removing children is as easy as expected;</p>
 <pre class="sourceCode java"><code class="sourceCode java">Product toyBasket =  Product.<span class="fu">findById</span>(<span class="dv">100</span>);
 Tag t = Tag.<span class="fu">findById</span>(<span class="dv">1</span>);
 toyBasket.<span class="fu">remove</span>(t);</code></pre>
 <p>This will remove a child record from the <code>TAGS</code> table.</p>
-<h2 id="deleting-polymorphic-parents"><a href="#TOC">Deleting polymorphic parents</a></h2>
+<h2 id="deleting-polymorphic-parents">Deleting polymorphic parents</h2>
 <p>When deleting a record that is a parent to polymorphic children, you have two options:</p>
 <ul>
 <li>Only delete the parent itself. This will leave orphan children:</li>
@@ -100,12 +100,12 @@ toyBasket.<span class="fu">remove</span>(t);</code></pre>
 </ul>
 <pre class="sourceCode java"><code class="sourceCode java">toyBasket.<span class="fu">deleteCascade</span>(); <span class="co">// or toyBasket.delete(true);</span></code></pre>
 <p>The latter will delete the parent along with all associated polymorphic children. See <a href="delete_cascade">Delete cascade</a> for more information.</p>
-<h2 id="finding-polymorphic-parent"><a href="#TOC">Finding polymorphic parent</a></h2>
+<h2 id="finding-polymorphic-parent">Finding polymorphic parent</h2>
 <p>Navigate from children to parents in relationships:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Tag t = Tag.<span class="fu">findById</span>(<span class="dv">1</span>);
 Product p = t.<span class="fu">parent</span>(Product.<span class="fu">class</span>);
 ...</code></pre>
-<h2 id="override-standard-parent-type-values"><a href="#TOC">Override standard parent type values</a></h2>
+<h2 id="override-standard-parent-type-values">Override standard parent type values</h2>
 <p>In some cases, it is not possible to have a fully qualified class name in the &quot;parent_type&quot; column. This is usually a case when the same table backs a different ORM which also supports polymorphic associations (Ruby on Rails ActiveRecord for example).</p>
 <p>When faced with this problem, you can use annotation to override default behavior:</p>
 <pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">BelongsToPolymorphic</span>(
@@ -157,16 +157,7 @@ typeLabels  = {<span class="st">&quot;Vehicle&quot;</span>,     <span class="st"
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#polymorphic-associations">Polymorphic associations</a><ul>
-        <li><a href="#adding-and-searching-for-polymorphic-children">Adding and searching for polymorphic children</a></li>
-        <li><a href="#conditional-search-for-polymorphic-children">Conditional search for polymorphic children</a></li>
-        <li><a href="#removing-polymorphic-children">Removing polymorphic children</a></li>
-        <li><a href="#deleting-polymorphic-parents">Deleting polymorphic parents</a></li>
-        <li><a href="#finding-polymorphic-parent">Finding polymorphic parent</a></li>
-        <li><a href="#override-standard-parent-type-values">Override standard parent type values</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

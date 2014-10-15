@@ -2,8 +2,6 @@
 # Clob support and caching
 
 
-
-
 While ActiveJDBC supports Clobs, developers should be aware that even though the APIs are easy to use, they could
 stumble upon performance problems due to Clob sizes.
 

@@ -2,14 +2,14 @@
 
 
 <div class="col-md-9">
-<h1 id="development-mode"><a href="#TOC">Development mode</a></h1>
+<h1 id="development-mode">Development mode</h1>
 <p>ActiveWeb will recompile and reload routes and controllers on each request in development environment. It makes it possible to experiment with controllers, pages and routes in a live application without having to restart the container. Watch the video on the <a href="activeweb">ActiveWeb</a> for an example. All that is required is a system property <code>active_reload</code> to be set.</p>
 <p>Since production environments do not have compiler, or <code>active_reload</code> system property, the framework simply executes previously compiled and packaged controllers and routes.</p>
-<h2 id="jetty-configuration"><a href="#TOC">Jetty configuration</a></h2>
+<h2 id="jetty-configuration">Jetty configuration</h2>
 <p>Starting a project in development mode is easy, just type:</p>
 <pre class="prettyprint"><code>mvn jetty:run</code></pre>
 <p>The Jetty plugin is configured by default, and there is almost nothing in configuration of this plugin that is specific to ActiveWeb, except some system properties, see below</p>
-<h3 id="system-properties-with-jetty"><a href="#TOC">System properties with Jetty</a></h3>
+<h3 id="system-properties-with-jetty">System properties with Jetty</h3>
 <p>Typical configuration of the Jetty plugin:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
     <span class="kw">&lt;groupId&gt;</span>org.mortbay.jetty<span class="kw">&lt;/groupId&gt;</span>
@@ -46,7 +46,7 @@
 <li><code>active_reload</code> - this property if set to true, causes ActiveWeb to recompile and reload a controller being executed.</li>
 <li><code>activeweb.log.request</code> - this property will enable short information logged from ActiveWeb about each request. It is recommended to have it on.</li>
 </ul>
-<h2 id="running-with-tomcat-maven-plugin"><a href="#TOC">Running with Tomcat Maven plugin</a></h2>
+<h2 id="running-with-tomcat-maven-plugin">Running with Tomcat Maven plugin</h2>
 <p>In some cases you might want to develop on Tomcat. This is useful if your target deployment in production is also Tomcat, and you might want to catch some Tomcat-related problems sooner rather than later. Here is default configuration for Tomcat:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
     <span class="kw">&lt;groupId&gt;</span>org.apache.tomcat.maven<span class="kw">&lt;/groupId&gt;</span>
@@ -76,14 +76,7 @@
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#development-mode">Development mode</a><ul>
-        <li><a href="#jetty-configuration">Jetty configuration</a><ul>
-        <li><a href="#system-properties-with-jetty">System properties with Jetty</a></li>
-        </ul></li>
-        <li><a href="#running-with-tomcat-maven-plugin">Running with Tomcat Maven plugin</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

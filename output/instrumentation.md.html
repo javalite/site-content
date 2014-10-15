@@ -2,13 +2,13 @@
 
 
 <div class="col-md-9">
-<h1 id="instrumentation"><a href="#TOC">Instrumentation</a></h1>
+<h1 id="instrumentation">Instrumentation</h1>
 <p>ActiveJDBC requires instrumentation of class files after they are compiled. This is accomplished with an Instrumentation tool provided by the project. There are three ways to use it: with a Maven plugin, Ant, and as a standalone Java class (no Ant or Maven)</p>
-<h2 id="what-is-instrumentation"><a href="#TOC">What is instrumentation?</a></h2>
+<h2 id="what-is-instrumentation">What is instrumentation?</h2>
 <p>Instrumentation is byte code manipulation that happens after compile phase. It adds static methods from super class to a subclass. Instrumentation allows to &quot;inherit&quot; static methods from a super class, making elegant code like this possible:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; retirees = Person.<span class="fu">where</span>(<span class="st">&quot;age &gt;= ?&quot;</span>, <span class="dv">65</span>);</code></pre>
 <p>Without instrumentation, ActiveJDBC would not be able to know what table to query. While instrumentation introduces an additional step in the process, the benefit is a very intuitive and concise API.</p>
-<h2 id="maven-instrumentation-plugin"><a href="#TOC">Maven instrumentation plugin</a></h2>
+<h2 id="maven-instrumentation-plugin">Maven instrumentation plugin</h2>
 <p>The simple usage of a Maven plugin is provided by a Maven ActiveJDBC Simple Example project: <a href="https://github.com/javalite/simple-example">Simple Mave Example</a>. Specifically, the plugin is added to a pom like this:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
     <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
@@ -24,7 +24,7 @@
     <span class="kw">&lt;/executions&gt;</span>
 <span class="kw">&lt;/plugin&gt;</span></code></pre>
 <p>and binds to a <code>process-classes</code> Maven phase. It will automatically instrument model classes during the build.</p>
-<h2 id="ant-instrumentation"><a href="#TOC">Ant instrumentation</a></h2>
+<h2 id="ant-instrumentation">Ant instrumentation</h2>
 <p>Here is an example project with Ant - based instrumentation: <a href="https://github.com/javalite/ant-example">Ant exampe</a></p>
 <p>The class responsible for instrumentation is called <code>org.javalite.activejdbc.instrumentation.Main</code>, and here is an example of using it:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;target</span><span class="ot"> name=</span><span class="st">&quot;instrument&quot;</span><span class="ot"> depends=</span><span class="st">&quot;compile&quot;</span><span class="kw">&gt;</span>
@@ -34,7 +34,7 @@
     <span class="kw">&lt;/java&gt;</span>
 <span class="kw">&lt;/target&gt;</span></code></pre>
 <p>where <code>${classes}</code> represents a directory where class files were compiled.</p>
-<h2 id="standalone-instrumentation"><a href="#TOC">Standalone instrumentation</a></h2>
+<h2 id="standalone-instrumentation">Standalone instrumentation</h2>
 <p>If you are not using Maven or Ant, you can run instrumentation with a command similar to this:</p>
 <pre class="prettyprint"><code>java  -cp=$CLASSPATH  -DoutputDirectory=build activejdbc.instrumentation.Main</code></pre>
 <p>where:</p>
@@ -43,11 +43,11 @@
 <li>build - is a directory where you compiled all classes in a &quot;compile&quot; step before instrumentation</li>
 </ul>
 <p>There is an example of a standalone project which does not use any build tool, except Java itself. Please follow this link for more information: <a href="https://github.com/javalite/standalone-example">Standalone instrumentation example project</a></p>
-<h2 id="speed-of-instrumentation"><a href="#TOC">Speed of instrumentation</a></h2>
+<h2 id="speed-of-instrumentation">Speed of instrumentation</h2>
 <p>... is very fast - for large projects (50 - 60 models) it takes about 5 - 7 seconds, and for small projects (under 10 models) usually within a second or two.</p>
-<h2 id="build-time-classpath"><a href="#TOC">Build time classpath</a></h2>
+<h2 id="build-time-classpath">Build time classpath</h2>
 <p>The Instrumentation package is required on the classpath only during instrumentation and not required during runtime. For Maven projects, this is automatic. Even it finds its way to the runtime classpath, it will do no harm except for increasing the size.</p>
-<h2 id="bare-bones-ant-script"><a href="#TOC">Bare bones Ant script</a></h2>
+<h2 id="bare-bones-ant-script">Bare bones Ant script</h2>
 <p>This Ant script can be used on any project in order to speed up development. The reason we use this script sometimes even on Maven projects is speed. Maven takes a few seconds to startup, but this barebones script is almost instant. You can hook it into IDE to trigger before executing tests:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;<span class="kw">?&gt;</span>
 <span class="co">&lt;!-- This script is used for fast instrumentation of the project&#39;s models--&gt;</span>
@@ -67,7 +67,7 @@
     <span class="kw">&lt;/target&gt;</span>
 <span class="kw">&lt;/project&gt;</span></code></pre>
 <p>Replace versions with the most up-to-date: <a href="http://search.maven.org/#search%7Cga%7C1%7Cactivejdbc">Maven search for ActiveJDBC</a></p>
-<h2 id="ide-integrations"><a href="#TOC">IDE Integrations</a></h2>
+<h2 id="ide-integrations">IDE Integrations</h2>
 <ul>
 <li><a href="eclipse_integration">Eclipse Integration</a></li>
 <li><a href="netbeans_integration">Netbeans Integration</a></li>
@@ -75,18 +75,7 @@
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#instrumentation">Instrumentation</a><ul>
-        <li><a href="#what-is-instrumentation">What is instrumentation?</a></li>
-        <li><a href="#maven-instrumentation-plugin">Maven instrumentation plugin</a></li>
-        <li><a href="#ant-instrumentation">Ant instrumentation</a></li>
-        <li><a href="#standalone-instrumentation">Standalone instrumentation</a></li>
-        <li><a href="#speed-of-instrumentation">Speed of instrumentation</a></li>
-        <li><a href="#build-time-classpath">Build time classpath</a></li>
-        <li><a href="#bare-bones-ant-script">Bare bones Ant script</a></li>
-        <li><a href="#ide-integrations">IDE Integrations</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

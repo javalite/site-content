@@ -2,7 +2,7 @@
 
 
 <div class="col-md-9">
-<h1 id="deploying-to-heroku"><a href="#TOC">Deploying to Heroku</a></h1>
+<h1 id="deploying-to-heroku">Deploying to Heroku</h1>
 <p>This guide uses the ClearDB mysql service, but it could easily be adapted to the Heroku Postgres service.</p>
 <p>FYI: its completely possible that I forgot something in this guide and that it will need to be updated by the very first person that tries to use it. Post something on the GoogleGroup if you need help.</p>
 <p>The basic idea is that Heroku puts a specific environment variables in your apps config that you need to be able to read at runtime to setup your db connections. Try this command in your Heroku toolbelt to see your current config vars. You might see something like this:</p>
@@ -13,10 +13,10 @@ CLEARDB_DATABASE_URL: mysql://zzzzzz@us-cdbr-east-03.cleardb.com/heroku_yyyyyy?r
 DATABASE_URL:         mysql://zzzzzz@us-cdbr-east-03.cleardb.com/heroku_yyyyyy?reconnect=true
 SENDGRID_PASSWORD:    PPPPPPP
 SENDGRID_USERNAME:    UUUUUU@heroku.com</code></pre>
-<h2 id="database-url"><a href="#TOC">Database URL</a></h2>
+<h2 id="database-url">Database URL</h2>
 <p>The recommended practice by Heroku is to have the full database url in an environment variable named DATABASE_URL. By default ClearDB puts the URL in a different var (shown above) and you have to copy the value into a new var with this name. Try this to learn about setting up config vars</p>
 <pre class="prettyprint"><code>heroku help config</code></pre>
-<h2 id="at-runtime"><a href="#TOC">At runtime</a></h2>
+<h2 id="at-runtime">At runtime</h2>
 <p>Your next task is to be able to read this variable at runtime. Here's a class and its spec for the Utility that I use to do so</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.utils;</span>
 <span class="kw">import org.junit.Test;</span>
@@ -177,7 +177,7 @@ SENDGRID_USERNAME:    UUUUUU@heroku.com</code></pre>
     <span class="fu">environment</span>(env).<span class="fu">jdbc</span>(driver, url, jdbcProperties);
     <span class="fu">environment</span>(env).<span class="fu">testing</span>().<span class="fu">jdbc</span>(driver, url, jdbcProperties);
 }</code></pre>
-<h2 id="building-on-heroku"><a href="#TOC">Building on Heroku</a></h2>
+<h2 id="building-on-heroku">Building on Heroku</h2>
 <p>Heroku of course will try to build your app as soon as you push its git repo. It does a good job of detecting that its a Java app and running maven. Where I ran into trouble was that I had configured my POM to do different things based on the value of the ACTIVE_ENV environment variable. Even thought I could set a config var of that name, <strong>config vars are not available at build time</strong></p>
 <p>The approach I found was to fork the heroku java build pack and hardcode -DACTIVE_ENV=production into the java properties used to run maven. Here is the location of my forked buildpack:</p>
 <pre class="prettyprint"><code>https://github.com/evanleonard/heroku-buildpack-java</code></pre>
@@ -188,10 +188,10 @@ SENDGRID_USERNAME:    UUUUUU@heroku.com</code></pre>
 </blockquote>
 <pre class="prettyprint"><code>JAVA_OPTS:            -Xmx384m -Xss512k -XX:+UseCompressedOops
 MAVEN_OPTS:           -Xmx384m -Xss512k -XX:+UseCompressedOops</code></pre>
-<h2 id="disabling-tests"><a href="#TOC">Disabling Tests</a></h2>
+<h2 id="disabling-tests">Disabling Tests</h2>
 <p>Also had to disable running of Selenium tests in my POM.</p>
 <p>TODO</p>
-<h2 id="heroku-ssl-support"><a href="#TOC">Heroku SSL support</a></h2>
+<h2 id="heroku-ssl-support">Heroku SSL support</h2>
 <p>There's two things you need to do after you've enabled your SSL endpoint add-on in heroku. The first is to force traffic from regular http to https. This is easily done in a filter with methods like these</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="co">/**</span>
 <span class="co"> </span>*<span class="co"> http</span>:<span class="co">//stackoverflow.com/questions/7185074/heroku-nodejs-http-to-https-ssl-forced-redirect</span>
@@ -227,23 +227,14 @@ MAVEN_OPTS:           -Xmx384m -Xss512k -XX:+UseCompressedOops</code></pre>
     <span class="kw">&lt;url-pattern&gt;</span>/*<span class="kw">&lt;/url-pattern&gt;</span>
     <span class="kw">&lt;dispatcher&gt;</span>REQUEST<span class="kw">&lt;/dispatcher&gt;</span>
 <span class="kw">&lt;/filter-mapping&gt;</span></code></pre>
-<h2 id="summary"><a href="#TOC">Summary</a></h2>
+<h2 id="summary">Summary</h2>
 <p>That should be it, go ahead and push to your git repo, let Heroku do its thing and see if you get a new build live on the web. Then enjoy continuous deployment!</p>
 <p>Oh, and please post something on the GoogleGroup if (when?) you run into a problem. As I said at the start, its very likely I missed something here.</p>
 <p>Best Evan</p></div>
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#deploying-to-heroku">Deploying to Heroku</a><ul>
-        <li><a href="#database-url">Database URL</a></li>
-        <li><a href="#at-runtime">At runtime</a></li>
-        <li><a href="#building-on-heroku">Building on Heroku</a></li>
-        <li><a href="#disabling-tests">Disabling Tests</a></li>
-        <li><a href="#heroku-ssl-support">Heroku SSL support</a></li>
-        <li><a href="#summary">Summary</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 

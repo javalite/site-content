@@ -2,11 +2,11 @@
 
 
 <div class="col-md-9">
-<h1 id="generation-of-json"><a href="#TOC">Generation of JSON</a></h1>
-<h1 id="generation-of-json-1"><a href="#TOC">Generation of JSON</a></h1>
+<h1 id="generation-of-json">Generation of JSON</h1>
+<h1 id="generation-of-json-1">Generation of JSON</h1>
 <p>In context of a web application, especially when dealing with Ajax, it is handy to have your classes convert to to JSON to send to a browser. If you have a complex model with custom classes to be sent over, you will most likely write your JSON generation code, if however all you need is to convert ActiveJDBC models to JSON, this functionality is already available from your models without extra effort.</p>
 <p>In more complicated situation, they probably would write some JSON generation code. However under simple condition, classes Model and LazyList already provide the basics.</p>
-<h2 id="generate-simple-json-from-a-model"><a href="#TOC">Generate simple JSON from a model</a></h2>
+<h2 id="generate-simple-json-from-a-model">Generate simple JSON from a model</h2>
 <p>Here is code that will provide stock JSON from a model:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Person p  = (Person)Person.<span class="fu">findById</span>(<span class="dv">1</span>);
 String json = p.<span class="fu">toJson</span>(<span class="kw">true</span>);</code></pre>
@@ -22,7 +22,7 @@ String json = p.<span class="fu">toJson</span>(<span class="kw">true</span>);</c
   <span class="dt">&quot;created_at&quot;</span>:<span class="st">&quot;2011-02-23 22:18:11.0&quot;</span>
 }</code></pre>
 <p>The boolean parameter to the method <code>toJson()</code> is whether to generate human readable format or a single string.</p>
-<h2 id="specify-output-attributes-for-generated-json"><a href="#TOC">Specify output attributes for generated JSON</a></h2>
+<h2 id="specify-output-attributes-for-generated-json">Specify output attributes for generated JSON</h2>
 <p>A variation on the example above is to provide a list of attributes that you are interested in, so that only these attributes are included:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Person p  = (Person)Person.<span class="fu">findById</span>(<span class="dv">1</span>);
 String json = p.<span class="fu">toJson</span>(<span class="kw">true</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;dob&quot;</span>);</code></pre>
@@ -31,7 +31,7 @@ String json = p.<span class="fu">toJson</span>(<span class="kw">true</span>, <sp
   <span class="dt">&quot;dob&quot;</span>:<span class="st">&quot;1934-12-01&quot;</span>,
   <span class="dt">&quot;last_name&quot;</span>:<span class="st">&quot;Smith&quot;</span>
 }</code></pre>
-<h2 id="inclusion-of-dependencies"><a href="#TOC">Inclusion of dependencies</a></h2>
+<h2 id="inclusion-of-dependencies">Inclusion of dependencies</h2>
 <p>When a model is has relationships, the generated JSON will loop through them to include their JSON into the parent JSON as well:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;User&gt; personList = User.<span class="fu">findAll</span>().<span class="fu">orderBy</span>(<span class="st">&quot;id&quot;</span>).<span class="fu">include</span>(Address.<span class="fu">class</span>);
 User u = personList.<span class="fu">get</span>(<span class="dv">0</span>);
@@ -78,7 +78,7 @@ String json = u.<span class="fu">toJson</span>(<span class="kw">true</span>);</c
     ]
   }
 }</code></pre>
-<h2 id="generate-json-from-a-resultset"><a href="#TOC">Generate JSON from a resultset</a></h2>
+<h2 id="generate-json-from-a-resultset">Generate JSON from a resultset</h2>
 <p>Generating JSON from a LazyList is equally easy:</p>
 <pre class="sourceCode java"><code class="sourceCode java">LazyList&lt;User&gt; personList = User.<span class="fu">findAll</span>().<span class="fu">orderBy</span>(<span class="st">&quot;id&quot;</span>).<span class="fu">include</span>(Address.<span class="fu">class</span>);
 String json = personList.<span class="fu">toJson</span>(<span class="kw">true</span>);</code></pre>
@@ -178,7 +178,7 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
   }
 ]</code></pre>
 <p>Since the <code>include()</code> was used, the corresponding children from the ADDRESSES table were queried too for their JSON.</p>
-<h2 id="hydrate-activejdbc-models-from-json"><a href="#TOC">Hydrate ActiveJDBC models from JSON</a></h2>
+<h2 id="hydrate-activejdbc-models-from-json">Hydrate ActiveJDBC models from JSON</h2>
 <p>Sometimes you need to do the opposite of generating JSON. For instance, when I build webservices using ActiveWeb, often a JSON document is posted in a web request, and it needs to be serialized to a model. This functionality is not built into ActiveJDBC because this would require adding a dependency to parse JSON, but it is not needed by most projects. The solution is super simple: add a class with this code to your project:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import org.codehaus.jackson.map.ObjectMapper;</span>
 <span class="kw">import java.io.IOException; import java.util.Map;</span>
@@ -220,16 +220,7 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
 
     <div id="TOC" class="col-md-3">
 <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        <ul>
-        <li><a href="#generation-of-json">Generation of JSON</a></li>
-        <li><a href="#generation-of-json-1">Generation of JSON</a><ul>
-        <li><a href="#generate-simple-json-from-a-model">Generate simple JSON from a model</a></li>
-        <li><a href="#specify-output-attributes-for-generated-json">Specify output attributes for generated JSON</a></li>
-        <li><a href="#inclusion-of-dependencies">Inclusion of dependencies</a></li>
-        <li><a href="#generate-json-from-a-resultset">Generate JSON from a resultset</a></li>
-        <li><a href="#hydrate-activejdbc-models-from-json">Hydrate ActiveJDBC models from JSON</a></li>
-        </ul></li>
-        </ul>
+        
 </div>
     </div>
 
