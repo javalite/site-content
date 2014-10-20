@@ -126,6 +126,10 @@ null == &lt;null&gt;</code></pre>
 });</code></pre>
 <p>In the code snippet above, the constructor of <code>DifferenceExpectation(..)</code> is passed an initial value, and the method <code>exec()</code> returns a final value. The initial and final are compared to be different at the end of a test. If they are the same, then the test fails. An example message:</p>
 <pre class="sourceCode bash"><code class="sourceCode bash">javalite.test.jspec.TestException: Objects: <span class="st">&#39;1&#39;</span> and <span class="st">&#39;1&#39;</span> are equal, but they should not be</code></pre>
+<p><sub>~</sub></p>
+<h2 id="using-with-other-technologies">Using with other technologies</h2>
+<p>JSpec is really a few classes, and as such can be used with any other testing technology. Sometimes people use it outside tests, just to assert correct argument values passed into methods.</p>
+<p>Here is a good <a href="https://github.com/javalite/cucumber-jspec">Example of using JSpec and Cucumber</a>.</p>
 <h2 id="where-to-find">Where to find</h2>
 <p>JSpec is packaged into JavaLite Common library, which is published into <a href="http://search.maven.org/#search|ga|1|javalite-common">Maven Central</a>.</p>
 <p>Adding it to your project is easy:</p>

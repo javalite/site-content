@@ -269,6 +269,17 @@ If they are the same, then the test fails. An example message:
 javalite.test.jspec.TestException: Objects: '1' and '1' are equal, but they should not be
 ~~~~
 
+~~~
+
+## Using with other technologies
+
+JSpec is really a few classes, and as such can be used with any other testing technology. Sometimes people use it
+outside tests, just to assert correct argument values passed into methods.
+
+Here is a good [Example of using JSpec and Cucumber](https://github.com/javalite/cucumber-jspec).
+
+
+
 ## Where to find
 
 JSpec is packaged into JavaLite Common library, which is published into [Maven Central](http://search.maven.org/#search|ga|1|javalite-common). 
