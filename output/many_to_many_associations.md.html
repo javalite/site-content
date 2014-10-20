@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="many-to-many-associations">Many-to-many associations</h1>
 <p>Often times the database-driven applications require many to many relationships. These are the kind where an entity can have many other entities and also belong to the same type of entities. Examples in real life are: doctor treats many patients, and a patient sees many doctors. Another examples is when a university course has many students and a student has registered for many courses. In order to replicate this type of a relationship, usually three tables are created, one for the first type of entity, the other for another type of entity and a middle table which binds entities from the first two tables.</p>
 <h2 id="example-tables">Example tables</h2>
@@ -219,13 +215,4 @@ doctor.<span class="fu">add</span>(patient);</code></pre>
 <span class="kw">class</span> DocPat <span class="kw">extends</span> Model{}</code></pre>
 <p>In the case of the student/course, the join table already has a good name, so it is easy to define a new model:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Registration <span class="kw">extends</span> Model{}</code></pre>
-<p>The table <code>REGISTRATIONS</code> might have additional data, such as registration type, etc.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>The table <code>REGISTRATIONS</code> might have additional data, such as registration type, etc.</p>

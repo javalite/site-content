@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="statistics-reporting">Statistics reporting</h1>
 <p>ActiveJDBC can report on times queries are taking to execute. If statistics collection is enabled, then AJ will start accumulating times it takes to execute various queries. This information can help identify bottlenecks in application performance.</p>
 <h2 id="configuration">Configuration</h2>
@@ -18,13 +14,4 @@
 <h2 id="how-to-generate-non---activejdbc-statistics-report">How to generate non - ActiveJDBC statistics report</h2>
 <p>In some cases, you might want to accumulate statistical information for actions in your application which have nothing to do with ActiveJDBC. You can then perform this operation:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Registry.<span class="fu">instance</span>().<span class="fu">getStatisticsQueue</span>().<span class="fu">enqueue</span>(<span class="kw">new</span> <span class="fu">QueryExecutionEvent</span>(query, System.<span class="fu">currentTimeMillis</span>() - start));</code></pre>
-<p>Where &quot;query&quot; is your custom operation, and &quot;start&quot; was a time before it started. The statistical information for your operation will then be accumulated and available for reporting just as any other ActiveJDBC query.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>Where &quot;query&quot; is your custom operation, and &quot;start&quot; was a time before it started. The statistical information for your operation will then be accumulated and available for reporting just as any other ActiveJDBC query.</p>

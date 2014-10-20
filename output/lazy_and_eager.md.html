@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="lazy-and-eager-lazy-by-default">Lazy and eager (lazy by default)</h1>
 <p>ActiveJDBC is lazy by default. In this sense, it has semantics closer to ActiveRecord than Hibernate.</p>
 <h2 id="lazy-list">Lazy List</h2>
@@ -81,13 +77,4 @@ Map user = maps.<span class="fu">get</span>(<span class="dv">0</span>);
 
 List&lt;Map&gt; addresses = (List&lt;Map&gt;)user.<span class="fu">get</span>(<span class="st">&quot;addresses&quot;</span>);</code></pre></td></tr></table>
 <p>In the example above, on line 1 a list of users is requested from a DB, and this list is to include corresponding addresses for each user. So far, this is the same as previous examples. However, on line 2 the users are converted to a list of maps. When this happens, each map that was generated from a user model also contains a list of maps each representing an address as a child of that user. What is more, is that the list of addresses is keyed from a user map by a string &quot;addresses&quot; as evident on line 6. The key in each case like this is an interpolation of a name of a child model to plural form according to the rules of the English language, which resulted in &quot;addresses&quot; in this case.</p>
-<p>The same logic applies to many-to-one and many-to-many relationships.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>The same logic applies to many-to-one and many-to-many relationships.</p>

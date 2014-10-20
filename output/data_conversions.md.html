@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="data-conversions">Data conversions</h1>
 <h2 id="pass-through-framework">Pass-through framework</h2>
 <p>ActiveJDBC is a <em>pass-through framework</em>. This means that for the most part, it does not attempt to convert data types and relies on the underlying driver for most data conversions during read and write operations. Most database drivers do a great deal of conversion</p>
@@ -55,13 +51,4 @@ p.<span class="fu">saveIt</span>();</code></pre>
 p.<span class="fu">saveIt</span>();</code></pre>
 <p>This will work for MySQL, and the driver will convert the String &quot;2011-12-3&quot; during insert or update. However, if you retain a reference to this model, the internal value type is going to remain String.</p>
 <h2 id="should-i-care-about-types">Should I care about types?</h2>
-<p>Not so much. Just use the models with types you think are appropriate, and ActiveJDBC together with the driver will handle most of what you need. In case you get a conversion exception from the driver, do a due diligence then.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>Not so much. Just use the models with types you think are appropriate, and ActiveJDBC together with the driver will handle most of what you need. In case you get a conversion exception from the driver, do a due diligence then.</p>

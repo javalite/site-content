@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="converters">Converters</h1>
 <p>Converters can convert an attribute from one type to another. They are very similar to <a href="validations">Validations</a> in logic and are declared the same way inside a static block of a class. Currently there are two converters available: date converter and time stamp converter. Both allow setting an attribute value in a form of a string with appropriate format.</p>
 <p>Converters trigger like validators, during validate(), save() and saveIt() methods, and are in fact validators. If a converter cannot convert from one type to another, it will add an appropriate message to the <code>model.errors()</code> collection.</p>
@@ -32,13 +28,4 @@ System.<span class="fu">out</span>.<span class="fu">println</span>(p.<span class
 }</code></pre>
 <blockquote>
 <p>In both cases, the text format for date and timestamp needs to conform to <a href="http://download.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html">java.text.SimpleDateFormat</a></p>
-</blockquote></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+</blockquote>

@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="limit-and-sort">Limit and sort</h1>
 <p>Sometimes, you only need a few records to page through a resultset. This style of data usage is usually found in web applications. An example could be paging through a catalog of products.</p>
 <h2 id="limiting-resultsets">Limiting Resultsets</h2>
@@ -24,13 +20,4 @@ List&lt;Page&gt; items = p.<span class="fu">getPage</span>(<span class="dv">2</s
 <pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span> currentPage = paginator.<span class="fu">getCurrentPage</span>();</code></pre>
 <p>and for page count like this:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="dt">int</span> pageCount = paginator.<span class="fu">getPageCount</span>();</code></pre>
-<p>Using this class in a context of a web application makes it easy to build paging through resultsets.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>Using this class in a context of a web application makes it easy to build paging through resultsets.</p>

@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="transactions">Transactions</h1>
 <p>The goal of AciveJDBC from the ground up was to be a very thin veneer on top of JDBC. As such, the attention was given to simplify the DB access API, but at the same time not take control away from a developer.</p>
 <h2 id="basic-flow-of-db-program">Basic flow of DB program</h2>
@@ -77,13 +73,4 @@ Base.<span class="fu">connection</span>().<span class="fu">setAutocommit</span>(
       Base.<span class="fu">close</span>();<span class="co">//always close connection</span>
    }
 }</code></pre>
-<p>In the example above, the container will manage transactions. It will roll back both: the JDBC, as well as JMS transactions.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>In the example above, the container will manage transactions. It will roll back both: the JDBC, as well as JMS transactions.</p>

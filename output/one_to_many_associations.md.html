@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="one-to-many-associations">One-to-many associations</h1>
 <p>One to many associations are pretty common in modern projects. Examples are: university has students, library has books, etc. There are two sides to a one to many association, the &quot;parent&quot; <strong>has a</strong> &quot;child&quot; and a &quot;child&quot; <strong>belongs to</strong> &quot;parent&quot;.</p>
 <p>ActiveJDBC supports this type of a relationship in two ways: 1. Inferred and 2. Overridden</p>
@@ -93,13 +89,4 @@ u.<span class="fu">delete</span>();</code></pre>
 }) </code></pre>
 <p>As usual though, you only need it if names of foreign keys do not conform to the conventions.</p>
 <h2 id="foreign-key">Foreign Key</h2>
-<p>The Foreign Key in the <code>ADDRESSES</code> table does not have to be a real Foreign Key constraint. ActiveJDBC does not check for it's presence. As long as there is a column named according to this convention, ActiveJDBC assumes that there is a relationship. It does not hurt to have the actual constraint in the DB if you are using other means of accessing data.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>The Foreign Key in the <code>ADDRESSES</code> table does not have to be a real Foreign Key constraint. ActiveJDBC does not check for it's presence. As long as there is a column named according to this convention, ActiveJDBC assumes that there is a relationship. It does not hurt to have the actual constraint in the DB if you are using other means of accessing data.</p>

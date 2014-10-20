@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="javalite-db-migrator-is-a-database-migration-system-for-java">JavaLite DB-Migrator is a database migration system for Java</h1>
 <p>Database migrations is a process of making changes to database schema during a development process. See <a href="http://en.wikipedia.org/wiki/Schema_migration">Schema_migration</a> to understand better what database migrations are.</p>
 <h2 id="db-migrator-is-maven-plugin">DB-Migrator is Maven plugin</h2>
@@ -194,13 +190,4 @@
 <h1 id="development-process">Development process</h1>
 <p>Since all migrations are recorded as text (SQL) files, and contain a time stamp in the name, every time a developer pulls sources from source repository and execute a build, your database is upgraded to the latest migration automatically. In our experience, this reduced amount of attention we had to give a DB to a minimum. Basically a developer creates a new migration and checks it in, which makes it propagate to other developer machines automatically.</p>
 <h1 id="maintaining-multiple-databases">Maintaining multiple databases</h1>
-<p>You can use Maven profiles to maintain multiple database, as well as specific configuration for different executions of the same plugin. Please see <a href="https://github.com/javalite/kitchensink/">ActiveWeb Kitchensik</a> project for example of multiple plugin executions.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>You can use Maven profiles to maintain multiple database, as well as specific configuration for different executions of the same plugin. Please see <a href="https://github.com/javalite/kitchensink/">ActiveWeb Kitchensik</a> project for example of multiple plugin executions.</p>

@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="testing">Testing</h1>
 <p>ActiveWeb promotes <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD/BDD</a> approach to testing of web applications. At the heart, it uses <a href="http://www.junit.org">JUnit</a> as a testing framework, but it provides a number of test classes to be sub-classed for various purposes. ActiveWeb allows to do a full test of any web functionality during a regular build. ActiveWeb provides a number of classes for testing.</p>
 <p>All test classes have a suffix &quot;Spec&quot;. This is a nod to <a href="http://rspec.info/">RSpec</a>, but also a good practice - think of these not as tests that assert values, but as specs, or specifications of behavior. The more you think of them as specifications/blueprints, the more you will think of writing them before actual implementations.</p>
@@ -259,13 +255,4 @@
         <span class="fu">a</span>(<span class="fu">render</span>(<span class="st">&quot;/person/show&quot;</span>, <span class="st">&quot;name&quot;</span>, <span class="st">&quot;John&quot;</span>).<span class="fu">shouldEqual</span>(<span class="st">&quot;Name: John&quot;</span>);
      }
 }</code></pre>
-<p>There is also a way to test for <code>&lt;@content for&gt;</code> output, inject mock or real services into custom tags, etc. In other words, one can write very stringent tests for views independent of the rest of the application, just as if views were first grade application components.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>There is also a way to test for <code>&lt;@content for&gt;</code> output, inject mock or real services into custom tags, etc. In other words, one can write very stringent tests for views independent of the rest of the application, just as if views were first grade application components.</p>

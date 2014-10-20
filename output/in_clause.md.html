@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="in-clause">'IN' Clause</h1>
 <p>In some cases you need to write something like this:</p>
 <pre class="prettyprint"><code>SELECT my_column FROM my_table where search_column IN (?)</code></pre>
@@ -14,13 +10,4 @@
 List&lt;Person&gt; people = Person.<span class="fu">where</span>(<span class="st">&quot;name IN (&#39;&quot;</span> + <span class="fu">join</span>(names, <span class="st">&quot;&#39;, &#39;&quot;</span> + <span class="st">&quot;&#39;)&quot;</span>);</code></pre>
 <p>You can use this approach with relatively small lists, as the bigger the list, the longer the generated query. Every database has a limit on size of a query, so your mileage may vary.</p>
 <p>NOTE:</p>
-<p>Please, see references to methods <a href="http://javalite.github.io/activejdbc/org/javalite/common/Util.html#join-java.lang.String:A-java.lang.String-">Util#join</a> and <a href="http://javalite.github.io/activejdbc/org/javalite/common/Collections.html#list-T...-">Collections#list</a> - they are statically imported. These classes are already on a classpath of every ActiveJDBC application.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>Please, see references to methods <a href="http://javalite.github.io/activejdbc/org/javalite/common/Util.html#join-java.lang.String:A-java.lang.String-">Util#join</a> and <a href="http://javalite.github.io/activejdbc/org/javalite/common/Collections.html#list-T...-">Collections#list</a> - they are statically imported. These classes are already on a classpath of every ActiveJDBC application.</p>

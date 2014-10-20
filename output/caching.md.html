@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="caching">Caching</h1>
 <p>Caching is an integral part of every major system, It improves performance, reduces IO and makes overall user experience more pleasurable. Caching in ActiveJDBC works on the level of query and creation of model instances. For instance, the call:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Library&gt; illLibs = Library.<span class="fu">where</span>(<span class="st">&quot;state = ?&quot;</span>, <span class="st">&quot;IL&quot;</span>);</code></pre>
@@ -67,13 +63,4 @@ cache.manager=org.javalite.activejdbc.cache.EHCacheManager
 <span class="kw">&lt;/ehcache&gt;</span></code></pre>
 <p>Please, note that ActiveJDBC does not create named caches in EHCache, but only uses default configuration specified by <code>defaultCache</code> element in this file.</p>
 <h3 id="ehcache-clustering-with-terracotta">EHCache clustering with Terracotta</h3>
-<p>The EHCache project has excellent documentation found here: <a href="http://ehcache.org/documentation">http://ehcache.org/documentation</a>. Adding clustering support to EHCache is somewhat simple, you have to add a <code>terracottaConfig</code> to the <code>ehcache.xml</code> file. For more information, please refer to the EHCache documentation.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>The EHCache project has excellent documentation found here: <a href="http://ehcache.org/documentation">http://ehcache.org/documentation</a>. Adding clustering support to EHCache is somewhat simple, you have to add a <code>terracottaConfig</code> to the <code>ehcache.xml</code> file. For more information, please refer to the EHCache documentation.</p>

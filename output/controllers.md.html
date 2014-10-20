@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="activeweb-controllers">ActiveWeb controllers</h1>
 <h2 id="introduction">Introduction</h2>
 <p>Controllers are at the heart of an ActiveWeb application. These are classes which designed to process an HTTP request. Controllers are somewhat similar to Java Servlets, but even more similar to Ruby on Rails, Grails all SpringMVC controllers. A simplest controller looks like this:</p>
@@ -345,13 +341,4 @@ logError(..);
 logInfo(..);</code></pre>
 <h2 id="threading-issues">Threading issues</h2>
 <p>Controllers are thread safe. An instance of a controller is created to process each and every request, and then discarded. This means that if you create instance variables in controller, this variable will not interfere with another value form another request.</p>
-<p>However, creation of instance variables in controller classes is considered a bad coding practice in general, because it is vulnerable to side effects. While controllers are objects in OO language (Java), they need to be treated as procedural devices when it comes to processing HTTP requests. This means that every action should be completely self-sufficient and not rely on some instance variable set by another action or that a method invoked from an action should not depend on an instance variable set higher up the stack.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>However, creation of instance variables in controller classes is considered a bad coding practice in general, because it is vulnerable to side effects. While controllers are objects in OO language (Java), they need to be treated as procedural devices when it comes to processing HTTP requests. This means that every action should be completely self-sufficient and not rely on some instance variable set by another action or that a method invoked from an action should not depend on an instance variable set higher up the stack.</p>

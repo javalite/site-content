@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="setters-and-getters">Setters and getters</h1>
 <p>Java development is all about getters and setters. Ever since the Java Beans framework introduced in 1997, this has become a blessing (and a plague some argue) in modern Java applications. ActiveJDBC does not require getters and setters for models. Since models already know all the allowable metadata from database at startup, they will perform validations of names of attributes.</p>
 <h2 id="built-in-getters-and-setters">Built in getters and setters</h2>
@@ -57,13 +53,4 @@ available attributes: [id, updated_at, graduation_date, dob, name, last_name, cr
 <li><strong>Stage 3:</strong> Write only getters and setters that are used in code verbatim. In most cases, when reading a submitted form from a web page, or reflecting attributes on a web page, ActiveWeb or a JSP can read these attributes dynamically, which means you do not need setters and getters. In rare cases we use them verbatim in code, and for those cases, the attributes are wrapped in setters and getters.</li>
 </ul>
 <p>For example, here is the <a href="https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/models/Book.java">Book</a> model. As you can see it has no setters and getters. Here is its use in controller: <a href="https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/controllers/BooksController.java">BookController</a> as well as view: <a href="https://github.com/javalite/activeweb-simple/blob/master/src/main/webapp/WEB-INF/views/books/index.ftl">books/index.ftl</a>.</p>
-<p>As you can see, nowhere in code we had to access attribute directly, therefore we did not write setters and getters.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>As you can see, nowhere in code we had to access attribute directly, therefore we did not write setters and getters.</p>

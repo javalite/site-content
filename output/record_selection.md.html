@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="record-selection">Record selection</h1>
 <h2 id="writing-a-model">Writing a Model</h2>
 <p>Lets say this is SQL for the DB table (for MySQL)</p>
@@ -87,13 +83,4 @@ p.<span class="fu">saveIt</span>();</code></pre>
 <h2 id="use-raw-sql">Use raw SQL</h2>
 <p>In case, a query is really complicated, you can always resort to raw SQL like this:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Book&gt; books = Book.<span class="fu">findBySQL</span>(<span class="st">&quot;select books.*, address from books, libraries where books.lib_id = libraries.id order by address&quot;</span>);</code></pre>
-<p>The only requirement to this method is that your select statement should select all columns from a table that this model represents. Since model knows which attributes belong to it, it will pluck them from the result set, and you will have a normal list of models (Book in this case) that are initialized from your query.</p></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+<p>The only requirement to this method is that your select statement should select all columns from a table that this model represents. Since model knows which attributes belong to it, it will pluck them from the result set, and you will have a normal list of models (Book in this case) that are initialized from your query.</p>

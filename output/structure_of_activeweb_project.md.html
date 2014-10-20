@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <p>Structure of ActiveWeb project| <a href="/activeweb">ActiveWeb</a>,Structure of ActiveWeb project</p>
 <h1 id="structure-of-activeweb-project">Structure of ActiveWeb project</h1>
 <p>An ActiveWeb project a Maven project, therefore it has all the usual Maven conventions. However there are some specifics regarding ActiveWeb, which are discussed below. Here is a structure of a typical ActiveWeb project:</p>
@@ -66,13 +62,4 @@
 <li><strong>encoding</strong> - this is what encoding to set on HTTP request and response just before using either. We recommend to always set it to UTF-8 to avoid issues with internationalization</li>
 <li><strong>exclusions</strong> - this is a comma-separated list of strings on URI which the framework should ignore (not attempt to process are requests to controllers). These are static files, like images, HTML, CSS, JavaScript, PDF downloads, etc. The format is a comma separated list of sub-strings that are present on URIs of requests that are to be excluded.</li>
 <li><strong>root_controller</strong> - this is a name if a controller that the framework will automatically call if no path is provided, such as: <code>http://yourdomain.com</code>. For this specific example, the controller called will be <code>app.controllers.HomeController</code> with default action <code>index</code>. It is equivalent to calling URL: <code>http://yourdomain.com/home</code>.</li>
-</ul></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+</ul>

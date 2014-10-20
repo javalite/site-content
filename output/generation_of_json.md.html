@@ -1,7 +1,3 @@
-<div class="row">
-
-
-<div class="col-md-9">
 <h1 id="generation-of-json">Generation of JSON</h1>
 <h1 id="generation-of-json-1">Generation of JSON</h1>
 <p>In context of a web application, especially when dealing with Ajax, it is handy to have your classes convert to to JSON to send to a browser. If you have a complex model with custom classes to be sent over, you will most likely write your JSON generation code, if however all you need is to convert ActiveJDBC models to JSON, this functionality is already available from your models without extra effort.</p>
@@ -216,13 +212,4 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
  p.<span class="fu">fromMap</span>(JsonHelper.<span class="fu">toMap</span>(personJson));</code></pre>
 <blockquote>
 <p>In general, if there is another format, say XML or YML, you can convert that to a Java Map, then initialize a model from that Map</p>
-</blockquote></div>
-
-    <div id="TOC" class="col-md-3">
-<div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
-        
-</div>
-    </div>
-
-</div>
-
+</blockquote>
