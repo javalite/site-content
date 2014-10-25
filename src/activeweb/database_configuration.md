@@ -45,7 +45,7 @@ public class DbConfig extends AbstractDBConfig {
          environment("development").jndi("jdbc/kitchensink_development");
          environment("development").testing().jdbc("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/kitchensink_development", "root", "****");
          environment("jenkins").testing().jdbc("com.mysql.jdbc.Driver", "jdbc:mysql://172.30.64.31/kitchensink_jenkins", "root", "****");
-         environment("production").jndi("jdbc/kitchensink_production");
+         environment("production").jndi("java:comp/env/jdbc/myproject_production);
     }
 }
 ~~~~

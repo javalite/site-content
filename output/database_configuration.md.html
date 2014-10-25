@@ -25,7 +25,7 @@
          <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_development&quot;</span>);
          <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://localhost/kitchensink_development&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
          <span class="fu">environment</span>(<span class="st">&quot;jenkins&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://172.30.64.31/kitchensink_jenkins&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
-         <span class="fu">environment</span>(<span class="st">&quot;production&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_production&quot;</span>);
+         <span class="fu">environment</span>(<span class="st">&quot;production&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;java:comp/env/jdbc/myproject_production);</span>
     }
 }</code></pre></td></tr></table>
 <p>The code above is borrowed from <a href="https://github.com/javalite/kitchensink">Kitchensink</a> project. Lets examine it line by line.</p>
