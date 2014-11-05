@@ -85,7 +85,7 @@ cache in the first place.
 
 ## Things to be careful about
 
-### Cached data are exposed directly 
+### Cached data is exposed directly 
 
 When retrieving instances of cached models, be aware that exactly the same instances can be returned by subsequent calls to the same query. ActiveJDBC, as a lightweight framework, won't try to be "intelligent" and manage clones of cached data for you. So, for example, considering `Person` is annotated as `@Cached`, two subsequent calls to `Person.findById(1)` will return the same instance:
 
