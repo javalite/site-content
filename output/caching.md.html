@@ -36,6 +36,33 @@ cache.manager=org.javalite.activejdbc.cache.EHCacheManager
 <h2 id="what-to-cache">What to cache</h2>
 <p>While caching is a complex issue, I can suggest caching predominantly lookup data. Lookup data is something that does not change very frequently. If you start caching everything, you might run into a problem of cache thrashing where you fill cache with data, and purge it soon after, without having a benefit of caching. Instead of improving performance, you will degrade it with extra CPU, RAM and IO (is cluster is configured) used and little or no benefit of having a cache in the first place.</p>
 <h2 id="things-to-be-careful-about">Things to be careful about</h2>
+<h3 id="cached-data-is-exposed-directly">Cached data is exposed directly</h3>
+<p>When retrieving instances of cached models, be aware that exactly the same instances can be returned by subsequent calls to the same query. ActiveJDBC, as a lightweight framework, won't try to be &quot;intelligent&quot; and manage clones of cached data for you. So, for example, considering <code>Person</code> is annotated as <code>@Cached</code>, two subsequent calls to <code>Person.findById(1)</code> will return the same instance:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person p1 = Person.<span class="fu">findById</span>(<span class="dv">1</span>);
+System.<span class="fu">out</span>.<span class="fu">println</span>(p1.<span class="fu">get</span>(<span class="st">&quot;name&quot;</span>)); <span class="co">// prints: John</span>
+
+p1.<span class="fu">set</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;Jane&quot;</span>); <span class="co">// changes the cached data directly</span>
+<span class="co">// don&#39;t save p1, and ...</span>
+
+Person p2 = Person.<span class="fu">findById</span>(<span class="dv">1</span>); <span class="co">// ... find the same person again</span>
+System.<span class="fu">out</span>.<span class="fu">println</span>(p2.<span class="fu">get</span>(<span class="st">&quot;name&quot;</span>)); <span class="co">// prints: Jane</span></code></pre>
+<h3 id="either-caching-or-optimistic-locking">Either caching or optimistic locking</h3>
+<p>Caching and <a href="optimistic_locking">optimistic_locking</a> don't get along. <strong>Don't use both together.</strong></p>
+<p>Caching guarantees the result of subsequent calls to the same query return the same instances. So there can't be different versions of the same result set living in the memory shared by the cache manager. Suppose <code>Profile</code>, a model with <a href="optimistic_locking#when-collisions-happen">optimistic_locking</a>, is also annotated as <code>@Cached</code>. The following will happen:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Profile p1 = Profile.<span class="fu">findById</span>(<span class="dv">1</span>);
+Profile p2 = Profile.<span class="fu">findById</span>(<span class="dv">1</span>);
+<span class="co">// p1 and p2 are actually references to the same instance.</span>
+
+p1.<span class="fu">set</span>(<span class="st">&quot;profile_type&quot;</span>, <span class="st">&quot;hotel&quot;</span>);
+p1.<span class="fu">saveIt</span>();
+<span class="co">// record_version of the instance is incremented, then updated in the database.</span>
+
+p2.<span class="fu">set</span>(<span class="st">&quot;profile_type&quot;</span>, <span class="st">&quot;vacation&quot;</span>);
+p2.<span class="fu">saveIt</span>();
+<span class="co">// As this is the same instance that had record_version incremented ealier,</span>
+<span class="co">// its record_version value will match the database</span>
+<span class="co">// and no StaleModelException will be thrown.</span></code></pre>
+<h3 id="relationships">Relationships</h3>
 <p>ActiveJDBC manages caches for models and their respective relationships (read above), but in some cases you will use a query that ties together unrelated models:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;User&gt; users = User.<span class="fu">where</span>(<span class="st">&quot;id not in (select user_id from restricted_users)&quot;</span>);</code></pre>
 <p>If there exists a model User that is cached, and model RestrictedUser, and these tables/models have no relationship, then the line above could present a logical problem. If you execute the line above, and later change content of RESTRICTED_USERS table, then the query above will not see the change, and will return stale data. Developers need to be aware of this, and deal with these issues carefully. Whenever you change data in RESTRICTED_USERS table, please purge User model:</p>
