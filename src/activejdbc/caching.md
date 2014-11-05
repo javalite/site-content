@@ -84,6 +84,45 @@ cache in the first place.
 
 ## Things to be careful about
 
+### Cached data is exposed directly 
+
+When retrieving instances of cached models, be aware that exactly the same instances can be returned by subsequent calls to the same query. ActiveJDBC, as a lightweight framework, won't try to be "intelligent" and manage clones of cached data for you. So, for example, considering `Person` is annotated as `@Cached`, two subsequent calls to `Person.findById(1)` will return the same instance:
+
+~~~~ {.java}
+Person p1 = Person.findById(1);
+System.out.println(p1.get("name")); // prints: John
+
+p1.set("name", "Jane"); // changes the cached data directly
+// don't save p1, and ...
+
+Person p2 = Person.findById(1); // ... find the same person again
+System.out.println(p2.get("name")); // prints: Jane
+~~~~
+
+### Either caching or optimistic locking
+
+Caching and [optimistic_locking](optimistic_locking) don't get along. **Don't use both together.**
+
+Caching guarantees the result of subsequent calls to the same query return the same instances. So there can't be different versions of the same result set living in the memory shared by the cache manager. Suppose `Profile`, a model with [optimistic_locking](optimistic_locking#when-collisions-happen), is also annotated as `@Cached`. The following will happen:
+
+~~~~ {.java}
+Profile p1 = Profile.findById(1);
+Profile p2 = Profile.findById(1);
+// p1 and p2 are actually references to the same instance.
+
+p1.set("profile_type", "hotel");
+p1.saveIt();
+// record_version of the instance is incremented, then updated in the database.
+
+p2.set("profile_type", "vacation");
+p2.saveIt();
+// As this is the same instance that had record_version incremented ealier,
+// its record_version value will match the database
+// and no StaleModelException will be thrown.
+~~~~
+ 
+### Relationships
+
 ActiveJDBC manages caches for models and their respective relationships (read above), but in some cases you will use a query that ties together unrelated models:
 
 ~~~~ {.java}
