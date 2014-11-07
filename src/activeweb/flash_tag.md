@@ -80,7 +80,6 @@ public void create(){
 }
 ~~~~
 
-Simply ensure that the name of the flash message (line 1) is the same on page as the argument to the `flash()` method.
 
 The body inside the flash tag lives by the same rules as any other in the template. You can use variables, FreeMarker syntax, lists or even 
 partials: 
