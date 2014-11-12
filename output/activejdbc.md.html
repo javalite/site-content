@@ -126,6 +126,16 @@ e.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <sp
 <pre class="sourceCode java"><code class="sourceCode java">Employee e = Employee.<span class="fu">findFirst</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);
 e.<span class="fu">delete</span>();</code></pre>
 <p>There are more ways to delete, follow <a href="delete_cascade">Delete cascade</a> to learn more.</p>
+<h2 id="supported-databases">Supported databases</h2>
+<p>Currently teh following databases are supported:</p>
+<ul>
+<li>SQLServer</li>
+<li>MySQL</li>
+<li>Oracle</li>
+<li>PostgreSQL</li>
+<li>H2</li>
+</ul>
+<p>Adding a new dialect is relatively easy. Just look at commits on this branch: <a href="https://github.com/javalite/activejdbc/tree/h2integration">h2integration</a></p>
 <h2 id="getting-the-latest-version">Getting the latest version</h2>
 <p>For the latest version refer to <a href="http://search.maven.org/#search%7Cga%7C1%7Cactivejdbc">ActiveJDBC on Maven Central</a>. If you use Maven add this to your pom:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;dependency&gt;</span>
