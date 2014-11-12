@@ -190,7 +190,7 @@ There are more ways to delete, follow [Delete cascade](delete_cascade) to learn 
 
 ## Supported databases
 
-Currently teh following databases are supported:
+Currently the following databases are supported:
 
 * SQLServer
 * MySQL
