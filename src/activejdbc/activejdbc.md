@@ -188,6 +188,19 @@ e.delete();
 
 There are more ways to delete, follow [Delete cascade](delete_cascade) to learn more.
 
+## Supported databases
+
+Currently the following databases are supported:
+
+* SQLServer
+* MySQL
+* Oracle
+* PostgreSQL
+* H2
+* SQLite3 (currently only [blob support is not working](https://github.com/javalite/activejdbc/issues/306) )
+
+Adding a new dialect is relatively easy. Just look at commits on this branch: [h2integration](https://github.com/javalite/activejdbc/tree/h2integration)
+
 ## Getting the latest version
 
 For the latest version  refer to [ActiveJDBC on Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cactivejdbc).
