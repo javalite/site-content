@@ -4,13 +4,8 @@
    <li class=active>Structure of activeweb project</li>
 </ol>
 <div class=page-header>
-   <h1>Structure of activeweb project <small></small></h1>
+   <h1>Structure of ActiveWeb project <small></small></h1>
 </div>
-Structure of ActiveWeb project| <a href="/activeweb">ActiveWeb</a>,Structure of ActiveWeb project
-
-
-
-
 
 An ActiveWeb project a Maven project, therefore it has all the usual Maven conventions.
 However there are some specifics regarding ActiveWeb, which are discussed below. Here is a structure of a typical ActiveWeb project:
