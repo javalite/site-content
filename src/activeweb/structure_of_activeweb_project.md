@@ -15,7 +15,7 @@ Structure of ActiveWeb project| <a href="/activeweb">ActiveWeb</a>,Structure of 
 An ActiveWeb project a Maven project, therefore it has all the usual Maven conventions.
 However there are some specifics regarding ActiveWeb, which are discussed below. Here is a structure of a typical ActiveWeb project:
 
-![ActiveWeb project structure](images/aw-structure.png)
+![](images/aw-structure.png)
 
 ## Configuration
 
