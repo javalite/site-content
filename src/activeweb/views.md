@@ -1,4 +1,11 @@
-# ActiveWeb Views
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Views</li>
+</ol>
+<div class=page-header>
+   <h1>Views <small></small></h1>
+</div>
 
 
 Views in ActiveWeb are also called templates. They are located in the following directory:

@@ -1,4 +1,11 @@
-# Optimistic locking
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Optimistic locking</li>
+</ol>
+<div class=page-header>
+   <h1>Optimistic locking <small></small></h1>
+</div>
 
 
 

@@ -1,6 +1,13 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Documentation</li>
+</ol>
+<div class=page-header>
+   <h1>Documentation <small></small></h1>
+</div>
 
 
-# Documentation
 
 ## ActiveJDBC
 
@@ -39,7 +46,6 @@
 * [Intellij Idea Integration ](intellij_idea_integration)
 * [IDE Integrations](ide_integrations)
 * [IN Clause](in_clause)
-* [FAQ](faq)
 
 ## ActiveWeb
 

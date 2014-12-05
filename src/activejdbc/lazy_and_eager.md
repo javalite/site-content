@@ -1,4 +1,11 @@
-# Lazy and eager (lazy by default)
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Lazy and eager</li>
+</ol>
+<div class=page-header>
+   <h1>Lazy and eager <small></small></h1>
+</div>
 
 
 

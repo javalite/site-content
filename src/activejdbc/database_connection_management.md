@@ -1,4 +1,11 @@
-# Database connection management
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Database connection management</li>
+</ol>
+<div class=page-header>
+   <h1>Database connection management <small></small></h1>
+</div>
 
 
 

@@ -1,5 +1,12 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Logging</li>
+</ol>
+<div class=page-header>
+   <h1>Logging <small></small></h1>
+</div>
 
-# Logging
 
 
 

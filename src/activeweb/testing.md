@@ -1,4 +1,11 @@
-# Testing
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Testing</li>
+</ol>
+<div class=page-header>
+   <h1>Testing <small></small></h1>
+</div>
 
 
 

@@ -1,4 +1,11 @@
-# MVC Pattern
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Mvc pattern</li>
+</ol>
+<div class=page-header>
+   <h1>Mvc pattern <small></small></h1>
+</div>
 
 
 

@@ -1,3 +1,11 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Sources</li>
+</ol>
+<div class=page-header>
+   <h1>Sources <small></small></h1>
+</div>
 
 <div class="row">
 <div class="span9">

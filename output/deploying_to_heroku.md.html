@@ -1,4 +1,20 @@
-<h1 id="deploying-to-heroku">Deploying to Heroku</h1>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activeweb>ActiveWeb</a>
+</li>
+   <li class=active>
+Deploying to heroku
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Deploying to heroku <small></small>
+</h1>
+</div>
+
 <p>This guide uses the ClearDB mysql service, but it could easily be adapted to the Heroku Postgres service.</p>
 <p>FYI: its completely possible that I forgot something in this guide and that it will need to be updated by the very first person that tries to use it. Post something on the GoogleGroup if you need help.</p>
 <p>The basic idea is that Heroku puts a specific environment variables in your apps config that you need to be able to read at runtime to setup your db connections. Try this command in your Heroku toolbelt to see your current config vars. You might see something like this:</p>

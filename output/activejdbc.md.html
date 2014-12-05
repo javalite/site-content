@@ -1,4 +1,17 @@
-<h1 id="activejdbc---fast-java-orm">ActiveJDBC - Fast Java ORM</h1>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li class=active>
+ActiveJDBC
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+ActiveJDBC <small>Fast ORM for agile development</small>
+</h1>
+</div>
+
 <h2 id="design-principles">Design principles</h2>
 <ul>
 <li>Infers metadata from DB</li>
@@ -69,8 +82,7 @@
 <li><a href="eclipseIntegration">Eclipse Integration</a></li>
 <li><a href="intellij_idea_integration">Intellij Idea Integration</a></li>
 <li><a href="ide_integrations">IDE Integrations</a></li>
-<li><a href="in_clause">IN Clause</a></li>
-<li><a href="faq">FAQ</a>
+<li><a href="in_clause">IN Clause</a>
 </div>
 
 
@@ -125,6 +137,17 @@ e.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <sp
 <pre class="sourceCode java"><code class="sourceCode java">Employee e = Employee.<span class="fu">findFirst</span>(<span class="st">&quot;first_name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);
 e.<span class="fu">delete</span>();</code></pre>
 <p>There are more ways to delete, follow <a href="delete_cascade">Delete cascade</a> to learn more.</p>
+<h2 id="supported-databases">Supported databases</h2>
+<p>Currently the following databases are supported:</p>
+<ul>
+<li>SQLServer</li>
+<li>MySQL</li>
+<li>Oracle</li>
+<li>PostgreSQL</li>
+<li>H2</li>
+<li>SQLite3 (currently only <a href="https://github.com/javalite/activejdbc/issues/306">blob support is not working</a> )</li>
+</ul>
+<p>Adding a new dialect is relatively easy. Just look at commits on this branch: <a href="https://github.com/javalite/activejdbc/tree/h2integration">h2integration</a></p>
 <h2 id="getting-the-latest-version">Getting the latest version</h2>
 <p>For the latest version refer to <a href="http://search.maven.org/#search%7Cga%7C1%7Cactivejdbc">ActiveJDBC on Maven Central</a>. If you use Maven add this to your pom:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;dependency&gt;</span>

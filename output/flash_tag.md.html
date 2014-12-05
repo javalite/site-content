@@ -1,4 +1,21 @@
-<h1 id="flash-tag">Flash tag</h1>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activeweb>ActiveWeb</a>
+</li>
+   <li class=active>
+Flash tag
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Flash tag <small></small>
+</h1>
+</div>
+
+
 <p>Flash is a concept which does not exist in standard Java API, but is very useful in web applications. Flash is a snippet of HTML whose life cycle is limited by the next HTTP request. In other words, a flash is created during a request, then it can be used in a subsequent request (of the same session), after which it dies.</p>
 <p>Flash messages are useful in cases when a POST/Redirect to GET pattern is used.</p>
 <h2 id="working-with-flash-message">Working with flash message</h2>
@@ -67,7 +84,6 @@
     <span class="fu">flash</span>(<span class="st">&quot;warning&quot;</span>);
 <span class="co">//.. code after</span>
 }</code></pre></td></tr></table>
-<p>Simply ensure that the name of the flash message (line 1) is the same on page as the argument to the <code>flash()</code> method.</p>
 <p>The body inside the flash tag lives by the same rules as any other in the template. You can use variables, FreeMarker syntax, lists or even partials:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@flash&gt;
 <span class="er">&lt;</span>@render partial=&quot;message&quot;/&gt;

@@ -1,4 +1,22 @@
-<h1 id="controller-filters">Controller filters</h1>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activeweb>ActiveWeb</a>
+</li>
+   <li class=active>
+Controller filters
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Controller filters <small></small>
+</h1>
+</div>
+
+
+
 <p>Controller filters are similar to that of Servlet filters, but designed to wrap execution of controllers. They can be used for many tasks that need to trigger before and after execution of a controller, such as login in, loggin, opening a DB connection, timing, etc. Controller filters are implementation of a <a href="http://en.wikipedia.org/wiki/Chain-of-responsibility_pattern">Chain of responsibility</a> design pattern.</p>
 <p>Filters are almost as powerful as controllers. They can inspect any aspects of a request, including request parameters, headers, etc. They can also preempt controllers and send different responses than a controller (think of a permission access filter for example, which will redirect to a login screen in case there is an attempt to access a protected resource).</p>
 <p>All filters implement this interface:</p>

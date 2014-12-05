@@ -1,10 +1,16 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Generation of json</li>
+</ol>
+<div class=page-header>
+   <h1>Generation of json <small></small></h1>
+</div>
 
-# Generation of JSON
 
 
 
 
-# Generation of JSON
 
 
 In context of a web application, especially when dealing with Ajax, it is handy to have your classes convert to to JSON to send to a browser. If you have a complex model with custom classes to be sent over, you will most likely write your JSON generation code, if however all you need is to convert ActiveJDBC models to JSON, this functionality is already available from your models without extra effort.
@@ -24,7 +30,7 @@ The JSON produced will look something like this:
 
 ~~~~ {.json}
 {
-  "type":"activejdbc.test_models.Person",
+  "type":"org.javalite.activejdbc.test_models.Person",
   "id":"1",
   "updated_at":"2011-02-23 22:18:11.0",
   "graduation_date":"1954-12-01",
@@ -71,7 +77,7 @@ result:
 
 ~~~~ {.json}
 {
-  "type":"activejdbc.test_models.User",
+  "type":"org.javalite.activejdbc.test_models.User",
   "id":"1",
   "first_name":"Marilyn",
   "email":"mmonroe@yahoo.com",
@@ -79,7 +85,7 @@ result:
   "children" : {
     addresses : [
     {
-      "type":"activejdbc.test_models.Address",
+      "type":"org.javalite.activejdbc.test_models.Address",
       "id":"1",
       "zip":"60606",
       "state":"IL",
@@ -89,7 +95,7 @@ result:
       "city":"Springfield"
     },
     {
-      "type":"activejdbc.test_models.Address",
+      "type":"org.javalite.activejdbc.test_models.Address",
       "id":"2",
       "zip":"60606",
       "state":"IL",
@@ -99,7 +105,7 @@ result:
       "city":"Springfield"
     },
     {
-      "type":"activejdbc.test_models.Address",
+      "type":"org.javalite.activejdbc.test_models.Address",
       "id":"3",
       "zip":"60606",
       "state":"IL",
@@ -127,7 +133,7 @@ An example of generated JSON:
 ~~~~ {.json}
 [
   {
-    "type":"activejdbc.test_models.User",
+    "type":"org.javalite.activejdbc.test_models.User",
     "id":"1",
     "first_name":"Marilyn",
     "email":"mmonroe@yahoo.com",
@@ -135,7 +141,7 @@ An example of generated JSON:
     "children" : {
       addresses : [
         {
-        "type":"activejdbc.test_models.Address",
+        "type":"org.javalite.activejdbc.test_models.Address",
         "id":"1",
         "zip":"60606",
         "state":"IL",
@@ -145,7 +151,7 @@ An example of generated JSON:
         "city":"Springfield"
       },
         {
-        "type":"activejdbc.test_models.Address",
+        "type":"org.javalite.activejdbc.test_models.Address",
         "id":"2",
         "zip":"60606",
         "state":"IL",
@@ -155,7 +161,7 @@ An example of generated JSON:
         "city":"Springfield"
       },
         {
-        "type":"activejdbc.test_models.Address",
+        "type":"org.javalite.activejdbc.test_models.Address",
         "id":"3",
         "zip":"60606",
         "state":"IL",
@@ -168,7 +174,7 @@ An example of generated JSON:
     }
   },
   {
-    "type":"activejdbc.test_models.User",
+    "type":"org.javalite.activejdbc.test_models.User",
     "id":"2",
     "first_name":"John",
     "email":"jdoe@gmail.com",
@@ -176,7 +182,7 @@ An example of generated JSON:
     "children" : {
       addresses : [
         {
-        "type":"activejdbc.test_models.Address",
+        "type":"org.javalite.activejdbc.test_models.Address",
         "id":"4",
         "zip":"60606",
         "state":"IL",
@@ -186,7 +192,7 @@ An example of generated JSON:
         "city":"Springfield"
       },
         {
-        "type":"activejdbc.test_models.Address",
+        "type":"org.javalite.activejdbc.test_models.Address",
         "id":"5",
         "zip":"60606",
         "state":"IL",
@@ -196,7 +202,7 @@ An example of generated JSON:
         "city":"Springfield"
       },
         {
-        "type":"activejdbc.test_models.Address",
+        "type":"org.javalite.activejdbc.test_models.Address",
         "id":"6",
         "zip":"60606",
         "state":"IL",
@@ -206,7 +212,7 @@ An example of generated JSON:
         "city":"Springfield"
       },
         {
-        "type":"activejdbc.test_models.Address",
+        "type":"org.javalite.activejdbc.test_models.Address",
         "id":"7",
         "zip":"60606",
         "state":"IL",

@@ -1,5 +1,12 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Database migrations</li>
+</ol>
+<div class=page-header>
+   <h1>Database migrations <small></small></h1>
+</div>
 
-# JavaLite DB-Migrator is a database migration system for Java
 
 
 

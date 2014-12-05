@@ -1,7 +1,14 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Http</li>
+</ol>
+<div class=page-header>
+   <h1>Http <small></small></h1>
+</div>
 
 
 
-# JavaLite HTTP
 
 JavaLite HTTP is a tiny library for making HTTP requests and returning responses. It has no dependencies other than the JDK.
 

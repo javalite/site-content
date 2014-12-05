@@ -1,7 +1,14 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Lifecycle callbacks</li>
+</ol>
+<div class=page-header>
+   <h1>Lifecycle callbacks <small></small></h1>
+</div>
 
 
 
-# Lifecycle callbacks
 
 Like ActiveRecord, ActiveJDBC has lifecycle callbacks. These are methods that can be implemented on a Model subclass to get notified of a special life cycle event performed on a model. These callbacks are captured in an interface that is implemented by a `Model` class:
 

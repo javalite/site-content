@@ -1,5 +1,12 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Batch operations</li>
+</ol>
+<div class=page-header>
+   <h1>Batch operations <small></small></h1>
+</div>
 
-# Batch operations
 
 
 

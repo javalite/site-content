@@ -1,4 +1,10 @@
-# ActiveJDBC - Fast Java ORM
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li class=active>ActiveJDBC</li>
+</ol>
+<div class=page-header>
+   <h1>ActiveJDBC <small>Fast ORM for agile development</small></h1>
+</div>
 
 ## Design principles
 
@@ -80,7 +86,6 @@ Here is [JavaDoc for ActiveJDBC](http://javalite.github.io/activejdbc/)
 * [Intellij Idea Integration ](intellij_idea_integration)
 * [IDE Integrations](ide_integrations)
 * [IN Clause](in_clause)
-* [FAQ](faq)
 </div>
 
 

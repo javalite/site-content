@@ -1,4 +1,22 @@
-<h1 id="clob-support-and-caching">Clob support and caching</h1>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Clob support and caching
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Clob support and caching <small></small>
+</h1>
+</div>
+
+
+
 <p>While ActiveJDBC supports Clobs, developers should be aware that even though the APIs are easy to use, they could stumble upon performance problems due to Clob sizes.</p>
 <h2 id="writing-a-clob">Writing a Clob</h2>
 <p>For instance, if you have a table ARTICLES, which has a column CONTENT type of Clob, the writing into this column is not any different than writing into a VARCHAR or any other text field:</p>

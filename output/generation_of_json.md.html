@@ -1,5 +1,26 @@
-<h1 id="generation-of-json">Generation of JSON</h1>
-<h1 id="generation-of-json-1">Generation of JSON</h1>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Generation of json
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Generation of json <small></small>
+</h1>
+</div>
+
+
+
+
+
+
+
 <p>In context of a web application, especially when dealing with Ajax, it is handy to have your classes convert to to JSON to send to a browser. If you have a complex model with custom classes to be sent over, you will most likely write your JSON generation code, if however all you need is to convert ActiveJDBC models to JSON, this functionality is already available from your models without extra effort.</p>
 <p>In more complicated situation, they probably would write some JSON generation code. However under simple condition, classes Model and LazyList already provide the basics.</p>
 <h2 id="generate-simple-json-from-a-model">Generate simple JSON from a model</h2>
@@ -8,7 +29,7 @@
 String json = p.<span class="fu">toJson</span>(<span class="kw">true</span>);</code></pre>
 <p>The JSON produced will look something like this:</p>
 <pre class="sourceCode json"><code class="sourceCode json">{
-  <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.Person&quot;</span>,
+  <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.Person&quot;</span>,
   <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;1&quot;</span>,
   <span class="dt">&quot;updated_at&quot;</span>:<span class="st">&quot;2011-02-23 22:18:11.0&quot;</span>,
   <span class="dt">&quot;graduation_date&quot;</span>:<span class="st">&quot;1954-12-01&quot;</span>,
@@ -34,7 +55,7 @@ User u = personList.<span class="fu">get</span>(<span class="dv">0</span>);
 String json = u.<span class="fu">toJson</span>(<span class="kw">true</span>);</code></pre>
 <p>result:</p>
 <pre class="sourceCode json"><code class="sourceCode json">{
-  <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.User&quot;</span>,
+  <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.User&quot;</span>,
   <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;1&quot;</span>,
   <span class="dt">&quot;first_name&quot;</span>:<span class="st">&quot;Marilyn&quot;</span>,
   <span class="dt">&quot;email&quot;</span>:<span class="st">&quot;mmonroe@yahoo.com&quot;</span>,
@@ -42,7 +63,7 @@ String json = u.<span class="fu">toJson</span>(<span class="kw">true</span>);</c
   <span class="dt">&quot;children&quot;</span> : {
     <span class="er">addresses</span> : [
     {
-      <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.Address&quot;</span>,
+      <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.Address&quot;</span>,
       <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;1&quot;</span>,
       <span class="dt">&quot;zip&quot;</span>:<span class="st">&quot;60606&quot;</span>,
       <span class="dt">&quot;state&quot;</span>:<span class="st">&quot;IL&quot;</span>,
@@ -52,7 +73,7 @@ String json = u.<span class="fu">toJson</span>(<span class="kw">true</span>);</c
       <span class="dt">&quot;city&quot;</span>:<span class="st">&quot;Springfield&quot;</span>
     },
     {
-      <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.Address&quot;</span>,
+      <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.Address&quot;</span>,
       <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;2&quot;</span>,
       <span class="dt">&quot;zip&quot;</span>:<span class="st">&quot;60606&quot;</span>,
       <span class="dt">&quot;state&quot;</span>:<span class="st">&quot;IL&quot;</span>,
@@ -62,7 +83,7 @@ String json = u.<span class="fu">toJson</span>(<span class="kw">true</span>);</c
       <span class="dt">&quot;city&quot;</span>:<span class="st">&quot;Springfield&quot;</span>
     },
     {
-      <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.Address&quot;</span>,
+      <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.Address&quot;</span>,
       <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;3&quot;</span>,
       <span class="dt">&quot;zip&quot;</span>:<span class="st">&quot;60606&quot;</span>,
       <span class="dt">&quot;state&quot;</span>:<span class="st">&quot;IL&quot;</span>,
@@ -81,7 +102,7 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
 <p>An example of generated JSON:</p>
 <pre class="sourceCode json"><code class="sourceCode json">[
   {
-    <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.User&quot;</span>,
+    <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.User&quot;</span>,
     <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;1&quot;</span>,
     <span class="dt">&quot;first_name&quot;</span>:<span class="st">&quot;Marilyn&quot;</span>,
     <span class="dt">&quot;email&quot;</span>:<span class="st">&quot;mmonroe@yahoo.com&quot;</span>,
@@ -89,7 +110,7 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
     <span class="dt">&quot;children&quot;</span> : {
       <span class="er">addresses</span> : [
         {
-        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.Address&quot;</span>,
+        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.Address&quot;</span>,
         <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;1&quot;</span>,
         <span class="dt">&quot;zip&quot;</span>:<span class="st">&quot;60606&quot;</span>,
         <span class="dt">&quot;state&quot;</span>:<span class="st">&quot;IL&quot;</span>,
@@ -99,7 +120,7 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
         <span class="dt">&quot;city&quot;</span>:<span class="st">&quot;Springfield&quot;</span>
       },
         {
-        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.Address&quot;</span>,
+        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.Address&quot;</span>,
         <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;2&quot;</span>,
         <span class="dt">&quot;zip&quot;</span>:<span class="st">&quot;60606&quot;</span>,
         <span class="dt">&quot;state&quot;</span>:<span class="st">&quot;IL&quot;</span>,
@@ -109,7 +130,7 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
         <span class="dt">&quot;city&quot;</span>:<span class="st">&quot;Springfield&quot;</span>
       },
         {
-        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.Address&quot;</span>,
+        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.Address&quot;</span>,
         <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;3&quot;</span>,
         <span class="dt">&quot;zip&quot;</span>:<span class="st">&quot;60606&quot;</span>,
         <span class="dt">&quot;state&quot;</span>:<span class="st">&quot;IL&quot;</span>,
@@ -122,7 +143,7 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
     }
   },
   {
-    <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.User&quot;</span>,
+    <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.User&quot;</span>,
     <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;2&quot;</span>,
     <span class="dt">&quot;first_name&quot;</span>:<span class="st">&quot;John&quot;</span>,
     <span class="dt">&quot;email&quot;</span>:<span class="st">&quot;jdoe@gmail.com&quot;</span>,
@@ -130,7 +151,7 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
     <span class="dt">&quot;children&quot;</span> : {
       <span class="er">addresses</span> : [
         {
-        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.Address&quot;</span>,
+        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.Address&quot;</span>,
         <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;4&quot;</span>,
         <span class="dt">&quot;zip&quot;</span>:<span class="st">&quot;60606&quot;</span>,
         <span class="dt">&quot;state&quot;</span>:<span class="st">&quot;IL&quot;</span>,
@@ -140,7 +161,7 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
         <span class="dt">&quot;city&quot;</span>:<span class="st">&quot;Springfield&quot;</span>
       },
         {
-        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.Address&quot;</span>,
+        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.Address&quot;</span>,
         <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;5&quot;</span>,
         <span class="dt">&quot;zip&quot;</span>:<span class="st">&quot;60606&quot;</span>,
         <span class="dt">&quot;state&quot;</span>:<span class="st">&quot;IL&quot;</span>,
@@ -150,7 +171,7 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
         <span class="dt">&quot;city&quot;</span>:<span class="st">&quot;Springfield&quot;</span>
       },
         {
-        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.Address&quot;</span>,
+        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.Address&quot;</span>,
         <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;6&quot;</span>,
         <span class="dt">&quot;zip&quot;</span>:<span class="st">&quot;60606&quot;</span>,
         <span class="dt">&quot;state&quot;</span>:<span class="st">&quot;IL&quot;</span>,
@@ -160,7 +181,7 @@ String json = personList.<span class="fu">toJson</span>(<span class="kw">true</s
         <span class="dt">&quot;city&quot;</span>:<span class="st">&quot;Springfield&quot;</span>
       },
         {
-        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;activejdbc.test_models.Address&quot;</span>,
+        <span class="dt">&quot;type&quot;</span>:<span class="st">&quot;org.javalite.activejdbc.test_models.Address&quot;</span>,
         <span class="dt">&quot;id&quot;</span>:<span class="st">&quot;7&quot;</span>,
         <span class="dt">&quot;zip&quot;</span>:<span class="st">&quot;60606&quot;</span>,
         <span class="dt">&quot;state&quot;</span>:<span class="st">&quot;IL&quot;</span>,

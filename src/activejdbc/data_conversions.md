@@ -1,5 +1,12 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Data conversions</li>
+</ol>
+<div class=page-header>
+   <h1>Data conversions <small></small></h1>
+</div>
 
-# Data conversions
 
 
 
@@ -19,7 +26,6 @@ and possible. In cases a conversion is not possible, you are going to get a runt
 This is pretty easy, insert a record into a table using standard DBMS tools, and then query it like this:
 
 ~~~~ {.java}
-
 Person p = Person.findAll().get(0);
 System.out.println("DOB type: " + p.get("dob").getClass());
 ~~~~
@@ -80,7 +86,7 @@ p.saveIt();
 you are going to get an exception from the DBMS itself, if it cannot convert the type:
 
 ~~~~ {.java}
-activejdbc.DBException: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Incorrect date value: '1' for column 'dob' at row 1, Query: INSERT INTO students (first_name, dob, last_name) VALUES (?, ?, ?), params: John,1,Doe
+org.javalite.activejdbc.DBException: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Incorrect date value: '1' for column 'dob' at row 1, Query: INSERT INTO students (first_name, dob, last_name) VALUES (?, ?, ?), params: John,1,Doe
     at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2868)
     at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1573)
     at com.mysql.jdbc.ServerPreparedStatement.serverExecute(ServerPreparedStatement.java:1169)

@@ -1,4 +1,22 @@
-<h1 id="optimistic-locking">Optimistic locking</h1>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Optimistic locking
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Optimistic locking <small></small>
+</h1>
+</div>
+
+
+
 <p>The idea of optimistic locking is described here: <a href="http://en.wikipedia.org/wiki/Optimistic_concurrency_control">Optimistic concurrency control</a></p>
 <p>ActiveJDBC provides support for optimistic concurrency via a simple convention: A database table needs to provide a column named <code>record_version</code> with a type that is capable to store non-decimal types, such as LONG for MySQL, NUMBER for Oracle, etc.</p>
 <h2 id="creation-of-a-new-record">Creation of a new record</h2>

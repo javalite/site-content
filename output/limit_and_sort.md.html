@@ -1,4 +1,22 @@
-<h1 id="limit-and-sort">Limit and sort</h1>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Limit and sort
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Limit and sort <small></small>
+</h1>
+</div>
+
+
+
 <p>Sometimes, you only need a few records to page through a resultset. This style of data usage is usually found in web applications. An example could be paging through a catalog of products.</p>
 <h2 id="limiting-resultsets">Limiting Resultsets</h2>
 <p>The &quot;finder&quot; methods, such as <code>find()</code>, <code>findAll()</code> and <code>where()</code> return an instance of a <code>LazyList</code>. This class has a method called <code>limit(int)</code>. It will limit a number of results in the resultset when your programs starts to:</p>

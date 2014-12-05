@@ -1,4 +1,11 @@
-# Model inheritance
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Inheritance</li>
+</ol>
+<div class=page-header>
+   <h1>Inheritance <small></small></h1>
+</div>
 
 
 

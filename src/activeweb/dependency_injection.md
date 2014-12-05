@@ -1,4 +1,11 @@
-# Dependency injection
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Dependency injection</li>
+</ol>
+<div class=page-header>
+   <h1>Dependency injection <small></small></h1>
+</div>
 
 
 

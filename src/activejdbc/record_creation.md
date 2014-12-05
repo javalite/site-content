@@ -1,4 +1,11 @@
-# Record creation
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Record creation</li>
+</ol>
+<div class=page-header>
+   <h1>Record creation <small></small></h1>
+</div>
 
 
 

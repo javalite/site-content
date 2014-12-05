@@ -1,4 +1,11 @@
-# Record selection
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Record selection</li>
+</ol>
+<div class=page-header>
+   <h1>Record selection <small></small></h1>
+</div>
 
 
 

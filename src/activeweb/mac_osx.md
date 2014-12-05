@@ -1,5 +1,12 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Mac osx</li>
+</ol>
+<div class=page-header>
+   <h1>Mac osx <small></small></h1>
+</div>
 
-# How to run ActiveWeb on Mac OS X
 
 The simple example app needs a few small modification to run on OS X. See below for each.
 

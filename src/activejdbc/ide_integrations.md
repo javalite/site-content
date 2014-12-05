@@ -1,5 +1,12 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Ide integrations</li>
+</ol>
+<div class=page-header>
+   <h1>Ide integrations <small></small></h1>
+</div>
 
-# IDE Integrations
 
 * [Netbeans Integration](netbeansIntegration)
 * [Eclipse Integration](eclipseIntegration)

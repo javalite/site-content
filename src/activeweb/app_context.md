@@ -1,4 +1,11 @@
-# Application Context
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>App context</li>
+</ol>
+<div class=page-header>
+   <h1>App context <small></small></h1>
+</div>
 
 
 Sometimes you need to configure and  keep some values in the application for the duration of application life cycle. Use AppContext for this.

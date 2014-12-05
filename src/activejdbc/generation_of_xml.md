@@ -1,8 +1,14 @@
-# Generation of XML
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Generation of xml</li>
+</ol>
+<div class=page-header>
+   <h1>Generation of xml <small></small></h1>
+</div>
 
 
 
-# Generation of XML
 
 Often developers need to generate XML from models. In more complicated situation, they probably would
 write some XML generation code. However under simple condition, classes Model and LazyList already provide the

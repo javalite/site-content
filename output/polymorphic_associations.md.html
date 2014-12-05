@@ -1,4 +1,22 @@
-<h1 id="polymorphic-associations">Polymorphic associations</h1>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Polymorphic associations
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Polymorphic associations <small></small>
+</h1>
+</div>
+
+
+
 <p>Polymorphic associations are used in cases when there are several one-to-many relationships that you could aggregate because for all the parents, the children are similar.</p>
 <p>In other words, a polymorphic association allows for a table to have multiple types of parents.</p>
 <p>Lets say you have products and reviews in the system . Both have to be tagged. A naive implementation would be to create two one to many relationships:</p>

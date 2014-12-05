@@ -1,4 +1,11 @@
-# Setters and getters
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Setters and getters</li>
+</ol>
+<div class=page-header>
+   <h1>Setters and getters <small></small></h1>
+</div>
 
 
 
@@ -77,7 +84,7 @@ p.set("blah", 1);
 The table PEOPLE does not have a column "BLAH", and ActiveJDBC is conveniently telling me this:
 
 ~~~~ {.prettyprint}
-java.lang.IllegalArgumentException: Attribute: 'blah' is not defined in model: 'class activejdbc.test_models.Person and also, did not find an association by the same name, 
+java.lang.IllegalArgumentException: Attribute: 'blah' is not defined in model: 'class org.javalite.activejdbc.test_models.Person and also, did not find an association by the same name,
 available attributes: [id, updated_at, graduation_date, dob, name, last_name, created_at]
 ~~~~
 

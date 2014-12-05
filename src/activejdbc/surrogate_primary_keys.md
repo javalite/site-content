@@ -1,4 +1,11 @@
-# Surrogate primary keys
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Surrogate primary keys</li>
+</ol>
+<div class=page-header>
+   <h1>Surrogate primary keys <small></small></h1>
+</div>
 
 
 

@@ -1,3 +1,11 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Support</li>
+</ol>
+<div class=page-header>
+   <h1>Support <small></small></h1>
+</div>
 ## Support Groups
 
 If you have a questions, feel free to post to the respective forums:

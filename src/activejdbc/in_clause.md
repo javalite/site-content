@@ -1,4 +1,11 @@
-# 'IN' Clause
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>In clause</li>
+</ol>
+<div class=page-header>
+   <h1>In clause <small></small></h1>
+</div>
 
 
 

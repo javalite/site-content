@@ -1,4 +1,11 @@
-# ActiveJDBC - Intellij Idea Integration
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Intellij idea integration</li>
+</ol>
+<div class=page-header>
+   <h1>Intellij idea integration <small></small></h1>
+</div>
 
 
 

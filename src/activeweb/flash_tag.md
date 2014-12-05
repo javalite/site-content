@@ -1,4 +1,11 @@
-# Flash tag
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Flash tag</li>
+</ol>
+<div class=page-header>
+   <h1>Flash tag <small></small></h1>
+</div>
 
 
 Flash is a concept which does not exist in standard Java API, but is very useful in web applications. Flash is a snippet

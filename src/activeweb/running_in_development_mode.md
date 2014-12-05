@@ -1,4 +1,11 @@
-# Development mode
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Running in development mode</li>
+</ol>
+<div class=page-header>
+   <h1>Running in development mode <small></small></h1>
+</div>
 
 ActiveWeb will recompile and reload routes and controllers on each request in development environment. It makes it possible
 to experiment with controllers, pages and routes in a live application without having to restart the container. Watch the
