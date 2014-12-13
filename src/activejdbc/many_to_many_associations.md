@@ -243,7 +243,6 @@ that contains keys to the records in the `courses` table.
 The annotation `@Many2Many` is one-sided. This means that it provides enough information to the framework, and
 there is no need to add another one to the model Course (it will not break if you do though).
 
-> NOTE: in case of using `@Many2Many` annotation, creation of a model that represent a join table is not optional.
 
 ## Real models for join tables
 
