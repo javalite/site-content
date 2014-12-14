@@ -10,7 +10,8 @@
 
 If you have a questions, feel free to post to the respective forums:
 
-* [ActiveJDBC, JSpec, HTTP Google Group](https://groups.google.com/forum/#!forum/activejdbc-group)
+* [StackOverflow](http://stackoverflow.com) - we track tags: `javalite`, `activejdbc`, `activeweb`
+* [ActiveJDBC Google Group](https://groups.google.com/forum/#!forum/activejdbc-group) (as well as JSpec, HTTP)
 * [ActiveWeb Google Group](https://groups.google.com/forum/?hl=en#!forum/activeweb)
 
 
@@ -18,7 +19,7 @@ If you have a questions, feel free to post to the respective forums:
 
 If you find a bug, here are respective links:
 
-* [ActiveJDBC, JSpec, HTTP Issues](https://github.com/javalite/activejdbc/issues) (JSpec, HTTP)
+* [ActiveJDBC Issues](https://github.com/javalite/activejdbc/issues) (as well as JSpec, HTTP)
 * [ActiveWeb Issues](https://github.com/javalite/activeweb/issues)
 
 
