@@ -224,9 +224,6 @@ doctor.<span class="fu">add</span>(patient);</code></pre>
 <span class="kw">public</span> <span class="kw">class</span> Student <span class="kw">extends</span> Model {}</code></pre>
 <p>Here, the <code>other</code> is a model that represents the other end of the relationship, <code>join</code> is a name of a join table (table in the middle), <code>sourceFKName</code> is a source foreign key name. A source is this model, in this case it is <code>Student</code>. This means that the framework will expect to find a column <code>astudent_id</code> in the table <code>registrations</code> and will assume that it contains keys of records of the <code>student</code> table. <code>targetFKName</code> is similar to the <code>sourceFKName</code>, but stands for a column <code>acourse_id</code> in the table <code>registrations</code> that contains keys to the records in the <code>courses</code> table.</p>
 <p>The annotation <code>@Many2Many</code> is one-sided. This means that it provides enough information to the framework, and there is no need to add another one to the model Course (it will not break if you do though).</p>
-<blockquote>
-<p>NOTE: in case of using <code>@Many2Many</code> annotation, creation of a model that represent a join table is not optional.</p>
-</blockquote>
 <h2 id="real-models-for-join-tables">Real models for join tables</h2>
 <p>If join tables are represented by real models, ActiveJDBC handles it transparently. To illustrate the doctor - patient example above, you might want to indicate where a specific patient is treated.You would then add a new column to the <code>DOCTORS_PATIENTS</code> table called <code>location</code>. Then you would define a model like so:</p>
 <pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">Table</span>(<span class="st">&quot;DOCTORS_PATIENTS&quot;</span>)

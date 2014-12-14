@@ -18,7 +18,7 @@ Flash messages are useful in cases when a POST/Redirect to GET pattern is used.
 
 Flash messages are created in controllers (or filters) like so:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 @POST
 public void create(){
     Book book = new Book();
@@ -69,7 +69,7 @@ Leaving a user on a POSTed page is a bad idea, because the same request can be r
 
 If you need to display a more complex HTML than a simple string, you can do so by placing a flash tag with body on the page: 
 
-~~~~ {.html .numberLines .sp-code-number}
+~~~~ {.html  }
 <@flash>
  <div class="warning">${message}</div>
 </@flash>
@@ -77,7 +77,7 @@ If you need to display a more complex HTML than a simple string, you can do so b
 
 and calling a single argument method inside the controller: 
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 @POST
 public void create(){
 //.. code before

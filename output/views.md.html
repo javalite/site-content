@@ -49,22 +49,14 @@ Views <small></small>
 <p>A default layout is called <code>default_layout.ftl</code> and located in the layouts directory along with other template directories:</p>
 <pre class="prettyprint"><code>src/main/webapp/WEB-INF/views/layouts/default_layout.ftl</code></pre>
 <p>Default layout is used by default to wrap any page generated as a result of controller execution. The content of the <code>default_layout.ftl</code> from a startup project looks like this (few lines omitted for clarity):</p>
-<table class="sourceCode html numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="sourceCode"><pre><code class="sourceCode html"><span class="kw">&lt;title&gt;</span>ActiveWeb - <span class="er">&lt;</span>@yield to=&quot;title&quot;/&gt;<span class="kw">&lt;/title&gt;</span>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;title&gt;</span>ActiveWeb - <span class="er">&lt;</span>@yield to=&quot;title&quot;/&gt;<span class="kw">&lt;/title&gt;</span>
 <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;main&quot;</span><span class="kw">&gt;</span>
     <span class="er">&lt;</span>#include &quot;header.ftl&quot; &gt;
 <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;content&quot;</span><span class="kw">&gt;</span>
     ${page_content}
 <span class="kw">&lt;/div&gt;</span>
     <span class="er">&lt;</span>#include &quot;footer.ftl&quot; &gt;
-<span class="kw">&lt;/div&gt;</span></code></pre></td></tr></table>
+<span class="kw">&lt;/div&gt;</span></code></pre>
 <ul>
 <li><strong>Line 1</strong> has a <code>&lt;@yield</code> tag. For explanation, please see section below.</li>
 <li><strong>Line 3</strong> includes a <code>header.ftl</code>, which is another template with code for the top portion of your site. It is not strictly necessary, since you can copy all code from header directly into layout, but it is a good practice to keep it in a separate file.</li>

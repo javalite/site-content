@@ -46,7 +46,7 @@ Having sa separate database for testing ensures safety of data in the developmen
 
 ## Example configuration
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 public class DbConfig extends AbstractDBConfig {
     public void init(AppContext context) {
          environment("development").jndi("jdbc/kitchensink_development");

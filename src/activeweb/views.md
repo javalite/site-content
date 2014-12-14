@@ -94,7 +94,7 @@ src/main/webapp/WEB-INF/views/layouts/default_layout.ftl
 Default layout is used by default to wrap any page generated as a result of controller execution. The content of the
 `default_layout.ftl` from a startup project looks like this (few lines omitted for clarity):
 
-~~~~ {.html .numberLines .sp-code-number}
+~~~~ {.html  }
 <title>ActiveWeb - <@yield to="title"/></title>
 <div class="main">
     <#include "header.ftl" >

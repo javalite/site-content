@@ -88,22 +88,14 @@ p.<span class="fu">saveIt</span>();</code></pre>
 <p>As you can see, ActiveJDBC tracks versions of the same record.</p>
 <h2 id="when-collisions-happen">When collisions happen</h2>
 <p>Sometimes you might have code that reads the same record from a table in order to be updated. In those cases, the first update succeeds, but the second does not. Let's examine this situation:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java">Profile p1 = Profile.<span class="fu">findById</span>(<span class="dv">1</span>);
+<pre class="sourceCode java"><code class="sourceCode java">Profile p1 = Profile.<span class="fu">findById</span>(<span class="dv">1</span>);
 Profile p2 = Profile.<span class="fu">findById</span>(<span class="dv">1</span>);
 
 p1.<span class="fu">set</span>(<span class="st">&quot;profile_type&quot;</span>, <span class="st">&quot;hotel&quot;</span>);
 p1.<span class="fu">saveIt</span>();
 
 p2.<span class="fu">set</span>(<span class="st">&quot;profile_type&quot;</span>, <span class="st">&quot;vacation&quot;</span>);
-p2.<span class="fu">saveIt</span>(); <span class="co">//&lt;&lt;&lt;========= This will throw a StaleModelException</span></code></pre></td></tr></table>
+p2.<span class="fu">saveIt</span>(); <span class="co">//&lt;&lt;&lt;========= This will throw a StaleModelException</span></code></pre>
 <p>In the code snippet above, at lines 1 and 2, the same record is loaded into models. Then, at line 5, the first one is updated. This will increment the version of the record to 3, and make the model p2 stale. Henceforth, when you try to save the model p2, you will get an exception. The content of a record in the table at this point will be:</p>
 <table>
 <col width="6%" />

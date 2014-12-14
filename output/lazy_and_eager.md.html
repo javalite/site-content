@@ -20,25 +20,17 @@ Lazy and eager <small></small>
 <p>ActiveJDBC is lazy by default. In this sense, it has semantics closer to ActiveRecord than Hibernate.</p>
 <h2 id="lazy-list">Lazy List</h2>
 <p>In a code like this:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java">List&lt;User&gt; users = User.<span class="fu">findAll</span>(); <span class="co">// or User.where(&quot;.. query here&quot;);</span>
+<pre class="sourceCode java"><code class="sourceCode java">List&lt;User&gt; users = User.<span class="fu">findAll</span>(); <span class="co">// or User.where(&quot;.. query here&quot;);</span>
 <span class="kw">for</span>(User u: users){
     System.<span class="fu">out</span>.<span class="fu">println</span>(u);
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>the list <code>users</code> is a type of <a href="http://javalite.github.io/activejdbc/org/javalite/activejdbc/LazyList.html">LazyList</a>.</p>
 <p>Despite what it looks, the line 1. is not when the framework makes a call to the database. Only when the objects are queried from loop on line 2, the framework pulls data from the database.</p>
 <p>In fact, in this example:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java">List&lt;Employee&gt; people = Employee.<span class="fu">where</span>(<span class="st">&quot;department = ? and hire_date &gt; ? &quot;</span>, <span class="st">&quot;IT&quot;</span>, hireDate)
+<pre class="sourceCode java"><code class="sourceCode java">List&lt;Employee&gt; people = Employee.<span class="fu">where</span>(<span class="st">&quot;department = ? and hire_date &gt; ? &quot;</span>, <span class="st">&quot;IT&quot;</span>, hireDate)
     .<span class="fu">offset</span>(<span class="dv">21</span>)
     .<span class="fu">limit</span>(<span class="dv">10</span>)
-    .<span class="fu">orderBy</span>(<span class="st">&quot;hire_date asc&quot;</span>);</code></pre></td></tr></table>
+    .<span class="fu">orderBy</span>(<span class="st">&quot;hire_date asc&quot;</span>);</code></pre>
 <p>there is no access to database. All that is happening is that the <a href="http://javalite.github.io/activejdbc/org/javalite/activejdbc/LazyList.html">LazyList</a> is progressively configured on lines 2, 3 and 4 in order to build a correct SQL query when the objects are requested from the list.</p>
 <h2 id="lazy-dependencies">Lazy dependencies</h2>
 <p>If you have a model User and a model Address, and they have a one to many relationship, when a user has many addresses, the code:</p>
@@ -51,18 +43,12 @@ Lazy and eager <small></small>
 </blockquote>
 <h2 id="improve-efficiency-with-eager-loading">Improve efficiency with eager loading</h2>
 <p>Let's consider an example where an ORM could unexpectedly generate a huge number of inefficient queries:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java">List&lt;Address&gt; addresses = Address.<span class="fu">findAll</span>();
+<pre class="sourceCode java"><code class="sourceCode java">List&lt;Address&gt; addresses = Address.<span class="fu">findAll</span>();
 
 <span class="kw">for</span>(Address address: addresses){
    User user = address.<span class="fu">parent</span>(User.<span class="fu">class</span>);
    System.<span class="fu">out</span>.<span class="fu">println</span>(user);
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>In the above example, the number of queries generated and executed is going to be N + 1, were N is a number of addresses. This is because the first query is to get all addresses, and then for each address, there is a new query to get a user parent (line 4).</p>
 <p>This approach is going to kill performance in some applications. A better way is to load all parents at once by a single query:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Address&gt; addresses = Address.<span class="fu">findAll</span>().<span class="fu">include</span>(User.<span class="fu">class</span>);
@@ -82,17 +68,11 @@ Lazy and eager <small></small>
 <p>The above code will generate only three queries to DB, one per each table. This of course will create an object graph in memory with certain implications. While it is going to be a more efficient approach from the point of DB IO view, it certainly will consume more memory. Developers will need to understand the implications and perform test cases to see if eager loading is improving or degrading performance.</p>
 <h2 id="conversion-to-maps">Conversion to Maps</h2>
 <p>When a model with included children is converted to a map, all the dependencies are converted to maps and inserted into a parent model map too. Here is an example:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java">LazyList&lt;User&gt; users = User.<span class="fu">findAll</span>().<span class="fu">include</span>(Address.<span class="fu">class</span>);
+<pre class="sourceCode java"><code class="sourceCode java">LazyList&lt;User&gt; users = User.<span class="fu">findAll</span>().<span class="fu">include</span>(Address.<span class="fu">class</span>);
 List&lt;Map&gt; maps = users.<span class="fu">toMaps</span>();
 
 Map user = maps.<span class="fu">get</span>(<span class="dv">0</span>);
 
-List&lt;Map&gt; addresses = (List&lt;Map&gt;)user.<span class="fu">get</span>(<span class="st">&quot;addresses&quot;</span>);</code></pre></td></tr></table>
+List&lt;Map&gt; addresses = (List&lt;Map&gt;)user.<span class="fu">get</span>(<span class="st">&quot;addresses&quot;</span>);</code></pre>
 <p>In the example above, on line 1 a list of users is requested from a DB, and this list is to include corresponding addresses for each user. So far, this is the same as previous examples. However, on line 2 the users are converted to a list of maps. When this happens, each map that was generated from a user model also contains a list of maps each representing an address as a child of that user. What is more, is that the list of addresses is keyed from a user map by a string &quot;addresses&quot; as evident on line 6. The key in each case like this is an interpolation of a name of a child model to plural form according to the rules of the English language, which resulted in &quot;addresses&quot; in this case.</p>
 <p>The same logic applies to many-to-one and many-to-many relationships.</p>

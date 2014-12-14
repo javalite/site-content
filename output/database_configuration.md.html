@@ -30,22 +30,14 @@ Database configuration <small></small>
 <h2 id="what-is-a-mode">What is a mode?</h2>
 <p>ActiveWeb defines two modes of operation: &quot;standard&quot;, which is also implicit, and &quot;testing&quot;. Standard mode is used during regular run of the program, and testing used during the build when tests are executed. ActiveWeb promotes a style of development where one database used for testing, but a different one used under normal execution. When tests are executed, a &quot;test&quot; database is used, and when a project is run in a normal mode, a &quot;development&quot; database is used. Having sa separate database for testing ensures safety of data in the development database.</p>
 <h2 id="example-configuration">Example configuration</h2>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> DbConfig <span class="kw">extends</span> AbstractDBConfig {
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> DbConfig <span class="kw">extends</span> AbstractDBConfig {
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext context) {
          <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_development&quot;</span>);
          <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://localhost/kitchensink_development&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
          <span class="fu">environment</span>(<span class="st">&quot;jenkins&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://172.30.64.31/kitchensink_jenkins&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
          <span class="fu">environment</span>(<span class="st">&quot;production&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;java:comp/env/jdbc/myproject_production);</span>
     }
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>The code above is borrowed from <a href="https://github.com/javalite/kitchensink">Kitchensink</a> project. Lets examine it line by line.</p>
 <ul>
 <li><strong>Line 3</strong>: here we provide configuration for a &quot;standard&quot; mode in &quot;development&quot; environment. This DB connection will be used when the application is running under normal conditions in development environment.</li>

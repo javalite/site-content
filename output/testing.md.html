@@ -36,22 +36,14 @@ Testing <small></small>
 <h2 id="configuration">Configuration</h2>
 <p>Database configuration is described on <a href="database_configuration">database configuration</a> page. DBSpec class will look for connections configured with a method <code>testing()</code>.</p>
 <p>Example:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> DbConfig <span class="kw">extends</span> AbstractDBConfig {
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> DbConfig <span class="kw">extends</span> AbstractDBConfig {
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext context) {
          <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_development&quot;</span>);
          <span class="fu">environment</span>(<span class="st">&quot;development&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://localhost/kitchensink_development&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
          <span class="fu">environment</span>(<span class="st">&quot;jenkins&quot;</span>).<span class="fu">testing</span>().<span class="fu">jdbc</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://172.30.64.31/kitchensink_jenkins&quot;</span>, <span class="st">&quot;root&quot;</span>, <span class="st">&quot;****&quot;</span>);
          <span class="fu">environment</span>(<span class="st">&quot;production&quot;</span>).<span class="fu">jndi</span>(<span class="st">&quot;jdbc/kitchensink_production&quot;</span>);
     }
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>Specifically, line 4 configures a test connection to be used during the test. In case you work with multiple databases, you can configure more than one test connection. DBSpec will open all connections marked for tests.</p>
 <h2 id="transaction-management">Transaction management</h2>
 <p>DBSpec will start a transaction before the test and roll it back after the test, ensuring that you have:</p>
@@ -103,18 +95,12 @@ Testing <small></small>
 }</code></pre>
 <p>Note that the package name is the same for spec as it is for controller, since ActiveWeb will use reflection to determine the controller to be tested</p>
 <h3 id="sending-http-requests-from-specs">Sending HTTP requests from specs</h3>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
     @Test
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendGetToIndex</span>() {
         <span class="fu">request</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
      }
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>In a snippet above on line 4, the method <code>request()</code> allows to simulate a call to a controller <code>HomeController</code>. This line reads like this: <em>Send GET request to <code>HomeController</code>, action <code>index</code></em>. There are other methods for sending different HTTP methods:</p>
 <ul>
 <li><code>post(action)</code></li>
@@ -141,20 +127,13 @@ Testing <small></small>
 <h2 id="generating-views-during-testing">Generating views during testing</h2>
 <p>How many times you wished when developing a web application in Java to be able to generate a full HTML from the application in test, as if the application was running? Well, with ActiveWeb you can finally do this by using the <code>integrateViews()</code> method.</p>
 <p>Here is a modification on the previous example, but with the <code>integrateViews()</code></p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
     @Test
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendParamsToIndexAndGenerateHTML</span>() {
         <span class="fu">request</span>().<span class="fu">params</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Deere&quot;</span>).<span class="fu">integrateViews</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
         <span class="fu">a</span>(<span class="fu">responseContent</span>()).<span class="fu">shouldContain</span>(<span class="st">&quot;&lt;span class=&quot;</span>greeting<span class="st">&quot;&gt;Hello, John Deere, welcome back&lt;/span&gt;&quot;</span>);
     }
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>Line 4 causes the framework to execute the controller, and pass all data from it to the view and the generate HTML as in a normal application flow.</p>
 <p>Method <code>responseContent()</code> simply returns entire HTML generated by the view. At which point, you can use variety of technologies in Java to test its structure (easier if you stick to XHTML in your templates), as well as content.</p>
 <p>We simply test on line 5 that there exists a span with specific content merged by template from data passed in from controller.</p>
@@ -218,16 +197,7 @@ Testing <small></small>
 <h2 id="integrationspec---test-multiple-controllers-together">IntegrationSpec - test multiple controllers together</h2>
 <p>While <code>ControllerSpec</code> and <code>DBControllerSpec</code> allow to test a single controller, the class <code>IntegrationSpec</code> allows to write entire scenarios for testing multiple controllers.</p>
 <p>Example:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> SimpleSpec <span class="kw">extends</span> IntegrationSpec {
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> SimpleSpec <span class="kw">extends</span> IntegrationSpec {
     @Test
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldNavigateToTwoControllers</span>() {
         <span class="fu">controller</span>(<span class="st">&quot;home&quot;</span>).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
@@ -235,7 +205,7 @@ Testing <small></small>
         <span class="fu">controller</span>(<span class="st">&quot;greeter&quot;</span>).<span class="fu">param</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;Bob&quot;</span>).<span class="fu">integrateViews</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
         <span class="fu">a</span>(<span class="fu">responseContent</span>()).<span class="fu">shouldContain</span>(<span class="st">&quot;Our special greeting is extended to Bob&quot;</span>);
     }
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>Lets decompose code snippet:</p>
 <ul>
 <li><strong>Line 4</strong>: a controller <code>HomeController</code> is executed with HTTP GET request which is dispatched to its action <code>index()</code></li>

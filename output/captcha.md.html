@@ -18,20 +18,13 @@ Captcha <small></small>
 <p><a href="http://en.wikipedia.org/wiki/CAPTCHA">Captcha</a> is often used in dynamic websites to protect from bots. ActiveWeb has Captcha built-in and does not depend on any third party library for it.</p>
 <h2 id="usage">Usage</h2>
 <p>Here is an example of a CaptchaController:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> CaptchaController <span class="kw">extends</span> AppController {
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> CaptchaController <span class="kw">extends</span> AppController {
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>() <span class="kw">throws</span> IOException {
         String captchaText = Captcha.<span class="fu">generateText</span>();
         <span class="fu">session</span>(<span class="st">&quot;captcha&quot;</span>, captchaText);
         <span class="fu">outputStream</span>(<span class="st">&quot;image/png&quot;</span>).<span class="fu">write</span>(Captcha.<span class="fu">generateImage</span>(captchaText));
     }
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>This controller has only three lines of code.</p>
 <ul>
 <li>Line 3. it generates some random text using a class Captcha</li>
