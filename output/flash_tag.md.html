@@ -1,26 +1,26 @@
-<p>Flash tag| <a href="/activeweb">ActiveWeb</a>,Flash tag</p>
-<h1 id="flash-tag">Flash tag</h1>
-<div id="toc"></div>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activeweb>ActiveWeb</a>
+</li>
+   <li class=active>
+Flash tag
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Flash tag <small></small>
+</h1>
+</div>
+
 
 <p>Flash is a concept which does not exist in standard Java API, but is very useful in web applications. Flash is a snippet of HTML whose life cycle is limited by the next HTTP request. In other words, a flash is created during a request, then it can be used in a subsequent request (of the same session), after which it dies.</p>
 <p>Flash messages are useful in cases when a POST/Redirect to GET pattern is used.</p>
 <h2 id="working-with-flash-message">Working with flash message</h2>
 <p>Flash messages are created in controllers (or filters) like so:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java">@POST
+<pre class="sourceCode java"><code class="sourceCode java">@POST
 <span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(){
     Book book = <span class="kw">new</span> Book();
     book.<span class="fu">fromMap</span>(<span class="fu">params1st</span>());
@@ -33,7 +33,7 @@
         <span class="fu">flash</span>(<span class="st">&quot;message&quot;</span>, <span class="st">&quot;New book was added: &quot;</span> + book.<span class="fu">get</span>(<span class="st">&quot;title&quot;</span>));
         <span class="fu">redirect</span>(BooksController.<span class="fu">class</span>);
     }
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>In a code of controller above, a new book is submitted in a POST request.</p>
 <ul>
 <li><p>Line 5 is making attempt to save the book information to DB.</p></li>
@@ -49,27 +49,17 @@
 <p>In general, POST/Redirect to GET is a good programming pattern to use in case you need &quot;destructive&quot; operations. Leaving a user on a POSTed page is a bad idea, because the same request can be re-submitted if user presses Reload.</p>
 <h2 id="rendering-flashtag-with-body">Rendering FlashTag with body</h2>
 <p>If you need to display a more complex HTML than a simple string, you can do so by placing a flash tag with body on the page:</p>
-<table class="sourceCode html numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-</pre></td><td class="sourceCode"><pre><code class="sourceCode html"><span class="er">&lt;</span>@flash&gt;
+<pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@flash&gt;
  <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;warning&quot;</span><span class="kw">&gt;</span>${message}<span class="kw">&lt;/div&gt;</span>
-<span class="er">&lt;</span>/@flash&gt;</code></pre></td></tr></table>
+<span class="er">&lt;</span>/@flash&gt;</code></pre>
 <p>and calling a single argument method inside the controller:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java">@POST
+<pre class="sourceCode java"><code class="sourceCode java">@POST
 <span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(){
 <span class="co">//.. code before</span>
     <span class="fu">view</span>(<span class="st">&quot;message&quot;</span>, <span class="st">&quot;Your changes have been saved successfully&quot;</span>);
-    <span class="fu">flash</span>();
+    <span class="fu">flash</span>(<span class="st">&quot;warning&quot;</span>);
 <span class="co">//.. code after</span>
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>The body inside the flash tag lives by the same rules as any other in the template. You can use variables, FreeMarker syntax, lists or even partials:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@flash&gt;
 <span class="er">&lt;</span>@render partial=&quot;message&quot;/&gt;

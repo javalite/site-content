@@ -1,8 +1,12 @@
-Flash tag| <a href="/activeweb">ActiveWeb</a>,Flash tag
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Flash tag</li>
+</ol>
+<div class=page-header>
+   <h1>Flash tag <small></small></h1>
+</div>
 
-# Flash tag
-
-<div id="toc"></div>
 
 Flash is a concept which does not exist in standard Java API, but is very useful in web applications. Flash is a snippet
 of HTML whose life cycle is limited by the next HTTP request. In other words, a flash is created during a request, then
@@ -14,7 +18,7 @@ Flash messages are useful in cases when a POST/Redirect to GET pattern is used.
 
 Flash messages are created in controllers (or filters) like so:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 @POST
 public void create(){
     Book book = new Book();
@@ -60,11 +64,12 @@ In general, POST/Redirect to GET is a good programming pattern to use in case yo
 Leaving a user on a POSTed page is a bad idea, because the same request can be re-submitted if user presses Reload.
 
 
+
 ## Rendering FlashTag with body
 
 If you need to display a more complex HTML than a simple string, you can do so by placing a flash tag with body on the page: 
 
-~~~~ {.html .numberLines .sp-code-number}
+~~~~ {.html  }
 <@flash>
  <div class="warning">${message}</div>
 </@flash>
@@ -72,12 +77,12 @@ If you need to display a more complex HTML than a simple string, you can do so b
 
 and calling a single argument method inside the controller: 
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 @POST
 public void create(){
 //.. code before
     view("message", "Your changes have been saved successfully");
-    flash();
+    flash("warning");
 //.. code after
 }
 ~~~~

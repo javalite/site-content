@@ -1,8 +1,14 @@
-ActiveJDBC - Eclipse Integration| <a href="/activejdbc">ActiveJDBC</a>, Eclipse Integration
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Eclipseintegration</li>
+</ol>
+<div class=page-header>
+   <h1>Eclipseintegration <small></small></h1>
+</div>
 
-# Eclipse Integration
 
-<div id="toc"></div>
+
 
 
 As a general rule of thumb, instrumentation needs to be performed in case you run a program or a test that will execute ActiveJDBC models.
@@ -55,8 +61,8 @@ and observe output similar to this:
 ```
 **************************** START INSTRUMENTATION ****************************
 Directory: /home/igor/tmp/simple-example/target/classes
-Found model: activejdbc.examples.simple.Employee
-Instrumented class: activejdbc.examples.simple.Employee in directory: /home/igor/tmp/simple-example/target/classes/
+Found model: org.javalite.activejdbc.examples.simple.Employee
+Instrumented class: org.javalite.activejdbc.examples.simple.Employee in directory: /home/igor/tmp/simple-example/target/classes/
 **************************** END INSTRUMENTATION ****************************
 ```
 

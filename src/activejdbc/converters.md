@@ -1,8 +1,14 @@
-Converters | <a href="/activejdbc">ActiveJDBC</a>,Converters
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Converters</li>
+</ol>
+<div class=page-header>
+   <h1>Converters <small></small></h1>
+</div>
 
-# Converters
 
-<div id="toc"></div>
+
 
 Converters can convert an attribute from one type to another. They are very similar to
 [Validations](validations) in logic and are declared the same way inside a static block of a class.

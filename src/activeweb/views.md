@@ -1,8 +1,12 @@
-ActiveWeb Views| <a href="/activeweb">ActiveWeb</a>,Views
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Views</li>
+</ol>
+<div class=page-header>
+   <h1>Views <small></small></h1>
+</div>
 
-# Views
-
-<div id="toc"></div>
 
 Views in ActiveWeb are also called templates. They are located in the following directory:
 
@@ -12,9 +16,8 @@ src/main/webapp/WEB-INF/views
 
 ## No JSPs
 
-ActiveWeb does not use JSPs. The main reason for not using JSPs is inability to test generated HTML with JSPs in a
-test environment.
-
+ActiveWeb does not use JSPs. The main reason for not using JSPs is thir inability to test generated HTML with JSPs in a
+test environment. For more on testing, see ... [Generating views in tests](testing#generating-views-during-testing).
 
 ## ActiveWeb uses FreeMarker
 
@@ -91,7 +94,7 @@ src/main/webapp/WEB-INF/views/layouts/default_layout.ftl
 Default layout is used by default to wrap any page generated as a result of controller execution. The content of the
 `default_layout.ftl` from a startup project looks like this (few lines omitted for clarity):
 
-~~~~ {.html .numberLines .sp-code-number}
+~~~~ {.html  }
 <title>ActiveWeb - <@yield to="title"/></title>
 <div class="main">
     <#include "header.ftl" >

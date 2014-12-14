@@ -1,8 +1,13 @@
-Limit and sort | <a href="/activejdbc">ActiveJDBC</a>, Limit and sort
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Limit and sort</li>
+</ol>
+<div class=page-header>
+   <h1>Limit and sort <small></small></h1>
+</div>
 
-# Limit and sort
 
-<div id="toc"></div>
 
 Sometimes, you only need a few records to page through a resultset. This style of data usage is usually found in web applications.
 An example could be paging through a catalog of products.

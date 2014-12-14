@@ -1,8 +1,13 @@
-Dependency injection | <a href="/activeweb">ActiveWeb</a>,Dependency injection
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Dependency injection</li>
+</ol>
+<div class=page-header>
+   <h1>Dependency injection <small></small></h1>
+</div>
 
-# Dependency injection
 
-<div id="toc"></div>
 
 Dependency injection is an integral part of a typical Java application. ActiveWeb supports seamless integration
 with [Google Guice](http://code.google.com/p/google-guice/).
@@ -60,7 +65,7 @@ The `Guice.createInjector(..)` takes a varargs, meaning you can inject multiple 
 
 Whenever you need a service inside a controller, you will use an `@Inject` annotation provided by Google Guice:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 public class HelloController extends AppController {
  @Inject
  private Greeter greeter;
@@ -120,7 +125,7 @@ public class GreeterMockModule extends AbstractModule {
 
 Once we have this done, we can inject the mock module during the test of a controller:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
  public class HelloControllerSpec extends ControllerSpec {
      @Before
      public void before(){

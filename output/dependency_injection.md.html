@@ -1,6 +1,21 @@
-<p>Dependency injection | <a href="/activeweb">ActiveWeb</a>,Dependency injection</p>
-<h1 id="dependency-injection">Dependency injection</h1>
-<div id="toc"></div>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activeweb>ActiveWeb</a>
+</li>
+   <li class=active>
+Dependency injection
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Dependency injection <small></small>
+</h1>
+</div>
+
+
 
 <p>Dependency injection is an integral part of a typical Java application. ActiveWeb supports seamless integration with <a href="http://code.google.com/p/google-guice/">Google Guice</a>.</p>
 <p>At the heart of a Google Guice DI, there is a concept of a module.</p>
@@ -32,20 +47,13 @@
 <p>The <code>Guice.createInjector(..)</code> takes a varargs, meaning you can inject multiple modules at once.</p>
 <h2 id="consumption-of-injected-dependencies">Consumption of injected dependencies</h2>
 <p>Whenever you need a service inside a controller, you will use an <code>@Inject</code> annotation provided by Google Guice:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloController <span class="kw">extends</span> AppController {
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloController <span class="kw">extends</span> AppController {
  @Inject
  <span class="kw">private</span> Greeter greeter;
  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
      <span class="fu">view</span>(<span class="st">&quot;message&quot;</span>, greeter.<span class="fu">greet</span>());
  }
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>The <code>greeter</code> (line 3) method is set by the framework and injected an instance of a <code>GreeterImpl</code> into the <code>HelloController</code> controller just before it executes an action. Once the controller has a reference to the service, it can consume it (line 5).</p>
 <p>Where can you inject dependencies this way? There are three general application components that are injected dependencies:</p>
 <ul>
@@ -81,18 +89,7 @@
     }
 }</code></pre>
 <p>Once we have this done, we can inject the mock module during the test of a controller:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"> <span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
+<pre class="sourceCode java"><code class="sourceCode java"> <span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
      @Before
      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">before</span>(){
          <span class="fu">setInjector</span>(Guice.<span class="fu">createInjector</span>(<span class="kw">new</span> <span class="fu">GreeterMockModule</span>()));
@@ -102,7 +99,7 @@
          <span class="fu">request</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
          <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello from class app.services.GreeterMock&quot;</span>);
      }
- }</code></pre></td></tr></table>
+ }</code></pre>
 <p>Lets examine this test line by line:</p>
 <ul>
 <li>Line 4 - this is where we tell the test scaffolding which module to use, and we chose a mock module</li>

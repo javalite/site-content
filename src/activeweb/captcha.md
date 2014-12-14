@@ -1,8 +1,11 @@
-Captcha| <a href="/activeweb">ActiveWeb</a>,Captcha
-
-<div id="toc"></div>
-
-# Captcha
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Captcha</li>
+</ol>
+<div class=page-header>
+   <h1>Captcha <small></small></h1>
+</div>
 
 [Captcha](http://en.wikipedia.org/wiki/CAPTCHA) is often used in dynamic websites to protect from bots. ActiveWeb
 has Captcha built-in and does not depend on any third party library for it.
@@ -12,7 +15,7 @@ has Captcha built-in and does not depend on any third party library for it.
 
 Here is an example of a CaptchaController:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 public class CaptchaController extends AppController {
     public void index() throws IOException {
         String captchaText = Captcha.generateText();

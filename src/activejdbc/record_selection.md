@@ -1,8 +1,13 @@
-Record selection | <a href="/activejdbc">ActiveJDBC</a>,Record selection
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Record selection</li>
+</ol>
+<div class=page-header>
+   <h1>Record selection <small></small></h1>
+</div>
 
-# Record selection
 
-<div id="toc"></div>
 
 ## Writing a Model
 

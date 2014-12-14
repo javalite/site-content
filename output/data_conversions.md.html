@@ -1,6 +1,22 @@
-<p>Data conversions| <a href="/activejdbc">ActiveJDBC</a>, Data conversions</p>
-<h1 id="data-conversions">Data conversions</h1>
-<div id="toc"></div>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Data conversions
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Data conversions <small></small>
+</h1>
+</div>
+
+
+
 
 <h2 id="pass-through-framework">Pass-through framework</h2>
 <p>ActiveJDBC is a <em>pass-through framework</em>. This means that for the most part, it does not attempt to convert data types and relies on the underlying driver for most data conversions during read and write operations. Most database drivers do a great deal of conversion</p>
@@ -10,8 +26,7 @@
 </ul>
 <h2 id="how-to-see-mapped-type">How to see mapped type</h2>
 <p>This is pretty easy, insert a record into a table using standard DBMS tools, and then query it like this:</p>
-<pre class="sourceCode java"><code class="sourceCode java">
-Person p = Person.<span class="fu">findAll</span>().<span class="fu">get</span>(<span class="dv">0</span>);
+<pre class="sourceCode java"><code class="sourceCode java">Person p = Person.<span class="fu">findAll</span>().<span class="fu">get</span>(<span class="dv">0</span>);
 System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;DOB type: &quot;</span> + p.<span class="fu">get</span>(<span class="st">&quot;dob&quot;</span>).<span class="fu">getClass</span>());</code></pre>
 <h2 id="convenience-conversion-methods">Convenience conversion methods</h2>
 <p>ActiveJDBC provides a number of getter methods for conversion. Most conversions use the underlying <a href="http://javalite.github.io/activejdbc/org/javalite/common/Convert.html">Convert</a> class. Here are some examples:</p>
@@ -42,7 +57,7 @@ p.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <sp
 p.<span class="fu">set</span>(<span class="st">&quot;dob&quot;</span>, <span class="dv">1</span>); <span class="co">// ===&gt;&gt;  this is wrong type for DOB field</span>
 p.<span class="fu">saveIt</span>();</code></pre>
 <p>you are going to get an exception from the DBMS itself, if it cannot convert the type:</p>
-<pre class="sourceCode java"><code class="sourceCode java">activejdbc.<span class="fu">DBException</span>: com.<span class="fu">mysql</span>.<span class="fu">jdbc</span>.<span class="fu">MysqlDataTruncation</span>: Data truncation: Incorrect date value: &#39;<span class="dv">1</span>&#39; <span class="kw">for</span> column &#39;dob&#39; at row <span class="dv">1</span>, Query: INSERT INTO <span class="fu">students</span> (first_name, dob, last_name) <span class="fu">VALUES</span> (?, ?, ?), params: John,<span class="dv">1</span>,Doe
+<pre class="sourceCode java"><code class="sourceCode java">org.<span class="fu">javalite</span>.<span class="fu">activejdbc</span>.<span class="fu">DBException</span>: com.<span class="fu">mysql</span>.<span class="fu">jdbc</span>.<span class="fu">MysqlDataTruncation</span>: Data truncation: Incorrect date value: &#39;<span class="dv">1</span>&#39; <span class="kw">for</span> column &#39;dob&#39; at row <span class="dv">1</span>, Query: INSERT INTO <span class="fu">students</span> (first_name, dob, last_name) <span class="fu">VALUES</span> (?, ?, ?), params: John,<span class="dv">1</span>,Doe
     at com.<span class="fu">mysql</span>.<span class="fu">jdbc</span>.<span class="fu">MysqlIO</span>.<span class="fu">checkErrorPacket</span>(MysqlIO.<span class="fu">java</span>:<span class="dv">2868</span>)
     at com.<span class="fu">mysql</span>.<span class="fu">jdbc</span>.<span class="fu">MysqlIO</span>.<span class="fu">sendCommand</span>(MysqlIO.<span class="fu">java</span>:<span class="dv">1573</span>)
     at com.<span class="fu">mysql</span>.<span class="fu">jdbc</span>.<span class="fu">ServerPreparedStatement</span>.<span class="fu">serverExecute</span>(ServerPreparedStatement.<span class="fu">java</span>:<span class="dv">1169</span>)

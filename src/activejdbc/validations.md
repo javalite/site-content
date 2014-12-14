@@ -1,8 +1,13 @@
-Validation framework | <a href="/activejdbc">ActiveJDBC</a>,Validations
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Validations</li>
+</ol>
+<div class=page-header>
+   <h1>Validations <small></small></h1>
+</div>
 
-# Validations
 
-<div id="toc"></div>
 
 ActiveJDBC has a validation framework that is somewhat reminiscent of ActiveRecord validation.
 The validation rules in ActiveJDBC are described in a model definition in a declarative way.

@@ -1,8 +1,11 @@
-Request routing| <a href="/activeweb">ActiveWeb</a>,Request routing
-
-<div id="toc"></div>
-
-# Request routing
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Routing</li>
+</ol>
+<div class=page-header>
+   <h1>Routing <small></small></h1>
+</div>
 
 Routing in ActiveWeb is an act of matching an incoming request URL to a controller and action. Current implementation
 supports built-in standard routing, built-in REST - based routing as well as custom routing.

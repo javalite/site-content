@@ -1,8 +1,13 @@
-Lazy and eager| <a href="/activejdbc">ActiveJDBC</a>,Lazy and eager
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Lazy and eager</li>
+</ol>
+<div class=page-header>
+   <h1>Lazy and eager <small></small></h1>
+</div>
 
-# Lazy and eager (lazy by default)
 
-<div id="toc"></div>
 
 ActiveJDBC is lazy by default. In this sense, it has semantics closer to ActiveRecord than Hibernate.
 
@@ -10,7 +15,7 @@ ActiveJDBC is lazy by default. In this sense, it has semantics closer to ActiveR
 
 In a code like this:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 List<User> users = User.findAll(); // or User.where(".. query here");
 for(User u: users){
     System.out.println(u);
@@ -25,7 +30,7 @@ Despite what it looks, the line 1. is not when the framework makes a call to the
 
 In fact, in this example:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 List<Employee> people = Employee.where("department = ? and hire_date > ? ", "IT", hireDate)
     .offset(21)
     .limit(10)
@@ -61,7 +66,7 @@ DB as many times as this getter is called.
 
 Let's consider an example where an ORM could unexpectedly generate a huge number of inefficient queries:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 List<Address> addresses = Address.findAll();
 
 for(Address address: addresses){
@@ -111,7 +116,7 @@ see if eager loading is improving or degrading performance.
 When a model with included children is converted to a map, all the dependencies are converted to maps and inserted
 into a parent model map too. Here is an example:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 LazyList<User> users = User.findAll().include(Address.class);
 List<Map> maps = users.toMaps();
 

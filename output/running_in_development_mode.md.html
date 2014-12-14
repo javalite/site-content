@@ -1,7 +1,20 @@
-<p>Development mode| <a href="/activeweb">ActiveWeb</a>,Development mode</p>
-<div id="toc"></div>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activeweb>ActiveWeb</a>
+</li>
+   <li class=active>
+Running in development mode
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Running in development mode <small></small>
+</h1>
+</div>
 
-<h1 id="development-mode">Development mode</h1>
 <p>ActiveWeb will recompile and reload routes and controllers on each request in development environment. It makes it possible to experiment with controllers, pages and routes in a live application without having to restart the container. Watch the video on the <a href="activeweb">ActiveWeb</a> for an example. All that is required is a system property <code>active_reload</code> to be set.</p>
 <p>Since production environments do not have compiler, or <code>active_reload</code> system property, the framework simply executes previously compiled and packaged controllers and routes.</p>
 <h2 id="jetty-configuration">Jetty configuration</h2>

@@ -1,8 +1,13 @@
-Controller filters| <a href="/activeweb">ActiveWeb</a>,Controller filters
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Controller filters</li>
+</ol>
+<div class=page-header>
+   <h1>Controller filters <small></small></h1>
+</div>
 
-# Controller filters
 
-<div id="toc"></div>
 
 Controller filters are similar to that of Servlet filters, but designed to wrap execution of controllers.
 They can be used for many tasks that need to trigger before and after execution of a controller, such as login in,

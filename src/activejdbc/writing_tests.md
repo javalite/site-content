@@ -1,8 +1,15 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Writing tests</li>
+</ol>
+<div class=page-header>
+   <h1>Writing tests <small></small></h1>
+</div>
 ActiveJDBC - Writing tests| <a href="/activejdbc">ActiveJDBC</a>, Writing tests
 
-# Writing tests
 
-<div id="toc"></div>
+
 
 While you can use any Java technology to do this, JavaLite provides a combination of [JUnit](http://junit.org/) and
 [JSpec](jspec). Test methods are written in a style where a name of a method is a phrase reflecting the
@@ -24,7 +31,7 @@ public class Person extends Model{}
 
 Usually, at this point it is time to write a test:
 
-~~~~ {.java  .numberLines .sp-code-number}
+~~~~ {.java   }
 public class PersonSpec{
   @Test
   public void shouldValidatePresenceOfFirstNameAndLastName(){
@@ -48,7 +55,7 @@ When you re-run test, it will pass.
 
 At this point, we need to add values for first and last name, as well as an expectation of a valid state of the model:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 public class PersonSpec{
   @Test
   public void shouldValidatePresenceOfFirstNameAndLastName(){
@@ -73,7 +80,7 @@ complete to satisfy it.
 In a real scenario, you would also need to open a database connection before the test and close it after the test.
 This provides an example of a real working test from one of the example projects:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 @Test
 public void shouldValidateMandatoryFields(){
     Employee employee = new Employee();

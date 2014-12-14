@@ -1,8 +1,13 @@
-5 minute guide to ActiveWeb| <a href="/activeweb">ActiveWeb</a>,5 minute guide to ActiveWeb
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>5 minute guide to activeweb</li>
+</ol>
+<div class=page-header>
+   <h1>5 minute guide to ActiveWeb <small></small></h1>
+</div>
 
-# 5 minute guide to ActiveWeb
 
-<div id="toc"></div>
 
 At the heart of an ActiveWeb application is a controller. A controller is a component whose role is to accept and process
 an HTTP request. This is similar to a Servlet, or a controller class other web frameworks.

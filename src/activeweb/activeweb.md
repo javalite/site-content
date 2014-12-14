@@ -1,8 +1,14 @@
-ActiveWeb - Java Web Framework for rapid development| ActiveWeb
-
-# ActiveWeb
-
-<div id="generated-toc"></div>
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Activeweb</li>
+</ol>
+<div class=page-header>
+   <h1>Activeweb <small>Full stack web framework</small></h1>
+   <p>
+   Provides everything you need for building a modern dynamic web application or a REST-ful web service.
+   </p>
+</div>
 
 ## Design principles
 *  **Convention over configuration** - zero configuration is required to develop ActiveWeb applications, and some conventions are overridable.
@@ -42,11 +48,14 @@ ActiveWeb - Java Web Framework for rapid development| ActiveWeb
 * [Captcha](captcha)
 * [Application context](app_context)
 * [Less compiler](lessc)
-
+* [Deploying to Heroku](deploying_to_heroku)
+* [Developing on a Mac](mac_osx)
 
 
 ## 5 minute video to understand ActiveWeb
-Watch a quick video on Youtube that demonstrates ActiveWeb's ability to add code to the application dynamically, at run time
+
+Watch a quick video on Youtube that demonstrates ActiveWeb's ability to add code to the application
+dynamically, at run time
 
 <iframe width="425" height="344" frameborder="0" src="http://www.youtube.com/embed/YX1TAtuSqQE"></iframe>
 
@@ -54,7 +63,7 @@ Direct link to video on Youtube: [http://www.youtube.com/watch?v=YX1TAtuSqQE](ht
 
 ## Quick guide to ActiveWeb
 
-To get a quick idea on what this is about, see [Five Minute Guide To ActiveWeb](five_minutes_guide_to_activeweb)
+To get a quick idea on what this is about, see [Five Minute Guide To ActiveWeb](five_minute_guide_to_activeweb)
 
 ## How to download
 

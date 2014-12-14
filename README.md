@@ -1,10 +1,16 @@
-# Getting Started
+# Content for the [JavaLite](http://javalite.io) site.
 
-We are going to compile markdown file using pandoc tool, so you need to install it first:
+## Getting Started
 
-`sudo apt-get install pandoc`
+Install pandoc first:
 
-# Build
+```
+sudo apt-get install pandoc
+```
 
-Run build.sh
+## Build
+
+```
+./build.sh
+```
 

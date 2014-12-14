@@ -1,21 +1,31 @@
-<p>Database connection management| <a href="/activejdbc">ActiveJDBC</a>, Database connection management</p>
-<h1 id="database-connection-management">Database connection management</h1>
-<div id="toc"></div>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Database connection management
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Database connection management <small></small>
+</h1>
+</div>
+
+
 
 <p>ActiveJDBC provides two classes for connection management: <a href="http://javalite.github.io/activejdbc/org/javalite/activejdbc/Base.html">Base.java</a> and <a href="http://javalite.github.io/activejdbc/org/javalite/activejdbc/DB.html">DB.java</a>.</p>
 <h2 id="thread-connection-propagation">Thread connection propagation</h2>
 <p>ActiveJDBC models when operate, utilize a connection found on a current thread. This connection is put on the local thread by Base or DB class before any DB operation. This approach allows for more concise API where there is no need for DB Session or persistent managers as in other Java ORMs.</p>
 <p>Here is a simple program:</p>
-<table class="sourceCode java numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(String[] args) {
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(String[] args) {
    Base.<span class="fu">open</span>(<span class="st">&quot;com.mysql.jdbc.Driver&quot;</span>, <span class="st">&quot;jdbc:mysql://localhost/test&quot;</span>, <span class="st">&quot;the_user&quot;</span>, <span class="st">&quot;the_password&quot;</span>);
    Employee.<span class="fu">findAll</span>().<span class="fu">dump</span>();
    Base.<span class="fu">close</span>();
-}</code></pre></td></tr></table>
+}</code></pre>
 <p>On line 2, class Base will open a new connection and attach it to the current thread. This connection will also be marked with name &quot;default&quot;.</p>
 <p>On line 3, connection is looked up from the thread and used by the model(and result dumped to STDIO)</p>
 <p>On line 4, connection is closed and cleared from thread.</p>

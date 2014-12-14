@@ -1,12 +1,16 @@
-ActiveJDBC - Netbeans Integration| <a href="/activejdbc">ActiveJDBC</a>, Netbeans Integration
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Netbeansintegration</li>
+</ol>
+<div class=page-header>
+   <h1>Netbeansintegration <small></small></h1>
+</div>
 
-# Netbeans Integration
 
-<div id="toc"></div>
 
 For general questions, refer to [Instrumentation](instrumentation) page.
 
-# Steps for configuration
 
 * Create new Netbeans project
 * Add dependent libraries:

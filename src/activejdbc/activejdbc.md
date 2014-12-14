@@ -1,7 +1,10 @@
-ActiveJDBC - Fast Java ORM| ActiveJDBC
-
-# ActiveJDBC - Fast Java ORM
-
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li class=active>ActiveJDBC</li>
+</ol>
+<div class=page-header>
+   <h1>ActiveJDBC <small>Fast ORM for agile development</small></h1>
+</div>
 
 ## Design principles
 
@@ -83,7 +86,6 @@ Here is [JavaDoc for ActiveJDBC](http://javalite.github.io/activejdbc/)
 * [Intellij Idea Integration ](intellij_idea_integration)
 * [IDE Integrations](ide_integrations)
 * [IN Clause](in_clause)
-* [FAQ](faq)
 </div>
 
 
@@ -197,13 +199,12 @@ Currently the following databases are supported:
 
 * SQLServer
 * MySQL
-* Oracle 
+* Oracle
 * PostgreSQL
 * H2
 * SQLite3 (currently only [blob support is not working](https://github.com/javalite/activejdbc/issues/306) )
 
 Adding a new dialect is relatively easy. Just look at commits on this branch: [h2integration](https://github.com/javalite/activejdbc/tree/h2integration)
-
 
 ## Getting the latest version
 

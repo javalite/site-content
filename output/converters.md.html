@@ -1,6 +1,22 @@
-<p>Converters | <a href="/activejdbc">ActiveJDBC</a>,Converters</p>
-<h1 id="converters">Converters</h1>
-<div id="toc"></div>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Converters
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Converters <small></small>
+</h1>
+</div>
+
+
+
 
 <p>Converters can convert an attribute from one type to another. They are very similar to <a href="validations">Validations</a> in logic and are declared the same way inside a static block of a class. Currently there are two converters available: date converter and time stamp converter. Both allow setting an attribute value in a form of a string with appropriate format.</p>
 <p>Converters trigger like validators, during validate(), save() and saveIt() methods, and are in fact validators. If a converter cannot convert from one type to another, it will add an appropriate message to the <code>model.errors()</code> collection.</p>

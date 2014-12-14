@@ -1,8 +1,14 @@
-Caching | <a href="/activejdbc">ActiveJDBC</a>,Caching
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Caching</li>
+</ol>
+<div class=page-header>
+   <h1>Caching <small></small></h1>
+</div>
 
-# Caching
 
-<div id="toc"></div>
+
 
 
 Caching is an integral part of every major system, It improves performance, reduces IO and makes overall user
@@ -45,7 +51,6 @@ This file will have to be on the root of classpath. Here is one example:
 #inside file: activejdbc.properties
 #or EHCache:
 cache.manager=org.javalite.activejdbc.cache.EHCacheManager
-# use OSCache
 #cache.manager=org.javalite.activejdbc.cache.OSCacheManager
 ~~~~
 

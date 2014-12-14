@@ -1,6 +1,22 @@
-<p>Caching | <a href="/activejdbc">ActiveJDBC</a>,Caching</p>
-<h1 id="caching">Caching</h1>
-<div id="toc"></div>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Caching
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Caching <small></small>
+</h1>
+</div>
+
+
+
 
 
 <p>Caching is an integral part of every major system, It improves performance, reduces IO and makes overall user experience more pleasurable. Caching in ActiveJDBC works on the level of query and creation of model instances. For instance, the call:</p>
@@ -23,7 +39,6 @@
 <pre class="prettyprint"><code>#inside file: activejdbc.properties
 #or EHCache:
 cache.manager=org.javalite.activejdbc.cache.EHCacheManager
-# use OSCache
 #cache.manager=org.javalite.activejdbc.cache.OSCacheManager</code></pre>
 <p>Here two things happen: 1. Cache in general is enabled (it is not enabled even if you have @Cached annotations on classes), and 2. AJ will be using EHCacheManager as implementation of cache.</p>
 <h2 id="automatic-cache-purging">Automatic cache purging</h2>

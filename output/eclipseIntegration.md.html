@@ -1,6 +1,22 @@
-<p>ActiveJDBC - Eclipse Integration| <a href="/activejdbc">ActiveJDBC</a>, Eclipse Integration</p>
-<h1 id="eclipse-integration">Eclipse Integration</h1>
-<div id="toc"></div>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Eclipseintegration
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Eclipseintegration <small></small>
+</h1>
+</div>
+
+
+
 
 
 <p>As a general rule of thumb, instrumentation needs to be performed in case you run a program or a test that will execute ActiveJDBC models. See <a href="instrumentation">Instrumentation</a> for more detail. Basically Instrumentation adds special byte code instructions for ActiveJDBC top operate properly. Since Eclipse automatically recompiles classes each time you make modifications and save, it can blow away instrumented ActiveJDBC classes and replace them with just compiled versions (non-instrumented).</p>
@@ -19,8 +35,8 @@
 <p>and observe output similar to this:</p>
 <pre><code>**************************** START INSTRUMENTATION ****************************
 Directory: /home/igor/tmp/simple-example/target/classes
-Found model: activejdbc.examples.simple.Employee
-Instrumented class: activejdbc.examples.simple.Employee in directory: /home/igor/tmp/simple-example/target/classes/
+Found model: org.javalite.activejdbc.examples.simple.Employee
+Instrumented class: org.javalite.activejdbc.examples.simple.Employee in directory: /home/igor/tmp/simple-example/target/classes/
 **************************** END INSTRUMENTATION ****************************</code></pre>
 <p>If you see this output, everything is fine.</p>
 <h2 id="configure-eclipse-builder">Configure Eclipse builder</h2>

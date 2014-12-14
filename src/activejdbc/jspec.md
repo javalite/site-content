@@ -1,8 +1,13 @@
-JSpec| <a href="/activejdbc">ActiveJDBC</a>,JSpec
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Jspec</li>
+</ol>
+<div class=page-header>
+   <h1>Jspec <small></small></h1>
+</div>
 
-# JSpec
 
-<div id="toc"></div>
 
 
 This page describes functionality and usage of a small testing library called JSpec. JSpec was originated from ActiveJDBC
@@ -271,12 +276,16 @@ If they are the same, then the test fails. An example message:
 javalite.test.jspec.TestException: Objects: '1' and '1' are equal, but they should not be
 ~~~~
 
+~~~
+
 ## Using with other technologies
 
-JSpec is really a few classes, and as such can be used with any other testing technology. Sometimes people use it 
-outside tests, just to assert correct argument values passed into methods. 
+JSpec is really a few classes, and as such can be used with any other testing technology. Sometimes people use it
+outside tests, just to assert correct argument values passed into methods.
 
 Here is a good [Example of using JSpec and Cucumber](https://github.com/javalite/cucumber-jspec).
+
+
 
 ## Where to find
 
@@ -293,5 +302,4 @@ Adding it to your project is easy:
 ~~~~
 
 Releases and versions of JavaLite Common are on the same schedule as [ActiveJDBC](activejdbc).
-
 

@@ -1,11 +1,25 @@
-<p>ActiveWeb Views| <a href="/activeweb">ActiveWeb</a>,Views</p>
-<h1 id="views">Views</h1>
-<div id="toc"></div>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activeweb>ActiveWeb</a>
+</li>
+   <li class=active>
+Views
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Views <small></small>
+</h1>
+</div>
+
 
 <p>Views in ActiveWeb are also called templates. They are located in the following directory:</p>
 <pre class="prettyprint"><code>src/main/webapp/WEB-INF/views</code></pre>
 <h2 id="no-jsps">No JSPs</h2>
-<p>ActiveWeb does not use JSPs. The main reason for not using JSPs is inability to test generated HTML with JSPs in a test environment.</p>
+<p>ActiveWeb does not use JSPs. The main reason for not using JSPs is thir inability to test generated HTML with JSPs in a test environment. For more on testing, see ... <a href="testing#generating-views-during-testing">Generating views in tests</a>.</p>
 <h2 id="activeweb-uses-freemarker">ActiveWeb uses FreeMarker</h2>
 <p>ActiveWeb uses FreeMarker as a templating engine. Please see <a href="http://freemarker.org/">Freemarker</a> for more information.</p>
 <p>The framework provides a pluggable architecture that allows to integrate any other engine, such as Velocity, as long as it implements <a href="https://github.com/javalite/activeweb/blob/master/activeweb/src/main/java/org/javalite/activeweb/TemplateManager.java">TemplateManager</a> interface.</p>
@@ -35,22 +49,14 @@
 <p>A default layout is called <code>default_layout.ftl</code> and located in the layouts directory along with other template directories:</p>
 <pre class="prettyprint"><code>src/main/webapp/WEB-INF/views/layouts/default_layout.ftl</code></pre>
 <p>Default layout is used by default to wrap any page generated as a result of controller execution. The content of the <code>default_layout.ftl</code> from a startup project looks like this (few lines omitted for clarity):</p>
-<table class="sourceCode html numberLines sp-code-number"><tr class="sourceCode"><td class="lineNumbers"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="sourceCode"><pre><code class="sourceCode html"><span class="kw">&lt;title&gt;</span>ActiveWeb - <span class="er">&lt;</span>@yield to=&quot;title&quot;/&gt;<span class="kw">&lt;/title&gt;</span>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;title&gt;</span>ActiveWeb - <span class="er">&lt;</span>@yield to=&quot;title&quot;/&gt;<span class="kw">&lt;/title&gt;</span>
 <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;main&quot;</span><span class="kw">&gt;</span>
     <span class="er">&lt;</span>#include &quot;header.ftl&quot; &gt;
 <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;content&quot;</span><span class="kw">&gt;</span>
     ${page_content}
 <span class="kw">&lt;/div&gt;</span>
     <span class="er">&lt;</span>#include &quot;footer.ftl&quot; &gt;
-<span class="kw">&lt;/div&gt;</span></code></pre></td></tr></table>
+<span class="kw">&lt;/div&gt;</span></code></pre>
 <ul>
 <li><strong>Line 1</strong> has a <code>&lt;@yield</code> tag. For explanation, please see section below.</li>
 <li><strong>Line 3</strong> includes a <code>header.ftl</code>, which is another template with code for the top portion of your site. It is not strictly necessary, since you can copy all code from header directly into layout, but it is a good practice to keep it in a separate file.</li>

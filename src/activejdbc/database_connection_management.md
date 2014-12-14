@@ -1,8 +1,13 @@
-Database connection management| <a href="/activejdbc">ActiveJDBC</a>, Database connection management
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Database connection management</li>
+</ol>
+<div class=page-header>
+   <h1>Database connection management <small></small></h1>
+</div>
 
-# Database connection management
 
-<div id="toc"></div>
 
 ActiveJDBC provides two classes for connection management: [Base.java](http://javalite.github.io/activejdbc/org/javalite/activejdbc/Base.html)
 and [DB.java](http://javalite.github.io/activejdbc/org/javalite/activejdbc/DB.html).
@@ -15,7 +20,7 @@ managers as in other Java ORMs.
 
 Here is a simple program:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 public static void main(String[] args) {
    Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "the_user", "the_password");
    Employee.findAll().dump();

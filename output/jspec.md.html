@@ -1,6 +1,21 @@
-<p>JSpec| <a href="/activejdbc">ActiveJDBC</a>,JSpec</p>
-<h1 id="jspec">JSpec</h1>
-<div id="toc"></div>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Jspec
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Jspec <small></small>
+</h1>
+</div>
+
+
 
 
 <p>This page describes functionality and usage of a small testing library called JSpec. JSpec was originated from ActiveJDBC project and was inspired by RSpec.</p>
@@ -130,6 +145,7 @@ null == &lt;null&gt;</code></pre>
 });</code></pre>
 <p>In the code snippet above, the constructor of <code>DifferenceExpectation(..)</code> is passed an initial value, and the method <code>exec()</code> returns a final value. The initial and final are compared to be different at the end of a test. If they are the same, then the test fails. An example message:</p>
 <pre class="sourceCode bash"><code class="sourceCode bash">javalite.test.jspec.TestException: Objects: <span class="st">&#39;1&#39;</span> and <span class="st">&#39;1&#39;</span> are equal, but they should not be</code></pre>
+<p><sub>~</sub></p>
 <h2 id="using-with-other-technologies">Using with other technologies</h2>
 <p>JSpec is really a few classes, and as such can be used with any other testing technology. Sometimes people use it outside tests, just to assert correct argument values passed into methods.</p>
 <p>Here is a good <a href="https://github.com/javalite/cucumber-jspec">Example of using JSpec and Cucumber</a>.</p>

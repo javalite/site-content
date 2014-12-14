@@ -1,14 +1,16 @@
-Structure of ActiveWeb project| <a href="/activeweb">ActiveWeb</a>,Structure of ActiveWeb project
-
-# Structure of ActiveWeb project
-
-<div id="toc"></div>
-
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Structure of activeweb project</li>
+</ol>
+<div class=page-header>
+   <h1>Structure of ActiveWeb project <small></small></h1>
+</div>
 
 An ActiveWeb project a Maven project, therefore it has all the usual Maven conventions.
 However there are some specifics regarding ActiveWeb, which are discussed below. Here is a structure of a typical ActiveWeb project:
 
-![ActiveWeb project structure](images/aw-structure.png)
+![](images/aw-structure.png)
 
 ## Configuration
 

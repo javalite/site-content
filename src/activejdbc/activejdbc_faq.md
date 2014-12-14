@@ -1,42 +1,34 @@
-Title: ActiveJDBC FAQ
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Activejdbc faq</li>
+</ol>
+<div class=page-header>
+   <h1>Activejdbc faq <small></small></h1>
+</div>
 
--   [What the heck is instrumentation?](#What_the_heck_is_instrumentation_)
--   [How to integrate AJ projects into Netbeans?](#How_to_integrate_AJ_projects_into_Netbeans_)
--   [Does it support database pools?](#Does_it_support_database_pools_)
--   [How to use Instrumentation plugin with Eclipse?](#How_to_use_Instrumentation_plugin_with_Eclipse_)
--   [Does ActiveJDBC support SQL IN statement?](#Does_ActiveJDBC_support_SQL_IN_statement_)
 
-What the heck is instrumentation?
-=================================
 
-See this page: [Instrumentation](Instrumentation)
+## What the heck is instrumentation?
 
-How to integrate AJ projects into Netbeans?
-===========================================
+See this page: [Instrumentation](instrumentation)
 
-Look here: [NetbeansIntegration](NetbeansIntegration)
+## How to integrate ActiveJDBC projects into Netbeans?
 
-Does it support database pools?
-===============================
+Look here: [Netbeans Integration](netbeansIntegration)
 
-YES, please see here: [Database connection pools](http://code.google.com/p/activejdbc/wiki/DatabaseConnectionManagement#Database_connection_pools), and also see example of pool usage: [C3P0PoolTest](http://code.google.com/p/activejdbc/source/browse/trunk/activejdbc/src/test/java/activejdbc/C3P0PoolTest.java)
+## Does it support database pools?
 
-How to use Instrumentation plugin with Eclipse?
-===============================================
+Yes, please see here: [Database connection pools](database_connection_management#database-connection-pools)
 
-Please, take a look at this thread: https://groups.google.com/forum/?fromgroups=\#!searchin/activejdbc-group/eclipse/activejdbc-group/xQ5gUSnCalc/ZuuPrHsriuAJ
+## How to use Instrumentation plugin with Eclipse?
 
-Does ActiveJDBC support SQL IN statement?
-=========================================
+Please, see [Eclipse integration](eclipseIntegration)
 
-This is one not supported by JDBC: http://stackoverflow.com/questions/178479/preparedstatement-in-clause-alternatives
+## How to use Instrumentation plugin with IntelliJ IDEA?
 
-However, there are workaround alternatives, most of them centered around concatenating strings. Basically you need to construct a full query as string:
+Please, see [IntelliJ IDEA integration](intellij_idea_integration)
 
-` String sql = "name IN ('John', 'Hellen', 'Henry')";`
+## Does ActiveJDBC support SQL IN statement?
 
-To make this, you can do: ` String sql = String.format("name IN ('%s')", join(list("John", "Hellen", "Henry"), "', '"); long  count = Person.count(sql);`
-
-where `join()` method can be statically imported from: http://ipsolutionsdev.com/activejdbc/org/javalite/common/Util.html\#join%28java.util.Collection,%20java.lang.String%29
-
-and `list()` method can be statically imported from: http://ipsolutionsdev.com/activejdbc/org/javalite/common/Collections.html\#list%28T...%29 both of these classes are already on your classpath.
+Not directly, but you can see this page: [In Clause](in_clause)

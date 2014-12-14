@@ -1,6 +1,21 @@
-<p>Working with getters and setters | <a href="/activejdbc">ActiveJDBC</a>,Setters and getters</p>
-<h1 id="setters-and-getters">Setters and getters</h1>
-<div id="toc"></div>
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Setters and getters
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Setters and getters <small></small>
+</h1>
+</div>
+
+
 
 <p>Java development is all about getters and setters. Ever since the Java Beans framework introduced in 1997, this has become a blessing (and a plague some argue) in modern Java applications. ActiveJDBC does not require getters and setters for models. Since models already know all the allowable metadata from database at startup, they will perform validations of names of attributes.</p>
 <h2 id="built-in-getters-and-setters">Built in getters and setters</h2>
@@ -38,7 +53,7 @@ Timestamp dob = p.<span class="fu">getTimestamp</span>(<span class="st">&quot;do
 <pre class="sourceCode java"><code class="sourceCode java">Page p  = <span class="kw">new</span> <span class="fu">Page</span>();
 p.<span class="fu">set</span>(<span class="st">&quot;blah&quot;</span>, <span class="dv">1</span>);</code></pre>
 <p>The table PEOPLE does not have a column &quot;BLAH&quot;, and ActiveJDBC is conveniently telling me this:</p>
-<pre class="prettyprint"><code>java.lang.IllegalArgumentException: Attribute: &#39;blah&#39; is not defined in model: &#39;class activejdbc.test_models.Person and also, did not find an association by the same name, 
+<pre class="prettyprint"><code>java.lang.IllegalArgumentException: Attribute: &#39;blah&#39; is not defined in model: &#39;class org.javalite.activejdbc.test_models.Person and also, did not find an association by the same name,
 available attributes: [id, updated_at, graduation_date, dob, name, last_name, created_at]</code></pre>
 <p>From this message, I see that the allowed attributes are:</p>
 <pre class="prettyprint"><code>id, updated_at, graduation_date, dob, name, last_name, created_at</code></pre>

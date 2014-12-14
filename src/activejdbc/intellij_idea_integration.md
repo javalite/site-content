@@ -1,8 +1,13 @@
-ActiveJDBC - Intellij Idea Integration| <a href="/activejdbc">ActiveJDBC</a>, ActiveJDBC - Intellij Idea Integration
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Intellij idea integration</li>
+</ol>
+<div class=page-header>
+   <h1>Intellij idea integration <small></small></h1>
+</div>
 
-# ActiveJDBC - Intellij Idea Integration
 
-<div id="toc"></div>
 
 As a general rule of thumb, instrumentation needs to be performed in case you run a program or a test that will execute ActiveJDBC models.
 See [Instrumentation](instrumentation) for more detail. Instrumentation needs to execute after compile and before running your code.

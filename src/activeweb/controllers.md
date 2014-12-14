@@ -1,8 +1,13 @@
-ActiveWeb Controllers| <a href="/activeweb">ActiveWeb</a>,ActiveWeb controllers
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Controllers</li>
+</ol>
+<div class=page-header>
+   <h1>Controllers <small></small></h1>
+</div>
 
-# ActiveWeb controllers
 
-<div id="toc"></div>
 
 
 ## Introduction

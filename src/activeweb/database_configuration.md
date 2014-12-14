@@ -1,8 +1,13 @@
-ActiveWeb database configuration| <a href="/activeweb">ActiveWeb</a>,Database configuration
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Database configuration</li>
+</ol>
+<div class=page-header>
+   <h1>Database configuration <small></small></h1>
+</div>
 
-# ActiveWeb database configuration
 
-<div id="toc"></div>
 
 ActiveWeb *does not use* property files, XML, Yaml or any other text files for configuration. Configuration
 is done in Java code. There are a few advantages of this approach: auto-suggestions by IDE, documentation at
@@ -41,13 +46,13 @@ Having sa separate database for testing ensures safety of data in the developmen
 
 ## Example configuration
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 public class DbConfig extends AbstractDBConfig {
     public void init(AppContext context) {
          environment("development").jndi("jdbc/kitchensink_development");
          environment("development").testing().jdbc("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/kitchensink_development", "root", "****");
          environment("jenkins").testing().jdbc("com.mysql.jdbc.Driver", "jdbc:mysql://172.30.64.31/kitchensink_jenkins", "root", "****");
-         environment("production").jndi("java:comp/env/jdbc/myproject_production");
+         environment("production").jndi("java:comp/env/jdbc/myproject_production);
     }
 }
 ~~~~

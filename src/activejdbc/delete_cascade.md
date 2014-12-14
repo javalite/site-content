@@ -1,8 +1,13 @@
-Delete/cascade| <a href="/activejdbc">ActiveJDBC</a>, Delete-cascade
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Delete cascade</li>
+</ol>
+<div class=page-header>
+   <h1>Delete cascade <small></small></h1>
+</div>
 
-# Delete-cascade
 
-<div id="toc"></div>
 
 ActiveJDBC provides two methods for deleting with cascade: `deleteCascade()` and `deleteCascadeShallow()`.
 

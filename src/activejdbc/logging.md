@@ -1,8 +1,14 @@
-Logging| <a href="/activejdbc">ActiveJDBC</a>,Logging
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Logging</li>
+</ol>
+<div class=page-header>
+   <h1>Logging <small></small></h1>
+</div>
 
-# Logging
 
-<div id="toc"></div>
+
 
 ActiveJDBC uses [SLF4J](http://www.slf4j.org/) logging facade. Please, refer to SLF4J documentation to see how to
 configure it with Log4J, Java Logging, Apache logging, etc.

@@ -1,8 +1,13 @@
-Polymorphic associations | <a href="/activejdbc">ActiveJDBC</a>,Polymorphic associations
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Polymorphic associations</li>
+</ol>
+<div class=page-header>
+   <h1>Polymorphic associations <small></small></h1>
+</div>
 
-# Polymorphic associations
 
-<div id="toc"></div>
 
 Polymorphic associations are used in cases when there are several one-to-many relationships that you could aggregate
 because for all the parents, the children are similar.

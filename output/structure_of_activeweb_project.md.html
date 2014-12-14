@@ -1,11 +1,23 @@
-<p>Structure of ActiveWeb project| <a href="/activeweb">ActiveWeb</a>,Structure of ActiveWeb project</p>
-<h1 id="structure-of-activeweb-project">Structure of ActiveWeb project</h1>
-<div id="toc"></div>
-
+<ol class=breadcrumb>
+   <li>
+<a href=/>Home</a>
+</li>
+   <li>
+<a href=/activeweb>ActiveWeb</a>
+</li>
+   <li class=active>
+Structure of activeweb project
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Structure of ActiveWeb project <small></small>
+</h1>
+</div>
 
 <p>An ActiveWeb project a Maven project, therefore it has all the usual Maven conventions. However there are some specifics regarding ActiveWeb, which are discussed below. Here is a structure of a typical ActiveWeb project:</p>
 <div class="figure">
-<img src="images/aw-structure.png" alt="ActiveWeb project structure" /><p class="caption">ActiveWeb project structure</p>
+<img src="images/aw-structure.png" /><p class="caption"></p>
 </div>
 <h2 id="configuration">Configuration</h2>
 <p>ActiveWeb uses Java code for configuration, instead of XML or other files. The picture above shows a package <code>app.config</code>. This package contains 2 - 3 classes responsible for configuration of AvtiveWeb project. In fact, it barely has any configuration. Most configuration of the application is dealing with configuring database connections. For more on configuration, see here: <a href="database_configuration">Database configuration</a></p>

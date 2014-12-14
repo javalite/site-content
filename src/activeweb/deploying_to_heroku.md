@@ -1,7 +1,11 @@
-Title: How to deploy and ActiveWeb app to Heroku
-
-Introduction
-============
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Deploying to heroku</li>
+</ol>
+<div class=page-header>
+   <h1>Deploying to heroku <small></small></h1>
+</div>
 
 This guide uses the ClearDB mysql service, but it could easily be adapted to the Heroku Postgres service.
 
@@ -19,8 +23,7 @@ SENDGRID_PASSWORD:    PPPPPPP
 SENDGRID_USERNAME:    UUUUUU@heroku.com
 ~~~~
 
-DATABASE\_URL
-=============
+## Database URL
 
 The recommended practice by Heroku is to have the full database url in an environment variable named DATABASE\_URL. By default ClearDB puts the URL in a different var (shown above) and you have to copy the value into a new var with this name. Try this to learn about setting up config vars
 
@@ -28,53 +31,40 @@ The recommended practice by Heroku is to have the full database url in an enviro
 heroku help config
 ~~~~
 
-At runtime
-==========
+## At runtime
 
 Your next task is to be able to read this variable at runtime. Here's a class and its spec for the Utility that I use to do so
 
-~~~~ {.prettyprint}
-
+~~~~ {.java}
 package app.utils;
-
 import org.junit.Test;
-
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 import static org.javalite.test.jspec.JSpec.the;
-
 /**
  * Created By
  * User: Evan Leonard
  * Date: 3/30/13
  */
 public class HerokuDbUrlParserSpec {
-
     private static String clear_db_url = "mysql://THE_USERNAME:THE_PASSWORD@us-cdbr-east-03.cleardb.com/heroku_759ea2a30074fe9?reconnect=true";
     //private static String test_db_url = "mysql://aw:awawaw@localhost/ayah_test?reconnect=true";
-
     @Test
     public void shouldParseUrl() throws URISyntaxException {
-
         Map<String, String> mockEnv = mockEnv();
         HerokuDbUrlParser herokuDbUrlParser = new HerokuDbUrlParser(mockEnv);
-
         Properties jdbcProperties = herokuDbUrlParser.getJdbcProperties();
         the(jdbcProperties.getProperty("driver")).shouldEqual("com.mysql.jdbc.Driver");
         the(jdbcProperties.getProperty("url")).shouldEqual("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_759ea2a30074fe9?reconnect=true");
         the(jdbcProperties.getProperty("user")).shouldEqual("THE_USERNAME");
         the(jdbcProperties.getProperty("password")).shouldEqual("THE_PASSWORD");
-
         the(herokuDbUrlParser.getDriver()).shouldEqual("com.mysql.jdbc.Driver");
         the(herokuDbUrlParser.getUrl()).shouldEqual("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_759ea2a30074fe9?reconnect=true");
         the(herokuDbUrlParser.getUser()).shouldEqual("THE_USERNAME");
         the(herokuDbUrlParser.getPassword()).shouldEqual("THE_PASSWORD");
-
     }
-
     private Map<String, String> mockEnv() {
         Map<String, String> mockEnv = new HashMap<String, String>();
         mockEnv.put("DATABASE_URL", clear_db_url);
@@ -85,19 +75,15 @@ public class HerokuDbUrlParserSpec {
 
 And the implementation:
 
-~~~~ {.prettyprint}
-
+~~~~ {.java}
 package app.utils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Properties;
-
 /**
  * Created By
  * User: evan
@@ -108,11 +94,8 @@ import java.util.Properties;
  * This class is parses that at runtime for ActiveWeb to use in DbConfig.java
  */
 public class HerokuDbUrlParser {
-
     private static final Logger logger = LoggerFactory.getLogger(HerokuDbUrlParser.class);
-
     public static final String DATABASE_URL = "DATABASE_URL";
-
     private boolean databaseUrlFound = false;
     private String driver;
     private String user;
@@ -137,7 +120,6 @@ public class HerokuDbUrlParser {
             driver = inferDriverClass(database_url);
             user = dbUri.getUserInfo().split(":")[0];
             password = dbUri.getUserInfo().split(":")[1];
-
             String authPart = user + ":" + password + "@";
             url = "jdbc:"+database_url.replace(authPart, "");
         } catch (URISyntaxException e) {
@@ -214,21 +196,24 @@ public class HerokuDbUrlParser {
 
 With that in place you call this use this method in your DbConfig with "production" and the jdbcProperties returned by the parser above to setup your ActiveJdbc connection
 
-~~~~ {.prettyprint}
- private void createConnection(String env, Properties jdbcProperties) {
-        String driver = jdbcProperties.getProperty("driver");
-        String url = jdbcProperties.getProperty("url");
-        environment(env).jdbc(driver, url, jdbcProperties);
-        environment(env).testing().jdbc(driver, url, jdbcProperties);
-    }
+~~~~ {.java}
+private void createConnection(String env, Properties jdbcProperties) {
+    String driver = jdbcProperties.getProperty("driver");
+    String url = jdbcProperties.getProperty("url");
+    environment(env).jdbc(driver, url, jdbcProperties);
+    environment(env).testing().jdbc(driver, url, jdbcProperties);
+}
 ~~~~
 
-Building on Heroku
-==================
+## Building on Heroku
 
-Heroku of course will try to build your app as soon as you push its git repo. It does a good job of detecting that its a java app and running maven. Where I ran into trouble was that I had configured my POM to do different things based on the value of the ACTIVE\_ENV environment variable. Even thought I could set a config var of that name, **config vars are not available at build time**
+Heroku of course will try to build your app as soon as you push its git repo. It does a good job of detecting that its
+a Java app and running maven. Where I ran into trouble was that I had configured my POM to do different things based on
+the value of the ACTIVE\_ENV environment variable. Even thought I could set a config var of that name,
+**config vars are not available at build time**
 
-The approach I found was to fork the heroku java build pack and hardcode -DACTIVE\_ENV=production into the java properties used to run maven. Here is the location of my forked buildpack:
+The approach I found was to fork the heroku java build pack and hardcode -DACTIVE\_ENV=production into the java
+properties used to run maven. Here is the location of my forked buildpack:
 
 ~~~~ {.prettyprint}
 https://github.com/evanleonard/heroku-buildpack-java
@@ -240,76 +225,79 @@ To have your app use it to if you want, you just set a config var like this:
 BUILDPACK_URL:        https://github.com/evanleonard/heroku-buildpack-java
 ~~~~
 
-**Note: after my first successful build I noticed that these config vars appeared. It may be possible to modify them to eliminate the need for this custom build pack. But I haven't tried to do this yet:WIKI PARSE WARNING: unterminated '\*'!**
+> Note: after my first successful build I noticed that these config vars appeared. It may be possible to modify
+them to eliminate the need for this custom build pack. But I haven't tried to do this yet.
 
 ~~~~ {.prettyprint}
 JAVA_OPTS:            -Xmx384m -Xss512k -XX:+UseCompressedOops
 MAVEN_OPTS:           -Xmx384m -Xss512k -XX:+UseCompressedOops
 ~~~~
 
-Disabling Tests
-===============
+## Disabling Tests
 
 Also had to disable running of Selenium tests in my POM.
 
 TODO
 
-Heroku SSL support
-==================
+## Heroku SSL support
 
-There's two things you need to do after you've enabled your SSL endpoint add-on in heroku. The first is to force traffic from regular http to https. This is easily done in a filter with methods like these
+There's two things you need to do after you've enabled your SSL endpoint add-on in heroku. The first is to force traffic
+from regular http to https. This is easily done in a filter with methods like these
 
-~~~~ {.prettyprint}
- /**
-     * http://stackoverflow.com/questions/7185074/heroku-nodejs-http-to-https-ssl-forced-redirect
-     */
-    private boolean isHttpsRequest() {
-        String header = header("x-forwarded-proto");
-        return header != null && header.equals("https");
-    }
-
-    private void redirectToHttps() {
-        flash(Constants.PJAX_FORCE_RELOAD, true);
-        StringBuilder newUrl = getHttpsUrl();
-        redirect(newUrl.toString());
-    }
+~~~~ {.java}
+/**
+ * http://stackoverflow.com/questions/7185074/heroku-nodejs-http-to-https-ssl-forced-redirect
+ */
+private boolean isHttpsRequest() {
+    String header = header("x-forwarded-proto");
+    return header != null && header.equals("https");
+}
+private void redirectToHttps() {
+    flash(Constants.PJAX_FORCE_RELOAD, true);
+    StringBuilder newUrl = getHttpsUrl();
+    redirect(newUrl.toString());
+}
 ~~~~
 
-The next is to rewrite incoming requests so they appear as though they came straight from the client, eventhough they've been routed through the SSL endpoint. The best way I found to do this was with the XForwardedFilter from Xebia. To enable put this in your pom:
+The next is to rewrite incoming requests so they appear as though they came straight from the client, eventhough they've
+been routed through the SSL endpoint. The best way I found to do this was with the XForwardedFilter from Xebia.
+To enable put this in your pom:
 
-~~~~ {.prettyprint}
-        <dependency>
-            <groupId>fr.xebia.web</groupId>
-            <artifactId>xebia-servlet-extras</artifactId>
-            <version>1.0.8</version>
-        </dependency>
+~~~~ {.xml}
+<dependency>
+    <groupId>fr.xebia.web</groupId>
+    <artifactId>xebia-servlet-extras</artifactId>
+    <version>1.0.8</version>
+</dependency>
 ~~~~
 
 and then add this to your web.xml above the dispatcher's filter-mapping:
 
-~~~~ {.prettyprint}
- <filter>
-        <filter-name>XForwardedFilter</filter-name>
-        <filter-class>fr.xebia.servlet.filter.XForwardedFilter</filter-class>
-        <init-param>
-            <param-name>protocolHeader</param-name>
-            <param-value>x-forwarded-proto</param-value>
-        </init-param>
-    </filter>
+~~~~ {.xml}
+<filter>
+    <filter-name>XForwardedFilter</filter-name>
+    <filter-class>fr.xebia.servlet.filter.XForwardedFilter</filter-class>
+    <init-param>
+        <param-name>protocolHeader</param-name>
+        <param-value>x-forwarded-proto</param-value>
+    </init-param>
+</filter>
 
-    <!-- This must be before the dispatcher so that it is executed first in the filter chain -->
-    <filter-mapping>
-        <filter-name>XForwardedFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
+<!-- This must be before the dispatcher so that it is executed first in the filter chain -->
+<filter-mapping>
+    <filter-name>XForwardedFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+</filter-mapping>
 ~~~~
 
-Summary
-=======
+## Summary
 
-That should be it, go ahead and push to your git repo, let Heroku do its thing and see if you get a new build live on the web. Then enjoy continuous deployment!
 
-Oh, and please post something on the GoogleGroup if (when?) you run into a problem. As I said at the start, its very likely I missed something here.
+That should be it, go ahead and push to your git repo, let Heroku do its thing and see if you get a new build live on
+the web. Then enjoy continuous deployment!
+
+Oh, and please post something on the GoogleGroup if (when?) you run into a problem. As I said at the start,
+its very likely I missed something here.
 
 Best Evan

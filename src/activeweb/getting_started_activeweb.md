@@ -1,8 +1,15 @@
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activeweb>ActiveWeb</a></li>
+   <li class=active>Getting started activeweb</li>
+</ol>
+<div class=page-header>
+   <h1>Getting started activeweb <small></small></h1>
+</div>
 Getting started with ActiveWeb| <a href="/activeweb">ActiveWeb</a>,Getting started with ActiveWeb
 
-# Getting started with ActiveWeb
 
-<div id="toc"></div>
+
 
 This simple ActiveWeb project available for download demonstrates main principles of the framework.
 It is a CRUD application, which can list/add/view books. It also shows how to write model and controller specs (tests),

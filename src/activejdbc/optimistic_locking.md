@@ -1,8 +1,13 @@
-Optimistic locking | <a href="/activejdbc">ActiveJDBC</a>,Optimistic locking
+<ol class=breadcrumb>
+   <li><a href=/>Home</a></li>
+   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li class=active>Optimistic locking</li>
+</ol>
+<div class=page-header>
+   <h1>Optimistic locking <small></small></h1>
+</div>
 
-# Optimistic locking
 
-<div id="toc"></div>
 
 The idea of optimistic locking is described here: [Optimistic concurrency control](http://en.wikipedia.org/wiki/Optimistic_concurrency_control)
 
@@ -64,7 +69,7 @@ As you can see, ActiveJDBC tracks versions of the same record.
 
 Sometimes you might have code that reads the same record from a table in order to be updated. In those cases, the first update succeeds, but the second does not. Let's examine this situation:
 
-~~~~ {.java .numberLines .sp-code-number}
+~~~~ {.java  }
 Profile p1 = Profile.findById(1);
 Profile p2 = Profile.findById(1);
 
