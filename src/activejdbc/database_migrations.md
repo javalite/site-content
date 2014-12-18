@@ -15,9 +15,8 @@ See <a href="http://en.wikipedia.org/wiki/Schema_migration">Schema_migration</a>
 
 ## DB-Migrator is Maven plugin
 
-Current implementation of this project is a Maven Plugin. Future releases will include a standalone library for non-Maven projects.
-
-Please, see [Maven configuration](#maven-configuration)
+Current implementation of this project is a Maven Plugin.
+Future releases might include a standalone library for non-Maven projects.
 
 ## How to use
 
@@ -53,7 +52,7 @@ mvn db-migrator:migrate
 
 Alternatively, you can just run the build.
 
-## All other goals
+## All goals
 
 You can execute plugin help goal to get all information on all other goals:
 
@@ -84,7 +83,120 @@ mvn  db-migrator:help
 Generally, just add a plugin configuration to your pom, as described below. If you want to download, you can
 do so here: <a href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22db-migrator-maven-plugin%22">db-migrator-maven-plugin</a>
 
+
+## Property file configuration
+
+> Using a property file for connection configuration is a preferred way of configuring JavaLite DB-Migrator.
+
+If you have only one database, it does not make much difference which method of configuration you use.
+However if you have a test and development databases locally (recommended), then you also have staging and
+production environments, we certainly recommend using property file configuration over Maven profiles.
+
+
+Here is a simple plugin element for the plugin:
+
+~~~~{.xml}
+
+<properties>
+    <activejdbc.version>1.4.10-SNAPSHOT</activejdbc.version>
+    <environments>test,development</environments>
+</properties>
+<build>
+    <plugin>
+        <groupId>org.javalite</groupId>
+        <artifactId>db-migrator-maven-plugin</artifactId>
+        <version>${activejdbc.version}</version>
+        <configuration>
+            <configFile>${project.basedir}/src/main/resources/database.properties</configFile>
+            <environments>${environments}</environments>
+        </configuration>
+        <executions>
+            <execution>
+                <id>dev_migrations</id>
+                <phase>validate</phase>
+                <goals>
+                    <goal>migrate</goal>
+                </goals>
+            </execution>
+        </executions>
+        <dependencies>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.34</version>
+            </dependency>
+        </dependencies>
+    </plugin>
+</build>
+~~~~
+
+As you can see, the configuration is really located in file `${project.basedir}/src/main/resources/database.properties`.
+The contents of this file might look lile this:
+
+```
+development.driver=com.mysql.jdbc.Driver
+development.username=root
+development.password=passwd
+development.url=jdbc:mysql://localhost/jes_development
+
+test.driver=com.mysql.jdbc.Driver
+test.username=root
+test.password=passwd
+test.url=jdbc:mysql://localhost/jes_test
+
+testenv.driver=com.mysql.jdbc.Driver
+testenv.username=jes
+testenv.password=passwd
+testenv.url=jdbc:mysql://localhost/jes_testenv
+
+staging.driver=com.mysql.jdbc.Driver
+staging.username=jes
+staging.password=passwd
+staging.url=jdbc:mysql://192.168.80.40/jes_staging
+
+production.driver=com.mysql.jdbc.Driver
+production.username=jes
+production.password=passwd
+production.url=jdbc:mysql://192.168.20.40/jes_production
+
+```
+
+In the file above, the blocks of properties with a specific prefix belong to a corresponding environment.
+For example, there are 5 environments defined on this file:
+
+* development
+* test
+* testenv
+* staging
+* production
+
+### Executing for environment
+
+Executing DB-Migrator is described above in section [All goals](#all-goals).
+The plugin will run migrations for environments `test` and `development` because they are configured in the
+`<properties>` section (see above). In order to override this behavior, you need to override the `<environments>`
+property from a command line like this:
+
+```
+mvn db-migrator:migrate -Denvironments=staging
+```
+
+The command above will run the goal `migrate` with a set of properties to point to staging environment.
+It makes it easy to point the plugin to different databases and write simple scripts for migrations.
+
+
+### Property file location
+
+In the example above, the file is located in project sources: `${project.basedir}/src/main/resources/database.properties`.
+This means that it will probably be pushed to your source repository with credentials.
+In some projects this is acceptable, while in others it is not. However, location of this file is irrelevant to the
+plugin, so a development team can decide whether they want to commit it to a repository, or keep locally private.
+
+
 ## Maven configuration
+
+Maven configuration is more complicated, and not recommended.
+Please, see property file-based configuration above.
 
 Here is an example of simple configuration:
 
@@ -169,13 +281,12 @@ where user, password and driver are configured as project properties.
 </plugin>
 ~~~~
 
-As you can see, the plugin tied to validate phase, which will ensure that it will migrate
+The plugin tied to a validate phase, which will ensure that it will migrate
 schema at the very start of the build. Add more executions to run against multiple databases. You can use Maven profiles
 with this plugin to migrate databases in different environments, such as production.
 
 
-
-## Configuration properties
+### Configuration properties
 
 * `url` - JDBC connection URL
 * `driver` - JDBC connection driver
@@ -186,7 +297,14 @@ with this plugin to migrate databases in different environments, such as product
 * `dropSql` - drop database SQL, defaults to `drop database {$your database}`
 
 
-DB-Migrator maintains a record of executing migrations in table SCHEMA_VERSION and will not execute the same migration twice:
+### Maintaining multiple databases
+
+You can use Maven profiles to maintain multiple database, as well as specific configuration for different executions
+of the same plugin.
+
+## Migration records
+
+DB-Migrator maintains a record of executing migrations in table `SCHEMA_VERSION` and will not execute the same migration twice:
 
 ~~~~ {.prettyprint}
 mysql> select * from schema_version;
@@ -218,17 +336,11 @@ Results in the following output:
 | 20140310141755 | 2014-07-03 22:08:41 |25 |
 +----------------+---------------------+----------+
 
-Development process
-===================
+## Development process
+
 
 Since all migrations are recorded as text (SQL) files, and contain a time stamp in the name, every time a developer pulls
 sources from source repository and execute a build, your database is upgraded to the latest migration automatically.
 In our experience, this reduced amount of attention we had to give a DB to a minimum. Basically a developer creates a
 new migration and checks it in, which makes it propagate to other developer machines automatically.
 
-Maintaining multiple databases
-==============================
-
-You can use Maven profiles to maintain multiple database, as well as specific configuration for different executions
-of the same plugin. Please see [ActiveWeb Kitchensik](https://github.com/javalite/kitchensink/) project
-for example of multiple plugin executions.
