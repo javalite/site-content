@@ -34,6 +34,49 @@ System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="
 Boolean projectCompleted = project.<span class="fu">getBoolean</span>(<span class="st">&quot;completed&quot;</span>);</code></pre>
 <p>Most all types can be converted to String, including a CLOB. Consider this example, where column CONTENT is defined as CLOB:</p>
 <pre class="sourceCode java"><code class="sourceCode java">String text = article.<span class="fu">getString</span>(<span class="st">&quot;content&quot;</span>);</code></pre>
+<h2 id="converters">Converters</h2>
+<p>A <a href="http://javalite.github.io/activejdbc/org/javalite/activejdbc/conversion/Converter.html">Converter</a> can convert values from one type to another. They are registered to model attributes inside the static block of the class. Currently there are a few converters available: blank to null, zero to null, date (date to string and string to date) converters, and timestamp (timestamp to string and string to timestamp) converters.</p>
+<p>Converters will always convert from the original type of the value (for example, <code>java.lang.String</code> for a value like <code>&quot;1926-06-01&quot;</code>) to the type of the convenience conversion method called. So for the <code>setDate(&quot;dob&quot;, &quot;1926-06-01&quot;)</code> call, if there is a converter from <code>String</code> (original value type) to <code>java.sql.Date</code> (setting a date with <code>setDate</code>) registered for the attribute <code>dob</code>, it will be used and the value set will be of type <code>java.sql.Date</code>. The same applies to getters, the other way around.</p>
+<h3 id="date-converters">Date converters</h3>
+<p>Date converters can convert values from formatted string to <code>java.sql.Date</code>. Here is an example that registers date converters to <code>dob</code> attribute:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model {
+    <span class="dt">static</span> {
+        <span class="fu">dateFormat</span>(<span class="st">&quot;MM/dd/yyyy&quot;</span>, <span class="st">&quot;dob&quot;</span>);
+    }    
+}</code></pre>
+<p>and here how to use them:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
+
+<span class="co">// will convert String to java.sql.Date</span>
+p.<span class="fu">setDate</span>(<span class="st">&quot;dob&quot;</span>, <span class="st">&quot;06/23/1912&quot;</span>); 
+<span class="co">// will convert Date to String, if dob value in model is of type Date</span>
+String str = p.<span class="fu">getString</span>(<span class="st">&quot;dob&quot;</span>); 
+
+<span class="co">// will convert Date to String</span>
+p.<span class="fu">setString</span>(<span class="st">&quot;dob&quot;</span>, <span class="kw">new</span> Date());
+<span class="co">// will convert String to java.sql.Date, if dob value in model is of type String</span>
+Date date = p.<span class="fu">getDate</span>(<span class="st">&quot;dob&quot;</span>);</code></pre>
+<h3 id="timestamp-converters">Timestamp converters</h3>
+<p>Timestamp converters are identical to date converters, but convert to and from <code>java.sql.Timestamp</code>. Here is example of declaration:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Message <span class="kw">extends</span> Model {
+    <span class="dt">static</span>{
+        <span class="fu">timestampFormat</span>(<span class="st">&quot;yyyy.MM.dd G &#39;at&#39; HH:mm:ss z&quot;</span>, <span class="st">&quot;send_time&quot;</span>);
+    }
+}</code></pre>
+<h3 id="blank-to-null-converter">Blank to null converter</h3>
+<p>The blank to null converter converts any <code>java.lang.String</code> values that are empty or contain only whitespaces to <code>null</code>. It works with any getter or setter, as its destination type is <code>java.lang.Object</code>. Here is an example that registers it to two attributes:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model {
+    <span class="dt">static</span> {
+        <span class="fu">blankToNull</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;last_name&quot;</span>);
+    }    
+}</code></pre>
+<h3 id="zero-to-null-converter">Zero to null converter</h3>
+<p>The zero to null converter works as the blank to null converter, but converts <code>java.lang.Number</code> values that are equal zero to <code>null</code>. Here is example of declaration:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model {
+    <span class="dt">static</span> {
+        <span class="fu">zeroToNull</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;last_name&quot;</span>);
+    }    
+}</code></pre>
 <h2 id="custom-setters-and-getters">Custom setters and getters</h2>
 <p>If you like more control over types, you can provide typed getters and setters:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model{

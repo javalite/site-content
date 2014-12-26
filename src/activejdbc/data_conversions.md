@@ -46,6 +46,76 @@ Most all types can be converted to String, including a CLOB. Consider this examp
 String text = article.getString("content");
 ~~~~
 
+## Converters
+
+A [Converter](http://javalite.github.io/activejdbc/org/javalite/activejdbc/conversion/Converter.html) can convert values from one type to another. They are registered to model attributes inside the static block of the class. Currently there are a few converters available: blank to null, zero to null, date (date to string and string to date) converters, and timestamp (timestamp to string and string to timestamp) converters.
+
+Converters will always convert from the original type of the value (for example, `java.lang.String` for a value like `"1926-06-01"`) to the type of the convenience conversion method called. So for the `setDate("dob", "1926-06-01")` call, if there is a converter from `String` (original value type) to `java.sql.Date` (setting a date with `setDate`) registered for the attribute `dob`, it will be used and the value set will be of type `java.sql.Date`. The same applies to getters, the other way around.
+
+### Date converters
+
+Date converters can convert values from formatted string to `java.sql.Date`. Here is an example that registers date converters to `dob` attribute:
+
+~~~~ {.java}
+public class Person extends Model {
+    static {
+        dateFormat("MM/dd/yyyy", "dob");
+    }    
+}
+~~~~
+
+and here how to use them:
+
+~~~~ {.java}
+Person p = new Person();
+
+// will convert String to java.sql.Date
+p.setDate("dob", "06/23/1912"); 
+// will convert Date to String, if dob value in model is of type Date
+String str = p.getString("dob"); 
+
+// will convert Date to String
+p.setString("dob", new Date());
+// will convert String to java.sql.Date, if dob value in model is of type String
+Date date = p.getDate("dob");
+~~~~
+
+### Timestamp converters
+
+Timestamp converters are identical to date converters, but convert to and from `java.sql.Timestamp`. Here is example of declaration:
+
+~~~~ {.java}
+public class Message extends Model {
+    static{
+        timestampFormat("yyyy.MM.dd G 'at' HH:mm:ss z", "send_time");
+    }
+}
+~~~~
+
+### Blank to null converter
+
+The blank to null converter converts any `java.lang.String` values that are empty or contain only whitespaces to `null`. It works with any getter or setter, as its destination type is `java.lang.Object`. Here is an example that registers it to two attributes:
+
+~~~~ {.java}
+public class Person extends Model {
+    static {
+        blankToNull("name", "last_name");
+    }    
+}
+~~~~
+
+### Zero to null converter
+
+The zero to null converter works as the blank to null converter, but converts `java.lang.Number` values that are equal zero to `null`. Here is example of declaration:
+
+~~~~ {.java}
+public class Person extends Model {
+    static {
+        zeroToNull("name", "last_name");
+    }    
+}
+~~~~
+
 ## Custom setters and getters
 
 If you like more control over types, you can provide typed getters and setters:
