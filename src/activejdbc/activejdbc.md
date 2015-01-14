@@ -201,7 +201,7 @@ Currently the following databases are supported:
 * Oracle
 * PostgreSQL
 * H2
-* SQLite3 
+* SQLite3
 
 Adding a new dialect is relatively easy. Just look at commits on this branch: [h2integration](https://github.com/javalite/activejdbc/tree/h2integration)
 
