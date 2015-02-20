@@ -32,7 +32,7 @@ Then you join this list with single quotes and commas:
 
 ~~~~ {.java}
 List names = list("John", "Hellen", "Henry");
-List<Person> people = Person.where("name IN ('" + join(names, "', '" + "')");
+List<Person> people = Person.where("name IN ('" + Util.join(names, "', '" + "')");
 ~~~~
 
 You can use this approach with relatively small lists, as the bigger the list, the longer the generated query. Every database has a limit on size of a query,
