@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activejdbc>ActiveJDBC</a>
@@ -49,7 +49,7 @@ String firstNameError = errors.<span class="fu">get</span>(<span class="st">&quo
    Map params = <span class="kw">... </span><span class="co">// this is a map of HTML form submitted from a web page</span>
    Person p = <span class="fu">Person</span>();
    p.<span class="fu">fromMap</span>(params); <span class="co">//The model will only pluck values that correspond to it&#39;s attribute names</span>
-
+   
    <span class="kw">if</span>(p.<span class="fu">save</span>()){
       <span class="co">//render success page</span>
    }<span class="kw">else</span>{
@@ -64,7 +64,7 @@ String firstNameError = errors.<span class="fu">get</span>(<span class="st">&quo
 <span class="kw">&lt;span</span><span class="ot"> style=</span><span class="st">&quot;error&quot;</span><span class="kw">&gt;</span>${errors.last_name}<span class="kw">&lt;/span&gt;</span>
 ...</code></pre>
 <p>In <a href="activeweb">ActiveWeb</a>:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@POST
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@POST</span>
 <span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(){
     Book book = <span class="kw">new</span> Book();
     book.<span class="fu">fromMap</span>(<span class="fu">params1st</span>());

@@ -1,16 +1,13 @@
 <ol class=breadcrumb>
-   <li><a href=/>Home</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li><a href=/>JavaLite</a></li>
    <li class=active>Sources</li>
 </ol>
 <div class=page-header>
-   <h1>Sources <small></small></h1>
+   <h1>JavaLite on Github<small></small></h1>
 </div>
 
-<div class="row">
-<div class="span9">
-<h1>JavaLite Github Sources</h1>
-<a class="btn btn-primary btn-large" href="https://github.com/javalite/activejdbc">ActiveJDBC, JSpec, HTTP</a>
-<a class="btn btn-primary btn-large" href="https://github.com/javalite/activeweb">ActiveWeb</a>
-</div>
-</div>
+
+Follow these links:
+
+* [ActiveJDBC, JSpec, HTTP](https://github.com/javalite/activejdbc)
+* [ActiveWeb](https://github.com/javalite/activeweb)

@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activejdbc>ActiveJDBC</a>
@@ -22,41 +22,9 @@ One to many associations <small></small>
 <h2 id="example-tables">Example tables</h2>
 <p>Lets define a couple of tables to start with:</p>
 <p>Table <code>USERS</code>:</p>
-<table>
-<col width="18%" />
-<col width="16%" />
-<col width="11%" />
-<thead>
-<tr class="header">
-<th align="left">first_name</th>
-<th align="left">last_name</th>
-<th align="left">email</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
+<p>+------------+-----------+-------+ | first_name | last_name | email | +====+==============+============+</p>
 <p>Table <code>ADDRESSES</code>:</p>
-<table>
-<col width="15%" />
-<col width="15%" />
-<col width="9%" />
-<col width="11%" />
-<col width="8%" />
-<col width="13%" />
-<thead>
-<tr class="header">
-<th align="left">address1</th>
-<th align="left">address2</th>
-<th align="left">city</th>
-<th align="left">state</th>
-<th align="left">zip</th>
-<th align="left">user_id</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
+<p>+----------+----------+------+-------+-----+---------+ | address1 | address2 | city | state | zip | user_id | +==========+==========+======+=======+=====+=========+</p>
 <h2 id="writing-models">Writing models</h2>
 <p>Model for USERS table:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> User <span class="kw">extends</span> Model {}</code></pre>
@@ -97,13 +65,13 @@ u.<span class="fu">delete</span>();</code></pre>
 </blockquote>
 <h2 id="override-conventions">Override Conventions</h2>
 <p>In cases where a surrogate foreign key is already present and has a name that does not follow the ActiveJDBC conventions, you could easily override it like this:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">BelongsTo</span>(parent = User.<span class="fu">class</span>, foreignKeyName = <span class="st">&quot;usr_id&quot;</span>)
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@BelongsTo</span>(parent = User.<span class="fu">class</span>, foreignKeyName = <span class="st">&quot;usr_id&quot;</span>)
 <span class="kw">public</span> <span class="kw">class</span> Address <span class="kw">extends</span> Model {}</code></pre>
-<p>The <code>@BelongsTo</code> annotation will ensure that API on both ends will work. ActiveJDBC does not have annotation <code>@HasMany</code>, since it would not be <a href="http://en.wikipedia.org/wiki/Don&#39;t_repeat_yourself">DRY</a>.</p>
+<p>The <code>@BelongsTo</code> annotation will ensure that API on both ends will work. ActiveJDBC does not have annotation <code>@HasMany</code>, since it would not be [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself).</p>
 <p>In cases a model belongs to many parents, you can use this annotation:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">BelongsToParents</span>({ 
-@<span class="fu">BelongsTo</span>(foreignKeyName=<span class="st">&quot;key_id&quot;</span>,parent=Keyboard.<span class="fu">class</span>), 
-@<span class="fu">BelongsTo</span>(foreignKeyName=<span class="st">&quot;mother_id&quot;</span>,parent=Motherboard.<span class="fu">class</span>) 
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@BelongsToParents</span>({ 
+<span class="fu">@BelongsTo</span>(foreignKeyName=<span class="st">&quot;key_id&quot;</span>,parent=Keyboard.<span class="fu">class</span>), 
+<span class="fu">@BelongsTo</span>(foreignKeyName=<span class="st">&quot;mother_id&quot;</span>,parent=Motherboard.<span class="fu">class</span>) 
 }) </code></pre>
 <p>As usual though, you only need it if names of foreign keys do not conform to the conventions.</p>
 <h2 id="foreign-key">Foreign Key</h2>

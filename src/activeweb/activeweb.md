@@ -1,5 +1,5 @@
 <ol class=breadcrumb>
-   <li><a href=/>Home</a></li>
+   <li><a href=/>JavaLite</a></li>
    <li><a href=/activeweb>ActiveWeb</a></li>
    <li class=active>Activeweb</li>
 </ol>
@@ -73,7 +73,7 @@ To get a quick idea on what this is about, see [Five Minute Guide To ActiveWeb](
 <dependency>
     <groupId>org.javalite</groupId>
     <artifactId>activeweb</artifactId>
-    <version>1.10</version>
+    <version>1.11</version>
 </dependency>
 ~~~~
 

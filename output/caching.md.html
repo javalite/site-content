@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activejdbc>ActiveJDBC</a>
@@ -24,7 +24,7 @@ Caching <small></small>
 <p>might call into DB, or a result can come from cache, depending how cache and specifically model <code>Library</code> was configured</p>
 <h2 id="cache-annotation">Cache annotation</h2>
 <p>ActiveJDBC provides annotation to specify queries against which tables will be cached:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@Cached
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@Cached</span>
 <span class="kw">public</span> <span class="kw">class</span> Library <span class="kw">extends</span> Model {}</code></pre>
 <p>As in other cases, this is a declaration that marks a model as &quot;cachable&quot;. If you enable logging (by providing a system property <code>activejdbc.log</code>), you will see extensive output from ActiveJDBC, similar to this:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="dv">3076</span> [main] INFO org.<span class="fu">javalite</span>.<span class="fu">activejdbc</span>.<span class="fu">DB</span> - Query: <span class="st">&quot;SELECT * FROM libraries WHERE id = ?&quot;</span>, with parameters: [<span class="dv">1</span>], took: <span class="dv">0</span> milliseconds
@@ -40,7 +40,7 @@ Caching <small></small>
 #or EHCache:
 cache.manager=org.javalite.activejdbc.cache.EHCacheManager
 #cache.manager=org.javalite.activejdbc.cache.OSCacheManager</code></pre>
-<p>Here two things happen: 1. Cache in general is enabled (it is not enabled even if you have @Cached annotations on classes), and 2. AJ will be using EHCacheManager as implementation of cache.</p>
+<p>Here two things happen: 1. Cache in general is enabled (it is not enabled even if you have <span class="citation">@Cached</span> annotations on classes), and 2. AJ will be using EHCacheManager as implementation of cache.</p>
 <h2 id="automatic-cache-purging">Automatic cache purging</h2>
 <p>If you examine the log from above, you will see that after an insert statement into the &quot;LIBRARIES&quot; table, the system is purging cache related to this table, as well as &quot;BOOKS&quot; table. ActiveJDBC does this since the cache in memory might be potentially of out sync with the data in the DB, and hence will be purged. Related tables' caches are also purged. Since there exists relationship: library has many books, the books cache could also be stale, and this is a reason why a table &quot;BOOKS&quot; purged as well.</p>
 <h2 id="manual-cache-purging">Manual cache purging</h2>

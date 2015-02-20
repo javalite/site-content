@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activeweb>ActiveWeb</a>
@@ -48,7 +48,7 @@ Dependency injection <small></small>
 <h2 id="consumption-of-injected-dependencies">Consumption of injected dependencies</h2>
 <p>Whenever you need a service inside a controller, you will use an <code>@Inject</code> annotation provided by Google Guice:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloController <span class="kw">extends</span> AppController {
- @Inject
+ <span class="fu">@Inject</span>
  <span class="kw">private</span> Greeter greeter;
  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
      <span class="fu">view</span>(<span class="st">&quot;message&quot;</span>, greeter.<span class="fu">greet</span>());
@@ -61,7 +61,7 @@ Dependency injection <small></small>
 <li><strong>Controller Filters</strong></li>
 <li><strong>Custom Tags</strong></li>
 </ul>
-<p>The technique is exactly the same, just add @Inject annotation that requires a service from a Guice module, and you can use it in code inside the component</p>
+<p>The technique is exactly the same, just add <span class="citation">@Inject</span> annotation that requires a service from a Guice module, and you can use it in code inside the component</p>
 <h2 id="mocking-and-testing">Mocking and testing</h2>
 <p>In testing, it is typical to replace real implementation of services with mocks. For explanation of mocks and stubs, follow this link <a href="http://martinfowler.com/articles/mocksArentStubs.html">http://martinfowler.com/articles/mocksArentStubs.html</a>.</p>
 <p>Why would someone want to use a mock instead of a real implementation? Here are some reasons:</p>
@@ -83,18 +83,18 @@ Dependency injection <small></small>
 }</code></pre>
 <p>and a new mock module we will use in tests:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> GreeterMockModule <span class="kw">extends</span> AbstractModule {
-    @Override
+    <span class="fu">@Override</span>
     <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">configure</span>() {
         <span class="fu">bind</span>(Greeter.<span class="fu">class</span>).<span class="fu">to</span>(GreeterMock.<span class="fu">class</span>).<span class="fu">asEagerSingleton</span>();
     }
 }</code></pre>
 <p>Once we have this done, we can inject the mock module during the test of a controller:</p>
 <pre class="sourceCode java"><code class="sourceCode java"> <span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-     @Before
+     <span class="fu">@Before</span>
      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">before</span>(){
          <span class="fu">setInjector</span>(Guice.<span class="fu">createInjector</span>(<span class="kw">new</span> <span class="fu">GreeterMockModule</span>()));
      }
-     @Test
+     <span class="fu">@Test</span>
      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldInjectMockService</span>(){
          <span class="fu">request</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
          <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello from class app.services.GreeterMock&quot;</span>);

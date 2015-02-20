@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activejdbc>ActiveJDBC</a>
@@ -51,16 +51,16 @@ Database connection management <small></small>
 </blockquote>
 <h2 id="models-associated-with-multiple-databases">Models associated with multiple databases</h2>
 <p>ActiveJDBC allows to have a mix of models in the application representing tables from different databases. By default a model belongs to a database &quot;default&quot;, but an association of a model to a database can be overriden with annotation <code>@DbName</code>:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">DbName</span>(<span class="st">&quot;corporation&quot;</span>)
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@DbName</span>(<span class="st">&quot;corporation&quot;</span>)
 <span class="kw">public</span> <span class="kw">class</span> Employee <span class="kw">extends</span> Model {}</code></pre>
 <h2 id="multiple-database-example">Multiple database example</h2>
 <p>See sources here: <a href="https://github.com/javalite/multiple-db-example">multimple-db-example</a>.</p>
 <p>For this example, we will have two models, one representing a table in Oracle database, while the other in MySQL</p>
 <p>The two models are defined like this:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">DbName</span>(<span class="st">&quot;corporation&quot;</span>)
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@DbName</span>(<span class="st">&quot;corporation&quot;</span>)
 <span class="kw">public</span> <span class="kw">class</span> Employee <span class="kw">extends</span> Model {}</code></pre>
 <p>and:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">DbName</span>(<span class="st">&quot;university&quot;</span>)
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@DbName</span>(<span class="st">&quot;university&quot;</span>)
 <span class="kw">public</span> <span class="kw">class</span> Student  <span class="kw">extends</span> Model {}</code></pre>
 <p>and the main class looks like this:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Main {
@@ -101,7 +101,7 @@ Database connection management <small></small>
 <pre class="prettyprint"><code>-Dactivejdbc.default.schema=myschema</code></pre>
 <p>where &quot;default&quot; is a name of a database and &quot;myschema&quot; is a name of your schema in Oracle or PostgreSQL.</p>
 <p>In case you do use multiple connections to different databases and you use DbName annotation, replace &quot;default&quot; to your DB name. For example:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">DbName</span>(<span class="st">&quot;university&quot;</span>)
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@DbName</span>(<span class="st">&quot;university&quot;</span>)
 <span class="kw">public</span> <span class="kw">class</span> Student <span class="kw">extends</span> Model{}</code></pre>
 <p>then you can add a property like this:</p>
 <pre class="prettyprint"><code>-Dactivejdbc.university.schema=myschema</code></pre>

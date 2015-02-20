@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activejdbc>ActiveJDBC</a>
@@ -23,20 +23,7 @@ Optimistic locking <small></small>
 <p>Let's say you have a model:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Profile <span class="kw">extends</span> Model{}</code></pre>
 <p>which backs a table <code>PROFILES</code>:</p>
-<table>
-<col width="6%" />
-<col width="20%" />
-<col width="26%" />
-<thead>
-<tr class="header">
-<th align="left">id</th>
-<th align="left">profile_type</th>
-<th align="left">record_version</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
+<p>+----+--------------+------------------+ | id | profile_type | record_version | +====+==============+==================+</p>
 <p>When you create a new record:</p>
 <pre class="sourceCode java"><code class="sourceCode java">Profile.<span class="fu">createIt</span>(<span class="st">&quot;profile_type&quot;</span>, <span class="st">&quot;home&quot;</span>);</code></pre>
 <p>a new record is inserted into the table:</p>
@@ -53,9 +40,9 @@ Optimistic locking <small></small>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">home</td>
-<td align="left">1</td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>home</p></td>
+<td align="left"><p>1</p></td>
 </tr>
 </tbody>
 </table>
@@ -79,9 +66,9 @@ p.<span class="fu">saveIt</span>();</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">work</td>
-<td align="left">2</td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>work</p></td>
+<td align="left"><p>2</p></td>
 </tr>
 </tbody>
 </table>
@@ -110,9 +97,9 @@ p2.<span class="fu">saveIt</span>(); <span class="co">//&lt;&lt;&lt;========= Th
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">hotel</td>
-<td align="left">3</td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>hotel</p></td>
+<td align="left"><p>3</p></td>
 </tr>
 </tbody>
 </table>
@@ -121,7 +108,7 @@ p2.<span class="fu">saveIt</span>(); <span class="co">//&lt;&lt;&lt;========= Th
 <p>This message provides enough detail to understand what happened.</p>
 <h2 id="override-default-version-column">Override default version column</h2>
 <p>By default a version column is called <code>version_record</code>. In cases where there is already existing schema or you need compatibility with other systems, you can override the name with annotation:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">VersionColumn</span>(<span class="st">&quot;lock_version&quot;</span>)
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@VersionColumn</span>(<span class="st">&quot;lock_version&quot;</span>)
 <span class="kw">public</span> <span class="kw">class</span> Item <span class="kw">extends</span> Model { <span class="kw">... </span>}</code></pre>
 <p>The version numbers will be stored in <code>lock_version</code> column, while everything else will work as expected.</p>
 <h2 id="how-optimistic-locking-is-engaged">How optimistic locking is engaged</h2>

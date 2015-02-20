@@ -1,5 +1,5 @@
 <ol class=breadcrumb>
-   <li><a href=/>Home</a></li>
+   <li><a href=/>JavaLite</a></li>
    <li><a href=/activejdbc>ActiveJDBC</a></li>
    <li class=active>Intellij idea integration</li>
 </ol>

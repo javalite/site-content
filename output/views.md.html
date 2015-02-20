@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activeweb>ActiveWeb</a>
@@ -27,7 +27,7 @@ Views <small></small>
 <p>Freemarker configuration is optional. If an application needs to have access to configuration of Freemarker, the application needs to have a class:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">package app.config;</span>
 <span class="kw">public</span> <span class="kw">class</span> FreeMarkerConfig <span class="kw">extends</span> AbstractFreeMarkerConfig {
-    @Override
+    <span class="fu">@Override</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>() {
         <span class="co">//this is to override a strange FreeMarker default processing of numbers</span>
         <span class="fu">getConfiguration</span>().<span class="fu">setNumberFormat</span>(<span class="st">&quot;0.##&quot;</span>);
@@ -79,13 +79,13 @@ Views <small></small>
 <p>Sometimes you need to send multiple chunks of text from a page to layout. You can declare more than one <code>&lt;@content for</code> with the same yield target:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@content for=&quot;js&quot;&gt;
 <span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;</span>
-    <span class="kw">Window</span>.<span class="fu">alert</span>(<span class="st">&quot;hello1&quot;</span>);
+<span class="er">    Window.alert(&quot;hello1&quot;);</span>
 <span class="kw">&lt;/script&gt;</span>
 <span class="er">&lt;</span>/@&gt;</code></pre>
 <p>and more:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@content for=&quot;js&quot;&gt;
 <span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;</span>
-    <span class="kw">Window</span>.<span class="fu">alert</span>(<span class="st">&quot;hello2&quot;</span>);
+<span class="er">    Window.alert(&quot;hello2&quot;);</span>
 <span class="kw">&lt;/script&gt;</span>
 <span class="er">&lt;</span>/@&gt;</code></pre>
 <p>... declare more if needed</p>
@@ -93,10 +93,10 @@ Views <small></small>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@yield to=&quot;js&quot;/&gt;</code></pre>
 <p>It will generate the following output in its place:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;</span>
-    <span class="kw">Window</span>.<span class="fu">alert</span>(<span class="st">&quot;hello1&quot;</span>);
+<span class="er">    Window.alert(&quot;hello1&quot;);</span>
 <span class="kw">&lt;/script&gt;</span>
 <span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;</span>
-    <span class="kw">Window</span>.<span class="fu">alert</span>(<span class="st">&quot;hello2&quot;</span>);
+<span class="er">    Window.alert(&quot;hello2&quot;);</span>
 <span class="kw">&lt;/script&gt;</span></code></pre>
 <h3 id="rendering-without-layout">Rendering without layout</h3>
 <p>By default ActiveWeb will use a <code>/views/layouts/default_layout.ftl</code>. However, in some cases you do not need a layout (for instance, you are developing a web service or responding to Ajax calls). You can turn a layout rendering programmaticaly from controller:</p>
@@ -249,12 +249,12 @@ function afterDelete(afterArg, data) { ... }</code></pre>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@link_to controller=&quot;books&quot; action=&quot;fetch&quot; before=&quot;doBeforeWithArg&quot; before_arg=&quot;books_result&quot; after=&quot;doAfterWithArg&quot;
  after_arg=&quot;books_result&quot;&gt;Get Books<span class="er">&lt;</span>/@&gt;</code></pre>
 <p>This code expects to find JS functions similar to these:</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> doBeforeWithArg(elm) {
-    $(<span class="st">&quot;#&quot;</span> + elm).<span class="fu">html</span>(<span class="st">&quot;wait...&quot;</span>);
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">doBeforeWithArg</span>(elm) {
+    <span class="fu">$</span>(<span class="st">&quot;#&quot;</span> + elm).<span class="fu">html</span>(<span class="st">&quot;wait...&quot;</span>);
 }
 
-<span class="kw">function</span> doAfterWithArg(elm, data) {
-    $(<span class="st">&quot;#&quot;</span> + elm).<span class="fu">html</span>(data);
+<span class="kw">function</span> <span class="fu">doAfterWithArg</span>(elm, data) {
+    <span class="fu">$</span>(<span class="st">&quot;#&quot;</span> + elm).<span class="fu">html</span>(data);
 }</code></pre>
 <p>This is presuming that there is an element like this on the page:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;books_result&quot;</span><span class="kw">&gt;&lt;/div&gt;</span></code></pre>
@@ -263,8 +263,8 @@ function afterDelete(afterArg, data) { ... }</code></pre>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@link_to controller=&quot;books&quot; action=&quot;doesnotexist&quot; error=&quot;onError&quot; destination=&quot;callbacks_result&quot;&gt;Will cause error<span class="er">&lt;</span>/@&gt;
 
 <span class="kw">&lt;script&gt;</span>
-<span class="kw">function</span> <span class="kw">onError</span>(status, responseText) {
-    alert(<span class="st">&quot;Got</span> <span class="st">error</span>, <span class="st">status</span>: <span class="st">&quot;</span> + status + <span class="st">&quot;</span>, <span class="st">Response</span>: <span class="st">&quot;</span> + responseText);
+<span class="er">function onError(status, responseText) {</span>
+<span class="er">    alert(&quot;Got error, status: &quot; + status + &quot;, Response: &quot; + responseText);</span>
 }
 <span class="kw">&lt;/script&gt;</span></code></pre>
 <p>In this example, the link is making an Ajax call to a controlled action which does not exists. This causes onError() function to be triggered.</p>
@@ -315,14 +315,9 @@ function afterDelete(afterArg, data) { ... }</code></pre>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;form</span><span class="ot"> action=</span><span class="st">&quot;/example/simple/index/123&quot;</span><span class="ot"> method=</span><span class="st">&quot;get&quot;</span><span class="ot"> id=</span><span class="st">&quot;formA&quot;</span> <span class="kw">/&gt;</span></code></pre>
 <h3 id="put-form">PUT form</h3>
 <p>code:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@form controller=&quot;simple&quot; action=&quot;index&quot; method=&quot;put&quot;&gt;
-     <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;hidden&quot;</span><span class="ot"> name=</span><span class="st">&quot;blah&quot;</span><span class="kw">&gt;</span>
-<span class="er">&lt;</span>/@&gt;</code></pre>
-<p>will generate this HMTL:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;form</span><span class="ot"> action=</span><span class="st">&quot;/example/simple/index&quot;</span><span class="ot"> method=</span><span class="st">&quot;put&quot;</span><span class="ot"> id=</span><span class="st">&quot;formA&quot;</span> <span class="kw">&gt;</span>
-    <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;hidden&quot;</span><span class="ot"> name=</span><span class="st">&quot;_method&quot;</span><span class="ot"> value=</span><span class="st">&quot;put&quot;</span><span class="kw">&gt;</span>
-    <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;hidden&quot;</span><span class="ot"> name=</span><span class="st">&quot;blah&quot;</span><span class="kw">&gt;</span>
-<span class="kw">&lt;/form&gt;</span></code></pre>
+~<sub>~</sub> {.html} &lt;<span class="citation">@form</span> controller=&quot;simple&quot; action=&quot;index&quot; method=&quot;put&quot;&gt; <input type="hidden" name="blah"> <!--@--> <input type="hidden" name="_method" value="put"> <input type="hidden" name="blah">
+</form>
+<p>~<sub>~</sub></p>
 <h3 id="put-form-for-restful-controller">PUT form for RESTful controller</h3>
 <p>FormTag also is REST-aware, and will generate appropriate formats for HTML Form tag action value depending if the controller is RESTful or not.</p>
 <p>code:</p>

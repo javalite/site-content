@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activejdbc>ActiveJDBC</a>
@@ -48,7 +48,7 @@ apple1.<span class="fu">insert</span>();</code></pre>
   last_name               <span class="dt">VARCHAR</span>(<span class="dv">124</span>),
 )</code></pre>
 <p>You will then put annotation on the model:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">IdName</span>(<span class="st">&quot;person_id&quot;</span>)
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@IdName</span>(<span class="st">&quot;person_id&quot;</span>)
 <span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model{}</code></pre>
 <p>This way, the model will know to work with column <code>person_id</code> and not <code>id</code> as a primary key.</p>
 <h2 id="mysql-usage">MySQL usage</h2>
@@ -110,7 +110,7 @@ p.<span class="fu">getId</span>(); <span class="co">//&lt;&lt;&lt; ===== returns
 
 <span class="kw">CREATE</span> <span class="kw">SEQUENCE</span> main_seq <span class="kw">START</span> <span class="kw">WITH</span> <span class="dv">1</span> <span class="kw">INCREMENT</span> <span class="kw">BY</span> <span class="dv">1</span></code></pre>
 <p>When defining a model, however, you will need to provide this piece of information to all models where you intend to use this sequence:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">IdGenerator</span>(<span class="st">&quot;main_seq.nextVal&quot;</span>)
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@IdGenerator</span>(<span class="st">&quot;main_seq.nextVal&quot;</span>)
 <span class="kw">public</span> <span class="kw">class</span> Person <span class="kw">extends</span> Model{}</code></pre>
 <p>The usage code, behavior and expectations will be exactly the same with this strategy. As you can see, this seems to be simpler than using triggers, but it has a drawback. Since the same sequence will be used across multiple tables, the number values in a single table could (will) be out of sequence. But.. since this is a surrogate key anyway, it does not matter.</p>
 <h2 id="postgresql-usage">PostgreSQL usage</h2>

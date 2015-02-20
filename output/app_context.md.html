@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activeweb>ActiveWeb</a>
@@ -23,8 +23,4 @@ App context <small></small>
     }
 }</code></pre>
 <p>Once this is done, you can access the context from any controller filter or controller:</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HomeController <span class="kw">extends</span> AppController {
-    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
-         <span class="fu">view</span>(<span class="st">&quot;app_name&quot;</span>,    <span class="fu">appContext</span>().<span class="fu">get</span>(<span class="st">&quot;app_name&quot;</span>));
-    }
-}</code></pre>
+<p>~<sub>~</sub> {.java} public class HomeController extends AppController { public void index(){ view(&quot;app_name&quot;, appContext().get(&quot;app_name&quot;)); } } ~<sub>~</sub> {.java}</p>

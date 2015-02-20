@@ -1,5 +1,5 @@
 <ol class=breadcrumb>
-   <li><a href=/>Home</a></li>
+   <li><a href=/>JavaLite</a></li>
    <li><a href=/activeweb>ActiveWeb</a></li>
    <li class=active>Deploying to heroku</li>
 </ol>

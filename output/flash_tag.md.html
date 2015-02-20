@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activeweb>ActiveWeb</a>
@@ -20,7 +20,7 @@ Flash tag <small></small>
 <p>Flash messages are useful in cases when a POST/Redirect to GET pattern is used.</p>
 <h2 id="working-with-flash-message">Working with flash message</h2>
 <p>Flash messages are created in controllers (or filters) like so:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@POST
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@POST</span>
 <span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(){
     Book book = <span class="kw">new</span> Book();
     book.<span class="fu">fromMap</span>(<span class="fu">params1st</span>());
@@ -53,7 +53,7 @@ Flash tag <small></small>
  <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;warning&quot;</span><span class="kw">&gt;</span>${message}<span class="kw">&lt;/div&gt;</span>
 <span class="er">&lt;</span>/@flash&gt;</code></pre>
 <p>and calling a single argument method inside the controller:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@POST
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@POST</span>
 <span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(){
 <span class="co">//.. code before</span>
     <span class="fu">view</span>(<span class="st">&quot;message&quot;</span>, <span class="st">&quot;Your changes have been saved successfully&quot;</span>);

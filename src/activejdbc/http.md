@@ -1,10 +1,9 @@
 <ol class=breadcrumb>
-   <li><a href=/>Home</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
+   <li><a href=/>JavaLite</a></li>
    <li class=active>Http</li>
 </ol>
 <div class=page-header>
-   <h1>Http <small></small></h1>
+   <h1>Http <small>tiny client for web services</small></h1>
 </div>
 
 

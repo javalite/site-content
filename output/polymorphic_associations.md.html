@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activejdbc>ActiveJDBC</a>
@@ -35,7 +35,7 @@ Polymorphic associations <small></small>
 
 <span class="kw">public</span> <span class="kw">class</span> Review <span class="kw">extends</span> Model{}
 
-@<span class="fu">BelongsToPolymorphic</span>(parents = {Product.<span class="fu">class</span>, Review.<span class="fu">class</span>})
+<span class="fu">@BelongsToPolymorphic</span>(parents = {Product.<span class="fu">class</span>, Review.<span class="fu">class</span>})
 <span class="kw">public</span> <span class="kw">class</span> Tag <span class="kw">extends</span> Model{}</code></pre>
 <p>This annotation tells ActiveJDBC that Product has many Tags as well as Review has many tags too. The annotation itself is easy to understand if you read it aloud.</p>
 <blockquote>
@@ -69,28 +69,28 @@ List&lt;Tag&gt; tags = customerReview.<span class="fu">getAll</span>(Tag.<span c
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">toy</td>
-<td align="left">100</td>
-<td align="left">com.acme.Product</td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>toy</p></td>
+<td align="left"><p>100</p></td>
+<td align="left"><p>com.acme.Product</p></td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
-<td align="left">basket</td>
-<td align="left">100</td>
-<td align="left">com.acme.Product</td>
+<td align="left"><p>2</p></td>
+<td align="left"><p>basket</p></td>
+<td align="left"><p>100</p></td>
+<td align="left"><p>com.acme.Product</p></td>
 </tr>
 <tr class="odd">
-<td align="left">3</td>
-<td align="left">fun</td>
-<td align="left">2024</td>
-<td align="left">com.acme.Review</td>
+<td align="left"><p>3</p></td>
+<td align="left"><p>fun</p></td>
+<td align="left"><p>2024</p></td>
+<td align="left"><p>com.acme.Review</p></td>
 </tr>
 <tr class="even">
-<td align="left">4</td>
-<td align="left">useful</td>
-<td align="left">2024</td>
-<td align="left">com.acme.Review</td>
+<td align="left"><p>4</p></td>
+<td align="left"><p>useful</p></td>
+<td align="left"><p>2024</p></td>
+<td align="left"><p>com.acme.Review</p></td>
 </tr>
 </tbody>
 </table>
@@ -122,7 +122,7 @@ Product p = t.<span class="fu">parent</span>(Product.<span class="fu">class</spa
 <h2 id="override-standard-parent-type-values">Override standard parent type values</h2>
 <p>In some cases, it is not possible to have a fully qualified class name in the &quot;parent_type&quot; column. This is usually a case when the same table backs a different ORM which also supports polymorphic associations (Ruby on Rails ActiveRecord for example).</p>
 <p>When faced with this problem, you can use annotation to override default behavior:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">BelongsToPolymorphic</span>(
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@BelongsToPolymorphic</span>(
 parents     = { Vehicle.<span class="fu">class</span>, Mammal.<span class="fu">class</span>}, 
 typeLabels  = {<span class="st">&quot;Vehicle&quot;</span>,     <span class="st">&quot;Mammal&quot;</span>} )
 <span class="kw">public</span> <span class="kw">class</span> Classification <span class="kw">extends</span> Model {}</code></pre>
@@ -143,28 +143,28 @@ typeLabels  = {<span class="st">&quot;Vehicle&quot;</span>,     <span class="st"
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">four wheeled</td>
-<td align="left">100</td>
-<td align="left">Vehicle</td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>four wheeled</p></td>
+<td align="left"><p>100</p></td>
+<td align="left"><p>Vehicle</p></td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
-<td align="left">sedan</td>
-<td align="left">23</td>
-<td align="left">Vehicle</td>
+<td align="left"><p>2</p></td>
+<td align="left"><p>sedan</p></td>
+<td align="left"><p>23</p></td>
+<td align="left"><p>Vehicle</p></td>
 </tr>
 <tr class="odd">
-<td align="left">3</td>
-<td align="left">four legged</td>
-<td align="left">2024</td>
-<td align="left">Mammal</td>
+<td align="left"><p>3</p></td>
+<td align="left"><p>four legged</p></td>
+<td align="left"><p>2024</p></td>
+<td align="left"><p>Mammal</p></td>
 </tr>
 <tr class="even">
-<td align="left">4</td>
-<td align="left">furry</td>
-<td align="left">2023</td>
-<td align="left">Mammal</td>
+<td align="left"><p>4</p></td>
+<td align="left"><p>furry</p></td>
+<td align="left"><p>2023</p></td>
+<td align="left"><p>Mammal</p></td>
 </tr>
 </tbody>
 </table>

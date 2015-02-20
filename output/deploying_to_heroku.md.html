@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activeweb>ActiveWeb</a>
@@ -38,14 +38,14 @@ SENDGRID_USERNAME:    UUUUUU@heroku.com</code></pre>
 <span class="kw">import java.util.Properties;</span>
 <span class="kw">import static org.javalite.test.jspec.JSpec.the;</span>
 <span class="co">/**</span>
-<span class="co"> </span>*<span class="co"> Created By</span>
-<span class="co"> </span>*<span class="co"> User</span>:<span class="co"> Evan Leonard</span>
-<span class="co"> </span>*<span class="co"> Date</span>:<span class="co"> </span><span class="dv">3</span>/<span class="dv">30</span>/<span class="dv">13</span>
+<span class="co"> * Created By</span>
+<span class="co"> * User: Evan Leonard</span>
+<span class="co"> * Date: 3/30/13</span>
 <span class="co"> */</span>
 <span class="kw">public</span> <span class="kw">class</span> HerokuDbUrlParserSpec {
     <span class="kw">private</span> <span class="dt">static</span> String clear_db_url = <span class="st">&quot;mysql://THE_USERNAME:THE_PASSWORD@us-cdbr-east-03.cleardb.com/heroku_759ea2a30074fe9?reconnect=true&quot;</span>;
     <span class="co">//private static String test_db_url = &quot;mysql://aw:awawaw@localhost/ayah_test?reconnect=true&quot;;</span>
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldParseUrl</span>() <span class="kw">throws</span> URISyntaxException {
         Map&lt;String, String&gt; mockEnv = <span class="fu">mockEnv</span>();
         HerokuDbUrlParser herokuDbUrlParser = <span class="kw">new</span> <span class="fu">HerokuDbUrlParser</span>(mockEnv);
@@ -75,13 +75,13 @@ SENDGRID_USERNAME:    UUUUUU@heroku.com</code></pre>
 <span class="kw">import java.util.Map;</span>
 <span class="kw">import java.util.Properties;</span>
 <span class="co">/**</span>
-<span class="co"> </span>*<span class="co"> Created By</span>
-<span class="co"> </span>*<span class="co"> User</span>:<span class="co"> evan</span>
-<span class="co"> </span>*<span class="co"> Date</span>:<span class="co"> </span><span class="dv">3</span>/<span class="dv">27</span>/<span class="dv">13</span>
-<span class="co"> </span>*
-<span class="co"> </span>*<span class="co"> Heroku sets the production database url into an environment variable named DATABASE</span>_<span class="co">URL.</span>
+<span class="co"> * Created By</span>
+<span class="co"> * User: evan</span>
+<span class="co"> * Date: 3/27/13</span>
 <span class="co"> *</span>
-<span class="co"> * This class is parses that at runtime for ActiveWeb to use in DbConfig</span>.<span class="fu">java</span>
+<span class="co"> * Heroku sets the production database url into an environment variable named DATABASE_URL.</span>
+<span class="co"> *</span>
+<span class="co"> * This class is parses that at runtime for ActiveWeb to use in DbConfig.java</span>
 <span class="co"> */</span>
 <span class="kw">public</span> <span class="kw">class</span> HerokuDbUrlParser {
     <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> Logger logger = LoggerFactory.<span class="fu">getLogger</span>(HerokuDbUrlParser.<span class="fu">class</span>);
@@ -161,7 +161,7 @@ SENDGRID_USERNAME:    UUUUUU@heroku.com</code></pre>
     }
 
     <span class="co">/**</span>
-<span class="co">     * </span><span class="kw">@return </span><span class="co">Property set that contains</span>:<span class="co"> </span>&#39;<span class="co">driver</span>&#39;,<span class="co"> </span>&#39;<span class="co">url</span>&#39;,<span class="co"> </span>&#39;<span class="co">user</span>&#39;,<span class="co"> and </span>&#39;<span class="co">password</span>&#39;<span class="co"> with no prefix</span>
+<span class="co">     * </span><span class="kw">@return </span><span class="co">Property set that contains: &#39;driver&#39;, &#39;url&#39;, &#39;user&#39;, and &#39;password&#39; with no prefix</span>
 <span class="co">     */</span>
     <span class="kw">public</span> Properties <span class="fu">getJdbcProperties</span>() {
         <span class="kw">if</span>(!databaseUrlFound) {
@@ -206,7 +206,7 @@ MAVEN_OPTS:           -Xmx384m -Xss512k -XX:+UseCompressedOops</code></pre>
 <h2 id="heroku-ssl-support">Heroku SSL support</h2>
 <p>There's two things you need to do after you've enabled your SSL endpoint add-on in heroku. The first is to force traffic from regular http to https. This is easily done in a filter with methods like these</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="co">/**</span>
-<span class="co"> </span>*<span class="co"> http</span>:<span class="co">//stackoverflow.com/questions/7185074/heroku-nodejs-http-to-https-ssl-forced-redirect</span>
+<span class="co"> * http://stackoverflow.com/questions/7185074/heroku-nodejs-http-to-https-ssl-forced-redirect</span>
 <span class="co"> */</span>
 <span class="kw">private</span> <span class="dt">boolean</span> <span class="fu">isHttpsRequest</span>() {
     String header = <span class="fu">header</span>(<span class="st">&quot;x-forwarded-proto&quot;</span>);

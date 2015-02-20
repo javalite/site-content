@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activeweb>ActiveWeb</a>
@@ -43,7 +43,7 @@ Controllers <small></small>
 <p>Here is an example of a destructive action is:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> BooksController <span class="kw">extends</span> AppController{
 
-   @PUT
+   <span class="fu">@PUT</span>
    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">updateBook</span>(){}
 }</code></pre>
 <p>ActiveWeb promotes REST-style web programming and will not allow to access an action that is configured for one HTTP method with another. For instance, if you try to access the <code>GreetingController#index</code> with HTTP method POST, you would get an exception:</p>
@@ -57,7 +57,7 @@ configured for method: &#39;GET&#39;</code></pre>
 <li>Provide a fixed set of action methods in the body of controller</li>
 </ol>
 <p>Here is an example of a RESTful controller taken from Kitchensink application:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@RESTful
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@RESTful</span>
 <span class="kw">public</span> <span class="kw">class</span> RpostsController <span class="kw">extends</span> AppController {
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){...}
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">newForm</span>(){...}
@@ -81,46 +81,46 @@ configured for method: &#39;GET&#39;</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">GET |</td>
-<td align="left">/books</td>
-<td align="left">index</td>
-<td align="left">display a list of all books</td>
+<td align="left"><p>GET |</p></td>
+<td align="left"><p>/books</p></td>
+<td align="left"><p>index</p></td>
+<td align="left"><p>display a list of all books</p></td>
 </tr>
 <tr class="even">
-<td align="left">GET |</td>
-<td align="left">/books/new_form</td>
-<td align="left">new_form</td>
-<td align="left">return an HTML form for creating a new book</td>
+<td align="left"><p>GET |</p></td>
+<td align="left"><p>/books/new_form</p></td>
+<td align="left"><p>new_form</p></td>
+<td align="left"><p>return an HTML form for creating a new book</p></td>
 </tr>
 <tr class="odd">
-<td align="left">POST |</td>
-<td align="left">/books</td>
-<td align="left">create</td>
-<td align="left">create a new book</td>
+<td align="left"><p>POST |</p></td>
+<td align="left"><p>/books</p></td>
+<td align="left"><p>create</p></td>
+<td align="left"><p>create a new book</p></td>
 </tr>
 <tr class="even">
-<td align="left">GET |</td>
-<td align="left">/books/id</td>
-<td align="left">show</td>
-<td align="left">display a specific book</td>
+<td align="left"><p>GET |</p></td>
+<td align="left"><p>/books/id</p></td>
+<td align="left"><p>show</p></td>
+<td align="left"><p>display a specific book</p></td>
 </tr>
 <tr class="odd">
-<td align="left">GET |</td>
-<td align="left">/books/id/edit_form</td>
-<td align="left">edit_form</td>
-<td align="left">return an HTML form for editing a books</td>
+<td align="left"><p>GET |</p></td>
+<td align="left"><p>/books/id/edit_form</p></td>
+<td align="left"><p>edit_form</p></td>
+<td align="left"><p>return an HTML form for editing a books</p></td>
 </tr>
 <tr class="even">
-<td align="left">PUT |</td>
-<td align="left">/books/id</td>
-<td align="left">update</td>
-<td align="left">update a specific book</td>
+<td align="left"><p>PUT |</p></td>
+<td align="left"><p>/books/id</p></td>
+<td align="left"><p>update</p></td>
+<td align="left"><p>update a specific book</p></td>
 </tr>
 <tr class="odd">
-<td align="left">DELETE |</td>
-<td align="left">/books/id</td>
-<td align="left">destroy</td>
-<td align="left">delete a specific book</td>
+<td align="left"><p>DELETE |</p></td>
+<td align="left"><p>/books/id</p></td>
+<td align="left"><p>destroy</p></td>
+<td align="left"><p>delete a specific book</p></td>
 </tr>
 </tbody>
 </table>
@@ -308,7 +308,7 @@ p.<span class="fu">fromMap</span>(<span class="fu">params1st</span>());</code></
 <p>Controllers have a two ways for uploading data. Here is one:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> UploadController <span class="kw">extends</span> AppController{
 
-   @POST
+   <span class="fu">@POST</span>
    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
         Iterator&lt;FormItem&gt; iterator = <span class="fu">uploadedFiles</span>();
         <span class="kw">if</span> (iterator.<span class="fu">hasNext</span>()){
@@ -322,7 +322,7 @@ p.<span class="fu">fromMap</span>(<span class="fu">params1st</span>());</code></
 }</code></pre>
 <p>.. and here is another:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> UploadsController <span class="kw">extends</span> AppController {
-    @POST
+    <span class="fu">@POST</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
         List&lt;FormItem&gt; items = <span class="fu">multipartFormItems</span>();
         <span class="co">//process items</span>

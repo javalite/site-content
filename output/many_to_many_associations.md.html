@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activejdbc>ActiveJDBC</a>
@@ -36,16 +36,16 @@ Many to many associations <small></small>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">John</td>
-<td align="left">Doe</td>
-<td align="left">otholaringology</td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>John</p></td>
+<td align="left"><p>Doe</p></td>
+<td align="left"><p>otholaringology</p></td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
-<td align="left">Hellen</td>
-<td align="left">Hunt</td>
-<td align="left">dentistry</td>
+<td align="left"><p>2</p></td>
+<td align="left"><p>Hellen</p></td>
+<td align="left"><p>Hunt</p></td>
+<td align="left"><p>dentistry</p></td>
 </tr>
 </tbody>
 </table>
@@ -63,14 +63,14 @@ Many to many associations <small></small>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">Jim</td>
-<td align="left">Cary</td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>Jim</p></td>
+<td align="left"><p>Cary</p></td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
-<td align="left">John</td>
-<td align="left">Carpenter</td>
+<td align="left"><p>2</p></td>
+<td align="left"><p>John</p></td>
+<td align="left"><p>Carpenter</p></td>
 </tr>
 </tbody>
 </table>
@@ -89,19 +89,19 @@ Many to many associations <small></small>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">2</td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>2</p></td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
-<td align="left">1</td>
-<td align="left">1</td>
+<td align="left"><p>2</p></td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>1</p></td>
 </tr>
 <tr class="odd">
-<td align="left">3</td>
-<td align="left">2</td>
-<td align="left">1</td>
+<td align="left"><p>3</p></td>
+<td align="left"><p>2</p></td>
+<td align="left"><p>1</p></td>
 </tr>
 </tbody>
 </table>
@@ -131,7 +131,7 @@ System.<span class="fu">out</span>.<span class="fu">println</span>(<span class="
 <p>The framework will generate appropriate select statement and execute it across two tables. This allows focusing on objects and abstract away from tabular nature of data in the DB.</p>
 <h3 id="conditional-selection-of-related-objects">Conditional selection of related objects</h3>
 <p>ActiveJDBC provides a way to filter related objects. Let's say that there are tables <code>PROGRAMMERS</code>, <code>PROJECTS</code> and <code>PROGRAMMERS_PROJECTS</code>. In this case, we will create a model <code>Assignments</code> that will represent the join table:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">Table</span>(<span class="st">&quot;programmers_projects&quot;</span>)
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@Table</span>(<span class="st">&quot;programmers_projects&quot;</span>)
 <span class="kw">public</span> <span class="kw">class</span> Assignments <span class="kw">extends</span> Model{}</code></pre>
 <p>as well as other models:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Project <span class="kw">extends</span> Model{}
@@ -169,20 +169,20 @@ programmer.<span class="fu">add</span>(project2);</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">3</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">2010-10-04 14:08:04</td>
-<td align="left">2010-10-04 14:08:04</td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>3</p></td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>2010-10-04 14:08:04</p></td>
+<td align="left"><p>2010-10-04 14:08:04</p></td>
 </tr>
 <tr class="even">
-<td align="left">2</td>
-<td align="left">NULL</td>
-<td align="left">2</td>
-<td align="left">1</td>
-<td align="left">2010-10-04 14:08:04</td>
-<td align="left">2010-10-04 14:08:04</td>
+<td align="left"><p>2</p></td>
+<td align="left"><p>NULL</p></td>
+<td align="left"><p>2</p></td>
+<td align="left"><p>1</p></td>
+<td align="left"><p>2010-10-04 14:08:04</p></td>
+<td align="left"><p>2010-10-04 14:08:04</p></td>
 </tr>
 </tbody>
 </table>
@@ -220,13 +220,13 @@ doctor.<span class="fu">add</span>(patient);</code></pre>
 <p>For more see here: <a href="delete_cascade">Delete cascade</a></p>
 <h2 id="overriding-associations">Overriding associations</h2>
 <p>If the naming conventions cannot be used, you can override the convention to let the framework know which models are bound in many-to-many association:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">Many2Many</span>(other = Course.<span class="fu">class</span>, join = <span class="st">&quot;registrations&quot;</span>, sourceFKName = <span class="st">&quot;astudent_id&quot;</span>, targetFKName = <span class="st">&quot;acourse_id&quot;</span>)
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@Many2Many</span>(other = Course.<span class="fu">class</span>, join = <span class="st">&quot;registrations&quot;</span>, sourceFKName = <span class="st">&quot;astudent_id&quot;</span>, targetFKName = <span class="st">&quot;acourse_id&quot;</span>)
 <span class="kw">public</span> <span class="kw">class</span> Student <span class="kw">extends</span> Model {}</code></pre>
 <p>Here, the <code>other</code> is a model that represents the other end of the relationship, <code>join</code> is a name of a join table (table in the middle), <code>sourceFKName</code> is a source foreign key name. A source is this model, in this case it is <code>Student</code>. This means that the framework will expect to find a column <code>astudent_id</code> in the table <code>registrations</code> and will assume that it contains keys of records of the <code>student</code> table. <code>targetFKName</code> is similar to the <code>sourceFKName</code>, but stands for a column <code>acourse_id</code> in the table <code>registrations</code> that contains keys to the records in the <code>courses</code> table.</p>
 <p>The annotation <code>@Many2Many</code> is one-sided. This means that it provides enough information to the framework, and there is no need to add another one to the model Course (it will not break if you do though).</p>
 <h2 id="real-models-for-join-tables">Real models for join tables</h2>
 <p>If join tables are represented by real models, ActiveJDBC handles it transparently. To illustrate the doctor - patient example above, you might want to indicate where a specific patient is treated.You would then add a new column to the <code>DOCTORS_PATIENTS</code> table called <code>location</code>. Then you would define a model like so:</p>
-<pre class="sourceCode java"><code class="sourceCode java">@<span class="fu">Table</span>(<span class="st">&quot;DOCTORS_PATIENTS&quot;</span>)
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@Table</span>(<span class="st">&quot;DOCTORS_PATIENTS&quot;</span>)
 <span class="kw">class</span> DocPat <span class="kw">extends</span> Model{}</code></pre>
 <p>In the case of the student/course, the join table already has a good name, so it is easy to define a new model:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Registration <span class="kw">extends</span> Model{}</code></pre>

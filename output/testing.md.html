@@ -1,6 +1,6 @@
 <ol class=breadcrumb>
    <li>
-<a href=/>Home</a>
+<a href=/>JavaLite</a>
 </li>
    <li>
 <a href=/activeweb>ActiveWeb</a>
@@ -54,7 +54,7 @@ Testing <small></small>
 <h2 id="example-of-a-dbspec-test">Example of a DBSpec test</h2>
 <p>Lets say we are developing a blog, and we need to persist a post. A post will have title, content and author. All these attributes are required. A test will look like this then:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> PostSpec <span class="kw">extends</span> DBSpec {
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldValidateRequiredAttributes</span>() {
         Post post = <span class="kw">new</span> <span class="fu">Post</span>();
         <span class="fu">a</span>(post).<span class="fu">shouldNotBe</span>(<span class="st">&quot;valid&quot;</span>);
@@ -96,7 +96,7 @@ Testing <small></small>
 <p>Note that the package name is the same for spec as it is for controller, since ActiveWeb will use reflection to determine the controller to be tested</p>
 <h3 id="sending-http-requests-from-specs">Sending HTTP requests from specs</h3>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendGetToIndex</span>() {
         <span class="fu">request</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
      }
@@ -109,7 +109,7 @@ Testing <small></small>
 </ul>
 <h2 id="sending-parameters-with-http-requests">Sending parameters with HTTP requests</h2>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendParamsToIndex</span>() {
         <span class="fu">request</span>().<span class="fu">param</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>).<span class="fu">param</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Deere&quot;</span>).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
         <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello, John Deere, welcome back&quot;</span>);
@@ -118,7 +118,7 @@ Testing <small></small>
 <p>This test is a little more complex, we are sending two parameters with the request, and also checking the value controller assigned to a view.</p>
 <p>The above example can be simplified with a use of a <code>params()</code> method that takes an even number of names an values for parameters:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendParamsToIndex</span>() {
          <span class="fu">request</span>().<span class="fu">params</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Deere&quot;</span>).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
          <span class="fu">a</span>(<span class="fu">val</span>(<span class="st">&quot;message&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Hello, John Deere, welcome back&quot;</span>);
@@ -128,7 +128,7 @@ Testing <small></small>
 <p>How many times you wished when developing a web application in Java to be able to generate a full HTML from the application in test, as if the application was running? Well, with ActiveWeb you can finally do this by using the <code>integrateViews()</code> method.</p>
 <p>Here is a modification on the previous example, but with the <code>integrateViews()</code></p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendParamsToIndexAndGenerateHTML</span>() {
         <span class="fu">request</span>().<span class="fu">params</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Deere&quot;</span>).<span class="fu">integrateViews</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
         <span class="fu">a</span>(<span class="fu">responseContent</span>()).<span class="fu">shouldContain</span>(<span class="st">&quot;&lt;span class=&quot;</span>greeting<span class="st">&quot;&gt;Hello, John Deere, welcome back&lt;/span&gt;&quot;</span>);
@@ -142,7 +142,7 @@ Testing <small></small>
 <h2 id="posting-binary-content">Posting binary content</h2>
 <p>Sometimes you need to test a case when binary data is POSTed to a web application. This can be easily tested with the <code>content()</code> method:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldSendBytes</span>() {
         <span class="dt">byte</span>[] mybytes = ...
         <span class="fu">request</span>().<span class="fu">content</span>(mybytes).<span class="fu">post</span>(<span class="st">&quot;index&quot;</span>);
@@ -152,7 +152,7 @@ Testing <small></small>
 <h2 id="uploading-files">Uploading files</h2>
 <p>Simulating file upload can be done with the formItem() method:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldUploadImageFile</span>() {
         <span class="dt">byte</span>[] imagebytes = ...
         <span class="fu">request</span>().<span class="fu">contentType</span>(<span class="st">&quot;multipart/form-data&quot;</span>).<span class="fu">formItem</span>(<span class="st">&quot;file.png&quot;</span>, <span class="st">&quot;image&quot;</span>, <span class="kw">true</span>,  <span class="st">&quot;applicaiton/png&quot;</span>, imagebytes).<span class="fu">post</span>(<span class="st">&quot;upload&quot;</span>);
@@ -163,7 +163,7 @@ Testing <small></small>
 <h2 id="working-with-sessions">Working with sessions</h2>
 <p>The <code>session()</code> method allows to setting objects into session before a test and also used to inspect objects in session after some action (execution of a controller)</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> LoginControllerSpec <span class="kw">extends</span> ControllerSpec {
-   @Test
+   <span class="fu">@Test</span>
    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldLoginByIdAndPassword</span>() {
         <span class="fu">request</span>().<span class="fu">params</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;mmonroe&quot;</span>, <span class="st">&quot;password&quot;</span>, <span class="st">&quot;kennedy&quot;</span>).<span class="fu">post</span>(<span class="st">&quot;index&quot;</span>);
         <span class="fu">a</span>(<span class="fu">session</span>(<span class="st">&quot;user&quot;</span>)).<span class="fu">shouldNotBeNull</span>();
@@ -173,7 +173,7 @@ Testing <small></small>
 <h2 id="working-with-cookies">Working with cookies</h2>
 <p>Cookies can be sent with a response using a <code>cookie()</code> method:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HelloControllerSpec <span class="kw">extends</span> ControllerSpec {
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldCookie</span>() {
         <span class="fu">request</span>().<span class="fu">cookie</span>(<span class="kw">new</span> <span class="fu">Cookie</span>(<span class="st">&quot;app_id&quot;</span>, <span class="st">&quot;12345&quot;</span>)).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
         <span class="fu">a</span>(<span class="fu">cookie</span>(<span class="st">&quot;last_access&quot;</span>)).<span class="fu">shouldNotBeNull</span>();
@@ -183,7 +183,7 @@ Testing <small></small>
 <h2 id="great-for-tdd">Great for TDD</h2>
 <p>ActiveWeb controller specs allow for true TDD, since they do not have a compiler dependency on controllers. You can describe full behavior of your controller before a controller class even exists. Simplest example:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> GreeterControllerSpec <span class="kw">extends</span> ControllerSpec {
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldRespondWithGreetingMessage</span>() {
         <span class="fu">request</span>().<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
         <span class="fu">a</span>(<span class="fu">responseCode</span>()).<span class="fu">shouldBeEqual</span>(<span class="dv">200</span>);
@@ -198,7 +198,7 @@ Testing <small></small>
 <p>While <code>ControllerSpec</code> and <code>DBControllerSpec</code> allow to test a single controller, the class <code>IntegrationSpec</code> allows to write entire scenarios for testing multiple controllers.</p>
 <p>Example:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> SimpleSpec <span class="kw">extends</span> IntegrationSpec {
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldNavigateToTwoControllers</span>() {
         <span class="fu">controller</span>(<span class="st">&quot;home&quot;</span>).<span class="fu">get</span>(<span class="st">&quot;index&quot;</span>);
         <span class="fu">a</span>(<span class="fu">statusCode</span>()).<span class="fu">shouldBeEqual</span>(<span class="dv">200</span>);
@@ -238,7 +238,7 @@ Testing <small></small>
 <pre class="prettyprint"><code>Name: ${name}</code></pre>
 <p>The view test might look something like this:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> PersonSpec <span class="kw">extends</span> ViewSpec {
-    @Test
+    <span class="fu">@Test</span>
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldRenderShow</span>() {
         <span class="fu">a</span>(<span class="fu">render</span>(<span class="st">&quot;/person/show&quot;</span>, <span class="st">&quot;name&quot;</span>, <span class="st">&quot;John&quot;</span>).<span class="fu">shouldEqual</span>(<span class="st">&quot;Name: John&quot;</span>);
      }
