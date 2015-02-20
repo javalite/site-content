@@ -31,7 +31,7 @@ String sql = "name IN ('John', 'Hellen', 'Henry')";
 Then you join this list with single quotes and commas:
 
 ~~~~ {.java}
-List names = list("John", "Hellen", "Henry");
+List names = Util.list("John", "Hellen", "Henry");
 List<Person> people = Person.where("name IN ('" + Util.join(names, "', '" + "')");
 ~~~~
 
@@ -41,7 +41,7 @@ so  your mileage may vary.
 NOTE:
 
 Please, see references to methods [Util#join](http://javalite.github.io/activejdbc/org/javalite/common/Util.html#join-java.lang.String:A-java.lang.String-)
-and [Collections#list](http://javalite.github.io/activejdbc/org/javalite/common/Collections.html#list-T...-) - they are statically imported.
+and [Collections#list](http://javalite.github.io/activejdbc/org/javalite/common/Collections.html#list-T...-) .
 These classes are already on a classpath of every ActiveJDBC application.
 
 

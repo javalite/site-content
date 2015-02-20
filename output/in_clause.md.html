@@ -25,8 +25,8 @@ In clause <small></small>
 <p>The workaround is pretty simple, if you want to execute this:</p>
 <pre class="sourceCode java"><code class="sourceCode java">String sql = <span class="st">&quot;name IN (&#39;John&#39;, &#39;Hellen&#39;, &#39;Henry&#39;)&quot;</span>;</code></pre>
 <p>Then you join this list with single quotes and commas:</p>
-<pre class="sourceCode java"><code class="sourceCode java">List names = <span class="fu">list</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Hellen&quot;</span>, <span class="st">&quot;Henry&quot;</span>);
+<pre class="sourceCode java"><code class="sourceCode java">List names = Util.<span class="fu">list</span>(<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Hellen&quot;</span>, <span class="st">&quot;Henry&quot;</span>);
 List&lt;Person&gt; people = Person.<span class="fu">where</span>(<span class="st">&quot;name IN (&#39;&quot;</span> + Util.<span class="fu">join</span>(names, <span class="st">&quot;&#39;, &#39;&quot;</span> + <span class="st">&quot;&#39;)&quot;</span>);</code></pre>
 <p>You can use this approach with relatively small lists, as the bigger the list, the longer the generated query. Every database has a limit on size of a query, so your mileage may vary.</p>
 <p>NOTE:</p>
-<p>Please, see references to methods <a href="http://javalite.github.io/activejdbc/org/javalite/common/Util.html#join-java.lang.String:A-java.lang.String-">Util#join</a> and <a href="http://javalite.github.io/activejdbc/org/javalite/common/Collections.html#list-T...-">Collections#list</a> - they are statically imported. These classes are already on a classpath of every ActiveJDBC application.</p>
+<p>Please, see references to methods <a href="http://javalite.github.io/activejdbc/org/javalite/common/Util.html#join-java.lang.String:A-java.lang.String-">Util#join</a> and <a href="http://javalite.github.io/activejdbc/org/javalite/common/Collections.html#list-T...-">Collections#list</a> . These classes are already on a classpath of every ActiveJDBC application.</p>
