@@ -1,6 +1,5 @@
 <ol class=breadcrumb>
    <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
    <li class=active>Support</li>
 </ol>
 <div class=page-header>
