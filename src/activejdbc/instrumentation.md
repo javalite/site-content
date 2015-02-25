@@ -53,11 +53,11 @@ and binds to a `process-classes` Maven phase. It will automatically instrument m
 
 Here is an example project with Ant - based instrumentation: [Ant exampe](https://github.com/javalite/ant-example)
 
-The class responsible for instrumentation is called `org.javalite.activejdbc.instrumentation.Main`, and here is an example of using it:
+The class responsible for instrumentation is called `org.javalite.instrumentation.Main`, and here is an example of using it:
 
 ~~~~ {.xml}
 <target name="instrument" depends="compile">
-    <java classname="org.javalite.activejdbc.instrumentation.Main">
+    <java classname="org.javalite.instrumentation.Main">
         <sysproperty key="outputDirectory" value="${classes}"/>
         <classpath refid="build_classpath"/>
     </java>
