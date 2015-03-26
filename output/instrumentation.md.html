@@ -21,7 +21,13 @@ Instrumentation <small></small>
 <h2 id="what-is-instrumentation">What is instrumentation?</h2>
 <p>Instrumentation is byte code manipulation that happens after compile phase. It adds static methods from super class to a subclass. Instrumentation allows to &quot;inherit&quot; static methods from a super class, making elegant code like this possible:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; retirees = Person.<span class="fu">where</span>(<span class="st">&quot;age &gt;= ?&quot;</span>, <span class="dv">65</span>);</code></pre>
-<p>Without instrumentation, ActiveJDBC would not be able to know what table to query. While instrumentation introduces an additional step in the process, the benefit is a very intuitive and concise API.</p>
+<p>Without instrumentation, ActiveJDBC would not be able to know which class is being called, and as a result, what table to query.</p>
+<p>For instance, in a case of no instrumentation, this call in source code:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person.<span class="fu">where</span>(...);</code></pre>
+<p>translates to this logic in bytecode:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Model.<span class="fu">where</span>(...);</code></pre>
+<p>It is evident, that there is no way to tell what model is executed, and as a result, we cannot map this call to a database table.</p>
+<p>While instrumentation introduces an additional step in the process, the benefit is a very intuitive and concise API.</p>
 <h2 id="maven-instrumentation-plugin">Maven instrumentation plugin</h2>
 <p>The simple usage of a Maven plugin is provided by a Maven ActiveJDBC Simple Example project: <a href="https://github.com/javalite/simple-example">Simple Mave Example</a>. Specifically, the plugin is added to a pom like this:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>

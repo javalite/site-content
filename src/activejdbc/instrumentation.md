@@ -23,8 +23,24 @@ possible:
 List<Person> retirees = Person.where("age >= ?", 65);
 ~~~~
 
-Without instrumentation, ActiveJDBC would not be able to know what table to query. While instrumentation introduces an
-additional step in the process, the benefit is a very intuitive and concise API.
+Without instrumentation, ActiveJDBC would not be able to know which class is being called, and as a result,
+what table to query.
+
+For instance, in a case of no instrumentation, this call in source code:
+
+~~~~ {.java}
+Person.where(...);
+~~~~
+
+translates to this logic in bytecode:
+
+~~~~ {.java}
+Model.where(...);
+~~~~
+
+It is evident, that there is no way to tell what model is executed, and as a result, we cannot map this call to a database table.
+
+While instrumentation introduces an additional step in the process, the benefit is a very intuitive and concise API.
 
 ## Maven instrumentation plugin
 
