@@ -46,9 +46,7 @@ interface external to any model and then register it:
 CallbackAdapter adapter = new CallbackAdapter() {
         @Override
         public void afterLoad(Model m) {
-            if (sw.enabled) {
-                m.set("name", m.get("name") + " :suffix added after load");
-            }
+            //do what you need to after a model is loaded with data from the database.
         }
     };
 
