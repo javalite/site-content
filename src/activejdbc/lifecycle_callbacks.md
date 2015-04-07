@@ -16,6 +16,9 @@ Like ActiveRecord, ActiveJDBC has lifecycle callbacks. These are methods that ca
 
 ~~~~ {.java}
 public interface  CallbackListener {
+
+    void afterLoad(Model m);
+
     void beforeSave(Model m);
     void afterSave(Model m);
 
@@ -40,16 +43,21 @@ You can implement the [CallbackListener](http://javalite.github.io/activejdbc/or
 interface external to any model and then register it:
 
 ~~~~ {.java}
-Registry.instance().addListener(Role.class, myListener);
+CallbackAdapter adapter = new CallbackAdapter() {
+        @Override
+        public void afterLoad(Model m) {
+            if (sw.enabled) {
+                m.set("name", m.get("name") + " :suffix added after load");
+            }
+        }
+    };
+
+Person.callbackWith(adapter);
 ~~~~
 
-or like this:
 
-~~~~ {.java}
-Role.addListener(myListener1, myListener2,...);
-~~~~
 
-this assuming that Role is a model. You can implement either the [CallbackListener](http://javalite.github.io/activejdbc/org/javalite/activejdbc/CallbackListener.html) interface or extend
+This is assuming that Person is a model. You can implement either the [CallbackListener](http://javalite.github.io/activejdbc/org/javalite/activejdbc/CallbackListener.html) interface or extend
 [CallbackAdapter](http://javalite.github.io/activejdbc/org/javalite/activejdbc/CallbackAdapter.html) (where all methods
 are implemented with blank bodies) and only override the ones you need.
 
@@ -67,7 +75,7 @@ Let's say we have a model `User`:
 public class User extends Model{}
 ~~~~
 
-and a user has a password that needs to be stored in a DB in encrypted form. Using callbacks is useful in this case,
+A user also has a password that needs to be stored in a DB in an encrypted form. Using callbacks is useful in this case,
 since all you have to do is to override a `beforeSave()` method and provide some encryption routine to make the password secure:
 
 ~~~~ {.java}
