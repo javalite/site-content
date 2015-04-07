@@ -20,6 +20,7 @@ h3 {
 ### Basics
 
 * [Setters and getters](setters_and_getters)
+* [English inflections](english_inflections)
 * [Database connection management](database_connection_management)
 * [Instrumentation](instrumentation)
 * [Record selection](record_selection)
