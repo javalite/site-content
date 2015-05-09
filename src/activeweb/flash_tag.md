@@ -116,3 +116,69 @@ HTML based on presence or absence of a flash object:
 
 The HTML code inside the IF condition has no restrictions to use any dynamic values from session of those passed into view by controller.
 
+## Internationalization of flash messages
+
+
+The FlashTag is not internationalized. However, you can do this using one of two methods.
+
+
+### Method 1: Use class Messages in controller
+
+Lets say your `activeweb_messages_properties` file contains this entry:
+
+    book_added=A book {0} was added to your library. Author: {1}
+
+Please, refer to [org.javalite.activejdbc.Messages](http://javalite.github.io/activejdbc/org/javalite/activejdbc/Messages.html)
+
+In controller write this:
+
+~~~~ {.java}
+flash("saved", Messages.message("book_added", "Hunger Games", "Suzanne Collins"));
+~~~~ 
+
+In view: 
+
+~~~~ {.html}
+<@flash name="saved" />
+~~~~
+
+This will print:  
+
+~~~~ {.html}
+A book Hunger Games was added to your library. Author: Suzanne Collins
+~~~~ 
+
+### Method 2: Use MessageTag
+
+Lets say your `activeweb_messages_properties` file contains this entry:
+
+~~~~ {.html}
+book_added=A book was added to your library.
+~~~~ 
+
+In controller:
+
+~~~~ {.java}
+flash("saved");
+~~~~ 
+
+In view: 
+
+
+~~~~ {.html}
+<@flash name="saved">
+  <@message key="book_added"/>
+</@flash>
+~~~~ 
+
+
+This will print: 
+    
+~~~~ {.html}
+A book {0} was added to your library. Author: {1}
+~~~~ 
+
+Method 1 should be used when you have parametrized messages. There is no way to pass a parameter to the MessageTag in method 2, 
+because it is running in a different request (after redirect).
+
+Choose a method that most appropriate for your app.
