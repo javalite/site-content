@@ -65,6 +65,15 @@ Specifically, the plugin is added to a pom like this:
 
 and binds to a `process-classes` Maven phase. It will automatically instrument model classes during the build.
 
+## Video: IntelliJ Idea + Instrumentation 
+
+This video clip shows how to do rapid application development with IntelliJ Idea and integrated instrumentation step. 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OHXJXzZNKCU" frameborder="0" allowfullscreen></iframe>
+
+For more, see [IntelliJ Integration](intellij_idea_integration)
+
+
 ## Ant instrumentation
 
 Here is an example project with Ant - based instrumentation: [Ant exampe](https://github.com/javalite/ant-example)
