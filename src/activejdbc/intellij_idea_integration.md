@@ -7,10 +7,18 @@
    <h1>Intellij idea integration <small></small></h1>
 </div>
 
-
-
 As a general rule of thumb, instrumentation needs to be performed in case you run a program or a test that will execute ActiveJDBC models.
 See [Instrumentation](instrumentation) for more detail. Instrumentation needs to execute after compile and before running your code.
+
+
+
+## Video: IntelliJ Idea + Instrumentation 
+
+This video clip shows how to do rapid application development with IntelliJ Idea and integrated instrumentation step. 
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OHXJXzZNKCU" frameborder="0" allowfullscreen></iframe>
+
 
 ## Configuration
 
