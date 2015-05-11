@@ -15,7 +15,7 @@ class (no Ant or Maven)
 
 ## What is instrumentation?
 
-Instrumentation is byte code manipulation that happens after compile phase. It adds static methods from super
+Instrumentation is byte code manipulation that happens after a compile phase. It adds static methods from super
 class to a subclass. Instrumentation allows to "inherit" static methods from a super class, making elegant code like this
 possible:
 
