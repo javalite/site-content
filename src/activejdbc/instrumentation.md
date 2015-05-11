@@ -146,5 +146,5 @@ Replace versions with the most up-to-date: [Maven search for ActiveJDBC](http://
 ## IDE Integrations
 
 * [Intellij Idea Integration ](intellij_idea_integration)
-* [Eclipse Integration](eclipse_integration)
-* [Netbeans Integration](netbeans_integration)
+* [Eclipse Integration](eclipseIntegration)
+* [Netbeans Integration](netbeansIntegration)
