@@ -5,6 +5,10 @@
 <div class=page-header>
    <h1>Support <small></small></h1>
 </div>
+
+> Please, do not use comment footer for support, but rather follow instructions  on this page. Comments are used strictly to improve content of this page.
+
+
 ## Support Groups
 
 If you have a questions, feel free to post to the respective forums:
