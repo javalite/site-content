@@ -27,7 +27,7 @@ public class RouteConfig extends AbstractRouteConfig {
 }
 ~~~~
 
-## Create cntroler for development environment
+### Create controler for development environment
 
 Then, create a new controller:
 
