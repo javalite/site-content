@@ -44,7 +44,7 @@ And override the `getLessFile()` method to return a location of your main Less f
 
 Additionally, add a Maven plugin to your pom file:
 
-### Single LESS file fonfiguration
+### Single LESS file configuration
 
 ~~~~ {.xml}
 <plugin>
