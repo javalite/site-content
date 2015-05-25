@@ -15,6 +15,8 @@ CSS file on the fly with a use of a Less compiler.
 
 Here is how to configure:
 
+### Configure routes
+
 First, configure the routes to ignore "/bootstrap.css" route in all environments except development:
 
 ~~~~ {.java}
@@ -25,6 +27,7 @@ public class RouteConfig extends AbstractRouteConfig {
 }
 ~~~~
 
+## Create cntroler for development environment
 
 Then, create a new controller:
 
@@ -41,11 +44,13 @@ And override the `getLessFile()` method to return a location of your main Less f
 
 Additionally, add a Maven plugin to your pom file:
 
+### Single LESS file fonfiguration
+
 ~~~~ {.xml}
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>activeweb-lessc-maven-plugin</artifactId>
-    <version>1.11-SNAPSHOT</version>
+    <version>${activeweb.version}</version>
     <configuration>
         <lesscMain>${basedir}/src/main/webapp/less/bootstrap.less</lesscMain>
         <targetDirectory>${basedir}/target/web</targetDirectory>
@@ -59,7 +64,42 @@ Additionally, add a Maven plugin to your pom file:
 </plugin>
 ~~~~
 
-Additionally, configure to package the CSS file into the app with a War plugin:
+### Multiple LESS files fonfiguration
+
+If your project has more than one LESS files, you can use alternative configuration to compile multiple files during the build: 
+
+~~~~ {.xml}
+<plugin>
+    <groupId>org.javalite</groupId>
+    <artifactId>activeweb-lessc-maven-plugin</artifactId>
+    <version>${activeweb.version}</version>
+    <configuration>
+        <lessConfigs>
+            <lessConfig implementation="org.javalite.lessc.maven.LessConfig">
+                <lesscMain>src/main/webapp/less1/bootstrap.less</lesscMain>
+                <targetDirectory>target/web1</targetDirectory>
+                <targetFileName>bootstrap.css</targetFileName>
+            </lessConfig>
+            <lessConfig implementation="org.javalite.lessc.maven.LessConfig">
+                <lesscMain>src/main/webapp/less2/bootstrap.less</lesscMain>
+                <targetDirectory>target/web2</targetDirectory>
+                <targetFileName>bootstrap.css</targetFileName>
+            </lessConfig>
+        </lessConfigs>
+    </configuration>
+    <executions>
+        <execution>
+            <goals>
+                <goal>compile</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+~~~~
+
+### Package the CSS into War file
+
+Configure to package the CSS file into the app with a War plugin:
 
 ~~~~ {.xml}
 <plugin>
