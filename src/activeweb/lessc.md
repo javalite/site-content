@@ -44,7 +44,7 @@ And override the `getLessFile()` method to return a location of your main Less f
 
 Additionally, add a Maven plugin to your pom file:
 
-### Single LESS file configuration
+### Configuration for a Single LESS file
 
 ~~~~ {.xml}
 <plugin>
@@ -64,7 +64,7 @@ Additionally, add a Maven plugin to your pom file:
 </plugin>
 ~~~~
 
-### Multiple LESS files configuration
+### Configuration for Multiple LESS files 
 
 If your project has more than one LESS files, you can use alternative configuration to compile multiple files during the build: 
 
