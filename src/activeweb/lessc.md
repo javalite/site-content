@@ -64,7 +64,7 @@ Additionally, add a Maven plugin to your pom file:
 </plugin>
 ~~~~
 
-### Multiple LESS files fonfiguration
+### Multiple LESS files configuration
 
 If your project has more than one LESS files, you can use alternative configuration to compile multiple files during the build: 
 
