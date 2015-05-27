@@ -4,7 +4,7 @@
    <li class=active>Eclipseintegration</li>
 </ol>
 <div class=page-header>
-   <h1>Eclipseintegration <small></small></h1>
+   <h1>Eclipse Integration <small></small></h1>
 </div>
 
 
