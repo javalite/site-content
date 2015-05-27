@@ -4,7 +4,7 @@
    <li class=active>Netbeansintegration</li>
 </ol>
 <div class=page-header>
-   <h1>Netbeansintegration <small></small></h1>
+   <h1>Netbeans Integration <small></small></h1>
 </div>
 
 
