@@ -44,7 +44,51 @@ of development where one database used for testing, but a different one used und
 executed, a "test" database is used, and when a project is run in a normal mode, a "development" database is used.
 Having sa separate database for testing ensures safety of data in the development database.
 
-## Example configuration
+## Property file configuration
+
+You can create a file called `database.properties` and place it on classpath or somewhere on the file system. 
+
+The content of the file can be similar to: 
+
+```
+development.driver=com.mysql.jdbc.Driver
+development.username=root
+development.password=pwd1
+development.url=jdbc:mysql://localhost/simple_development
+
+test.driver=com.mysql.jdbc.Driver
+test.username=root
+test.password=pwd2
+test.url=jdbc:mysql://localhost/simple_test
+
+production.driver=com.mysql.jdbc.Driver
+production.username=root
+production.password=pwd2
+production.url=jdbc:mysql://localhost/simple_test
+```
+
+The configure the class `app.config.DbConfig`: 
+
+
+```java
+public class DbConfig extends AbstractDBConfig {
+    public void init(AppContext context) {
+        configFile("/database.properties");
+        environment("production", true).jndi("jdbc/simple_production");        
+    }
+}
+```
+
+The property file configuration works well with [Database Migration](database_migrations) system, so that 
+configuration of database connections is done only in one place. 
+
+The last line in  `app.config.DbConfig` overrides "production" cofiguration from the file. The "production" configuration 
+in the file can be used by migration plugin, while the app itself will be using a connection from a pool provided by 
+container. 
+
+> Please, see a working example of file based configuration in the [ActiveWeb Simple](https://github.com/javalite/activeweb-simple/) project.
+
+## Java code configuration
 
 ~~~~ {.java  }
 public class DbConfig extends AbstractDBConfig {

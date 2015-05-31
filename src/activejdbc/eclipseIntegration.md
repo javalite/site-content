@@ -79,6 +79,54 @@ eclipse-config.png
 ![Eclipse config](images/eclipse-config.png)
 
 
-Once this is configured you can run your Java program or a JUnit test. Your Instrumentation builder will be executed in
+Once this is configured you can run your Java program or a JUnit test. Your Instrumentation builder will be executed 
 after Java Builder and Maven Project builder, ensuring that instrumentation is executed just before run time. Eclipse
 is also smart to call builders only if there are changes in code.
+
+## If you get: "execution not covered by lifecycle"
+
+Sometimes Eclipse has issues with Maven: ([m2 xecution Not Covered...](http://www.eclipse.org/m2e/documentation/m2e-execution-not-covered.html)). 
+This is not related to ActiveJDBC.  Here is a similar question on 
+[StackOverflow: How to solve Plugin execution not covered...](http://stackoverflow.com/questions/6352208/how-to-solve-plugin-execution-not-covered-by-lifecycle-configuration-for-sprin). 
+
+Also you can refer to this thread: [Plugin execution not covered by lifecycle configuration](https://groups.google.com/forum/#!searchin/activejdbc-group/execution$20not$20covered$20by$20lifecycle/activejdbc-group/xQ5gUSnCalc/MWvALjevdAoJ). 
+
+
+Generally you need to add `build > pluginManagement` tag and add the following content there: 
+
+
+~~~~ {.xml}
+<pluginManagement>
+    <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        <plugin>
+            <groupId>org.eclipse.m2e</groupId>
+            <artifactId>lifecycle-mapping</artifactId>
+            <version>1.0.0</version>
+            <configuration>
+                <lifecycleMappingMetadata>
+                    <pluginExecutions>
+                        <pluginExecution>
+                            <pluginExecutionFilter>
+                                <groupId>org.javalite</groupId>
+                                <artifactId>
+                                    activejdbc-instrumentation
+                                </artifactId>
+                                <versionRange>
+                                    [1.4.3,)
+                                </versionRange>
+                                <goals>
+                                    <goal>instrument</goal>
+                                </goals>
+                            </pluginExecutionFilter>
+                            <action>
+                                <ignore></ignore>
+                            </action>
+                        </pluginExecution>
+                    </pluginExecutions>
+                </lifecycleMappingMetadata>
+            </configuration>
+        </plugin>
+    </plugins>
+</pluginManagement>
+~~~~
