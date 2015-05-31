@@ -204,7 +204,7 @@ Here is an example of simple configuration:
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>db-migrator-maven-plugin</artifactId>
-    <version>1.4.9</version>
+    <version>1.4.10</version>
     <configuration>
         <driver>com.mysql.jdbc.Driver</driver>
         <url>jdbc:mysql://localhost/test_project</url>
@@ -232,7 +232,7 @@ First, configure the plugin in `pluginManagement`:
         <plugin>
             <groupId>org.javalite</groupId>
             <artifactId>db-migrator-maven-plugin</artifactId>
-            <version>1.4.9</version>
+            <version>1.4.10</version>
             <configuration>
                 <username>${jdbc.user}</username>
                 <password>${jdbc.password}</password>
