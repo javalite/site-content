@@ -14,7 +14,7 @@ it can be used in a subsequent request (of the same session), after which it die
 
 Flash messages are useful in cases when a POST/Redirect to GET pattern is used.
 
-## Working with flash message
+## Use case 1: pass message from controller
 
 Flash messages are created in controllers (or filters) like so:
 
@@ -65,12 +65,12 @@ Leaving a user on a POSTed page is a bad idea, because the same request can be r
 
 
 
-## Rendering FlashTag with body
+## Use case 2: Named FlashTag with body
 
 If you need to display a more complex HTML than a simple string, you can do so by placing a flash tag with body on the page: 
 
 ~~~~ {.html  }
-<@flash>
+<@flash name="warning">
  <div class="warning">${message}</div>
 </@flash>
 ~~~~
@@ -81,18 +81,17 @@ and calling a single argument method inside the controller:
 @POST
 public void create(){
 //.. code before
-    view("message", "Your changes have been saved successfully");
     flash("warning");
 //.. code after
 }
 ~~~~
 
 
-The body inside the flash tag lives by the same rules as any other in the template. You can use variables, FreeMarker syntax, lists or even 
+The body inside the flash tag lives by the same rules as any other in the template. You can use variables, normal syntax, lists or even 
 partials: 
 
 ~~~~ {.html}
-<@flash>
+<@flash name="warning">
 <@render partial="message"/>
 </@flash>
 ~~~~
@@ -100,11 +99,32 @@ partials:
 It allows to organize code for error and warning messages into reusable componets. 
 
 
+## Use case 3: Anonymous FlashTag with body
+
+In case you only need one flash tag with body, no need to specify a name:
+
+~~~~ {.html}
+<@flash name="warning">
+    <div class="message">Hello, this is a flash message!</div>
+</@flash>
+~~~~
+
+
+In controller:
+
+~~~~ {.java  }
+@POST
+public void create(){
+//.. code before
+    flash();
+//.. code after
+}
+~~~~
+
 
 ## Rendering dynamic snippets of HTML (old method)
 
-In the example above, a flash message is a simple string. However, it is possible to have it render entire chunks of
-HTML based on presence or absence of a flash object:
+Older method is still operational, but not recommended: 
 
 ~~~~ {.html}
 <#if (flasher.message) ??>

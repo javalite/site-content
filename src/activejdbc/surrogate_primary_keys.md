@@ -56,12 +56,45 @@ This way you can fully control the value of the ID and still do either update or
 
 ## What about composite PKs?
 
+You can have one of two scenarios: 
+
+### Composite keys and ID column
+
 You can have a composite PK in your table, as long as there is also an "ID" column ActiveJDBC can watch for
 inserts and updates. Composite keys are transparent to ActiveJDBC(in a sense it does not see or cares about them).
 This means that if you set attribute values into your model that violate the integrity of your data,
 ActiveJDBC will not complain, but the DB will (by throwing an exception save).
 This follows the same philosophy: ActiveJDBC does not implement what is already implemented by a lower level
 technology on stack.
+
+### Composite keys and no ID column
+
+In some cases you cannot add a new column to an existing table. When this happens, ActibeJDBC stil provides some support. 
+You can use a <code>CompositePK</code> annotation: 
+
+```java
+@CompositePK({ "first_name", "last_name", "email" })
+public class Developer extends Model {
+	static {
+		validatePresenceOf("first_name", "last_name", "email").message(
+				"one or more composite PK's missing!!!");
+	}
+}
+```
+
+The validator (see above) can also be used to prevent a trip to a database in case you do not have all required columns for a composite PK. 
+Searching with composite keys: 
+
+```java
+Developer.createIt("first_name", "Johnny", "last_name", "Cash", "email", "j.cash@spam.org", "address", "123 Pine St");
+Developer dev = Developer.findByCompositeKeys("Johnny", "WrongName", "j.cash@spam.org");
+// ... 
+```
+
+Ensure that the order of values is the same as in the definition of the <code>CompositePK</code> annotation. 
+For more examples, refer to tests: [CompositePkTest.java](https://github.com/javalite/activejdbc/blob/master/activejdbc/src/test/java/org/javalite/activejdbc/CompositePkTest.java)
+
+
 
 ## Override primary key
 
@@ -196,9 +229,3 @@ CREATE TABLE people (
 
 The keyword 'SERIAL' in PostgreSQL does the same as MySQL's AUTO_INCREMENT
 
-## Composite Primary Keys
-
-Like ActiveRecord, ActiveJDBC does not support composite primary keys. However, this does not mean that you cannot
-use AJ on tables with declared composite PKs. All it means is that AJ does not provide any constraint checks,
-and relies on the DB for that. It would still require to have a surrogate PK column in a table if you want to do
-inserts and updates, but will not require it if all you need is select.
