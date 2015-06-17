@@ -8,6 +8,6 @@
 
 ## ActiveJDBC Releases
 
-* [June 17 2015](activejdbc-release-notes-june17-2015)
+* [June 17 2015 Release Notes](activejdbc-release-notes-june17-2015)
 
 
