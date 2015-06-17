@@ -158,6 +158,11 @@ Currently the following databases are supported:
 
 Adding a new dialect is relatively easy. Just look at commits on this branch: [h2integration](https://github.com/javalite/activejdbc/tree/h2integration)
 
+
+## Releases
+
+Please, refer to [ActiveJDBC Releases](activejdbc_releases).
+
 ## Getting the latest version
 
 For the latest version  refer to [ActiveJDBC on Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cactivejdbc).
