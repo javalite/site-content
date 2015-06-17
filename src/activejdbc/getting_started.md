@@ -45,7 +45,7 @@ CREATE TABLE employees (
 <dependency>
     <groupId>org.javalite</groupId>
     <artifactId>activejdbc</artifactId>
-    <version>1.4.10</version>
+    <version>1.4.11</version>
 </dependency>
 ~~~~
 
@@ -59,7 +59,7 @@ Add the     following to the plugins section of the POM:
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>activejdbc-instrumentation</artifactId>
-    <version>1.4.10</version>
+    <version>1.4.11</version>
     <executions>
         <execution>
             <phase>process-classes</phase>

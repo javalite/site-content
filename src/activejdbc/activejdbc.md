@@ -173,7 +173,7 @@ If you use Maven add this to your pom:
 
 Do not forget to replace LATEST_VERSION with the latest version deployed to Maven Central (see above)
 
-Current latest version: 1.4.10.
+Current latest version: 1.4.11.
 
 
 Additionally, configure Instrumentation plugin:
