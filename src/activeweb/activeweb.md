@@ -65,6 +65,12 @@ Direct link to video on Youtube: [http://www.youtube.com/watch?v=YX1TAtuSqQE](ht
 
 To get a quick idea on what this is about, see [Five Minute Guide To ActiveWeb](five_minute_guide_to_activeweb)
 
+
+## Releases
+
+Please, refer to [ActiveWeb Releases](activeweb_releases).
+
+
 ## How to download
 
 ### Maven
@@ -73,7 +79,7 @@ To get a quick idea on what this is about, see [Five Minute Guide To ActiveWeb](
 <dependency>
     <groupId>org.javalite</groupId>
     <artifactId>activeweb</artifactId>
-    <version>1.11</version>
+    <version>1.13</version>
 </dependency>
 ~~~~
 
