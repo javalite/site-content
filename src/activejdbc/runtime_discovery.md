@@ -22,7 +22,7 @@ What gets discovered:
 
 Please, see [English inflections](english_inflections) to understand how table names are mapped to model names
 
-In other words, the metadata for all models and relationships is discovered at runtime from database schema. 
+> The metadata for all models and relationships is discovered at runtime from database schema. 
 
 ## Automatic Entity Relationship Diagram
 
