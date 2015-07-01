@@ -138,59 +138,59 @@ Fetched metadata for table: users
 Fetched metadata for table: vegetables
 Fetched metadata for table: vehicles
 Fetched metadata for table: watermelons
- Association found: comments  >----------  articles, type: belongs-to-polymorphic
- Association found: articles  ----------<  comments, type: has-many-polymorphic
- Association found: comments  >----------  posts, type: belongs-to-polymorphic
- Association found: posts  ----------<  comments, type: has-many-polymorphic
- Association found: comments  >----------  prescriptions, type: belongs-to-polymorphic
- Association found: prescriptions  ----------<  comments, type: has-many-polymorphic
- Association found: students  >---------<  courses, type: many-to-many, join: registrations
- Association found: courses  >---------<  students, type: many-to-many, join: registrations
- Association found: recipes  >---------<  ingredients, type: many-to-many, join: ingredients_recipes
- Association found: ingredients  >---------<  recipes, type: many-to-many, join: ingredients_recipes
- Association found: keyboards  ----------<  computers, type: has-many
- Association found: computers  >----------  keyboards, type: belongs-to
- Association found: motherboards  ----------<  computers, type: has-many
- Association found: computers  >----------  motherboards, type: belongs-to
- Association found: tags  >----------  articles, type: belongs-to-polymorphic
- Association found: articles  ----------<  tags, type: has-many-polymorphic
- Association found: tags  >----------  posts, type: belongs-to-polymorphic
- Association found: posts  ----------<  tags, type: has-many-polymorphic
- Association found: classifications  >----------  vehicles, type: belongs-to-polymorphic
- Association found: vehicles  ----------<  classifications, type: has-many-polymorphic
- Association found: classifications  >----------  mammals, type: belongs-to-polymorphic
- Association found: mammals  ----------<  classifications, type: has-many-polymorphic
- Association found: libraries  ----------<  books, type: has-many
- Association found: books  >----------  libraries, type: belongs-to
- Association found: nodes  ----------<  nodes, type: has-many
- Association found: nodes  >----------  nodes, type: belongs-to
- Association found: rooms  >----------  addresses, type: belongs-to
- Association found: addresses  ----------<  rooms, type: has-many
- Association found: readers  >----------  books, type: belongs-to
- Association found: books  ----------<  readers, type: has-many
- Association found: sub_classifications  >----------  classifications, type: belongs-to
- Association found: classifications  ----------<  sub_classifications, type: has-many
- Association found: doctors_patients  >----------  doctors, type: belongs-to
- Association found: doctors  ----------<  doctors_patients, type: has-many
- Association found: doctors  >---------<  patients, type: many-to-many, join: doctors_patients
- Association found: doctors_patients  >----------  patients, type: belongs-to
- Association found: patients  ----------<  doctors_patients, type: has-many
- Association found: prescriptions  >----------  patients, type: belongs-to
- Association found: patients  ----------<  prescriptions, type: has-many
- Association found: patients  >---------<  doctors, type: many-to-many, join: doctors_patients
- Association found: programmers_projects  >----------  programmers, type: belongs-to
- Association found: programmers  ----------<  programmers_projects, type: has-many
- Association found: programmers  >---------<  projects, type: many-to-many, join: programmers_projects
- Association found: programmers_projects  >----------  projects, type: belongs-to
- Association found: projects  ----------<  programmers_projects, type: has-many
- Association found: projects  >---------<  programmers, type: many-to-many, join: programmers_projects
- Association found: addresses  >----------  users, type: belongs-to
- Association found: users  ----------<  addresses, type: has-many
+Association found: comments  >----------  articles, type: belongs-to-polymorphic
+Association found: articles  ----------<  comments, type: has-many-polymorphic
+Association found: comments  >----------  posts, type: belongs-to-polymorphic
+Association found: posts  ----------<  comments, type: has-many-polymorphic
+Association found: comments  >----------  prescriptions, type: belongs-to-polymorphic
+Association found: prescriptions  ----------<  comments, type: has-many-polymorphic
+Association found: students  >---------<  courses, type: many-to-many, join: registrations
+Association found: courses  >---------<  students, type: many-to-many, join: registrations
+Association found: recipes  >---------<  ingredients, type: many-to-many, join: ingredients_recipes
+Association found: ingredients  >---------<  recipes, type: many-to-many, join: ingredients_recipes
+Association found: keyboards  ----------<  computers, type: has-many
+Association found: computers  >----------  keyboards, type: belongs-to
+Association found: motherboards  ----------<  computers, type: has-many
+Association found: computers  >----------  motherboards, type: belongs-to
+Association found: tags  >----------  articles, type: belongs-to-polymorphic
+Association found: articles  ----------<  tags, type: has-many-polymorphic
+Association found: tags  >----------  posts, type: belongs-to-polymorphic
+Association found: posts  ----------<  tags, type: has-many-polymorphic
+Association found: classifications  >----------  vehicles, type: belongs-to-polymorphic
+Association found: vehicles  ----------<  classifications, type: has-many-polymorphic
+Association found: classifications  >----------  mammals, type: belongs-to-polymorphic
+Association found: mammals  ----------<  classifications, type: has-many-polymorphic
+Association found: libraries  ----------<  books, type: has-many
+Association found: books  >----------  libraries, type: belongs-to
+Association found: nodes  ----------<  nodes, type: has-many
+Association found: nodes  >----------  nodes, type: belongs-to
+Association found: rooms  >----------  addresses, type: belongs-to
+Association found: addresses  ----------<  rooms, type: has-many
+Association found: readers  >----------  books, type: belongs-to
+Association found: books  ----------<  readers, type: has-many
+Association found: sub_classifications  >----------  classifications, type: belongs-to
+Association found: classifications  ----------<  sub_classifications, type: has-many
+Association found: doctors_patients  >----------  doctors, type: belongs-to
+Association found: doctors  ----------<  doctors_patients, type: has-many
+Association found: doctors  >---------<  patients, type: many-to-many, join: doctors_patients
+Association found: doctors_patients  >----------  patients, type: belongs-to
+Association found: patients  ----------<  doctors_patients, type: has-many
+Association found: prescriptions  >----------  patients, type: belongs-to
+Association found: patients  ----------<  prescriptions, type: has-many
+Association found: patients  >---------<  doctors, type: many-to-many, join: doctors_patients
+Association found: programmers_projects  >----------  programmers, type: belongs-to
+Association found: programmers  ----------<  programmers_projects, type: has-many
+Association found: programmers  >---------<  projects, type: many-to-many, join: programmers_projects
+Association found: programmers_projects  >----------  projects, type: belongs-to
+Association found: projects  ----------<  programmers_projects, type: has-many
+Association found: projects  >---------<  programmers, type: many-to-many, join: programmers_projects
+Association found: addresses  >----------  users, type: belongs-to
+Association found: users  ----------<  addresses, type: has-many
 
 ```
 
 This output was taken from running [ModelTest.java](https://github.com/javalite/activejdbc/blob/master/activejdbc/src/test/java/org/javalite/activejdbc/ModelTest.java).
-There are three sections: registration, mapping, and associations. 
+There are three sections: registration, mapping, andAssociations. 
 
 The Entity Relationship diagram is represented by a [Crow's foot notation](https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model#Crow.27s_foot_notation). 
 
@@ -224,17 +224,17 @@ A doctor sees many patients and a patient visits many doctors.
 Many to many relationship is in effect represented by other one-to-many relationships: 
 
 ```
- Association found: doctors_patients  >----------  doctors, type: belongs-to
- Association found: doctors  ----------<  doctors_patients, type: has-many
- Association found: doctors  >---------<  patients, type: many-to-many, join: doctors_patients
- Association found: doctors_patients  >----------  patients, type: belongs-to
- Association found: patients  ----------<  doctors_patients, type: has-many
+Association found: doctors_patients  >----------  doctors, type: belongs-to
+Association found: doctors  ----------<  doctors_patients, type: has-many
+Association found: doctors  >---------<  patients, type: many-to-many, join: doctors_patients
+Association found: doctors_patients  >----------  patients, type: belongs-to
+Association found: patients  ----------<  doctors_patients, type: has-many
 ```
 
-### Polimorphic associations
+### Polimorphic Associations
 
-Polymorphic association information is not sourced from the schem, but rather configured in code using annotations. 
+Polymorphic Association information is not sourced from the schem, but rather configured in code using annotations. 
 
-Please, see: [Polimorphic associations](polymorphic_associations).
+Please, see: [Polimorphic Associations](polymorphic_associations).
 
 
