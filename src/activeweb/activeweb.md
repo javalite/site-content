@@ -32,30 +32,12 @@
 
 ## Documentation
 
-* [Five Minute Guide To ActiveWeb](five_minute_guide_to_activeweb)
-* [Getting started - Hello world application](getting_started_activeweb)
-* [MVC Pattern](mvc_pattern)
-* [Structure of ActiveWeb project](structure_of_activeweb_project)
-* [Controllers](controllers)
-* [Dependency Injection](dependency_injection)
-* [Database Configuration](database_configuration)
-* [DB Migrations](database_migrations)
-* [Controller Filters](controller_filters)
-* [Testing](testing)
-* [Views](views)
-* [Running in development mode](running_in_development_mode)
-* [Routing](routing)
-* [Captcha](captcha)
-* [Application context](app_context)
-* [Less compiler](lessc)
-* [Deploying to Heroku](deploying_to_heroku)
-* [Developing on a Mac](mac_osx)
-
+Follow to: [ActiveWeb documentation](documentation#activeweb)
 
 ## 5 minute video to understand ActiveWeb
 
 Watch a quick video on Youtube that demonstrates ActiveWeb's ability to add code to the application
-dynamically, at run time
+dynamically, at run time.
 
 <iframe width="425" height="344" frameborder="0" src="http://www.youtube.com/embed/YX1TAtuSqQE"></iframe>
 

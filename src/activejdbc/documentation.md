@@ -21,6 +21,7 @@ h3 {
 
 * [Setters and getters](setters_and_getters)
 * [English inflections](english_inflections)
+* [Runtime discovery](runtime_discovery)
 * [Database connection management](database_connection_management)
 * [Instrumentation](instrumentation)
 * [Record selection](record_selection)

@@ -41,6 +41,9 @@ Other working examples:
 
 Here is [JavaDoc for ActiveJDBC](http://javalite.github.io/activejdbc/)
 
+## Documentation
+
+Follow to: [ActiveJDBC documentation](documentation#activejdbc)
 
 ## 5 minute introduction
 
@@ -67,6 +70,7 @@ public class Person extends Model {}
 
 Despite the fact that there is no code in the body of the class, it is fully functional and will
 map to a table called `PEOPLE` *automatically*.
+
 
 ### How to query
 

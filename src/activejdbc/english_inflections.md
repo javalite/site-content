@@ -12,11 +12,11 @@
 
 ## Table vs Model name
 
-By convention, all tables use plural form for a name, while corresponding models use singular form.
+By convention, all tables use a plural form, while corresponding models use singular form of a word.
 
 Examples are:
 
-* Table `COMPUTER` is mapped to model `Computer`
+* Table `COMPUTERS` is mapped to model `Computer`
 * Table `PEOPLE` is mapped to model `Person`
 * etc.
 
@@ -26,7 +26,7 @@ Examples are:
 ## English inflections
 
 ActiveJDBC is using English inflections to convert singular form of a model to a plural form of a table.
-It does include simple cases such as adding an "s" at the end: `COMPUTER` => `Computer`, as well
+It does include simple cases such as adding an "s" at the end: `COMPUTERS` => `Computer`, as well
  as English exceptions, such as `PEOPLE` => `Person`, `MICE` => `Mouse`, etc.
 
 > If you are interested in how this is done, and what exceptions are supported, you can inspect source code
