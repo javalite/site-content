@@ -11,7 +11,7 @@
 
 ## Runtime discovery
 
-ActiveJDBC performs a runtime discovery of tables that correspond to models at run time. This happens once when any model is used for the first time. 
+ActiveJDBC performs a runtime discovery of tables that correspond to models. This happens once when any model is used for the first time. 
 
 What gets discovered: 
 
