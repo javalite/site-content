@@ -30,9 +30,11 @@ This column will be updated each time there an update to an existing record via 
 
 Let's say we have an empty table PEOPLE:
 
-+----+------------+-----------+-----------------+-----------------+
-| id | first_name | last_name | created_at      | updated_at      |
-+====+============+===========+=================+=================+
++----+------------+-----------+---------------------+----------------------+
+| id | first_name | last_name | created_at          | updated_at           |
++====+============+===========+=====================+======================+
+|    |            |           |                     |                      |
++----+------------+-----------+---------------------+----------------------+
 
 A model will look like this:
 
