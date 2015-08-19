@@ -90,6 +90,63 @@ cache in the first place.
 
 ## Things to be careful about
 
+### Potential for memory leaks
+
+ActiveJDBC caches results from queries on object level. For instance, lets consider this code: 
+
+```java
+
+@Cached
+public class Student(){}
+
+...
+
+List<Student> students = professor.getAll(Student.class); 
+
+```
+Essentially the framework generates a query like this: 
+
+```sql
+SELECT * FROM students WHERE professor_id = ?;
+```
+
+and sets a parameter `professor_id` to prepared statement. Since the model `Student` is `@Cached`, 
+then entire `List<Student> students` list will be cached. 
+
+>The key to the list as a cached object is a combination of 
+ query text as well as all parameters to the query. 
+
+
+As a result, these two queries:
+
+```sql
+SELECT * FROM students WHERE professor_id = 1;
+SELECT * FROM students WHERE professor_id = 2;
+```
+
+will produce two independent lists in cache just because their parameters are different. 
+So, what will happen if you run many thousands or millions of queries that are the same, but only differ 
+in parameters? You guess it, you will end up with millions of useless objects in cache and eventually will 
+get an [OutOfMemoryError](http://docs.oracle.com/javase/7/docs/api/java/lang/OutOfMemoryError.html). 
+
+The solution is to examine code, and ensure you are caching objects that are actually reusable. 
+
+It is possible to access and manage cache directly instead of `@Cached` annotation: 
+
+```java
+
+import org.javalite.activejdbc.Registry;
+
+CacheManager manager = Registry.getCacheManager();
+manager.addCache(group, key, object); 
+
+///then later in code: 
+
+List<Students> students = (List<Students>)manager.getCache(group, key);
+```
+
+This way, you have a fine-tuned ability to only store specific objects in cache.  
+
 ### Cached data is exposed directly 
 
 When retrieving instances of cached models, be aware that exactly the same instances can be returned by subsequent calls to the same query. ActiveJDBC, as a lightweight framework, won't try to be "intelligent" and manage clones of cached data for you. So, for example, considering `Person` is annotated as `@Cached`, two subsequent calls to `Person.findById(1)` will return the same instance:

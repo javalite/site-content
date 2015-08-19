@@ -1,14 +1,11 @@
 <ol class=breadcrumb>
    <li><a href=/>JavaLite</a></li>
    <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>Getting started activeweb</li>
+   <li class=active>ActiveWeb: Getting started</li>
 </ol>
 <div class=page-header>
-   <h1>Getting started activeweb <small></small></h1>
+   <h1>Getting started <small></small></h1>
 </div>
-Getting started with ActiveWeb| <a href="/activeweb">ActiveWeb</a>,Getting started with ActiveWeb
-
-
 
 
 This simple ActiveWeb project available for download demonstrates main principles of the framework.
@@ -17,34 +14,51 @@ and how to perform dependency injection.
 
 ## Pre-requisites
 
-* Java :)
+* Java (any version will do)
 * Maven 2/3
-* MySQL (only required for this startup program, not a real dependency for ActiveWeb)
+* MySQL (only required for this startup app, not a real dependency for ActiveWeb)
 
-
-## Create DB  schemas (in MySQL):
-
-* `simple_development`
-* `simple_test`
 
 ## Get example app
 
 Clone the app: [ActiveWeb simple example](https://github.com/javalite/activeweb-simple/)
 
-## Code modifications
-
-Modify JDBC connection parameters in:
-
-* class `app.config.DbConfig`</li>
-* pom.xml
+```
+git clone git@github.com:javalite/activeweb-simple.git
+```
 
 
-## Start container
+## Adjust DB properties
+ 
+Edit this file, and adjust connection properties, as well as database names for different environments
+ 
 
-* Execute:
+```
+src/main/resources/database.properties
+```
+
+
+## Create DB  schemas (in MySQL):
+
+Execute the following in the root of the app:
+
+```
+mvn db-migrator:create
+mvn db-migrator:migrate
+```
+
+This will create appropriate databases in MySQL and run migrations located in 
+
+```
+src/migrations
+```
+
+## Start the app
+
+Execute:
 
 ~~~~ {.prettyprint}
 mvn jetty:run
 ~~~~
 
-* Navigate with browser: [http://localhost:8080/activeweb-simple/](http://localhost:8080/activeweb-simple/)
+Navigate with browser: [http://localhost:8080/activeweb-simple/](http://localhost:8080/activeweb-simple/)
