@@ -38,9 +38,8 @@ List<Person> people = Person.where("name IN ('" + Util.join(names, "', '") + "')
 You can use this approach with relatively small lists, as the bigger the list, the longer the generated query. Every database has a limit on size of a query,
 so  your mileage may vary.
 
-NOTE:
 
-Please, see references to methods [Util#join](http://javalite.github.io/activejdbc/org/javalite/common/Util.html#join-java.lang.String:A-java.lang.String-)
+> Please, see references to methods [Util#join](http://javalite.github.io/activejdbc/org/javalite/common/Util.html#join-java.lang.String:A-java.lang.String-)
 and [Collections#list](http://javalite.github.io/activejdbc/org/javalite/common/Collections.html#list-T...-) .
 These classes are already on a classpath of every ActiveJDBC application.
 
