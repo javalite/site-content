@@ -165,6 +165,46 @@ If you want to work directly with some connection pool, you can do so by feeding
 new DB("default").open(datasourceInstance);
 ~~~~
 
+
+## Multiple environments
+
+The easiest way to configure multiple connections for different environments is to use a property file. 
+ By convention, this file is called `database.properties` and located at the root of classpath. 
+
+Here is an example of such a file:
+
+
+```
+development.driver=com.mysql.jdbc.Driver
+development.username=user1
+development.password=pwd
+development.url=jdbc:mysql://localhost/acme_development
+
+test.driver=com.mysql.jdbc.Driver
+test.username=user2
+test.password=pwd
+test.url=jdbc:mysql://localhost/acme_test
+
+production.jndi=java:comp/env/jdbc/acme
+
+```
+
+In order for this to work, you need to configure an environment variable `ACTIVE_ENV` to a value that is equal to a 
+property set key.  According to a file above, the `ACTIVE_ENV` can take on values `development` and `production`. 
+The `test` is special because it is used in development environment, but for running tests. 
+
+Once the file is configured and placed at the root of classpath, you would open connections with a no-argument 
+method like this: 
+
+```java
+new DB("default").open();
+```
+ 
+A configuration related to the current environment will be selected and used to open a connection. This makes it easy 
+to develop applications that live on different environments, and simply "know" where to connect on each. 
+
+> If environment variable `ACTIVE_ENV` is not defined, the framework defaults to environment `development`.
+
 ## Specifying DB Schema
 
 In most cases you do not need to worry about this. However, for Oracle and PostgreSQL, some schema elements may leak
