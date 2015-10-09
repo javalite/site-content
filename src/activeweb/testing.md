@@ -24,7 +24,7 @@ them before actual implementations.
 ## JSpec
 
 While ActiveWeb tests are written with the popular JUnit testing framework, traditionally expectations are written
-with [JSpec](JSpec)
+with [JSpec](jspec)
 
 
 ## DBSpec for database tests

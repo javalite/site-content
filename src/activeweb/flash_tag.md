@@ -104,7 +104,7 @@ It allows to organize code for error and warning messages into reusable componet
 In case you only need one flash tag with body, no need to specify a name:
 
 ~~~~ {.html}
-<@flash name="warning">
+<@flash>
     <div class="message">Hello, this is a flash message!</div>
 </@flash>
 ~~~~
@@ -115,11 +115,78 @@ In controller:
 ~~~~ {.java  }
 @POST
 public void create(){
-//.. code before
+    //...
     flash();
-//.. code after
+    //...
 }
 ~~~~
+
+## Testing named flash with message 
+
+If you set this in the controller: 
+
+~~~~ {.java  }
+@POST
+public class BooksController extends AppController{
+    public void create(){
+        // ...
+        flash("success", "Your book was saved successfully")
+        // ...
+    }
+}
+~~~~
+
+
+Then you can write a test like this:
+
+~~~~ {.java  }
+public class BooksControllerSpec extends DBControllerSpec{
+   public void shouldSaveBook(){
+        request().params("title", "To Kill a Mockingbird", "author", "Harper Lee").post("save");
+        the(flash("success")).shouldBeEqual("Your book was saved successfully");
+   }
+}
+~~~~
+
+
+
+
+## Testing named flash with body 
+
+If you set this in the controller: 
+
+~~~~ {.java  }
+@POST
+public class BooksController extends AppController{
+    public void create(){
+        // ...
+        flash("success")
+        // ...
+    }
+}
+~~~~
+
+and your view looks like this: 
+
+~~~~ {.html}
+<@flash name="success">
+    <div class="success">Your book was saved successfully!</div>
+</@flash>
+~~~~
+
+
+Then you can write a test like this:
+
+```java
+public class BooksControllerSpec extends DBControllerSpec{
+   public void shouldSaveBook(){
+        request().params("title", "To Kill a Mockingbird", "author", "Harper Lee").post("save");
+        the(flashExists("success")).shouldBeTrue();
+        the(responseContent()).shouldContain("Your book was saved successfully!");
+   }
+}
+```
+
 
 
 ## Rendering dynamic snippets of HTML (old method)
