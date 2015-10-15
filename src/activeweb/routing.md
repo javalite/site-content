@@ -268,3 +268,9 @@ public class RouteConfig extends AbstractRouteConfig {
     }
 }
 ~~~~
+
+In the example above, the web request to this `/bootstrap` URI will result in passing control to a `BootstrapController`
+  only in `development` environment. The same request will be completely ignored in any other environment. 
+    This means that in non-`development` environment, the server will simply serve `/bootstrap.css` file. 
+
+This is a convenience feature that is commonly used with [Lessc compiler](lessc).
