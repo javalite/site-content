@@ -34,6 +34,20 @@ System.out.println(post.responseCode())
 Similar to the above.  You can find full JavaDoc here:
 <a href="http://javalite.github.io/activejdbc/org/javalite/http/package-summary.html">JavaLite HTTP JavaDoc</a>
 
+## POST content
+
+```java
+Post post = Http.post(url, content)
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/json");
+```
+
+## Basic authentication
+
+```java
+String response = Http.get(url).basic(user, password).text();
+```
+
 ## How to get the dependency
 
 ~~~~ {.xml}
