@@ -49,6 +49,7 @@ h3 {
 
 ### Miscellaneous
 
+* [DB migrations](database_migrations)
 * [Lifecycle Callbacks](lifecycle_callbacks)
 * [Statistical reporting](statistics_reporting)
 * [Caching](caching)
@@ -57,13 +58,12 @@ h3 {
 * [Transactions](transactions)
 * [Logging](logging)
 * [IN Clause](in_clause)
-
-### Testing
-* [JSpec](jspec)
-* [DB migrations](database_migrations)
-* [Writing tests](writing_tests)
 * [Delete cascade](delete_cascade)
 * [Inheritance](inheritance)
+
+### Testing
+* [JSpec](jspec)    
+* [Writing tests](writing_tests)
 
 ### IDE Integrations
 

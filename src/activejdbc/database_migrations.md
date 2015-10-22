@@ -184,6 +184,13 @@ mvn db-migrator:migrate -Denvironments=staging
 The command above will run the goal `migrate` with a set of properties to point to staging environment.
 It makes it easy to point the plugin to different databases and write simple scripts for migrations.
 
+If you want to execute for multiple environments (typical example, is to migrate all local databases), simply 
+ list environments as a comma separated list:
+
+```
+mvn db-migrator:migrate -Denvironments=test,development
+```
+
 
 ### Property file location
 

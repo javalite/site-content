@@ -8,15 +8,12 @@
 </div>
 
 
+ActiveWeb uses two application classes for configuration: 
 
-ActiveWeb *does not use* property files, XML, Yaml or any other text files for configuration. Configuration
-is done in Java code. There are a few advantages of this approach: auto-suggestions by IDE, documentation at
-finger tips, and some level of comfort from Java compiler.
-
-ActiveWeb uses two application classes for configuration: `app.config.AppControllerConfig` and `app.config.DbConfig`.
-Both of these classes are initialized from a third application level class called `app.config.AppBootstrap`.
-
-## Database connections' configuration
+* `app.config.DbConfig` - allows to configure connections for different environments.
+* `app.config.AppControllerConfig` - allows configuration of `DBConnectionFilter` instances to various controllers. 
+  See [Bind connections to controllers](#bind-connections-to-controllers)
+  
 
 In order to configure database connection, an application needs to provide a class called `app.config.DbConfig`.
 It is used to configure database connections for various **environments and modes**.
@@ -30,21 +27,28 @@ have four: development, continuous integration, staging and production
 
 ## How to specify an environment
 
-An environment is specified by an environment variable: `ACTIVE_ENV` Every computer where an ActiveWeb project gets executed, needs to have this variable specified. This value is used to determine which DB connections need to be initialized.
+An environment is specified by an environment variable: `ACTIVE_ENV` Every computer where an ActiveWeb project gets 
+executed, needs to have this variable specified. This value is used to determine which DB connections need to be initialized.
 
-## Default environment
+> Default environment: In case an environment variable `ACTIVE_ENV` is not provided, the framework defaults to "development".
 
-In case an environment variable `ACTIVE_ENV` is not provided, the framework defaults to "development".
+## Execution modes
 
-## What is a mode?
+ActiveWeb defines two modes of operation: 
 
-ActiveWeb defines two modes of operation: "standard", which is also implicit, and "testing". Standard mode is used
-during regular run of the program, and testing used during the build when tests are executed. ActiveWeb promotes a style
-of development where one database used for testing, but a different one used under normal execution. When tests are
-executed, a "test" database is used, and when a project is run in a normal mode, a "development" database is used.
-Having sa separate database for testing ensures safety of data in the development database.
+* "standard" - is also implicit and default. Used during regular execution of applications 
+* "testing" - used during the build when tests are executed
 
-## Property file configuration
+ActiveWeb promotes a style of development where one database used for testing, but a different one used under normal 
+execution. When tests are executed, a "test" database is used, and when a project is run in a normal mode, a 
+"development" database is used. Having sa separate database for testing ensures safety of data in the development database.
+
+## Configure connections
+
+There are two basic ways to configure connections: property file and in code. You can also use a mixed approach, 
+where connections are configured in a property file, and in code. Please, see section "Property file configuration" below.  
+
+### Property file configuration
 
 You can create a file called `database.properties` and place it on classpath or somewhere on the file system. 
 
@@ -82,13 +86,15 @@ public class DbConfig extends AbstractDBConfig {
 The property file configuration works well with [Database Migration](database_migrations) system, so that 
 configuration of database connections is done only in one place. 
 
-The last line in  `app.config.DbConfig` overrides "production" cofiguration from the file. The "production" configuration 
-in the file can be used by migration plugin, while the app itself will be using a connection from a pool provided by 
-container. 
+The last line in  `app.config.DbConfig` overrides "production" configuration from the file. The "production" configuration 
+in the file can be used by [Database Migrator](database_migrations), while the app itself will be using a connection 
+from a pool provided by container. 
 
-> Please, see a working example of file based configuration in the [ActiveWeb Simple](https://github.com/javalite/activeweb-simple/) project.
+> File-based configuration allows only one database connection configuration per environment. 
+ 
+ Please, see a working example of file based configuration in the [ActiveWeb Simple](https://github.com/javalite/activeweb-simple/) project.
 
-## Java code configuration
+### Java code configuration
 
 ~~~~ {.java  }
 public class DbConfig extends AbstractDBConfig {
@@ -117,3 +123,106 @@ standard configuration for jenkins environment, just one for testing.
 > Configuration of database connections is just that - configuration. This code only configures a connection, but
 does not open it. To open a connection, you need to use [DBConnectionFilter](https://github.com/javalite/activeweb/blob/master/activeweb/src/main/java/org/javalite/activeweb/controller_filters/DBConnectionFilter.java#DBConnectionFilter).
  For more, see [Controller filters](controller_filters).
+
+
+### Multiple DB connections
+
+In some cases you will need to connect to more than one database. The class `DbConfig` can be used to configure multiple 
+connections in the same environment: 
+
+Code configuration:
+
+~~~~ {.java  }
+public class DbConfig extends AbstractDBConfig {
+    public void init(AppContext context) {
+         // default DB:
+         environment("production", true).jndi("java:comp/env/jdbc/myproject_production1); 
+         // named DB:
+         environment("production", true).db("prod2").jndi("java:comp/env/jdbc/myproject_production2);
+    }
+}
+~~~~
+
+Two different databases are configured for environment 'production'. A corresponding binding of two instances 
+if `DBConnectionFilter` will look like this:
+  
+```java
+public class AppControllerConfig extends AbstractControllerConfig {
+  @Override
+  public void init(AppContext context) {
+      addGlobalFilters(new DBConnectionFilter("default", true), new DBConnectionFilter("prod2", true));
+  }
+}
+```
+
+Binding of two instances of `DBConnectionFilter` class will ensure opening and closing connections to corresponding 
+databases before/after  execution of controllers as specified in the `DbConfig` above.
+  
+Additionally, if you do not need the second connection on all controllers, then your configuration might like this: 
+
+```java
+public class AppControllerConfig extends AbstractControllerConfig {
+  @Override
+  public void init(AppContext context) {
+      addGlobalFilters(new DBConnectionFilter("default", true));
+      add(new DBConnectionFilter("prod2", true)).to(MySpecialController.class);
+  }
+}
+```
+
+This way, the connection to `prod2` will be opened only for execution of `MySpecialController`. 
+
+
+## Bind Connections to controllers
+
+Binding connections to controllers is done with `DBConnectionFilter` in `AppControllerConfig` class. 
+Here is a typical example: 
+  
+
+```java
+public class AppControllerConfig extends AbstractControllerConfig {
+  @Override
+  public void init(AppContext context) {
+      addGlobalFilters(new DBConnectionFilter("default", true));
+  }
+}
+```
+
+Binding above will open a "default" database connection before execution of any controller. If this is too crude, you 
+ can open connections for specific controllers: 
+ 
+ 
+```java
+public class AppControllerConfig extends AbstractControllerConfig {
+    @Override
+    public void init(AppContext context) {
+       add(new DBConnectionFilter("default", true)).to(
+       MyPrivateController1.class,MyPrivateController2.class,
+       MyPrivateController3.class,MyPrivateController4.class
+       );
+    }
+}
+```
+ 
+ You can configure a fine-grain binding to a specific action: 
+ 
+```java
+public class AppControllerConfig extends AbstractControllerConfig {
+    @Override
+    public void init(AppContext context) {
+        add(new DBConnectionFilter("default", true)).to(MyPrivateController1.class).forActions("index");
+    }
+}
+```
+
+## Tying it all together
+ 
+The [ActiveWeb Simple](https://github.com/javalite/activeweb-simple/) is one example of full configuration: 
+ 
+* Property file: [database.properties](https://github.com/javalite/activeweb-simple/blob/master/src/main/resources/database.properties)
+* [DBConfig](https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/config/DbConfig.java) - configure connections
+* [AppControllerConfig](https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/config/AppControllerConfig.java) - bind connections to controllers
+* DB-Migrator configuration: [pom.xml](https://github.com/javalite/activeweb-simple/blob/master/pom.xml#L35) - to configure [DB-Migrator](database_migrations). 
+
+  
+  
