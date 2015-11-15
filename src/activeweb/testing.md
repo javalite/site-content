@@ -12,12 +12,11 @@
 ActiveWeb promotes [TDD/BDD](http://en.wikipedia.org/wiki/Test-driven_development) approach to testing of web applications.
 At the heart, it uses [JUnit](http://www.junit.org) as a testing framework, but it provides a number of
 test classes to be sub-classed for  various purposes. ActiveWeb allows to do a full test of any web functionality during a 
-regular build. ActiveWeb provides a number of classes for testing.
+regular build. 
 
 All test classes have a suffix "Spec". This is a nod to [RSpec](http://rspec.info/), but
 also a good practice - think of these not as tests that assert values, but as specs, or specifications of behavior.
-The more you think of them as specifications/blueprints, the more you will think of writing
-them before actual implementations.
+The more you think of them as specifications/blueprints, the more you will think of writing them before actual implementations.
 
 > This page is not an exhaustive list of test APIs, but rather a directional guide and a set of how-to instructions
 
@@ -117,15 +116,18 @@ public class Post extends Model {
 
 ## ControllerSpec - test your controllers
 
+
 `org.javalite.activeweb.ControllerSpec` is a super class for controller tests. This class is used by unit tests that
 test a single controller. Controllers are tested by simulating a web request to a controller (no physical network is
 involved, and no container initialized).
 
 > All APIs available to controllers in `ControllerSpec` are also available to all other controller and integration specs
 
-### Naming convention
+## Spec naming convention
 
-> **Subclass naming convention**: subclass name must be made of two words: controller short class name and word "Spec".
+> Spec class name must be made of two words: 
+1. controller short class name and 
+2. Word "Spec".
 
 For example, if there is a controller:
 
@@ -136,7 +138,7 @@ public class GreeterController extends AppController {
 }
 ~~~~
 
-then the spec will look like this:
+then the spec will be called:
 
 ~~~~{.java}
 package app.controllers;
@@ -150,7 +152,7 @@ Note that the package name is the same for spec as it is for controller, since A
 the controller to be tested
 
 
-### Sending HTTP requests from specs
+## Sending HTTP requests from specs
 
 ~~~~{.java  }
 public class HelloControllerSpec extends ControllerSpec {
@@ -165,13 +167,18 @@ In a snippet above on line `request()...`, the method `request()` allows to simu
 
 > This line reads: Send GET request to `HomeController`, action `index`.
 
-
 There are other methods for sending different HTTP methods:
 
 * `post(action)`
 * `put(action)`
 * `delete(action)`
 
+Here ActiveWeb expects the following conventions: 
+
+1. Controller name is deducted from the spec name, which leads it to search `app.controllers.HelloController` in this case. 
+2. Methods `get("action_name")`, `post("action_name")` will translate to invoking corresponding actions in controller. 
+ Refer to [Routing](routing) for definitions  of actions and action methods. 
+3. HTTP GET method will be simulated for controller. 
 
 ## Sending parameters with HTTP requests
 

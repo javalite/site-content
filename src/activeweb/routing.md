@@ -8,10 +8,31 @@
 </div>
 
 Routing in ActiveWeb is an act of matching an incoming request URL to a controller and action. Current implementation
-supports built-in standard routing, built-in REST - based routing as well as custom routing.
+supports: 
 
+* Standard routing 
+* REST - based routing 
+* Custom routing
+
+## Definition of terms
+
+There are some routing terms defined in ActiveWeb:
+ 
+* **Controller name** - logical name of controller as it relates to the URI mapping 
+* **Controller class** - Java class name of controller
+* **Action** - action is part of URL mapped to a method of a controller.
+* **Action method** - method of controller mapped to an action. Every public method of a controller is theoretically an action. 
+* **ID** - id sometimes present on the URL, such as: `/books/show/id`. 
+
+Example, for URI: `/books/show/123`:
+ 
+* Controller name is: "books"
+* Controller class name:  `app.controllers.BooksController`
+* Action is: "show"
+* Action method is: `app.controllers.BooksController#show()`
+* ID is 123
+ 
 ## Standard routing
-
 
 NOTE: the "context" in all URIs is a web application context, which is usually a WAR file name.
 
@@ -25,10 +46,14 @@ NOTE: the "context" in all URIs is a web application context, which is usually a
 |  /books/save/123            app.controllers.BooksController     save        123 |
 +--------------------------+----------------------------------+------------+------+
 
-In standard routing, the HTTP method is not considered, but you might get an exception of you send an HTTP method to an action that is configured for a different HTTP method. Routing and action HTTP methods are independent in case of standard routing. For standard routing, there is no need to do anything, it works by default
+In standard routing, the HTTP method is not considered, but you might get an exception of you send an HTTP method to an 
+action that is configured for a different HTTP method. Routing and action HTTP methods are independent in case of 
+standard routing. For standard routing, there is no need to do anything, it works by default
+
+> If action is missing, it is assumed to be `index` by default
+
 
 ## RESTful routing
-
 
 In case of restful routing, the actions are pre-configured. RESTful routing is configured by placing a @RESTfull annotation on a controller.
 For more informaiton, see: [RESTful controllers](controllers#restful-controllers)
@@ -81,16 +106,39 @@ RESTful routing supports sub-packaging exactly the same as standard.
 
 When matching a path to a controller class, ActiveWeb converts a name of a controller from underscore or hyphenated format to CamelCase:
 
-  path                       controller
-  -----------------------   ------------------------------------------------
-  /books                     app.controllers.package1.BooksController
-  /student_books             app.controllers.package1.StudentBooksController
-  /student-books             app.controllers.package1.StudentBooksController
++-------------------------+---------------------------------------------------+
+|  path                   | controller                                        |
++=========================+===================================================+  
+|  /books/index           |    app.controllers.BooksController                |
++-------------------------+---------------------------------------------------+
+|  /student_books         |    app.controllers.StudentBooksController         |
++-------------------------+---------------------------------------------------+
+|  /student-books         |    app.controllers.StudentBooksController         |
++-------------------------+---------------------------------------------------+
+  
+  
+## Mapping actions to action methods
+
++-------------------------+---------------------------------------------------+
+| path                    |  controller#action                                |
++=========================+===================================================+
+|   /books                |app.controllers.BooksController#index              |
++-------------------------+---------------------------------------------------+
+|   /books/index          |app.controllers.BooksController#index              |
++-------------------------+---------------------------------------------------+
+|   /books/all_books      |app.controllers.BooksController#allBooks           |
++-------------------------+---------------------------------------------------+
+
+> ActiveWeb will automatically translate underscored or hyphenated action names to CameCased action method names.
+ 
+ path                       controller#action
+ -----------------------   ------------------------------------------------
+ /books/all_books           app.controllers.BooksController#allBooks
+ /books/all-books           app.controllers.BooksController#allBooks
 
 
+## Custom routing
 
-Custom routing
---------------
 
 Besides standard and RESTful, ActiveWeb also offers custom routing. Custom routing provides ability to configure custom URIs to be forwarded to specific controllers and actions.
 
