@@ -12,9 +12,9 @@
 This page describes functionality and usage of a small testing library called JSpec. JSpec was originated from ActiveJDBC
 project and was inspired by RSpec.
 
-## The idea
+## The grand idea
 
-The main idea is to replace "assert" language with "should" language and make it as close to English as possible.
+The idea is to replace "assert" language with "should" language and make it as close to English as possible.
 This forces the brain to work in a different mode, writing a "specification of behavior" for your program rather than
 "assertion" that the program works. The difference might seem subtle, but requires a different style of thinking and promotes
 true TDD/BDD - when specifications are written before implementation, sometimes even by different people.
@@ -47,21 +47,24 @@ The result of executing either test is the same, but the style is completely dif
 to write tests with clear understanding of the requirements and describe a system "behavior" in code before implementation is developed.
 -   The expectation reads almost like an English sentence: "calculation result should be equal 4".
 
-## The 'the', 'a' and 'it'
+## The `the()`, `a()`, `it()` and `$()`
 
-In the code above, you see the usage of 'a()' method. This method returns an object "Expectation", which you really do not
-care about, because it is never used directly, but rather used as a form of a
-[fluent interface](http://martinfowler.com/bliki/FluentInterface.html) that has all the should* methods for verification of expectations.
+In the code above, you see the usage of `a()` method. This method returns an object "Expectation", which you really do not
+care about, because it is never used directly. It is used as a form of a
+[fluent interface](http://martinfowler.com/bliki/FluentInterface.html) and  has all the `should..()` methods for verifications.
 
-### The 'a' and 'the'
+### The `a()`, `the()` and `$()` methods
 
-All the three methods 'the', 'a' and 'it' return the expectation object. The 'a' and the 'the' methods are identical.
-One is a synonym of another. The reason for two methods doing the same is to provide both English words to make the
-expectation "sentence" sound better. Sometimes the 'a' sounds better, sometimes the 'the'.
+All the three methods `a()`, `the()` and `$()` return the expectation object and do exactly the same. They are
+synonyms of each other. 
 
-### Numeric type indifference in 'a' and 'the'
+The reason for having three methods is to provide English words to make the
+expectation "sentence" sound better. Use whichever method that makes your assertion sound the best.
 
-Additionally, there is an interesting feature of the 'a' and 'the' methods: they are numeric type agnostic. In JUnit this will fail:
+
+### Numeric type indifference in `a()`, `the()` and `$()`
+
+The `a()`, `the()` and `$()` methods are numeric type agnostic. In JUnit this will fail:
 
 ~~~~ {.java}
 assertEqual(3, 3L); // will fail
@@ -74,9 +77,9 @@ types are different, one being an Integer, and another a Long. The same test in 
 a(3).shouldBeEqual(3L); // will succeed
 ~~~~
 
-### The 'it'
+### The `it()` method
 
-The only difference between the 'it' method and 'a' or 'the' is that in the 'it' method the tested object type and
+The only difference between the `it()` method and `a()` or `the()` is that in the `it()` method the tested object type and
 expected object type are parametrized with Java Generics. This means that they must be the same type:
 
 ~~~~ {.java}
@@ -86,7 +89,7 @@ it(3).shouldBeEqual(3L);// will not compile
 ## Expectation methods
 
 
-### shouldEqual(), shouldBeEqual() and shouldNotBeEqual()
+### The `shouldEqual()`, `shouldBeEqual()` and `shouldNotBeEqual()`
 
 Expect that the two objects are equal with the use of a standard `java.lang.Object.equals()` method:
 
@@ -130,7 +133,7 @@ null == <null>
 As you can see, the messages not only provide values of tested and expected objects, but also provide their types,
 which is often important.
 
-### shouldHave(), shouldBe(), shouldNotBe()
+### The `shouldHave()`, `shouldBe()`, `shouldNotBe()`
 
 There are three dynamic boolean methods that are supported by JSpec:
 
@@ -175,7 +178,7 @@ a(validation).shouldHave("errors");
 
 The goal of this style of expectations to make them as close as possible to sound like an English sentence.
 
-### shouldBeNull() and shouldNotBeNull()
+### The `shouldBeNull() and `shouldNotBeNull()`
 
 Expects that the tested reference is not null (or is):
 
@@ -189,7 +192,7 @@ In case the x is actually `null`, the test will fail with:
 org.javalite.test.jspec.TestException: Object is null, while it is not expected
 ~~~~
 
-### shouldBeType() and shouldBeA()
+### The `shouldBeType()` and `shouldBeA()`
 
 Sets up expectation for a tested object's type:
 
@@ -205,8 +208,7 @@ org.javalite.test.jspec.TestException: class java.lang.String is not class java.
 
 `shouldBeA` is a synonym of `shouldBeType`, use either one for a better sounding sentence.
 
-### shouldBeFalse() and shouldBeTrue()
-
+### The `shouldBeFalse()` and `shouldBeTrue()`
 
 These are self-explanatory:
 
@@ -220,11 +222,11 @@ and:
 a( 2 * 2 == 5).shouldBeFalse();
 ~~~~
 
-### shouldBeTheSameAs() and shouldNotBeTheSameAs()
+### The `shouldBeTheSameAs()` and `shouldNotBeTheSameAs()`
 
 These methods are to check if the tested and expected references point to the same (or not) object.
 
-### shouldContain() and shouldNotContain()
+### The `shouldContain()` and `shouldNotContain()`
 
 Tests that an expected value is contained in the tested object. The tested object can be of the following types:
 
