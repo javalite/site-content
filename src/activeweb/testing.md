@@ -127,7 +127,7 @@ involved, and no container initialized).
 
 > **Subclass naming convention**: subclass name must be made of two words: controller short class name and word "Spec".
 
-Here is an example:  Jf there is a controller:
+Here is an example:  if there is a controller:
 
 ~~~~{.java}
 package app.controllers;
