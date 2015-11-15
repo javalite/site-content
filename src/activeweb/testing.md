@@ -161,8 +161,11 @@ public class HelloControllerSpec extends ControllerSpec {
 }
 ~~~~
 
-In a snippet above on line 4, the method `request()` allows to simulate a call to a controller `HomeController`.
-This line reads like this: *Send GET request to `HomeController`, action `index`*.
+In a snippet above on line `request()...`, the method `request()` allows to simulate a call to a controller `HomeController`.
+
+> This line reads: Send GET request to `HomeController`, action `index`.
+
+
 There are other methods for sending different HTTP methods:
 
 * `post(action)`
@@ -200,17 +203,16 @@ public class HelloControllerSpec extends ControllerSpec {
 
 ## Generating views during testing
 
-How many times you wished when developing a web application in Java to be able to generate a full HTML from the application
-in test, as if the application was running? Well, with ActiveWeb you can finally do this by using the `integrateViews()` method.
+ActiveWeb allows you to generate a full HTML during tests, without starting containers or sending real HTTP requests 
+over network. At the same time, controllers have no awareness that they are executed from tests. 
 
-Here is a modification on the previous example, but with the `integrateViews()`
-
+Views are generated in tests by default: 
 
 ~~~~{.java  }
 public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldSendParamsToIndexAndGenerateHTML() {
-        request().params("first_name", "John", "last_name", "Deere").integrateViews().get("index");
+        request().params("first_name", "John", "last_name", "Deere").get("index");
         a(responseContent()).shouldContain("<span class="greeting">Hello, John Deere, welcome back</span>");
     }
 }
@@ -364,10 +366,9 @@ Controller is expected to assign an object called "message" with value "Hello, e
 It is easy to describe a controller behavior in a `ControllerSpec`, making it easy to practice real TDD.
 
 
-
 ## DBControllerSpec - test controllers with DB connection
 
-`org.javalite.activeweb.DBCOntrollerSpec` class serves as a super class for controller tests requiring database
+`org.javalite.activeweb.DBControllerSpec` class serves as a super class for controller tests requiring database
 connections. In effect, this class combines the logic of `ControllerSpec` and `DBSpec`. When it comes to naming convention
 of a controller to be tested, the functionality is identical that of `ControllerSpec`, but at the same time it will
 open a connection to DB before test and close after (will also roll back transaction)
@@ -379,27 +380,24 @@ to write entire scenarios for testing multiple controllers.
 
 Example:
 
-~~~~{.java  }
+```java
 public class SimpleSpec extends IntegrationSpec {
     @Test
     public void shouldNavigateToTwoControllers() {
         controller("home").get("index");
         a(statusCode()).shouldBeEqual(200);
-        controller("greeter").param("name", "Bob").integrateViews().get("index");
+        controller("greeter").param("name", "Bob").get("index");
         a(responseContent()).shouldContain("Our special greeting is extended to Bob");
     }
 }
-~~~~
-
+```
 
 Lets decompose code snippet:
 
 * **Line 4**: a controller `HomeController` is executed with HTTP GET  request which is dispatched to its action `index()`
 * **Line 5**: we verify that the response code of execution was 200
-* **Line 6**: controller GreeterController's index() action is executed with HTTP GET and parameter name=Bob.
-Additionally, we call method `integrateViews()` which will require the framework to execute the corresponding view
-after controller, which will provide us with that view's output - usually HTML, but can be XML, Json, whatever
-that view is producing.
+* **Line 6**: controller GreeterController's `index()` action is executed with HTTP GET and parameter `name="Bob"`.
+              Controller, provide us with that view's output - usually HTML, but can be XML, JSON, whatever that view is producing.
 * **Line 7**: we examine the content of the produced view output.
 
 Note that we can run this code in the absence of both controllers (of course it will fail).
