@@ -169,7 +169,7 @@ Please, refer to [ActiveJDBC Releases](activejdbc_releases).
 
 ## Getting the latest version
 
-For the latest version  refer to [ActiveJDBC on Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cactivejdbc).
+For the latest version  refer to [ActiveJDBC on Maven Central](http://search.maven.org/#search%7Cga%7C1%7Corg.javalite.activejdbc).
 If you use Maven add this to your pom:
 
 ~~~~ {.xml}
