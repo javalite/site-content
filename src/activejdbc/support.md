@@ -6,17 +6,12 @@
    <h1>Support <small></small></h1>
 </div>
 
-> Please, do not use comment footer for support, but rather follow instructions  on this page. Comments are used strictly to improve content of this page.
-
 
 ## Support Groups
 
 If you have a questions, feel free to post to the respective forums:
 
 * [StackOverflow](http://stackoverflow.com) - we track tags: `javalite`, `activejdbc`, `activeweb`
-* [ActiveJDBC Google Group](https://groups.google.com/forum/#!forum/activejdbc-group) (as well as JSpec, HTTP)
-* [ActiveWeb Google Group](https://groups.google.com/forum/?hl=en#!forum/activeweb)
-
 
 ## Filing new issues
 
