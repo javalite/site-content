@@ -7,11 +7,9 @@
 </div>
 
 
-## Support Groups
+## Ask Questions
 
-If you have a questions, feel free to post to the respective forums:
-
-* [StackOverflow](http://stackoverflow.com) - we track tags: `javalite`, `activejdbc`, `activeweb`
+If you have a questions, post is on [StackOverflow](http://stackoverflow.com) and use appropriate tags:  `javalite`, `activejdbc`, `activeweb`
 
 ## Filing new issues
 

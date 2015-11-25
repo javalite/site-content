@@ -250,7 +250,7 @@ public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldHaveContentHello() {
         request().get("index");
-        a(find("div[class='main']")).shouldEqual("Hello!");
+        a(text("div[class='main']")).shouldEqual("Hello!");
     }
 }
 ```
@@ -265,7 +265,7 @@ public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldCountListElements() {
         request().get("index");
-        a(find("li[class='disabled']")).shouldEqual(3);
+        a(count("li[class='disabled']")).shouldEqual(3);
     }
 }
 ```
