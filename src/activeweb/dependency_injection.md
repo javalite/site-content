@@ -36,13 +36,13 @@ public class GreeterImpl implements Greeter{
 
 We can then create a new Guice module:
 
-~~~~ {.prettyprint}
+```java
 public class GreeterModule extends AbstractModule {
     protected void configure() {
         bind(Greeter.class).to(GreeterImpl.class).asEagerSingleton();
     }
 }
-~~~~
+```
 
 In this module, we are binding a `GreeterImpl` to `Greater` interface as a singleton.
 You can call `bind()` method many times, setting up your object graph.
@@ -53,8 +53,11 @@ The injection of a Guice module is executed as one line of code inside `AppBoots
 
 ~~~~ {.java}
 public class AppBootstrap extends Bootstrap {
-    public void init(AppContext context) {       
-        setInjector(Guice.createInjector(new GreeterModule()));
+
+    public void init(AppContext context) {}
+
+    protected Injector getInjector(){
+       return Guice.createInjector(new GreeterModule());
     }
 }
 ~~~~

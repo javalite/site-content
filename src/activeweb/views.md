@@ -16,7 +16,7 @@ src/main/webapp/WEB-INF/views
 
 ## No JSPs
 
-ActiveWeb does not use JSPs. The main reason for not using JSPs is thir inability to test generated HTML with JSPs in a
+ActiveWeb does not use JSPs. The main reason for not using JSPs is their inability to test generated HTML with JSPs in a
 test environment. For more on testing, see ... [Generating views in tests](testing#generating-views-during-testing).
 
 ## ActiveWeb uses FreeMarker
@@ -490,7 +490,7 @@ There is a "locale" argument you can pass to the tag to override the locale from
 ActiveWeb provides a `<@link_to/>`. This tag generates an HTML anchor tag and is capable of regular HTML links, as
 well as Ajax capability.
 
-> Unobtrusive `link_to` functions require that you have the `aw.js` script  file loaded on your page.
+> Unobtrusive `link_to` functions require that you have the [aw.js](https://github.com/javalite/kitchensink/blob/master/src/main/webapp/js/aw.js) script  file loaded on your page. 
 
 ### Attributes for configuration
 
