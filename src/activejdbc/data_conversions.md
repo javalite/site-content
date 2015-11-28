@@ -12,14 +12,7 @@
 
 ## Pass-through framework
 
-ActiveJDBC is a *pass-through framework*. This means that for the most part, it does not attempt to convert data
-types and relies on the underlying driver for most data conversions during read and write operations. Most database
-drivers do a great deal of conversion
-
--   *select operations*: during select operations, the driver will populate your models with whatever types that are
-mapped from DB table columns to appropriate Java types.
--   *insert/update operations*: during inserts or updates, the DBMS driver will perform conversions where necessary
-and possible. In cases a conversion is not possible, you are going to get a runtime exception from DBMS (see below)
+Please, see [Pass-through framework](pass_through_framework) for more information on data conversions.  
 
 ## How to see mapped type
 
@@ -31,6 +24,8 @@ System.out.println("DOB type: " + p.get("dob").getClass());
 ~~~~
 
 ## Convenience conversion methods
+
+> Convenience conversion methods are used after data was loaded into models due to read operations
 
 ActiveJDBC provides a number of getter methods for conversion. Most conversions use the
 underlying [Convert](http://javalite.github.io/activejdbc/org/javalite/common/Convert.html) class. Here are some examples:
@@ -46,7 +41,31 @@ Most all types can be converted to String, including a CLOB. Consider this examp
 String text = article.getString("content");
 ~~~~
 
+
+
+Here is a list conversion getters available in models: 
+
+```
+BigDecimal	getBigDecimal(String attributeName)
+Boolean	getBoolean(String attributeName)
+byte[]	getBytes(String attributeName)
+Date	getDate(String attributeName)
+Double	getDouble(String attributeName)
+Float	getFloat(String attributeName)
+Integer	getInteger(String attributeName)
+Long	getLong(String attributeName)
+Short	getShort(String attributeName)
+String	getString(String attributeName)
+Time	getTime(String attributeName)
+Timestamp	getTimestamp(String attributeName)
+```
+
+
+
 ## Converters
+
+
+> Converters are triggered during model save operations
 
 A [Converter](http://javalite.github.io/activejdbc/org/javalite/activejdbc/conversion/Converter.html) can convert values from one type to another. Currently there are a few converters available: blank to null, zero to null, date (date to string and string to date), and timestamp (timestamp to string and string to timestamp).
 
@@ -92,9 +111,10 @@ public class Message extends Model {
 }
 ~~~~
 
-### Blank to null converter
+### Blank-to-null converter
 
-The blank to null converter transforms any java.lang.String values that are empty or contain only whitespaces to null. It works with any getter or setter. Here is an example that registers it to two attributes:
+The blank to null converter transforms any `java.lang.String` values that are empty or contain only whitespaces to null. 
+It works with any getter or setter. Here is an example that registers it to two attributes:
 
 ~~~~ {.java}
 public class Person extends Model {
@@ -104,9 +124,10 @@ public class Person extends Model {
 }
 ~~~~
 
-### Zero to null converter
+### Zero-to-null converter
 
-The zero to null converter works as the blank to null converter, but transforms java.lang.Number values that are equal zero to null. Here is example of declaration:
+The zero to null converter works as the blank to null converter, but transforms `java.lang.Number` values that are equal 
+zero to null. Here is example of declaration:
 
 ~~~~ {.java}
 public class Salary extends Model {
