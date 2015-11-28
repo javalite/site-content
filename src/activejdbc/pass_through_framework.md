@@ -10,9 +10,9 @@
 
 
 
-Unlike many other ORMs ActiveJDBC is a Pass-Through framework. It means that ActiveJDBC is not trying to be smart, but rather 
-relies on underlying technology. It enables it to be less magic, faster and leaner. Most older ORMs (Hibernate) do retain 
- references to related objects, but they were also created in the days of client-server. 
+Unlike other ORMs, ActiveJDBC is a Pass-Through framework. It means that ActiveJDBC is not trying to be smart, but rather 
+relies on underlying technology to pass data back and forth. It enables it have less magic, and makes it faster and leaner. 
+Most older ORMs (Hibernate) do retain  references to related objects, but they were also created in the client-server days. 
  
 Today, 99% of modern business
  application development has moved to the web (and web services). ActiveJDBC was built for the web, where models are 
@@ -20,10 +20,10 @@ Today, 99% of modern business
   and immediately discarded. 
   
 In a context of short web requests, the Pass-through framework is smaller, faster, and simpler than the one that is 
-based on references.
+based on reference graphs.
  
-ActiveJDBC does not attempt to convert data types and relies on the underlying driver for most data conversions 
-during read and write operations. Most database drivers do a great deal of conversion
+ActiveJDBC also does not attempt (by default) to convert data types but rather relies on the underlying JDBC driver for 
+most data conversions during read and write operations. Most database drivers do a great deal of conversion
 
 ## Loading records
 
