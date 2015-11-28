@@ -15,7 +15,7 @@ it relies on many contributions from the development community.
 
 ## Locate and understand source code
 
-Sources are found here: [JavaLite on Gitgub](https://github.com/javalite). Get yourself familiar with general
+Sources are found here: [JavaLite on Github](https://github.com/javalite). Get yourself familiar with general
 approaches,architecture, design and tests. many things in JavaLite do not look like typical Java code.
 
 If you have a question, feel free to submit them as Github issues on corresponding projects under JavaLite.
