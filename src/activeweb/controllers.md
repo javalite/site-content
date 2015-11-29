@@ -108,23 +108,17 @@ See the [Kitchensink](https://github.com/javalite/kitchensink) code, as well as 
 
 A RESTful controller is allowed to have 7 methods, and they all are automatically mapped to the following URSs and HTTP methods:
 
-+----------+-----------------------+-----------------+----------------------------------------------+
-| verb    |  path                  | action          | used for                                     |
-+=========+========================+================================================================+
-| GET     |   /books               |  index          | display a list of all books                  |
-+----------+-----------------------+-----------------+----------------------------------------------+
-| GET     |   /books/new_form      |  new_form       | return an HTML form for creating a new book  |
-+----------+-----------------------+-----------------+----------------------------------------------+
-| POST    |   /books               |  create         | create a new book                            |
-+----------+-----------------------+-----------------+----------------------------------------------+
-| GET     |   /books/id            |  show           | display a specific book                      |
-+----------+-----------------------+-----------------+----------------------------------------------+
-| GET     |   /books/id/edit_form  |  edit_form      | return an HTML form for editing a books      |
-+----------+-----------------------+-----------------+----------------------------------------------+
-| PUT     |   /books/id            |  update         | update a specific book                       |
-+----------+-----------------------+-----------------+----------------------------------------------+
-| DELETE  |   /books/id            |  destroy        | delete a specific book                       |
-+----------+-----------------------+-----------------+----------------------------------------------+
+
+verb        path                   action           used for                                     
+------      --------------------   ------------     ------------------------------------------------
+ GET         /books                 index           display a list of all books                  
+ GET         /books/new_form        new_form        return an HTML form for creating a new book  
+ POST        /books                 create          create a new book                            
+ GET         /books/id              show            display a specific book                      
+ GET         /books/id/edit_form    edit_form       return an HTML form for editing a books      
+ PUT         /books/id              update          update a specific book                       
+ DELETE      /books/id              destroy         delete a specific book                       
+
 
 
 There is no need to add any other annotations to RESTful controllers.

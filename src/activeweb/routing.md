@@ -36,15 +36,13 @@ Example, for URI: `/books/show/123`:
 
 NOTE: the "context" in all URIs is a web application context, which is usually a WAR file name.
 
-+--------------------------+----------------------------------+------------+------+
-|  path                    |   controller                     |     action |   id |
-+==========================+==================================+============+======+
-|  /books                     app.controllers.BooksController     index           |
-+--------------------------+----------------------------------+------------+------+
-|  /books/save                app.controllers.BooksController     save            |
-+--------------------------+----------------------------------+------------+------+
-|  /books/save/123            app.controllers.BooksController     save        123 |
-+--------------------------+----------------------------------+------------+------+
+
+path                       controller                          action    id 
+-------------------        -------------------------------     -------   -------
+/books                     app.controllers.BooksController     index           
+/books/save                app.controllers.BooksController     save            
+/books/save/123            app.controllers.BooksController     save        123 
+
 
 In standard routing, the HTTP method is not considered, but you might get an exception of you send an HTTP method to an 
 action that is configured for a different HTTP method. Routing and action HTTP methods are independent in case of 
@@ -58,23 +56,16 @@ standard routing. For standard routing, there is no need to do anything, it work
 In case of restful routing, the actions are pre-configured. RESTful routing is configured by placing a @RESTfull annotation on a controller.
 For more informaiton, see: [RESTful controllers](controllers#restful-controllers)
 
-+------------------+----------------------+---------------------------------+------------+----------------------------------------------+
-|  HTTP method     |   path               |   controller                    |    action  |    used for                                  |
-+==================+======================+=================================+============+==============================================+
-|  GET             | /books               | app.controllers.BooksController |  index     |   display a list of all books                |
-+------------------+----------------------+---------------------------------+------------+----------------------------------------------+
-|  GET             | /books/new\_form     | app.controllers.BooksController |  new_form  |  return an HTML form for creating a new book |
-+------------------+----------------------+---------------------------------+------------+----------------------------------------------+
-|  POST            | /books               | app.controllers.BooksController |  create    |   create a new book                          |
-+------------------+----------------------+---------------------------------+------------+----------------------------------------------+
-|  GET             | /books/id            | app.controllers.BooksController |  show      |   display a specific book                    |
-+------------------+----------------------+---------------------------------+------------+----------------------------------------------+
-|  GET             | /books/id/edit\_form | app.controllers.BooksController |  edit_form |  return an HTML form for editing a books     |
-+------------------+----------------------+---------------------------------+------------+----------------------------------------------+
-|  PUT             | /books/id            | app.controllers.BooksController |  update    |   update a specific book                     |
-+------------------+----------------------+---------------------------------+------------+----------------------------------------------+
-| DELETE           | /books/id            | app.controllers.BooksController |  destroy   |   delete a specific book                     |
-+------------------+----------------------+---------------------------------+------------+----------------------------------------------+
+HTTP method       path                  controller                        action      used for
+-------------     --------------------  --------------------------------  ---------   ------------------------------------------------------
+GET               /books                app.controllers.BooksController   index       display a list of all books                
+GET               /books/new\_form      app.controllers.BooksController   new_form    return an HTML form for creating a new book 
+POST              /books                app.controllers.BooksController   create      create a new book                          
+GET               /books/id             app.controllers.BooksController   show        display a specific book                    
+GET               /books/id/edit\_form  app.controllers.BooksController   edit_form   return an HTML form for editing a books     
+PUT               /books/id             app.controllers.BooksController   update      update a specific book                     
+DELETE            /books/id             app.controllers.BooksController   destroy     delete a specific book                     
+
 
 
 ## Routing with packages
@@ -83,21 +74,16 @@ While `app.controllers` is a default package for controllers, you might want to 
 
 Standard routing
 
-+--------------------------------------------+---------------------------------------------------+----------+---------+
-|  path                                      | controller                                        | action   |id       |
-+============================================+===================================================+==========+=========+
-| /package1/books                              app.controllers.package1.BooksController            index              |
-+--------------------------------------------+---------------------------------------------------+----------+---------+
-| /package1/books/save                         app.controllers.package1.BooksController            save               |
-+--------------------------------------------+---------------------------------------------------+----------+---------+
-| /package1/books/save/123                     app.controllers.package1.BooksController            save         123   |
-+--------------------------------------------+---------------------------------------------------+----------+---------+
-| /package1/package2/books                     app.controllers.package1.package2.BooksController   index              |
-+--------------------------------------------+---------------------------------------------------+----------+---------+
-| /package1/package2/books/save                app.controllers.package1.package2.BooksController   save               |
-+--------------------------------------------+---------------------------------------------------+----------+---------+
-| /package1/package2/books/save/123            app.controllers.package1.package2.BooksController   save         123   |
-+--------------------------------------------+---------------------------------------------------+----------+---------+
+
+path                                         controller                                        action          id       
+-------------------------                    ----------------------------------------          -------         ----
+ /package1/books                              app.controllers.package1.BooksController            index              
+ /package1/books/save                         app.controllers.package1.BooksController            save               
+ /package1/books/save/123                     app.controllers.package1.BooksController            save         123   
+ /package1/package2/books                     app.controllers.package1.package2.BooksController   index              
+ /package1/package2/books/save                app.controllers.package1.package2.BooksController   save               
+ /package1/package2/books/save/123            app.controllers.package1.package2.BooksController   save         123   
+
 
 
 RESTful routing supports sub-packaging exactly the same as standard.
@@ -106,35 +92,31 @@ RESTful routing supports sub-packaging exactly the same as standard.
 
 When matching a path to a controller class, ActiveWeb converts a name of a controller from underscore or hyphenated format to CamelCase:
 
-+-------------------------+---------------------------------------------------+
-|  path                   | controller                                        |
-+=========================+===================================================+  
-|  /books/index           |    app.controllers.BooksController                |
-+-------------------------+---------------------------------------------------+
-|  /student_books         |    app.controllers.StudentBooksController         |
-+-------------------------+---------------------------------------------------+
-|  /student-books         |    app.controllers.StudentBooksController         |
-+-------------------------+---------------------------------------------------+
+
+path                     controller                                 
+------------------       -------------------------------------------  
+/books/index             app.controllers.BooksController                
+/student_books           app.controllers.StudentBooksController         
+/student-books           app.controllers.StudentBooksController         
+
   
   
 ## Mapping actions to action methods
 
-+-------------------------+---------------------------------------------------+
-| path                    |  controller#action                                |
-+=========================+===================================================+
-|   /books                |app.controllers.BooksController#index              |
-+-------------------------+---------------------------------------------------+
-|   /books/index          |app.controllers.BooksController#index              |
-+-------------------------+---------------------------------------------------+
-|   /books/all_books      |app.controllers.BooksController#allBooks           |
-+-------------------------+---------------------------------------------------+
+
+path                  controller#action                                
+-----------------     -----------------------------------------------
+/books                app.controllers.BooksController#index             
+/books/index          app.controllers.BooksController#index            
+/books/all_books      app.controllers.BooksController#allBooks           
+
 
 > ActiveWeb will automatically translate underscored or hyphenated action names to CameCased action method names.
  
- path                       controller#action
- -----------------------   ------------------------------------------------
- /books/all_books           app.controllers.BooksController#allBooks
- /books/all-books           app.controllers.BooksController#allBooks
+ path                      controller#action
+ -----------------------   -----------------------------------------
+ /books/all_books          app.controllers.BooksController#allBooks
+ /books/all-books          app.controllers.BooksController#allBooks
 
 
 ## Custom routing
