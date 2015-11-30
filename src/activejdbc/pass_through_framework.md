@@ -57,7 +57,7 @@ In a code sample above, the last line will fetch a record from the database beca
 
 ## Loading attributes
 
-Thin of a model as a Map. It has keys (attribute names) and values (attribute values). 
+Think of a model as a Map. It has keys (attribute names) and values (attribute values). 
 The keys are type of `java.lang.String` and mimic the underlying table's column names. The values are whatever you 
 set using setter methods, or whatever comes from the database. 
 
@@ -105,7 +105,7 @@ book.frozen() // < -- will return false.
 ```
 
 While this is unpleasant, the only way to fix this is to retain references to child objects in memory which will make the 
- framework more complicated and not as fast.
+ framework more complicated and slower.
   
 Generally in web applications this will not happen, but in cases of desktop apps, the developers need to be aware of this 
 behavior. 
