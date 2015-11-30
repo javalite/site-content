@@ -16,7 +16,7 @@ Most older ORMs (Hibernate) do retain  references to related objects, but they w
  
 Today, 99% of modern business
  application development has moved to the web (and web services). ActiveJDBC was built for the web, where models are 
- assembled together for a brief moment of time (serving one web request), used to generate a vew (HTML, XML, JSON, etc.)
+ assembled together for a brief moment of time (serving one web request), used to generate a view (HTML, XML, JSON, etc.)
   and immediately discarded. 
   
 In a context of short web requests, the Pass-through framework is smaller, faster, and simpler than the one that is 
