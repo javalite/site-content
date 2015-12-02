@@ -6,7 +6,7 @@
 <div class=page-header>
    <h1>Activeweb <small>Full stack web framework</small></h1>
    <p>
-   Provides everything you need for building a modern dynamic web application or a REST-ful web service
+   Provides everything you need for building a modern dynamic web application or a REST-ful web service.
    </p>
 </div>
 
