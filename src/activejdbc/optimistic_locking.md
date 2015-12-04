@@ -15,7 +15,7 @@ ActiveJDBC provides support for optimistic concurrency via a simple convention: 
 
 ## Creation of a new record
 
-Let's say you have a model:
+Say you have a model:
 
 ~~~~ {.java}
 public class Profile extends Model{}
@@ -26,6 +26,9 @@ which backs a table `PROFILES`:
 +----+--------------+------------------+
 | id | profile_type | record_version   |
 +====+==============+==================+
+|    |              |                  |
++----+--------------+------------------+
+
 
 When you create a new record:
 
