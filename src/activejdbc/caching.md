@@ -137,7 +137,7 @@ It is possible to access and manage cache directly instead of `@Cached` annotati
 
 import org.javalite.activejdbc.Registry;
 
-CacheManager manager = Registry.getCacheManager();
+CacheManager manager = Registry.cacheManager();
 manager.addCache(group, key, object); 
 
 ///then later in code: 
