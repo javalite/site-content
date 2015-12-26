@@ -51,6 +51,7 @@ h3 {
 
 ### Miscellaneous
 
+* [Sharding](sharding)
 * [DB migrations](database_migrations)
 * [Lifecycle Callbacks](lifecycle_callbacks)
 * [Statistical reporting](statistics_reporting)
