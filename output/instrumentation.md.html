@@ -1,0 +1,100 @@
+<ol class=breadcrumb>
+   <li>
+<a href=/>JavaLite</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Instrumentation
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Instrumentation <small></small>
+</h1>
+</div>
+
+
+
+<p>ActiveJDBC requires instrumentation of class files after they are compiled. This is accomplished with an Instrumentation tool provided by the project. There are three ways to use it: with a Maven plugin, Ant, and as a standalone Java class (no Ant or Maven)</p>
+<h2 id="what-is-instrumentation">What is instrumentation?</h2>
+<p>Instrumentation is byte code manipulation that happens after a compile phase. It adds static methods from super class to a subclass. Instrumentation allows to &quot;inherit&quot; static methods from a super class, making elegant code like this possible:</p>
+<pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; retirees = Person.<span class="fu">where</span>(<span class="st">&quot;age &gt;= ?&quot;</span>, <span class="dv">65</span>);</code></pre>
+<p>Without instrumentation, ActiveJDBC would not be able to know which class is being called, and as a result, what table to query.</p>
+<p>For instance, in a case of no instrumentation, this call in source code:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person.<span class="fu">where</span>(...);</code></pre>
+<p>translates to this logic in bytecode:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Model.<span class="fu">where</span>(...);</code></pre>
+<p>It is evident, that there is no way to tell what model is executed, and as a result, we cannot map this call to a database table.</p>
+<p>While instrumentation introduces an additional step in the process, the benefit is a very intuitive and concise API.</p>
+<h2 id="maven-instrumentation-plugin">Maven instrumentation plugin</h2>
+<p>The simple usage of a Maven plugin is provided by a Maven ActiveJDBC Simple Example project: <a href="https://github.com/javalite/simple-example">Simple Mave Example</a>. Specifically, the plugin is added to a pom like this:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
+    <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
+    <span class="kw">&lt;artifactId&gt;</span>activejdbc-instrumentation<span class="kw">&lt;/artifactId&gt;</span>
+    <span class="kw">&lt;version&gt;</span>1.4.11<span class="kw">&lt;/version&gt;</span>
+    <span class="kw">&lt;executions&gt;</span>
+        <span class="kw">&lt;execution&gt;</span>
+            <span class="kw">&lt;phase&gt;</span>process-classes<span class="kw">&lt;/phase&gt;</span>
+            <span class="kw">&lt;goals&gt;</span>
+                <span class="kw">&lt;goal&gt;</span>instrument<span class="kw">&lt;/goal&gt;</span>
+            <span class="kw">&lt;/goals&gt;</span>
+        <span class="kw">&lt;/execution&gt;</span>
+    <span class="kw">&lt;/executions&gt;</span>
+<span class="kw">&lt;/plugin&gt;</span></code></pre>
+<p>and binds to a <code>process-classes</code> Maven phase. It will automatically instrument model classes during the build.</p>
+<h2 id="video-intellij-idea-instrumentation">Video: IntelliJ Idea + Instrumentation</h2>
+<p>This video clip shows how to do rapid application development with IntelliJ Idea and integrated instrumentation step.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OHXJXzZNKCU" frameborder="0" allowfullscreen></iframe>
+
+<p>For more, see <a href="intellij_idea_integration">IntelliJ Integration</a></p>
+<h2 id="ant-instrumentation">Ant instrumentation</h2>
+<p>Here is an example project with Ant - based instrumentation: <a href="https://github.com/javalite/ant-example">Ant exampe</a></p>
+<p>The class responsible for instrumentation is called <code>org.javalite.instrumentation.Main</code>, and here is an example of using it:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;target</span><span class="ot"> name=</span><span class="st">&quot;instrument&quot;</span><span class="ot"> depends=</span><span class="st">&quot;compile&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;java</span><span class="ot"> classname=</span><span class="st">&quot;org.javalite.instrumentation.Main&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;sysproperty</span><span class="ot"> key=</span><span class="st">&quot;outputDirectory&quot;</span><span class="ot"> value=</span><span class="st">&quot;${classes}&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;classpath</span><span class="ot"> refid=</span><span class="st">&quot;build_classpath&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/java&gt;</span>
+<span class="kw">&lt;/target&gt;</span></code></pre>
+<p>where <code>${classes}</code> represents a directory where class files were compiled.</p>
+<h2 id="standalone-instrumentation">Standalone instrumentation</h2>
+<p>If you are not using Maven or Ant, you can run instrumentation with a command similar to this:</p>
+<pre class="prettyprint"><code>java  -cp=$CLASSPATH  -DoutputDirectory=build activejdbc.instrumentation.Main</code></pre>
+<p>where:</p>
+<ul>
+<li>$CLASSPATH is your classpath (see the build.xml in the Ant example above for things you will need to have on the classspath)</li>
+<li>build - is a directory where you compiled all classes in a &quot;compile&quot; step before instrumentation</li>
+</ul>
+<p>There is an example of a standalone project which does not use any build tool, except Java itself. Please follow this link for more information: <a href="https://github.com/javalite/standalone-example">Standalone instrumentation example project</a></p>
+<h2 id="speed-of-instrumentation">Speed of instrumentation</h2>
+<p>... is very fast - for large projects (50 - 60 models) it takes about 5 - 7 seconds, and for small projects (under 10 models) usually within a second or two.</p>
+<h2 id="build-time-classpath">Build time classpath</h2>
+<p>The Instrumentation package is required on the classpath only during instrumentation and not required during runtime. For Maven projects, this is automatic. Even it finds its way to the runtime classpath, it will do no harm except for increasing the size.</p>
+<h2 id="bare-bones-ant-script">Bare bones Ant script</h2>
+<p>This Ant script can be used on any project in order to speed up development. The reason we use this script sometimes even on Maven projects is speed. Maven takes a few seconds to startup, but this barebones script is almost instant. You can hook it into IDE to trigger before executing tests:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;<span class="kw">?&gt;</span>
+<span class="co">&lt;!-- This script is used for fast instrumentation of the project&#39;s models--&gt;</span>
+<span class="kw">&lt;project</span><span class="ot"> default=</span><span class="st">&quot;instrument&quot;</span><span class="ot"> basedir=</span><span class="st">&quot;.&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;out.dir&quot;</span><span class="ot"> value=</span><span class="st">&quot;target/test-classes&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;path</span><span class="ot"> id=</span><span class="st">&quot;instrument_classpath&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;pathelement</span><span class="ot"> location=</span><span class="st">&quot;${out.dir}&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;path</span><span class="ot"> location=</span><span class="st">&quot;${user.home}/.m2/repository/org/javalite/activejdbc-instrumentation/1.4.11/activejdbc-instrumentation-1.4.11.jar&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;path</span><span class="ot"> location=</span><span class="st">&quot;${user.home}/.m2/repository/javassist/javassist/3.8.0.GA/javassist-3.18.2-GA.jar&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;path</span><span class="ot"> location=</span><span class="st">&quot;${user.home}/.m2/repository/org/javalite/activejdbc/1.4.11/activejdbc-1.4.11.jar&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/path&gt;</span>
+    <span class="kw">&lt;target</span><span class="ot"> name=</span><span class="st">&quot;instrument&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;java</span><span class="ot"> classname=</span><span class="st">&quot;org.javalite.instrumentation.Main&quot;</span><span class="kw">&gt;</span>
+            <span class="kw">&lt;sysproperty</span><span class="ot"> key=</span><span class="st">&quot;outputDirectory&quot;</span><span class="ot"> value=</span><span class="st">&quot;${out.dir}&quot;</span><span class="kw">/&gt;</span>
+            <span class="kw">&lt;classpath</span><span class="ot"> refid=</span><span class="st">&quot;instrument_classpath&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;/java&gt;</span>
+    <span class="kw">&lt;/target&gt;</span>
+<span class="kw">&lt;/project&gt;</span></code></pre>
+<p>Replace versions with the most up-to-date: <a href="http://search.maven.org/#search%7Cga%7C1%7Cactivejdbc">Maven search for ActiveJDBC</a></p>
+<h2 id="ide-integrations">IDE Integrations</h2>
+<ul>
+<li><a href="intellij_idea_integration">Intellij Idea Integration</a></li>
+<li><a href="eclipseIntegration">Eclipse Integration</a></li>
+<li><a href="netbeansIntegration">Netbeans Integration</a></li>
+</ul>

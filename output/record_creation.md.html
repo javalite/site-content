@@ -1,0 +1,72 @@
+<ol class=breadcrumb>
+   <li>
+<a href=/>JavaLite</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Record creation
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Record creation <small></small>
+</h1>
+</div>
+
+
+
+<p>There are many ways to create new records with ActiveJDBC. Let's explore them</p>
+<h2 id="use-setter-method">Use setter method</h2>
+<pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
+p.<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>);
+p.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Doe&quot;</span>);
+p.<span class="fu">set</span>(<span class="st">&quot;dob&quot;</span>, <span class="st">&quot;1935-12-06&quot;</span>);
+p.<span class="fu">saveIt</span>();</code></pre>
+<p>This code should be self explanatory. As you can see, ActiveJDBC does not require to have getters and setters. You can write them, if you like, but IMHO, they are nothing but code pollution.</p>
+<h2 id="save-and-saveit-methods">save() and saveIt() methods</h2>
+<p>ActiveJDBC class Model provides two methods for saving an entity: <code>save()</code> and <code>saveIt()</code>. Both methods will involve validations during saving, but in the case of the method save() will silently exit without throwing exceptions. In case validations failed, the instance will have an errors collection attached to it. This is very useful in the context of a web application. Here is an example:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person person = <span class="kw">new</span> <span class="fu">Person</span>();
+person.<span class="fu">fromMap</span>(requestParams);
+<span class="kw">if</span>(person.<span class="fu">save</span>()) <span class="co">//&lt;&lt;&lt;===  will not throw exception and will not save in case there are validation errors. </span>
+    <span class="co">//show page success</span>
+<span class="kw">else</span>{
+     request.<span class="fu">setAttribute</span>(<span class="st">&quot;errors&quot;</span>, person.<span class="fu">errors</span>());
+     <span class="co">//show errors page, or same page so that user can correct errors.</span>
+}</code></pre>
+<p>More on validations , see this page: <a href="Validations">Validations</a></p>
+<p>The <code>saveIt()</code> method will throw an exception in case there was a validation problem. The <code>save()</code> method makes more sense in the context of a web application, whereas <code>saveIt()</code> is more useful in a non-web app situations - batch inserts, tests, etc.</p>
+<h2 id="method-chaining">Method chaining</h2>
+<p>The <code>set(name, value)</code> method returns reference to the same model object, which makes it possible to string method calls like this:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
+p.<span class="fu">set</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;John&quot;</span>).<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Doe&quot;</span>).<span class="fu">set</span>(<span class="st">&quot;dob&quot;</span>, <span class="st">&quot;1935-12-06&quot;</span>).<span class="fu">saveIt</span>();</code></pre>
+<p>..or make it shorter:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">new</span> <span class="fu">Person</span>().<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;Marilyn&quot;</span>).<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Monroe&quot;</span>).<span class="fu">set</span>(<span class="st">&quot;dob&quot;</span>, <span class="st">&quot;1935-12-06&quot;</span>).<span class="fu">saveIt</span>();</code></pre>
+<h2 id="batching-names-an-values">Batching names an values</h2>
+<p>There is a way to batch names and values into arrays:</p>
+<pre class="sourceCode java"><code class="sourceCode java">String[] names = {<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;dob&quot;</span>};
+Object[] values = {<span class="st">&quot;John&quot;</span>, <span class="st">&quot;Doe&quot;</span>, dob}
+<span class="kw">new</span> <span class="fu">Person</span>().<span class="fu">set</span>(names, values).<span class="fu">saveIt</span>();</code></pre>
+<p>Of course, the names is a String array and the two arrays need to be the same size.</p>
+<h2 id="initialize-from-map">Initialize from Map</h2>
+<p>This method of creation is useful for web applications if request parameters are posted from a form an available in a Map instance:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Map values = <span class="kw">... </span>initialize map
+Person p = <span class="kw">new</span> <span class="fu">Person</span>();
+p.<span class="fu">fromMap</span>(values);
+p.<span class="fu">saveIt</span>();</code></pre>
+<h2 id="initialize-from-varargs">Initialize from varargs</h2>
+<p>Model also provides another convenience method for entity initialization, the set methods that accepts a varargs:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
+p.<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;Sam&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Margulis&quot;</span>, <span class="st">&quot;dob&quot;</span>, <span class="st">&quot;2001-01-07&quot;</span>);
+p.<span class="fu">saveIt</span>();</code></pre>
+<p>The argument list is a string of names and corresponding values where names are interleaved with values. This makes it easy to write allows for easy reading (if you just read it aloud, it will sound as an English sentence).</p>
+<h2 id="convenience-create-and-createit-methods">Convenience create() and createIt() methods</h2>
+<p>The class Model also provides two convenience methods for creation of records: <code>create()</code> and <code>createIt()</code>. There is a semantic difference between these two methods, and it is the same as between <code>save()</code> and <code>saveIt()</code> methods, except in this case, ActiveJDBC creates and attempts to save an object in one step.</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person p = Person.<span class="fu">create</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;Sam&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Margulis&quot;</span>, <span class="st">&quot;dob&quot;</span>, <span class="st">&quot;2001-01-07&quot;</span>);
+p.<span class="fu">saveIt</span>();</code></pre>
+<p>or:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person p = Person.<span class="fu">createIt</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;Sam&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Margulis&quot;</span>, <span class="st">&quot;dob&quot;</span>, <span class="st">&quot;2001-01-07&quot;</span>);</code></pre>
+<p>The <code>create()</code> and <code>createIt()</code> method accepts a list of arguments, where names are interleaved with values. This is similar to the varargs setter described above, but also includes semantics of the <code>save()</code> and <code>saveIt()</code> methods.</p>
+<h2 id="no-settersgetters">No setters/getters???</h2>
+<p>Please, see <a href="setters_and_getters">Setters and getters</a></p>

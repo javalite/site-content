@@ -1,0 +1,158 @@
+<ol class=breadcrumb>
+   <li>
+<a href=/>JavaLite</a>
+</li>
+   <li class=active>
+Jspec
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+JSpec <small>assertions that read like English</small>
+</h1>
+</div>
+
+
+
+
+<p>This page describes functionality and usage of a small testing library called JSpec. JSpec was originated from ActiveJDBC project and was inspired by RSpec.</p>
+<h2 id="the-grand-idea">The grand idea</h2>
+<p>The idea is to replace &quot;assert&quot; language with &quot;should&quot; language and make it as close to English as possible. This forces the brain to work in a different mode, writing a &quot;specification of behavior&quot; for your program rather than &quot;assertion&quot; that the program works. The difference might seem subtle, but requires a different style of thinking and promotes true TDD/BDD - when specifications are written before implementation, sometimes even by different people.</p>
+<p>JSpec uses 'should' word instead of 'assert'. Here is an example of an old style test:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@Test</span>
+<span class="kw">public</span> <span class="dt">void</span> <span class="fu">testCalculator</span>(){
+   Calculator c = <span class="kw">new</span> <span class="fu">Calculator</span>();
+   c.<span class="fu">add</span>(<span class="dv">2</span>, <span class="dv">2</span>);
+   <span class="fu">assertEquals</span>(c.<span class="fu">result</span>(), <span class="dv">4</span>);
+}</code></pre>
+<p>The JSpec style of writing this test would be:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@Test</span>
+<span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldAddNumbersCorrectly</span>(){
+   Calculator c = <span class="kw">new</span> <span class="fu">Calculator</span>();
+   c.<span class="fu">add</span>(<span class="dv">2</span>, <span class="dv">2</span>);
+   <span class="fu">a</span>(c.<span class="fu">result</span>()).<span class="fu">shouldBeEqual</span>(<span class="dv">4</span>);
+}</code></pre>
+<p>The result of executing either test is the same, but the style is completely different:</p>
+<ul>
+<li>The method name starts with &quot;should&quot;, which implies that the functionality is not developed yet! It is very important to write tests with clear understanding of the requirements and describe a system &quot;behavior&quot; in code before implementation is developed.</li>
+<li>The expectation reads almost like an English sentence: &quot;calculation result should be equal 4&quot;.</li>
+</ul>
+<h2 id="the-the-a-it-and">The <code>the()</code>, <code>a()</code>, <code>it()</code> and <code>$()</code></h2>
+<p>In the code above, you see the usage of <code>a()</code> method. This method returns an object &quot;Expectation&quot;, which you really do not care about, because it is never used directly. It is used as a form of a <a href="http://martinfowler.com/bliki/FluentInterface.html">fluent interface</a> and has all the <code>should..()</code> methods for verifications.</p>
+<h3 id="the-a-the-and-methods">The <code>a()</code>, <code>the()</code> and <code>$()</code> methods</h3>
+<p>All the three methods <code>a()</code>, <code>the()</code> and <code>$()</code> return the expectation object and do exactly the same. They are synonyms of each other.</p>
+<p>The reason for having three methods is to provide English words to make the expectation &quot;sentence&quot; sound better. Use whichever method that makes your assertion sound the best.</p>
+<h3 id="numeric-type-indifference-in-a-the-and">Numeric type indifference in <code>a()</code>, <code>the()</code> and <code>$()</code></h3>
+<p>The <code>a()</code>, <code>the()</code> and <code>$()</code> methods are numeric type agnostic. In JUnit this will fail:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">assertEqual</span>(<span class="dv">3</span>, 3L); <span class="co">// will fail</span></code></pre>
+<p>while the two numbers are identical in value for all practical purposes, the JUnit assertion will fail just because the types are different, one being an Integer, and another a Long. The same test in JSpec using either 'a' or 'the' will succeed:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">a</span>(<span class="dv">3</span>).<span class="fu">shouldBeEqual</span>(3L); <span class="co">// will succeed</span></code></pre>
+<h3 id="the-it-method">The <code>it()</code> method</h3>
+<p>The only difference between the <code>it()</code> method and <code>a()</code> or <code>the()</code> is that in the <code>it()</code> method the tested object type and expected object type are parametrized with Java Generics. This means that they must be the same type:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">it</span>(<span class="dv">3</span>).<span class="fu">shouldBeEqual</span>(3L);<span class="co">// will not compile</span></code></pre>
+<h2 id="expectation-methods">Expectation methods</h2>
+<h3 id="the-shouldequal-shouldbeequal-and-shouldnotbeequal">The <code>shouldEqual()</code>, <code>shouldBeEqual()</code> and <code>shouldNotBeEqual()</code></h3>
+<p>Expect that the two objects are equal with the use of a standard <code>java.lang.Object.equals()</code> method:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">a</span>(obj1).<span class="fu">shouldEqual</span>(obj2);</code></pre>
+<p>The great thing about this method is that it will check that the objects are the same type, has a protection for <code>null</code> and will produce a good quality message in case objects are not equal. This code:</p>
+<pre class="sourceCode java"><code class="sourceCode java">String a = <span class="st">&quot;a&quot;</span>, b = <span class="st">&quot;b&quot;</span>;
+<span class="fu">a</span>(a).<span class="fu">shouldBeEqual</span>(b);</code></pre>
+<p>Will produce this message:</p>
+<pre class="prettyprint"><code>Test object: 
+java.lang.String == &lt;a&gt; 
+and expected
+java.lang.String == &lt;b&gt; </code></pre>
+<p>while this code:</p>
+<pre class="sourceCode java"><code class="sourceCode java">String a = <span class="st">&quot;a&quot;</span>, b = <span class="kw">null</span>;
+<span class="fu">a</span>(a).<span class="fu">shouldBeEqual</span>(b);</code></pre>
+<p>will produce this message:</p>
+<pre class="prettyprint"><code>Test object: 
+java.lang.String == &lt;a&gt; 
+and expected
+null == &lt;null&gt;</code></pre>
+<p>As you can see, the messages not only provide values of tested and expected objects, but also provide their types, which is often important.</p>
+<h3 id="the-shouldhave-shouldbe-shouldnotbe">The <code>shouldHave()</code>, <code>shouldBe()</code>, <code>shouldNotBe()</code></h3>
+<p>There are three dynamic boolean methods that are supported by JSpec:</p>
+<ul>
+<li><code>shouldHave(String)</code></li>
+<li><code>shouldBe(String)</code></li>
+<li><code>shouldNotBe(String)</code></li>
+</ul>
+<p>For all three methods, the argument is an abridged boolean method of a tested class. This means that if there is such a class Person:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Person{
+  <span class="kw">private</span> String name;
+  <span class="kw">... </span>setter/getter
+  <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isValid</span>(<span class="kw">return</span> name != <span class="kw">null</span>; )
+}</code></pre>
+<p>you can write an expectation in this style:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Person person = <span class="kw">new</span> <span class="fu">Person</span>();
+<span class="fu">a</span>(person).<span class="fu">shouldBe</span>(<span class="st">&quot;valid&quot;</span>);</code></pre>
+<p>What happens here is that the JSpec will dynamically execute the method <code>person.isValid()</code> and will evaluate its return value. If the value returned is false, the expectation is not met, and test will fail with exception.</p>
+<p>Example for shouldHave():</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Validation{
+  <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">hasErrors</span>(){...};
+}</code></pre>
+<p>and the expectation is:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Validation validation = <span class="kw">new</span> <span class="fu">Validation</span>();
+<span class="fu">a</span>(validation).<span class="fu">shouldHave</span>(<span class="st">&quot;errors&quot;</span>);</code></pre>
+<p>The goal of this style of expectations to make them as close as possible to sound like an English sentence.</p>
+<h3 id="the-shouldbenull-andshouldnotbenull">The <code>shouldBeNull() and</code>shouldNotBeNull()`</h3>
+<p>Expects that the tested reference is not null (or is):</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">a</span>(x).<span class="fu">shouldNotBeNull</span>();</code></pre>
+<p>In case the x is actually <code>null</code>, the test will fail with:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">org.javalite.test.jspec.TestException</span>: Object is null, while it is not expected</code></pre>
+<h3 id="the-shouldbetype-and-shouldbea">The <code>shouldBeType()</code> and <code>shouldBeA()</code></h3>
+<p>Sets up expectation for a tested object's type:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">the</span>(count).<span class="fu">shouldBeType</span>(Long.<span class="fu">class</span>);</code></pre>
+<p>If expectation not met, the error can be:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">org.javalite.test.jspec.TestException</span>: class java.lang.String is not class java.lang.Long</code></pre>
+<p><code>shouldBeA</code> is a synonym of <code>shouldBeType</code>, use either one for a better sounding sentence.</p>
+<h3 id="the-shouldbefalse-and-shouldbetrue">The <code>shouldBeFalse()</code> and <code>shouldBeTrue()</code></h3>
+<p>These are self-explanatory:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">a</span>( <span class="dv">2</span> * <span class="dv">2</span> == <span class="dv">4</span>).<span class="fu">shouldBeTrue</span>();</code></pre>
+<p>and:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">a</span>( <span class="dv">2</span> * <span class="dv">2</span> == <span class="dv">5</span>).<span class="fu">shouldBeFalse</span>();</code></pre>
+<h3 id="the-shouldbethesameas-and-shouldnotbethesameas">The <code>shouldBeTheSameAs()</code> and <code>shouldNotBeTheSameAs()</code></h3>
+<p>These methods are to check if the tested and expected references point to the same (or not) object.</p>
+<h3 id="the-shouldcontain-and-shouldnotcontain">The <code>shouldContain()</code> and <code>shouldNotContain()</code></h3>
+<p>Tests that an expected value is contained in the tested object. The tested object can be of the following types:</p>
+<ul>
+<li>Any object - the string representation of this object is tested to contain a string representation of expected value as a substring. For example, this will pass:</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java">  <span class="fu">the</span>(<span class="st">&quot;meaning of life is 42&quot;</span>).<span class="fu">shouldContain</span>(<span class="st">&quot;meaning&quot;</span>);</code></pre>
+<ul>
+<li><code>java.util.List</code> - the tested list is expected to contain an expected object. For example, this will pass:</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java">  <span class="fu">a</span>(Arrays.<span class="fu">asList</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)).<span class="fu">shouldContain</span>(<span class="dv">3</span>);</code></pre>
+<ul>
+<li><code>java.util.Map</code> - the tested map is expected to contain an object whose key is the expected object. For example, this will pass:</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java">  Map map = <span class="kw">new</span> HashMap();
+  map.<span class="fu">put</span>(<span class="st">&quot;one&quot;</span>, <span class="dv">1</span>);
+  map.<span class="fu">put</span>(<span class="st">&quot;two&quot;</span>, <span class="dv">2</span>);
+  map.<span class="fu">put</span>(<span class="st">&quot;three&quot;</span>, <span class="dv">3</span>);
+  <span class="fu">a</span>(map).<span class="fu">shouldContain</span>(<span class="st">&quot;two&quot;</span>);</code></pre>
+<p>The method <code>shouldNotContain()</code> is exactly the opposite of shouldContain().</p>
+<h3 id="expecting-difference">Expecting difference</h3>
+<p>Often times you need to ensure that some number before and after the operation is different. For instance, this could be a total count of specific records in a table, or a size of a list. Here is an example of using a difference expectation with JSpec:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">expect</span>(<span class="kw">new</span> <span class="fu">DifferenceExpectation</span>(Person.<span class="fu">find</span>(<span class="st">&quot;last_name like ?&quot;</span>, <span class="st">&quot;Smith&quot;</span>).<span class="fu">size</span>()) {
+  <span class="kw">public</span> Object <span class="fu">exec</span>() {
+     Person.<span class="fu">updateAll</span>(<span class="st">&quot;last_name = ?&quot;</span>, <span class="st">&quot;Smith&quot;</span>);
+     <span class="kw">return</span> Person.<span class="fu">find</span>(<span class="st">&quot;last_name like ?&quot;</span>, <span class="st">&quot;Smith&quot;</span>).<span class="fu">size</span>();
+  }
+});</code></pre>
+<p>In the code snippet above, the constructor of <code>DifferenceExpectation(..)</code> is passed an initial value, and the method <code>exec()</code> returns a final value. The initial and final are compared to be different at the end of a test. If they are the same, then the test fails. An example message:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">javalite.test.jspec.TestException</span>: Objects: <span class="st">&#39;1&#39;</span> and <span class="st">&#39;1&#39;</span> are equal, but they should not be</code></pre>
+<p><sub>~</sub></p>
+<h2 id="using-with-other-technologies">Using with other technologies</h2>
+<p>JSpec is really a few classes, and as such can be used with any other testing technology. Sometimes people use it outside tests, just to assert correct argument values passed into methods.</p>
+<p>Here is a good <a href="https://github.com/javalite/cucumber-jspec">Example of using JSpec and Cucumber</a>.</p>
+<h2 id="where-to-find">Where to find</h2>
+<p>JSpec is packaged into JavaLite Common library, which is published into <a href="http://search.maven.org/#search|ga|1|javalite-common">Maven Central</a>.</p>
+<p>Adding it to your project is easy:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;dependency&gt;</span>
+    <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
+    <span class="kw">&lt;artifactId&gt;</span>javalite-common<span class="kw">&lt;/artifactId&gt;</span>
+    <span class="kw">&lt;version&gt;</span>LATEST_VERSION<span class="kw">&lt;/version&gt;</span>
+<span class="kw">&lt;/dependency&gt;</span></code></pre>
+<p>Releases and versions of JavaLite Common are on the same schedule as <a href="activejdbc">ActiveJDBC</a>.</p>

@@ -1,0 +1,35 @@
+<ol class=breadcrumb>
+   <li>
+<a href=/>JavaLite</a>
+</li>
+   <li>
+<a href=/activejdbc>ActiveJDBC</a>
+</li>
+   <li class=active>
+Logging
+</li>
+</ol>
+<div class=page-header>
+   <h1>
+Logging <small></small>
+</h1>
+</div>
+
+
+
+
+<p>ActiveJDBC uses <a href="http://www.slf4j.org/">SLF4J</a> logging facade. Please, refer to SLF4J documentation to see how to configure it with Log4J, Java Logging, Apache logging, etc.</p>
+<h2 id="logging-configuration">Logging configuration</h2>
+<p>ActiveJDBC uses a system property <code>activejdbc.log</code> for specifying logging. The value of this property can be:</p>
+<ul>
+<li>blank - in this case, ActiveJDBC will spit out all available information - every SQL statement, cache hits/misses, cache purge events, etc.</li>
+<li>regular expression - in this case, ActiveJDBC will only log statements that match a regular expression</li>
+</ul>
+<p>If you just want to see all messages from ActiveJDBC, start your program like this:</p>
+<pre class="prettyprint"><code>java -Dactivejdbc.log com.acme.YourProgram</code></pre>
+<p>If you only want to see select messages, you can provide an expression:</p>
+<pre class="prettyprint"><code>java -Dactivejdbc.log=select.* com.acme.YourProgram</code></pre>
+<h2 id="dynamically-change-log-output">Dynamically change log output</h2>
+<p>Use this call:</p>
+<pre class="prettyprint"><code>org.javalite.activejdbc.LogFilter.setLogExpression(&quot;regular expression goes here&quot;);</code></pre>
+<p>This will dynamically change ActiveJDBC log output at run time.</p>
