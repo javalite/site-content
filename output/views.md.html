@@ -278,7 +278,7 @@ function afterDelete(afterArg, data) { ... }</code></pre>
 </ul>
 <p>In addition to the collection, you can also add body to the tag. For instance, if you write the tag like this:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>@select list=books&gt;
-   <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;3&quot;</span><span class="kw">&gt;</span>A Tale of Two Cities<span class="kw">&lt;/option&gt;</span>
+   <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;-1&quot;</span><span class="kw">&gt;</span>Please, make a selection<span class="kw">&lt;/option&gt;</span>
 <span class="er">&lt;</span>/@&gt;</code></pre>
 <p>And pass this data from controller:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> BooksController <span class="kw">extends</span> AppController{
@@ -288,11 +288,12 @@ function afterDelete(afterArg, data) { ... }</code></pre>
    }
 }</code></pre>
 <p>then the output from the tag will be:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;select&gt;&lt;option</span><span class="ot"> value=</span><span class="st">&quot;3&quot;</span><span class="kw">&gt;</span>A Tale of Two Cities<span class="kw">&lt;/option&gt;</span>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;select&gt;</span>
+    <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;-1&quot;</span><span class="kw">&gt;</span>Please, make a selection<span class="kw">&lt;/option&gt;</span>
     <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;</span>The Hitchhiker<span class="dv">&amp;amp;</span>aposs Guide to the Galaxy<span class="kw">&lt;/option&gt;</span>
     <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;2&quot;</span><span class="ot"> selected=</span><span class="st">&quot;true&quot;</span><span class="kw">&gt;</span>All Quiet on Western Front<span class="kw">&lt;/option&gt;</span>
-    <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;3&quot;</span><span class="kw">&gt;</span>A Tale of Two Cities<span class="kw">&lt;/option&gt;</span>
 <span class="kw">&lt;/select&gt;</span></code></pre>
+<p>As you can see, the first hardcoded option was preserved, and the dynamic options were added below it. The first options is usually used in forms to force the user to make any selection in this input.</p>
 <h2 id="formtag">FormTag</h2>
 <p><code>&lt;@form/&gt;</code> tag generates an HTML form tag and has functionality specific for ActiveWeb. Like any other ActiveWeb tag, it has ability to pass through any non - ActiveWeb attributes. This means that if you specify any attribute that is not mentioned here, it will be passed through as a regular HTML attribute.</p>
 <p>Attributes:</p>

@@ -618,7 +618,7 @@ In addition to the collection, you can also add body to the tag. For instance, i
 
 ~~~~ {.html}
 <@select list=books>
-   <option value="-1">Please, make a selection</option>
+   <option>Please, make a selection</option>
 </@>
 ~~~~
 
@@ -637,7 +637,7 @@ then the output from the tag will be:
 
 ~~~~ {.html}
 <select>
-    <option value="-1">Please, make a selection</option>
+    <option>Please, make a selection</option>
     <option value="1">The Hitchhiker&amp;aposs Guide to the Galaxy</option>
     <option value="2" selected="true">All Quiet on Western Front</option>
 </select>
