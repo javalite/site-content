@@ -618,7 +618,7 @@ In addition to the collection, you can also add body to the tag. For instance, i
 
 ~~~~ {.html}
 <@select list=books>
-   <option value="3">A Tale of Two Cities</option>
+   <option value="-1">Please, make a selection</option>
 </@>
 ~~~~
 
@@ -636,12 +636,16 @@ public class BooksController extends AppController{
 then the output from the tag will be:
 
 ~~~~ {.html}
-<select><option value="3">A Tale of Two Cities</option>
+<select>
+    <option value="-1">Please, make a selection</option>
     <option value="1">The Hitchhiker&amp;aposs Guide to the Galaxy</option>
     <option value="2" selected="true">All Quiet on Western Front</option>
-    <option value="3">A Tale of Two Cities</option>
 </select>
 ~~~~
+
+As you can see, the first hardcoded option was preserved, and  the dynamic options were added below it. 
+The first options is usually used in forms to force the user to make any selection in this input.
+
 
 
 ## FormTag
