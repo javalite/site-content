@@ -1,4 +1,4 @@
-<ol class=breadcrumb>
+<!--<ol class=breadcrumb>
    <li>
 <a href=/>JavaLite</a>
 </li>
@@ -8,15 +8,11 @@
    <li class=active>
 Pass-through framework
 </li>
-</ol>
+</ol>-->
+
 <div class=page-header>
-   <h1>
-Pass-through framework<small></small>
-</h1>
+   <h1>Pass-through framework</h1>
 </div>
-
-
-
 
 <p>Unlike other ORMs, ActiveJDBC is a Pass-Through framework. It means that ActiveJDBC is not trying to be smart, but rather relies on underlying technology to pass data back and forth. It enables it have less magic, and makes it faster and leaner. Most older ORMs (Hibernate) do retain references to related objects, but they were also created in the client-server days.</p>
 <p>Today, 99% of modern business application development has moved to the web (and web services). ActiveJDBC was built for the web, where models are assembled together for a brief moment of time (serving one web request), used to generate a view (HTML, XML, JSON, etc.) and immediately discarded.</p>

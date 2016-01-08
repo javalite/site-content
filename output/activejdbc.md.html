@@ -6,6 +6,7 @@
 ActiveJDBC
 </li>
 </ol>-->
+
 <div class=page-header>
     <h1>ActiveJDBC</h1>
     <h4>Fast ORM for agile development</h4>
@@ -62,7 +63,7 @@ ActiveJDBC
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; people = Person.<span class="fu">where</span>(<span class="st">&quot;name = &#39;John&#39;&quot;</span>);
 Person aJohn = people.<span class="fu">get</span>(<span class="dv">0</span>);
 String johnsLastName = aJohn.<span class="fu">get</span>(<span class="st">&quot;last_name&quot;</span>);</code></pre>
-<p>The <code>where()</code> method takes a snippet of real SQL. The first line above will generate this statement: <code>SELECT * FROM people WHERE name = 'John'</code>.</p>
+<p>The <code>where()</code> method takes a snippet of real SQL. The first line above will generate this statement: <br/><code>SELECT * FROM people WHERE name = 'John'</code>.</p>
 <p>Finder methods can also be parametrized:</p>
 <pre class="sourceCode java"><code class="sourceCode java">List&lt;Person&gt; people = Person.<span class="fu">where</span>(<span class="st">&quot;name = ?&quot;</span>, <span class="st">&quot;John&quot;</span>);
 Person aJohn = people.<span class="fu">get</span>(<span class="dv">0</span>);

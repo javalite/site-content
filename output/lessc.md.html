@@ -1,4 +1,4 @@
-<ol class=breadcrumb>
+<!--<ol class=breadcrumb>
    <li>
 <a href=/>JavaLite</a>
 </li>
@@ -8,11 +8,10 @@
    <li class=active>
 Lessc
 </li>
-</ol>
+</ol>-->
+
 <div class=page-header>
-   <h1>
-Lessc <small></small>
-</h1>
+   <h1>Lessc</h1>
 </div>
 
 <p><a href="http://lesscss.org/">Less compiler</a> is a better way to write CSS. ActiveWeb provides a built-in mechanism to generate CSS file on the fly with a use of a Less compiler.</p>
@@ -20,14 +19,14 @@ Lessc <small></small>
 <p>Less configuration below requires that you install a Less compiler from: <a href="http://lesscss.org/">Less compiler</a></p>
 </blockquote>
 <p>Here is how to configure:</p>
-<h3 id="configure-routes">Configure routes</h3>
+<h2 id="configure-routes">Configure routes</h2>
 <p>First, configure the routes to ignore &quot;/bootstrap.css&quot; route in all environments except development:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> RouteConfig <span class="kw">extends</span> AbstractRouteConfig {
     <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(AppContext appContext) {
         <span class="fu">ignore</span>(<span class="st">&quot;/bootstrap.css&quot;</span>).<span class="fu">exceptIn</span>(<span class="st">&quot;development&quot;</span>);
     }
 }</code></pre>
-<h3 id="create-controler-for-development-environment">Create controler for development environment</h3>
+<h2 id="create-controler-for-development-environment">Create controler for development environment</h2>
 <p>Then, create a new controller:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> BootstrapController <span class="kw">extends</span> AbstractLesscController {
     <span class="fu">@Override</span>
@@ -37,7 +36,7 @@ Lessc <small></small>
 }</code></pre>
 <p>And override the <code>getLessFile()</code> method to return a location of your main Less file.</p>
 <p>Additionally, add a Maven plugin to your pom file:</p>
-<h3 id="configuration-for-a-single-less-file">Configuration for a Single LESS file</h3>
+<h2 id="configuration-for-a-single-less-file">Configuration for a Single LESS file</h2>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
     <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
     <span class="kw">&lt;artifactId&gt;</span>activeweb-lessc-maven-plugin<span class="kw">&lt;/artifactId&gt;</span>
@@ -53,7 +52,7 @@ Lessc <small></small>
         <span class="kw">&lt;/execution&gt;</span>
     <span class="kw">&lt;/executions&gt;</span>
 <span class="kw">&lt;/plugin&gt;</span></code></pre>
-<h3 id="configuration-for-multiple-less-files">Configuration for Multiple LESS files</h3>
+<h2 id="configuration-for-multiple-less-files">Configuration for Multiple LESS files</h2>
 <p>If your project has more than one LESS files, you can use alternative configuration to compile multiple files during the build:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
     <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
@@ -81,7 +80,7 @@ Lessc <small></small>
         <span class="kw">&lt;/execution&gt;</span>
     <span class="kw">&lt;/executions&gt;</span>
 <span class="kw">&lt;/plugin&gt;</span></code></pre>
-<h3 id="package-the-css-into-war-file">Package the CSS into War file</h3>
+<h2 id="package-the-css-into-war-file">Package the CSS into War file</h2>
 <p>Configure to package the CSS file into the app with a War plugin:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
     <span class="kw">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="kw">&lt;/groupId&gt;</span>
