@@ -1,4 +1,4 @@
-<!--<ol class=breadcrumb>
+<ol class=breadcrumb>
    <li>
 <a href=/>JavaLite</a>
 </li>
@@ -8,11 +8,13 @@
    <li class=active>
 ActiveWeb: Getting started
 </li>
-</ol>-->
-
+</ol>
 <div class=page-header>
-   <h1>Getting started</h1>
+   <h1>
+Getting started <small></small>
+</h1>
 </div>
+
 
 <p>This simple ActiveWeb project available for download demonstrates main principles of the framework. It is a CRUD application, which can list/add/view books. It also shows how to write model and controller specs (tests), and how to perform dependency injection.</p>
 <h2 id="pre-requisites">Pre-requisites</h2>
@@ -27,7 +29,7 @@ ActiveWeb: Getting started
 <h2 id="adjust-db-properties">Adjust DB properties</h2>
 <p>Edit this file, and adjust connection properties, as well as database names for different environments</p>
 <pre><code>src/main/resources/database.properties</code></pre>
-<h2 id="create-db-schemas-in-mysql">Create DB schemas (in MySQL)</h2>
+<h2 id="create-db-schemas-in-mysql">Create DB schemas (in MySQL):</h2>
 <p>Execute the following in the root of the app:</p>
 <pre><code>mvn db-migrator:create
 mvn db-migrator:migrate</code></pre>

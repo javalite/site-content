@@ -1,4 +1,4 @@
-<!--<ol class=breadcrumb>
+<ol class=breadcrumb>
    <li>
 <a href=/>JavaLite</a>
 </li>
@@ -8,11 +8,14 @@
    <li class=active>
 Optimistic locking
 </li>
-</ol>-->
-
+</ol>
 <div class=page-header>
-   <h1>Optimistic locking</h1>
+   <h1>
+Optimistic locking <small></small>
+</h1>
 </div>
+
+
 
 <p>The idea of optimistic locking is described here: <a href="http://en.wikipedia.org/wiki/Optimistic_concurrency_control">Optimistic concurrency control</a></p>
 <p>ActiveJDBC provides support for optimistic concurrency via a simple convention: A database table needs to provide a column named <code>record_version</code> with a type that is capable to store non-decimal types, such as LONG for MySQL, NUMBER for Oracle, etc.</p>

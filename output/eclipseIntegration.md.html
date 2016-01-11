@@ -1,4 +1,4 @@
-<!--<ol class=breadcrumb>
+<ol class=breadcrumb>
    <li>
 <a href=/>JavaLite</a>
 </li>
@@ -8,11 +8,16 @@
    <li class=active>
 Eclipseintegration
 </li>
-</ol>-->
-
+</ol>
 <div class=page-header>
-   <h1>Eclipse Integration</h1>
+   <h1>
+Eclipse Integration <small></small>
+</h1>
 </div>
+
+
+
+
 
 <p>As a general rule of thumb, instrumentation needs to be performed in case you run a program or a test that will execute ActiveJDBC models. See <a href="instrumentation">Instrumentation</a> for more detail. Basically Instrumentation adds special byte code instructions for ActiveJDBC to operate properly. Since Eclipse automatically recompiles classes each time you make modifications and save, it can blow away instrumented ActiveJDBC classes and replace them with just compiled versions (non-instrumented).</p>
 <p>When this happens, you will see an exception similar to:</p>

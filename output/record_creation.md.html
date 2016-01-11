@@ -1,4 +1,4 @@
-<!--<ol class=breadcrumb>
+<ol class=breadcrumb>
    <li>
 <a href=/>JavaLite</a>
 </li>
@@ -8,18 +8,27 @@
    <li class=active>
 Record creation
 </li>
-</ol>-->
+</ol>
 <div class=page-header>
-   <h1>Record creation</h1>
+   <h1>
+Record creation <small></small>
+</h1>
 </div>
 
-<p>There are many ways to create new records with ActiveJDBC. Let's explore them.</p>
+
+
+<p>There are many ways to create new records with ActiveJDBC. Let's explore them</p>
 <h2 id="use-setter-method">Use setter method</h2>
-<pre class="sourceCode java"><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
+<table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">Person p = <span class="kw">new</span> <span class="fu">Person</span>();
 p.<span class="fu">set</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;John&quot;</span>);
 p.<span class="fu">set</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;Doe&quot;</span>);
 p.<span class="fu">set</span>(<span class="st">&quot;dob&quot;</span>, <span class="st">&quot;1935-12-06&quot;</span>);
-p.<span class="fu">saveIt</span>();</code></pre>
+p.<span class="fu">saveIt</span>();</code></pre></td></tr></table>
 <p>This code should be self explanatory. As you can see, ActiveJDBC does not require to have getters and setters. You can write them, if you like, but IMHO, they are nothing but code pollution.</p>
 <h2 id="save-and-saveit-methods">save() and saveIt() methods</h2>
 <p>ActiveJDBC class Model provides two methods for saving an entity: <code>save()</code> and <code>saveIt()</code>. Both methods will involve validations during saving, but in the case of the method save() will silently exit without throwing exceptions. In case validations failed, the instance will have an errors collection attached to it. This is very useful in the context of a web application. Here is an example:</p>
