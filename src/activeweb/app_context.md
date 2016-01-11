@@ -22,10 +22,11 @@ public class AppBootstrap extends Bootstrap {
 
 Once this is done, you can access the context from any controller filter or controller:
 
-~~~~ {.java}
+```java
 public class HomeController extends AppController {
     public void index(){
          view("app_name",    appContext().get("app_name"));
     }
 }
-~~~~ {.java}
+```
+
