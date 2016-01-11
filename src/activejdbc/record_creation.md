@@ -13,7 +13,7 @@ There are many ways to create new records with ActiveJDBC. Let's explore them
 
 ## Use setter method
 
-~~~~ {.java}
+~~~~ {.java .numberLines}
 Person p = new Person();
 p.set("first_name", "John");
 p.set("last_name", "Doe");
