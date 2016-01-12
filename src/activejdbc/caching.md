@@ -1,14 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Caching</li>
-</ol>
 <div class=page-header>
    <h1>Caching <small></small></h1>
 </div>
-
-
-
 
 
 Caching is an integral part of every major system, It improves performance, reduces IO and makes overall user

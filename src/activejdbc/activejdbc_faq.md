@@ -1,8 +1,3 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Activejdbc faq</li>
-</ol>
 <div class=page-header>
    <h1>Activejdbc faq <small></small></h1>
 </div>

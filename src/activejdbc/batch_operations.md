@@ -1,13 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Batch operations</li>
-</ol>
 <div class=page-header>
    <h1>Batch operations <small></small></h1>
 </div>
-
-
 
 
 In some cases, you will need to make changes or delete to all or some records in a tables. ActiveJDBC provides a couple of convenience methods for this.

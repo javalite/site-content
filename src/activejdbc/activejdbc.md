@@ -1,7 +1,3 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li class=active>ActiveJDBC</li>
-</ol>
 <div class=page-header>
    <h1>ActiveJDBC <small>Fast ORM for agile development</small></h1>
 </div>

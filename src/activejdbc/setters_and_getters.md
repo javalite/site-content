@@ -1,12 +1,7 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Setters and getters</li>
-</ol>
+
 <div class=page-header>
    <h1>Setters and getters <small></small></h1>
 </div>
-
 
 
 Java development is all about getters and setters. Ever since the Java Beans framework introduced in 1997, this has become a blessing (and a plague some argue) in modern Java applications. ActiveJDBC does not require getters and setters for models. Since models already know all the allowable metadata from database at startup, they will perform validations of names of attributes.

@@ -1,13 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Data conversions</li>
-</ol>
 <div class=page-header>
    <h1>Data conversions <small></small></h1>
 </div>
-
-
 
 
 ## Pass-through framework
