@@ -178,7 +178,7 @@ a(validation).shouldHave("errors");
 
 The goal of this style of expectations to make them as close as possible to sound like an English sentence.
 
-### The `shouldBeNull() and `shouldNotBeNull()`
+### The `shouldBeNull()` and `shouldNotBeNull()`
 
 Expects that the tested reference is not null (or is):
 
