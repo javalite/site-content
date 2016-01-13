@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>Structure of activeweb project</li>
-</ol>
-<div class=page-header>
-   <h1>Structure of ActiveWeb project <small></small></h1>
+<div class="page-header">
+   <h1>Structure of ActiveWeb project</h1>
 </div>
 
 An ActiveWeb project a Maven project, therefore it has all the usual Maven conventions.

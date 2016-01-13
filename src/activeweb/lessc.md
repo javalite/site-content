@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>Lessc</li>
-</ol>
-<div class=page-header>
-   <h1>Lessc <small></small></h1>
+<div class="page-header">
+   <h1>Lessc</h1>
 </div>
 
 [Less compiler](http://lesscss.org/) is a better way to write CSS. ActiveWeb provides a built-in mechanism to generate

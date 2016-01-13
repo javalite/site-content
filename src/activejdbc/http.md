@@ -1,11 +1,7 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li class=active>Http</li>
-</ol>
-<div class=page-header>
-   <h1>Http <small>tiny client for web services</small></h1>
+<div class="page-header">
+   <h1>Http</h1>
+   <h4>Tiny client for web services</h4>
 </div>
-
 
 
 

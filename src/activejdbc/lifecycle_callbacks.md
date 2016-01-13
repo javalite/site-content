@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Lifecycle callbacks</li>
-</ol>
-<div class=page-header>
-   <h1>Lifecycle callbacks <small></small></h1>
+<div class="page-header">
+   <h1>Lifecycle callbacks</h1>
 </div>
 
 

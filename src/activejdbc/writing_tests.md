@@ -1,15 +1,10 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Writing tests</li>
-</ol>
-<div class=page-header>
-   <h1>Writing tests <small></small></h1>
+<div class="page-header">
+   <h1>Writing tests</h1>
 </div>
+
+
+
 ActiveJDBC - Writing tests| <a href="/activejdbc">ActiveJDBC</a>, Writing tests
-
-
-
 
 While you can use any Java technology to do this, JavaLite provides a combination of [JUnit](http://junit.org/) and
 [JSpec](jspec). Test methods are written in a style where a name of a method is a phrase reflecting the

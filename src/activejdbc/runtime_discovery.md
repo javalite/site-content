@@ -1,15 +1,11 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Runtime discovery</li>
-</ol>
-<div class=page-header>
-   <h1>Runtime discovery<small></small></h1>
-<p>Discovers tables and corresponding metadata from database at runtime</p>
+<div class="page-header">
+   <h1>Runtime discovery</h1>
 </div>
 
 
 ## Runtime discovery
+
+Discovers tables and corresponding metadata from database at runtime.
 
 ActiveJDBC performs a runtime discovery of tables that correspond to models. This happens once when any model is used for the first time. 
 

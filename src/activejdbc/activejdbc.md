@@ -1,5 +1,6 @@
-<div class=page-header>
-   <h1>ActiveJDBC <small>Fast ORM for agile development</small></h1>
+<div class="page-header">
+   <h1>ActiveJDBC</h1> 
+   <h4>Fast ORM for agile development</h4>
 </div>
 
 ## Design principles

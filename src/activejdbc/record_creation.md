@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Record creation</li>
-</ol>
-<div class=page-header>
-   <h1>Record creation <small></small></h1>
+<div class="page-header">
+   <h1>Record creation</h1>
 </div>
 
 

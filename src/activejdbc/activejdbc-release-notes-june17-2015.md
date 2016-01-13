@@ -1,4 +1,4 @@
-<div class=page-header>
+<div class="page-header">
    <h1>ActiveJDBC Release June 17 2015</h1>
 </div>
 

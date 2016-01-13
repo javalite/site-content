@@ -1,5 +1,6 @@
-<div class=page-header>
-   <h1>ActiveJDBC Releases <small>history of releases</small></h1>
+<div class="page-header">
+   <h1>ActiveJDBC Releases</h1> 
+   <h4>History of releases</h4>
 </div>
 
 ## ActiveJDBC Releases

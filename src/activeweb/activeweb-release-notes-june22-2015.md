@@ -1,8 +1,4 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li class=active>ActiveWeb Release June 22 2015</li>
-</ol>
-<div class=page-header>
+<div class="page-header">
    <h1>ActiveWeb Release June 22 2015</h1>
 </div>
 

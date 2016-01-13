@@ -1,9 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li class=active>Support</li>
-</ol>
-<div class=page-header>
-   <h1>Support <small></small></h1>
+<div class="page-header">
+   <h1>Support</h1>
 </div>
 
 

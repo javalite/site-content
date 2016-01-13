@@ -1,5 +1,5 @@
-<div class=page-header>
-   <h1>Data conversions <small></small></h1>
+<div class="page-header">
+   <h1>Data conversions</h1>
 </div>
 
 

@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>Mac osx</li>
-</ol>
-<div class=page-header>
-   <h1>Mac osx <small></small></h1>
+<div class="page-header">
+   <h1>Mac osx</h1>
 </div>
 
 

@@ -1,13 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Pass-through framework</li>
-</ol>
-<div class=page-header>
-   <h1>Pass-through framework<small></small></h1>
+<div class="page-header">
+   <h1>Pass-through framework</h1>
 </div>
-
-
 
 
 Unlike other ORMs, ActiveJDBC is a Pass-Through framework. It means that ActiveJDBC is not trying to be smart, but rather 

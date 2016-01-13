@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>Routing</li>
-</ol>
-<div class=page-header>
-   <h1>Routing <small></small></h1>
+<div class="page-header">
+   <h1>Routing</h1>
 </div>
 
 Routing in ActiveWeb is an act of matching an incoming request URL to a controller and action. Current implementation

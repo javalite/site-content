@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>Running in development mode</li>
-</ol>
-<div class=page-header>
-   <h1>Running in development mode <small></small></h1>
+<div class="page-header">
+   <h1>Running in development mode</h1>
 </div>
 
 ActiveWeb will recompile and reload routes and controllers on each request in development environment. It makes it possible

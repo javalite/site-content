@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Statistics reporting</li>
-</ol>
-<div class=page-header>
-   <h1>Statistics reporting <small></small></h1>
+<div class="page-header">
+   <h1>Statistics reporting</h1>
 </div>
 
 ActiveJDBC can report on times queries are taking to execute. If statistics collection is enabled, then AJ will

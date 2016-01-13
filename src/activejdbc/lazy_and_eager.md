@@ -1,12 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Lazy and eager</li>
-</ol>
-<div class=page-header>
-   <h1>Lazy and eager <small></small></h1>
+<div class="page-header">
+   <h1>Lazy and eager</h1>
 </div>
-
 
 
 ActiveJDBC is lazy by default. In this sense, it has semantics closer to ActiveRecord than Hibernate.

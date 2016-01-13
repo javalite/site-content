@@ -1,28 +1,20 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Inheritance</li>
-</ol>
-<div class=page-header>
-   <h1>Inheritance <small></small></h1>
+<div class="page-header">
+   <h1>Inheritance</h1>
 </div>
-
-
 
 
 > Currently ActiveJDBC does not support a feature called [Single Table Inheritance](http://en.wikipedia.org/wiki/Single_Table_Inheritance).
 > However it does support just inheritance.
 
-Inheritance diagram
-===================
+## Inheritance diagram
 
 Consider this diagram:
 
 ![Inheritance diagram](images/inheritance_umlet_class_diagram.png)
 
 
-Inheritance usage
-=================
+## Inheritance usage
+
 
 While there are total of 7 classes, only those classes that have <span style="background-color:lightgreen">
 &nbsp; green &nbsp; </span>

@@ -1,12 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>Mvc pattern</li>
-</ol>
-<div class=page-header>
-   <h1>Mvc pattern <small></small></h1>
+<div class="page-header">
+   <h1>Mvc pattern</h1>
 </div>
-
 
 
 At the heart of the ActiveWeb project there is an MVC pattern - [Model-View-Controller](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller).

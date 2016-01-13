@@ -1,5 +1,5 @@
-<div class=page-header>
-   <h1>Getting started <small></small></h1>
+<div class="page-header">
+   <h1>Getting started</h1>
 </div>
 
 

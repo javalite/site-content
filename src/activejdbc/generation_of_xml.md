@@ -1,13 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Generation of xml</li>
-</ol>
-<div class=page-header>
-   <h1>Generation of xml <small></small></h1>
+<div class="page-header">
+   <h1>Generation of xml</h1>
 </div>
-
-
 
 
 Often developers need to generate XML from models. In more complicated situation, they probably would
