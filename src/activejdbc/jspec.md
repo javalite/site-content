@@ -1,12 +1,8 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li class=active>Jspec</li>
-</ol>
+
+
 <div class=page-header>
    <h1>JSpec <small>assertions that read like English</small></h1>
 </div>
-
-
 
 
 This page describes functionality and usage of a small testing library called JSpec. JSpec was originated from ActiveJDBC

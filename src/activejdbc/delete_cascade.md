@@ -29,8 +29,8 @@ sometimes coming back to the same one where it all started. It will follow assoc
 associations too; consider this a true cascade delete with all implications (circular dependencies, referential
 integrity constraints, potential performance bottlenecks, etc.)
 
-Imagine a situation where you have DOCTORS and PATIENTS in many to many relationship (with DOCTORS_PATIENTS table
-as a join table), and in addition PATIENTS and PRESCRIPTIONS in one to many relationship, where a patient
+Imagine a situation where you have `DOCTORS` and `PATIENTS` in many to many relationship (with `DOCTORS_PATIENTS` table
+as a join table), and in addition `PATIENTS` and `PRESCRIPTIONS` in one to many relationship, where a patient
 might have many prescriptions:
 
 
