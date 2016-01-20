@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>Deploying to heroku</li>
-</ol>
-<div class=page-header>
-   <h1>Deploying to heroku <small></small></h1>
+<div class="page-header">
+   <h1>Deploying to heroku</h1>
 </div>
 
 This guide uses the ClearDB mysql service, but it could easily be adapted to the Heroku Postgres service.

@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>Captcha</li>
-</ol>
-<div class=page-header>
-   <h1>Captcha <small></small></h1>
+<div class="page-header">
+   <h1>Captcha</h1>
 </div>
 
 [Captcha](http://en.wikipedia.org/wiki/CAPTCHA) is often used in dynamic websites to protect from bots. ActiveWeb

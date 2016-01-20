@@ -1,7 +1,6 @@
-
-
-<div class=page-header>
-   <h1>JSpec <small>assertions that read like English</small></h1>
+<div class="page-header">
+   <h1>JSpec</h1>
+   <h4>Assertions that read like English</h4>
 </div>
 
 

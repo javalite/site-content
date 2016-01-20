@@ -1,14 +1,9 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>Activeweb</li>
-</ol>
-<div class=page-header>
-   <h1>Activeweb <small>Full stack web framework</small></h1>
-   <p>
-   Provides everything you need for building a modern dynamic web application or a REST-ful web service.
-   </p>
+<div class="page-header">
+   <h1>Activeweb</h1>
+   <h4>Full stack web framework</h4>
 </div>
+
+Provides everything you need for building a modern dynamic web application or a REST-ful web service.
 
 ## Design principles
 *  **Convention over configuration** - zero configuration is required to develop ActiveWeb applications, and some conventions are overridable.

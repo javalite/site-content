@@ -1,6 +1,5 @@
-
-<div class=page-header>
-   <h1>Setters and getters <small></small></h1>
+<div class="page-header">
+   <h1>Setters and getters</h1>
 </div>
 
 

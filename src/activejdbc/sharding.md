@@ -1,12 +1,7 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Sharding</li>
-</ol>
-
-<div class=page-header>
-   <h1>Sharding <small></small></h1>
+<div class="page-header">
+   <h1>Sharding</h1>
 </div>
+
 
 Sharding is a method of spreading data across multiple tables. Please, see more on 
 [Sharding and database architecture](https://en.wikipedia.org/wiki/Shard_(database_architecture)). 

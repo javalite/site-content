@@ -1,5 +1,5 @@
-<div class=page-header>
-   <h1>How to contribute<small></small></h1>
+<div class="page-header">
+   <h1>How to contribute</h1>
 </div>
 
 

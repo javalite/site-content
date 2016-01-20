@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Intellij idea integration</li>
-</ol>
-<div class=page-header>
-   <h1>Intellij idea integration <small></small></h1>
+<div class="page-header">
+   <h1>Intellij idea integration</h1>
 </div>
 
 As a general rule of thumb, instrumentation needs to be performed in case you run a program or a test that will execute ActiveJDBC models.

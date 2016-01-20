@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Limit and sort</li>
-</ol>
-<div class=page-header>
-   <h1>Limit and sort <small></small></h1>
+<div class="page-header">
+   <h1>Limit and sort</h1>
 </div>
 
 

@@ -1,9 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li class=active>Sources</li>
-</ol>
-<div class=page-header>
-   <h1>JavaLite on Github<small></small></h1>
+<div class="page-header">
+   <h1>JavaLite on Github</h1>
 </div>
 
 

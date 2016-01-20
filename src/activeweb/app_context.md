@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>App context</li>
-</ol>
-<div class=page-header>
-   <h1>App context <small></small></h1>
+<div class="page-header">
+   <h1>App context</h1>
 </div>
 
 

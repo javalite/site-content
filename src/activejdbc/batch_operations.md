@@ -1,5 +1,5 @@
-<div class=page-header>
-   <h1>Batch operations <small></small></h1>
+<div class="page-header">
+   <h1>Batch operations</h1>
 </div>
 
 

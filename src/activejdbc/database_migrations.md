@@ -1,13 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Database migrations</li>
-</ol>
-<div class=page-header>
-   <h1>Database migrations <small></small></h1>
+<div class="page-header">
+   <h1>Database migrations</h1>
 </div>
-
-
 
 
 Database migrations is a process of making changes to database schema during a development process.

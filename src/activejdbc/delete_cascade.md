@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Delete cascade</li>
-</ol>
-<div class=page-header>
-   <h1>Delete cascade <small></small></h1>
+<div class="page-header">
+   <h1>Delete cascade</h1>
 </div>
 
 
@@ -73,7 +68,7 @@ might have many prescriptions:
 |  4 |3          |3           |
 +----+-----------+------------+
 
-PRESCRIPTIONS:
+`PRESCRIPTIONS`:
 
 +----+------------------------+------------+
 | id | name                   | patient_id |

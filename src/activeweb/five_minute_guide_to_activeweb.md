@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activeweb>ActiveWeb</a></li>
-   <li class=active>5 minute guide to activeweb</li>
-</ol>
-<div class=page-header>
-   <h1>5 minute guide to ActiveWeb <small></small></h1>
+<div class="page-header">
+   <h1>5 minute guide to ActiveWeb</h1>
 </div>
 
 

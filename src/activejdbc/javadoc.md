@@ -1,9 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li class=active>JavaDoc</li>
-</ol>
-<div class=page-header>
-   <h1>JavaDoc <small>Java documentation</small></h1>
+<div class="page-header">
+   <h1>JavaDoc</h1>
+   <h4>Java documentation</h4>
 </div>
 
 

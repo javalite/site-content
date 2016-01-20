@@ -1,12 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Record selection</li>
-</ol>
-<div class=page-header>
-   <h1>Record selection <small></small></h1>
+<div class="page-header">
+   <h1>Record selection</h1>
 </div>
-
 
 
 ## Writing a Model

@@ -1,5 +1,5 @@
-<div class=page-header>
-   <h1>Clob support and caching <small></small></h1>
+<div class="page-header">
+   <h1>Clob support and caching</h1>
 </div>
 
 

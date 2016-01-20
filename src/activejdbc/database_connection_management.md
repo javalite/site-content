@@ -1,10 +1,5 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Database connection management</li>
-</ol>
-<div class=page-header>
-   <h1>Database connection management <small></small></h1>
+<div class="page-header">
+   <h1>Database connection management</h1>
 </div>
 
 

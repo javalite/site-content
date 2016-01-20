@@ -1,5 +1,5 @@
-<div class=page-header>
-   <h1>Caching <small></small></h1>
+<div class="page-header">
+   <h1>Caching</h1>
 </div>
 
 

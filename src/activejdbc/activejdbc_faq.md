@@ -1,5 +1,5 @@
-<div class=page-header>
-   <h1>Activejdbc faq <small></small></h1>
+<div class="page-header">
+   <h1>Activejdbc faq</h1>
 </div>
 
 

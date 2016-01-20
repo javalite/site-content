@@ -1,18 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li class=active>Documentation</li>
-</ol>
-<div class=page-header>
+<div class="page-header">
    <h1>JavaLite Documentation</h1>
 </div>
-
-<style>
-
-h3 {
-  margin-left: 15px;
-}
-
-</style>
 
 
 ## [ActiveJDBC](activejdbc)

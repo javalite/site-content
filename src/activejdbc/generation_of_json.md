@@ -1,16 +1,6 @@
-<ol class=breadcrumb>
-   <li><a href=/>JavaLite</a></li>
-   <li><a href=/activejdbc>ActiveJDBC</a></li>
-   <li class=active>Generation of json</li>
-</ol>
-<div class=page-header>
-   <h1>Generation of json <small></small></h1>
+<div class="page-header">
+   <h1>Generation of json</h1>
 </div>
-
-
-
-
-
 
 
 In context of a web application, especially when dealing with Ajax, it is handy to have your classes convert to to JSON to send to a browser. If you have a complex model with custom classes to be sent over, you will most likely write your JSON generation code, if however all you need is to convert ActiveJDBC models to JSON, this functionality is already available from your models without extra effort.
