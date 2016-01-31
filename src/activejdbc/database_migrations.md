@@ -334,3 +334,76 @@ sources from source repository and execute a build, your database is upgraded to
 In our experience, this reduced amount of attention we had to give a DB to a minimum. Basically a developer creates a
 new migration and checks it in, which makes it propagate to other developer machines automatically.
 
+### Step 1: Create migration file
+
+At the root of your project execute: 
+
+```
+mvn db-migrator:new -Dname=create_people_table
+```
+This will simply create a new empty text file: 
+
+```
+Created new migration: .../src/migrations/20160130213201_create_people_table.sql
+```
+
+where 20160130213201 is a timestamp that is a good indicator when this migration was created. 
+
+### Step 2: Write SQL:
+
+Open this file with your favorite text editor and add free hand SQL there: 
+
+```
+CREATE TABLE people (
+  id  int(11) DEFAULT NULL auto_increment PRIMARY KEY,
+  first_name VARCHAR(128),
+  last_name  VARCHAR(128),
+  created_at DATETIME,
+  updated_at DATETIME
+)ENGINE=InnoDB;
+```
+
+### Step 3: Run migration:
+
+Execute this command and observe output: 
+
+```
+$mvn db-migrator:migrate
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building ActiveWeb Example WebApp 1.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- db-migrator-maven-plugin:1.4.11:migrate (default-cli) @ activeweb-simple ---
+[INFO] Sourcing database configuration from file: /home/igor/projects/javalite/activeweb-simple/src/main/resources/database.properties
+[INFO] Environment: test
+[INFO] Migrating jdbc:mysql://localhost/simple_test using migrations at /home/igor/projects/javalite/activeweb-simple/src/migrations/
+[INFO] Trying migrations at: /home/igor/projects/javalite/activeweb-simple/src/migrations 
+[INFO] Migrating database, applying 1 migration(s)
+[INFO] Running migration 20160130213201_create_person_table.sql
+[INFO] CREATE TABLE people ( id  int(11) DEFAULT NULL auto_increment PRIMARY KEY, first_name VARCHAR(128), last_name  VARCHAR(128), created_at DATETIME, updated_at DATETIME )ENGINE=InnoDB
+[INFO] Migrated database
+[INFO] Environment: development
+[INFO] Migrating jdbc:mysql://localhost/simple_development using migrations at /home/igor/projects/javalite/activeweb-simple/src/migrations/
+[INFO] Trying migrations at: /home/igor/projects/javalite/activeweb-simple/src/migrations 
+[INFO] Migrating database, applying 1 migration(s)
+[INFO] Running migration 20160130213201_create_person_table.sql
+[INFO] CREATE TABLE people ( id  int(11) DEFAULT NULL auto_increment PRIMARY KEY, first_name VARCHAR(128), last_name  VARCHAR(128), created_at DATETIME, updated_at DATETIME )ENGINE=InnoDB
+[INFO] Migrated database
+
+```
+
+as you can see from above in this case. two databases were migrated: test and development. The output of the migration command is self-explanatory. 
+If you had more migration files defined that have not yet been migrated, they all will be migrated by thi step. 
+
+### Step 3 alternative
+
+Since the DB-Migrator is a Maven plugin and is executed during a normal build, every time you run a project build with:
+
+```
+mvn clean install
+```
+
+your new migrations will be executed against target databases. So, as such you do not need to execute 
+`mvn db-migrator:migrate` during a normal development process. 
