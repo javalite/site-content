@@ -395,7 +395,7 @@ $mvn db-migrator:migrate
 ```
 
 as you can see from above in this case. two databases were migrated: test and development. The output of the migration command is self-explanatory. 
-If you had more migration files defined that have not yet been migrated, they all will be migrated by thi step. 
+If you had more migration files defined that have not yet been migrated, they all will be migrated by this step. 
 
 ### Step 3 alternative
 
