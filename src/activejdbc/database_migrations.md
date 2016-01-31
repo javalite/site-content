@@ -405,5 +405,5 @@ Since the DB-Migrator is a Maven plugin and is executed during a normal build, e
 mvn clean install
 ```
 
-your new migrations will be executed against target databases. So, as such you do not need to execute 
+your new migrations will be executed against target databases. This means you do not need to execute 
 `mvn db-migrator:migrate` during a normal development process. 
