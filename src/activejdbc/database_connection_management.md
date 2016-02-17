@@ -148,7 +148,7 @@ Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "root", "pwd")
 If however, this call is used:
 
 ~~~~ {.java}
-Base.open("jdbc/test");
+Base.open("java:comp/env/jdbc/testdb");
 ~~~~
 
 it will use a JDNI name to lookup a connection. Usually this is called from within a container and the name points

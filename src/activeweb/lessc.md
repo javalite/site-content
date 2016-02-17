@@ -10,7 +10,7 @@ CSS file on the fly with a use of a Less compiler.
 
 Here is how to configure:
 
-### Configure routes
+## Configure routes
 
 First, configure the routes to ignore "/bootstrap.css" route in all environments except development:
 
@@ -22,7 +22,7 @@ public class RouteConfig extends AbstractRouteConfig {
 }
 ~~~~
 
-### Create controler for development environment
+## Create controler for development environment
 
 Then, create a new controller:
 
@@ -39,7 +39,7 @@ And override the `getLessFile()` method to return a location of your main Less f
 
 Additionally, add a Maven plugin to your pom file:
 
-### Configuration for a Single LESS file
+## Configuration for a Single LESS file
 
 ~~~~ {.xml}
 <plugin>
@@ -59,7 +59,7 @@ Additionally, add a Maven plugin to your pom file:
 </plugin>
 ~~~~
 
-### Configuration for Multiple LESS files 
+## Configuration for Multiple LESS files 
 
 If your project has more than one LESS files, you can use alternative configuration to compile multiple files during the build: 
 
@@ -79,6 +79,7 @@ If your project has more than one LESS files, you can use alternative configurat
                 <lesscMain>src/main/webapp/less2/bootstrap.less</lesscMain>
                 <targetDirectory>target/web2</targetDirectory>
                 <targetFileName>bootstrap.css</targetFileName>
+                <lesscArguments>--modify-var=base-url='${build.number}'</lesscArguments>
             </lessConfig>
         </lessConfigs>
     </configuration>
@@ -92,7 +93,10 @@ If your project has more than one LESS files, you can use alternative configurat
 </plugin>
 ~~~~
 
-### Package the CSS into War file
+> The `lesscArguments` has an issue with quotes. Seems that the double quots are not needed. 
+
+
+## Package the CSS into War file
 
 Configure to package the CSS file into the app with a War plugin:
 

@@ -196,8 +196,9 @@ ActiveJDBC has a simple plugin framework for adding cache providers. Currently s
 
 -   OSCache is dead now. Although it is working just fine on many of our projects, we recommend using EHCache
 -   [EHCache](http://ehcache.org/). EHCache is high performance popular open source project. For documentation, please refer to: [http://ehcache.org/documentation](http://ehcache.org/documentation)
+- Redis - based cache provider (recent addition)
 
-## EHCache configuration
+## EHCache configuration (v 2.x)
 
 Configuration needs to be provided in a file called `ehcache.xml` found at the root of a classpath. Example of a file content:
 
@@ -224,9 +225,47 @@ Configuration needs to be provided in a file called `ehcache.xml` found at the r
 Please, note that ActiveJDBC does not create named caches in EHCache, but only uses default configuration specified by
 `defaultCache` element in this file.
 
-### EHCache clustering with Terracotta
+## EHCache configuration (v 3.x)
 
-The EHCache project has excellent documentation found here:
-[http://ehcache.org/documentation](http://ehcache.org/documentation).
-Adding clustering support to EHCache is somewhat simple, you have to add a `terracottaConfig` to the `ehcache.xml` file.
-For more information, please refer to the EHCache documentation.
+Name of the cache mamager class: `org.javalite.activejdbc.cache.EHCache3Manager`. 
+Set the following in the file `activejsbc.properties`: 
+
+```
+cache.manager=org.javalite.activejdbc.cache.EHCache3Manager
+```
+
+In addition,  you will need to configure EHCacche itself. For that, add a file called `activejdbc-ehcache.xml`. Here is  simple EHCache v3 configuration: 
+
+```xml
+<ehcache:config xmlns:ehcache="http://www.ehcache.org/v3">
+    <ehcache:cache-template name="activejdbc">
+        <ehcache:expiry>
+            <ehcache:none/>
+        </ehcache:expiry>
+        <ehcache:eviction-prioritizer>LFU</ehcache:eviction-prioritizer>
+        <ehcache:heap size="5000" unit="entries" />
+    </ehcache:cache-template>
+</ehcache:config>
+```
+For more involved configuration options, refer to EHCache v3 documentation. 
+
+
+## Redis cache configuration
+
+Name of the cache mamager class: `org.javalite.activejdbc.cache.EHCache3Manager`.
+Set the following in the file `activejdbc.properties`:
+
+```
+cache.manager=org.javalite.activejdbc.cache.RedisCacheManager
+```
+
+Also, provide a property file called `activejdbc-redis.properties`
+with two properties: <`redist-host` and `edist-port`
+The properties file needs to be at the root of classpath.
+
+
+> <strong>Limitation:</strong> Redis cache manager does not support `CacheManager#flush(CacheEvent)` with value 'ALL'.
+
+
+
+
