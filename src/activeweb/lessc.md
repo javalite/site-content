@@ -74,6 +74,7 @@ If your project has more than one LESS files, you can use alternative configurat
                 <lesscMain>src/main/webapp/less1/bootstrap.less</lesscMain>
                 <targetDirectory>target/web1</targetDirectory>
                 <targetFileName>bootstrap.css</targetFileName>
+                <lesscArguments>--modify-var=base-url='${build.number}'</lesscArguments>
             </lessConfig>
             <lessConfig implementation="org.javalite.lessc.maven.LessConfig">
                 <lesscMain>src/main/webapp/less2/bootstrap.less</lesscMain>
