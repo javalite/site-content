@@ -200,6 +200,33 @@ to develop applications that live on different environments, and simply "know" w
 
 > If environment variable `ACTIVE_ENV` is not defined, the framework defaults to environment `development`.
 
+
+## Location of property file
+
+In some cases it is inconvenient to bundle the `database.properties` file with class files on classpath. 
+There can be different reasons for it: you want to be able to change passwords, do not want to commit credentials to
+code repoository, etc. 
+
+The database connection properties file can be given any name and can reside on a file system somewhere. 
+
+
+Here is how to configure: 
+
+Add a file `activejdbc.properties` to your project at root of classpath and configure a property in it: 
+
+```
+env.connections.file=/etc/my_project123/database.properties
+```
+
+Then, simply add connection properties to the file as usual. The methods `DB.open()` and `Base.open()` will locate 
+a connection from this file using the usual `ACTIVE_ENV` conventions. 
+ 
+
+
+
+
+
+
 ## Specifying DB Schema
 
 In most cases you do not need to worry about this. However, for Oracle and PostgreSQL, some schema elements may leak
