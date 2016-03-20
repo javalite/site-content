@@ -68,6 +68,28 @@ This video clip shows how to do rapid application development with IntelliJ Idea
 
 For more, see [IntelliJ Integration](intellij_idea_integration)
 
+## Gradle instrumentation plugin
+
+The instrumentation step is also available as a Gradle plugin, an example project can be found here: [Gradle Plugin Example](https://github.com/javalite/activejdbc-gradle).
+
+Add the plugin to your `build.gradle` file like this:
+
+~~~ {.groovy}
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'http://repo.javalite.io' }
+    }
+    dependencies {
+        classpath group: 'org.javalite', name: 'activejdbc-gradle-plugin', version: '1.4.12-SNAPSHOT'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.javalite.activejdbc'
+~~~
+
+The plugin will insert an instrumentation task between the `compileJava` and `classes` tasks that are provided by default with the java plugin.
 
 ## Ant instrumentation
 
