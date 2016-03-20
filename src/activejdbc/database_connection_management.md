@@ -161,7 +161,7 @@ new DB("default").open(datasourceInstance);
 ~~~~
 
 
-## Multiple environments
+## Multiple environments (property file method)
 
 The easiest way to configure multiple connections for different environments is to use a property file. 
  By convention, this file is called `database.properties` and located at the root of classpath. 
@@ -223,8 +223,38 @@ a connection from this file using the usual `ACTIVE_ENV` conventions.
  
 
 
+## Environment variables override
+
+In some cases you will need to specify parameters as environment variables. 
+This may happen on cloud based-environments such as Heroku, Jenkins CI, etc. 
+There are 4 environments variables you can use: 
+
+```
+ACTIVEJDBC.URL
+ACTIVEJDBC.USER
+ACTIVEJDBC.PASSWORD
+ACTIVEJDBC.DRIVER
+```
+
+These are self-explanatory JDBC connection parameters. 
+
+> Environment variable - based parameters will override any configuration provided in the `database.properties` file for current environment.
 
 
+## System properties override
+
+In some cases you will need to specify connection parameters as JVM system properties. 
+There are 4 system properties you can use: 
+
+```
+activejdbc.url
+activejdbc.user
+activejdbc.user
+activejdbc.user
+```
+
+> System properties - based configuration will override any configuration provided as environment variables as 
+> well as by the  `database.properties` file for current environment.
 
 
 ## Specifying DB Schema

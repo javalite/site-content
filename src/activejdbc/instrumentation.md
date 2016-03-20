@@ -74,7 +74,7 @@ The instrumentation step is also available as a Gradle plugin, an example projec
 
 Add the plugin to your `build.gradle` file like this:
 
-~~~ {.groovy}
+~~~~ {.groovy}
 buildscript {
     repositories {
         mavenCentral()
@@ -87,7 +87,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'org.javalite.activejdbc'
-~~~
+~~~~
 
 The plugin will insert an instrumentation task between the `compileJava` and `classes` tasks that are provided by default with the java plugin.
 
@@ -113,7 +113,7 @@ where `${classes}` represents a directory where class files were compiled.
 If you are not using Maven or Ant, you can run instrumentation with a command similar to this:
 
 ~~~~ {.prettyprint}
-java  -cp=$CLASSPATH  -DoutputDirectory=build activejdbc.instrumentation.Main
+java  -cp=$CLASSPATH  -DoutputDirectory=build org.javalite.instrumentation.Main
 ~~~~
 
 where:
