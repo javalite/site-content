@@ -249,8 +249,8 @@ There are 4 system properties you can use:
 ```
 activejdbc.url
 activejdbc.user
-activejdbc.user
-activejdbc.user
+activejdbc.password
+activejdbc.driver
 ```
 
 > System properties - based configuration will override any configuration provided as environment variables as 
