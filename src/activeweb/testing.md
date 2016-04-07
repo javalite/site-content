@@ -238,7 +238,7 @@ We simply test on line 5 that there exists a span with specific content merged b
    
 **Finding content of node**
 
-Use the `find(cssSelector)` method to find content of a node by CSS selectors.
+Use the `text(cssSelector)` method to find content of a node by CSS selectors.
 
 ```java
 public class HelloControllerSpec extends ControllerSpec {
