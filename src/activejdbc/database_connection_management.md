@@ -262,7 +262,7 @@ activejdbc.driver
 If you are using JNDI, the system property is: 
 
 ```
-activejdbc.jndo
+activejdbc.jndi
 ```
 
 > System properties - based configuration will override any configuration provided as environment variables as 
