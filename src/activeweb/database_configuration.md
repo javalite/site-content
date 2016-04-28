@@ -22,8 +22,14 @@ have four: development, continuous integration, staging and production
 
 ## How to specify an environment
 
-An environment is specified by an environment variable: `ACTIVE_ENV` Every computer where an ActiveWeb project gets 
-executed, needs to have this variable specified. This value is used to determine which DB connections need to be initialized.
+An environment is specified by either:
+
+* Environment variable: `ACTIVE_ENV` 
+* Java System property: `active_env` 
+
+> If both, environment variable and a system property are specified, then system propertu overrides environment variable 
+
+This value is used to determine which DB connections need to be initialized.
 
 > Default environment: In case an environment variable `ACTIVE_ENV` is not provided, the framework defaults to "development".
 
