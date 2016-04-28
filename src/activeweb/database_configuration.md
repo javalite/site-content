@@ -27,7 +27,7 @@ An environment is specified by either:
 * Environment variable: `ACTIVE_ENV` 
 * Java System property: `active_env` 
 
-> If both, environment variable and a system property are specified, then system propertu overrides environment variable 
+> If both, environment variable and a system property are specified, then system property overrides environment variable.
 
 This value is used to determine which DB connections need to be initialized.
 
