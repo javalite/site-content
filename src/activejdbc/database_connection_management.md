@@ -227,13 +227,19 @@ a connection from this file using the usual `ACTIVE_ENV` conventions.
 
 In some cases you will need to specify parameters as environment variables. 
 This may happen on cloud based-environments such as Heroku, Jenkins CI, etc. 
-There are 4 environments variables you can use: 
+If you use direct JDBC parameters, there are 4 environments variables you can use: 
 
 ```
 ACTIVEJDBC.URL
 ACTIVEJDBC.USER
 ACTIVEJDBC.PASSWORD
 ACTIVEJDBC.DRIVER
+```
+
+If you use JNDI connection, you can use 1 penvironment variable: 
+
+```
+ACTIVEJDBC.JNDI
 ```
 
 These are self-explanatory JDBC connection parameters. 
@@ -244,13 +250,19 @@ These are self-explanatory JDBC connection parameters.
 ## System properties override
 
 In some cases you will need to specify connection parameters as JVM system properties. 
-There are 4 system properties you can use: 
+If you are using standard JDBC parameters, there are 4 system properties you can use: 
 
 ```
 activejdbc.url
 activejdbc.user
 activejdbc.password
 activejdbc.driver
+```
+
+If you are using JNDI, the system property is: 
+
+```
+activejdbc.jndo
 ```
 
 > System properties - based configuration will override any configuration provided as environment variables as 
