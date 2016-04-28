@@ -236,7 +236,7 @@ ACTIVEJDBC.PASSWORD
 ACTIVEJDBC.DRIVER
 ```
 
-If you use JNDI connection, you can use 1 penvironment variable: 
+If you use JNDI connection, you can use 1 environment variable: 
 
 ```
 ACTIVEJDBC.JNDI
