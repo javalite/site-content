@@ -46,8 +46,8 @@ String response = Http.get(url).basic(user, password).text();
 
 ## Sending multipart requests
 
-In cas you need to send [multipart messages](https://en.wikipedia.org/wiki/MIME#Multipart_messages), you can do so simply 
-by executing a one line of code: 
+In case you need to send [multipart messages](https://en.wikipedia.org/wiki/MIME#Multipart_messages), you can do so simply 
+by executing one line of code: 
 
 
 ```java
