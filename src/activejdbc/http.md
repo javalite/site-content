@@ -51,9 +51,9 @@ by executing a one line of code:
 
 
 ```java
-Multipart mp = Http.multipart("http://localhost:8080/upload/save")
+Multipart mp = Http.multipart("http://myserver.com/upload/")
                 .field("name1", "val1")
-                .file("file1", "/home/igor/tmp/test.txt");
+                .file("file1", "/home/johndoe/test.txt");
 System.out.println(mp.text());
 ```
 
