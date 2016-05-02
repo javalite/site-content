@@ -44,6 +44,23 @@ Post post = Http.post(url, content)
 String response = Http.get(url).basic(user, password).text();
 ```
 
+## Sending multipart requests
+
+In cas you need to send [multipart messages](https://en.wikipedia.org/wiki/MIME#Multipart_messages), you can do so simply 
+by executing a one line of code: 
+
+
+```java
+Multipart mp = Http.multipart("http://localhost:8080/upload/save")
+                .field("name1", "val1")
+                .file("file1", "/home/igor/tmp/test.txt");
+System.out.println(mp.text());
+```
+
+You can use any combination of other methods to modify timeouts, basic authentication, headers, etc. 
+
+
+
 ## How to get the dependency
 
 ~~~~ {.xml}
