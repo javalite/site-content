@@ -18,27 +18,43 @@ System.out.println(get.responseCode())
 
 ## How to POST
 
+### POST binary content
+
 ~~~~ {.java}
-Post post = Http.post("http://yahoo.com", content).header(headerName, headerValue);
+
+byte[] content = ...; // fill with your data
+
+Post post = Http.post("http://yahoo.com", content)
+                .header(headerName, headerValue);
 System.out.println(post.text());
 System.out.println(post.headers());
 System.out.println(post.responseCode())
 ~~~~
 
-## How to post a form
+### POST JSON content 
 
+```java
+Post post = Http.post(url, content)
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/json");
+```
+
+### How to POST a form
 
 Posting a single value is easy:
 
 ```java
-Post post = Http.post("http://example.com/hello").param("name", "John");
+Post post = Http.post("http://example.com/hello")
+                .param("name", "John");
 System.out.println(post.text());
 ```
 
 Posting multiple values can be done: 
 
 ```java
-Post post = Http.post("http://example.com/hello").param("first_name", "John").param("last_name", "Doe");
+Post post = Http.post("http://example.com/hello")
+                .param("first_name", "John")
+                .param("last_name", "Doe");
 System.out.println(post.text());
 ```
 
@@ -56,14 +72,6 @@ System.out.println(post.text());
 
 Similar to the above.  You can find full JavaDoc here:
 <a href="http://javalite.github.io/activejdbc/org/javalite/http/package-summary.html">JavaLite HTTP JavaDoc</a>
-
-## POST content
-
-```java
-Post post = Http.post(url, content)
-                .header("Accept", "application/json")
-                .header("Content-Type", "application/json");
-```
 
 ## Basic authentication
 
