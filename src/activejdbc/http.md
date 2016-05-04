@@ -25,6 +25,33 @@ System.out.println(post.headers());
 System.out.println(post.responseCode())
 ~~~~
 
+## How to post a form
+
+
+Posting a single value is easy:
+
+```java
+Post post = Http.post("http://example.com/hello").param("name", "John");
+System.out.println(post.text());
+```
+
+Posting multiple values can be done: 
+
+```java
+Post post = Http.post("http://example.com/hello").param("first_name", "John").param("last_name", "Doe");
+System.out.println(post.text());
+```
+
+or even better: 
+
+```java
+Post post = Http.post("http://example.com/hello").params("first_name", "John", "last_name", "Doe");
+System.out.println(post.text());
+```
+
+
+
+
 ## How to PUT and DELETE
 
 Similar to the above.  You can find full JavaDoc here:
