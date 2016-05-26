@@ -61,10 +61,15 @@ development.username=root
 development.password=pwd1
 development.url=jdbc:mysql://localhost/simple_development
 
-test.driver=com.mysql.jdbc.Driver
-test.username=root
-test.password=pwd2
-test.url=jdbc:mysql://localhost/simple_test
+development.test.driver=com.mysql.jdbc.Driver
+develppment.test.username=root
+development.test.password=pwd2
+development.test.url=jdbc:mysql://localhost/simple_test
+
+jenkins.test.driver=com.mysql.jdbc.Driver
+jenkins.test.username=root
+jenkins.test.password=pwd2
+jenkins.test.url=jdbc:mysql://jenkins.myhost.com/simple_test
 
 production.driver=com.mysql.jdbc.Driver
 production.username=root
@@ -97,7 +102,7 @@ from a pool provided by container.
 
 ### Java code configuration
 
-~~~~ {.java  }
+~~~~ {.java}
 public class DbConfig extends AbstractDBConfig {
     public void init(AppContext context) {
          environment("development").jndi("jdbc/kitchensink_development");
@@ -133,7 +138,7 @@ connections in the same environment:
 
 Code configuration:
 
-~~~~ {.java  }
+~~~~ {.java}
 public class DbConfig extends AbstractDBConfig {
     public void init(AppContext context) {
          // default DB:
@@ -172,6 +177,67 @@ public class AppControllerConfig extends AbstractControllerConfig {
 ```
 
 This way, the connection to `prod2` will be opened only for execution of `MySpecialController`. 
+
+
+
+### Different connections for controllers
+
+If you need to use different connectios for different controllers, you  have to define 
+your  named connections to databases in the DBConfig class: 
+
+
+~~~~{.java}
+public class DbConfig extends AbstractDBConfig {
+    public void init(AppContext context) {
+         environment("production", true).db("apples").jndi("java:comp/env/jdbc/apples_db; 
+         environment("production", true).db("oranges").jndi("java:comp/env/jdbc/oranges_db);
+    }
+}
+~~~~
+
+
+Remember, that this is just configurations. The class `DbConfig` does not open any connections. 
+Opening connections is a responsibility of `DBConnectionFilter` class: 
+
+
+```java
+public class AppControllerConfig extends AbstractControllerConfig {
+  @Override
+  public void init(AppContext context) {
+      addGlobalFilters(new DBConnectionFilter("default", true));
+      add(new DBConnectionFilter("apples", true)).to(ApplesController.class);
+      add(new DBConnectionFilter("oranges", true)).to(OrangesController.class);
+  }
+}
+
+```
+
+**NOTE:** in this case, you will have different named databases on current thread. This means that the 
+models executed in the `ApplesController` should be tagged with `apples` dababase name: 
+
+
+```java
+@DbName("apples")
+public class Apple extends Model{}
+```
+
+If not, you will get a "connection not found" exception. 
+
+
+### Go crazy with connections
+
+If you need a very complex logic opening different connections for different conditions, 
+you may need to implement your own controller filter. Remember, that the `DBConnectionFilter` 
+is just ... another ActiveWeb filter. Take a look at implementation: 
+[DBConnectionFilter](https://github.com/javalite/activeweb/blob/master/activeweb/src/main/java/org/javalite/activeweb/controller_filters/DBConnectionFilter.java). 
+
+All you need is to open  your connection with `Base.open()` od `DB.open()` in the `before()` method, close it in `after()` method 
+and do what you have to in `onException(e)` method. 
+
+
+
+
+
 
 
 ## Bind Connections to controllers
