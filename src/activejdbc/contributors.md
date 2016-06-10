@@ -38,6 +38,9 @@ Snapshot repo: [http://repo.javalite.io/](http://repo.javalite.io/).
 
 Once the new code is in the snapshot, it will make it into a new release.
 
+> Any contributed code must come with tests showing that: A: it works,  and B: demonstrating a new feature
+
+
 ## Code of conduct
 
 We are all passionate developers (you including), and working on OSS projects on our free time.
