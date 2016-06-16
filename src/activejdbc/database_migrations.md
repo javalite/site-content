@@ -11,15 +11,15 @@ See <a href="http://en.wikipedia.org/wiki/Schema_migration">Schema_migration</a>
 Current implementation of this project is a Maven Plugin.
 Future releases might include a standalone library for non-Maven projects.
 
-## How to use
+## Writing a new migration
 
-Generate a new migration:
+Generate a new migration file: 
 
 ~~~~ {.prettyprint}
 mvn db-migrator:new -Dname=create_people_table
 ~~~~
 
-will result in:
+This command will result in:
 
 ~~~~ {.prettyprint}
 ...
@@ -27,7 +27,7 @@ will result in:
 ...
 ~~~~
 
-This creates an empty file. Go ahead and add raw SQL to the file
+The newly created fle is empty. Go ahead and add raw SQL to the file
 
 ~~~~ {.prettyprint}
 create table people ( name varchar (10));
@@ -44,6 +44,80 @@ mvn db-migrator:migrate
 ~~~~
 
 Alternatively, you can just run the build.
+
+## Custom delimiter
+
+
+By default, the migrator uses semicolon to separate statements in a file from one another.   
+However, in some cases you need to write a complicated query, which will be hard to parse. 
+Examples might be sequences, stored procedures, inserts   with semicolons in content, etc. 
+For cases like that you can define a custom delimiter with a keyword `DELIMITER`:
+
+
+~~~~ {.prettyprint .sql .numberLines}
+CREATE TABLE course_profiles (
+  id           INT(11) NOT NULL AUTO_INCREMENT,
+  course_id    INT(11),
+  title        VARCHAR(128),
+  subject      VARCHAR(128),
+  description  TEXT,
+  language     VARCHAR(16),
+  created_at   DATETIME DEFAULT NULL,
+  updated_at   DATETIME DEFAULT NULL,
+  PRIMARY KEY (id),
+  INDEX course_language (course_id, language)
+)
+  ENGINE=InnoDB
+  DEFAULT CHARSET=utf8;
+
+DELIMITER $$
+
+CREATE PROCEDURE migrate_courses_details()
+  BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE cId INT(11);
+    DECLARE cTitle VARCHAR(128);
+    DECLARE cSubject VARCHAR(128);
+    DECLARE cDesc TEXT;
+    DECLARE createdAt DATETIME;
+    DECLARE updatedAt DATETIME;
+    DECLARE courseCursor CURSOR FOR  select id, title, subject, description, created_at, updated_at from courses;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN courseCursor;
+
+    courses_loop: LOOP
+      FETCH courseCursor INTO  cId, cTitle, cSubject, cDesc, createdAt, updatedAt;
+      IF done THEN
+        LEAVE courses_loop;
+      END IF;
+      INSERT INTO course_profiles
+      SET
+        course_id = cId,
+        title = cTitle,
+        subject = cSubject,
+        description = cDesc,
+        language = 'en-US',
+        created_at = createdAt,
+        updated_at = updatedAt;
+
+    END LOOP;
+    CLOSE courseCursor;
+  END $$
+DELIMITER ;
+
+CALL migrate_courses_details();
+
+DROP PROCEDURE migrate_courses_details;
+
+ALTER TABLE courses DROP COLUMN title;
+ALTER TABLE courses DROP COLUMN subject;
+ALTER TABLE courses DROP COLUMN description;
+~~~~
+
+Note on line 16  `DELIMITER $$` defining the delimiter as `$$`. The Migrator will use `$$` as delimiter until it is redefined again, 
+which happens  on line 50.  
+
 
 ## All goals
 
@@ -128,29 +202,29 @@ The contents of this file might look lile this:
 
 ```
 development.driver=com.mysql.jdbc.Driver
-development.username=root
+development.username=dev1
 development.password=passwd
-development.url=jdbc:mysql://localhost/jes_development
+development.url=jdbc:mysql://localhost/project1_development
 
-test.driver=com.mysql.jdbc.Driver
-test.username=root
-test.password=passwd
-test.url=jdbc:mysql://localhost/jes_test
+development.test.driver=com.mysql.jdbc.Driver
+development.test.username=dev1
+development.test.password=passwd
+development.test.url=jdbc:mysql://localhost/project1_test
 
-testenv.driver=com.mysql.jdbc.Driver
-testenv.username=jes
-testenv.password=passwd
-testenv.url=jdbc:mysql://localhost/jes_testenv
+jenkins.test.driver=com.mysql.jdbc.Driver
+jenkins.test.username=jenkins
+jenkins.test.password=passwd
+jenkins.test.url=jdbc:mysql://localhost/project1_testenv
 
 staging.driver=com.mysql.jdbc.Driver
-staging.username=jes
+staging.username=stage1
 staging.password=passwd
-staging.url=jdbc:mysql://192.168.80.40/jes_staging
+staging.url=jdbc:mysql://192.168.80.40/project1_staging
 
 production.driver=com.mysql.jdbc.Driver
-production.username=jes
+production.username=prod1
 production.password=passwd
-production.url=jdbc:mysql://192.168.20.40/jes_production
+production.url=jdbc:mysql://192.168.20.40/project1_production
 
 ```
 
@@ -158,7 +232,6 @@ In the file above, the blocks of properties with a specific prefix belong to a c
 For example, there are 5 environments defined on this file:
 
 * development
-* test
 * testenv
 * staging
 * production
@@ -181,7 +254,7 @@ If you want to execute for multiple environments (typical example, is to migrate
  list environments as a comma separated list:
 
 ```
-mvn db-migrator:migrate -Denvironments=test,development
+mvn db-migrator:migrate -Denvironments=development.test,development
 ```
 
 
@@ -330,7 +403,7 @@ Results in the following output:
 
 
 Since all migrations are recorded as text (SQL) files, and contain a time stamp in the name, every time a developer pulls
-sources from source repository and execute a build, your database is upgraded to the latest migration automatically.
+sources from source repository and executes a build, your database is migrated to the latest migration automatically.
 In our experience, this reduced amount of attention we had to give a DB to a minimum. Basically a developer creates a
 new migration and checks it in, which makes it propagate to other developer machines automatically.
 
