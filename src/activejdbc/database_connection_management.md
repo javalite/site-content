@@ -71,6 +71,19 @@ Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "root", "p@ssw
 
 > Use `Base` class if you have only one database in the system, otherwise, use `DB`.
 
+## Use Try-with-resources
+
+You can use the try-with-resources to automatically close a connection regardless if your code causes exception or not: 
+
+~~~~ {.java}
+try(DB db = new DB()){
+  db.open();
+  // your code here
+}
+~~~~
+
+
+
 
 ## Models associated with multiple databases
 
