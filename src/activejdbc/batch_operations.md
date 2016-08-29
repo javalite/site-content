@@ -3,7 +3,7 @@
 </div>
 
 
-In some cases, you will need to make changes or delete to all or some records in a tables. ActiveJDBC provides a couple of convenience methods for this.
+In some cases, you will need to make changes to or delete all or some records in a tables. ActiveJDBC provides a couple of convenience methods for this.
 
 ## Updating all records in table
 
