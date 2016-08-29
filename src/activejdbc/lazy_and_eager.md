@@ -9,7 +9,7 @@ ActiveJDBC is lazy by default. In this sense, it has semantics closer to ActiveR
 
 In a code like this:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 List<User> users = User.findAll(); // or User.where(".. query here");
 for(User u: users){
     System.out.println(u);
@@ -24,7 +24,7 @@ Despite what it looks, the line 1. is not when the framework makes a call to the
 
 In fact, in this example:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 List<Employee> people = Employee.where("department = ? and hire_date > ? ", "IT", hireDate)
     .offset(21)
     .limit(10)
