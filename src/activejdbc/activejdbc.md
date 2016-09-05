@@ -1,42 +1,10 @@
 <div class="page-header">
    <h1>ActiveJDBC</h1> 
-   <h4>Fast ORM for agile development</h4>
+   <h4>Fast ORM for agile development
+</h4>
+
 </div>
 
-## Design principles
-
-* Infers metadata from DB
-* No configuration, just conventions. *Really no configuration!*
-* Conventions are overridable in code
-* No need to learn another QL. SQL is sufficient
-* Code often reads like English
-* No sessions, no "attaching, re-attaching"
-* No persistence managers.
-* Models are lightweight,  simple POJOs
-* No proxy-ing. What you write is what you get (WYWIWYG :))
-* No getters and setters. You can still write them if you like.
-* No DAOs and DTOs
-* No [Anemic Domain Model](http://www.martinfowler.com/bliki/AnemicDomainModel.html)
-
-
-## Getting started
-
-If you want to get started, follow these links:
-
-Please, see [Getting Started](getting_started) for a working example.
-
-Look through these:
-
-* See [5 minute introduction](#minute-introduction) below
-* Familiarize yourself with [Instrumentation](instrumentation)
-
-Other working examples:
-
-* [Maven example](https://github.com/javalite/simple-example)
-* [Ant example](https://github.com/javalite/ant-example)
-* [Standalone example](https://github.com/javalite/standalone-example) - neither Maven nor Ant
-
-Here is [JavaDoc for ActiveJDBC](http://javalite.github.io/activejdbc/)
 
 ## Documentation
 
@@ -49,24 +17,23 @@ For a simple example we will use a table called PEOPLE created with this MySQL D
 ~~~~ {.sql}
 CREATE TABLE people (
   id  int(11) NOT NULL auto_increment PRIMARY KEY,
-  name VARCHAR(56) NOT NULL,
+  first_name VARCHAR(56) NOT NULL,
   last_name VARCHAR(56),
-  dob DATE,
-  graduation_date DATE,
   created_at DATETIME,
   updated_at DATETIME
   );
 ~~~~
 
-ActiveJDBC infers DB schema parameters from a database. This means you do not have to provide it in code.
-The simplest model looks like this:
+> ActiveJDBC infers DB schema parameters from a database. This means you do not have to provide it in code.
+
+The corresponding model looks like this:
 
 ~~~~ {.java}
 public class Person extends Model {}
 ~~~~
 
-Despite the fact that there is no code in the body of the class, it is fully functional and will
-map to a table called `PEOPLE` *automatically*.
+There is no code in the body of the class, and yet it is fully functional and will
+map to a table called `PEOPLE` *automatically*. Read more on [English Inflections](english_inflections).
 
 
 ### How to query
@@ -74,18 +41,18 @@ map to a table called `PEOPLE` *automatically*.
 Simplest query example:
 
 ~~~~ {.java}
-List<Person> people = Person.where("name = 'John'");
+List<Person> people = Person.where("first_name = 'John'");
 Person aJohn = people.get(0);
 String johnsLastName = aJohn.get("last_name");
 ~~~~
 
 The `where()` method takes a snippet of real SQL. The first line above will generate this statement:
-`SELECT * FROM people WHERE name = 'John'`.
+`SELECT * FROM people WHERE first_name = 'John'`.
 
 Finder methods can also be parametrized:
 
 ~~~~ {.java}
-List<Person> people = Person.where("name = ?", "John");
+List<Person> people = Person.where("first_name = ?", "John");
 Person aJohn = people.get(0);
 String johnsLastName = aJohn.get("last_name");
 ~~~~
@@ -112,7 +79,7 @@ There are several ways to do this, and the simplest is:
 
 ~~~~ {.java}
 Person p = new Person();
-p.set("name", "Marilyn");
+p.set("first_name", "Marilyn");
 p.set("last_name", "Monroe");
 p.set("dob", "1935-12-06");
 p.saveIt();
@@ -121,13 +88,13 @@ p.saveIt();
 There is also a shorthand version of doing the same:
 
 ~~~~ {.java}
-new Person().set("name", "Marilyn").set("last_name", "Monroe").set("dob", "1935-12-06").saveIt();
+new Person().set("first_name", "Marilyn").set("last_name", "Monroe").set("dob", "1935-12-06").saveIt();
 ~~~~
 
 and yet shorter one :
 
 ~~~~ {.java}
-Person.createIt("name", "Marilyn", "last_name", "Monroe", "dob", "1935-12-06");
+Person.createIt("first_name", "Marilyn", "last_name", "Monroe", "dob", "1935-12-06");
 ~~~~
 
 ### Updating a record
@@ -145,6 +112,40 @@ e.delete();
 ~~~~
 
 There are more ways to delete, follow [Delete cascade](delete_cascade) to learn more.
+
+## Getting started
+
+If you want to get started, follow these links:
+
+Please, see [Getting Started](getting_started) for a working example.
+
+Look through these:
+
+* See [5 minute introduction](#minute-introduction)
+* Familiarize yourself with [Instrumentation](instrumentation)
+
+Other working examples:
+
+* [Maven example](https://github.com/javalite/simple-example)
+* [Ant example](https://github.com/javalite/ant-example)
+* [Standalone example](https://github.com/javalite/standalone-example) - neither Maven nor Ant
+
+Here is the [JavaDoc for ActiveJDBC](http://javalite.github.io/activejdbc/)
+
+
+## Design principles
+
+* Infers metadata from DB
+* Convention-based configuration.
+* No need to learn another QL. SQL is sufficient
+* Code often reads like English
+* No sessions, no "attaching, re-attaching"
+* No persistence managers.
+* Models are lightweight, simple POJOs
+* No proxy-ing. What you write is what you get (WYWIWYG :))
+* No getters and setters. You can still write them if you like.
+* No DAOs and DTOs
+* No [Anemic Domain Model](http://www.martinfowler.com/bliki/AnemicDomainModel.html)
 
 ## Supported databases
 
