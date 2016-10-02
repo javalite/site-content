@@ -46,7 +46,7 @@ Specifically, the plugin is added to a pom like this:
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>activejdbc-instrumentation</artifactId>
-    <version>1.4.11</version>
+    <version>1.4.12</version>
     <executions>
         <execution>
             <phase>process-classes</phase>
@@ -144,9 +144,9 @@ Maven takes a few seconds to startup, but this barebones script is almost instan
     <property name="out.dir" value="target/test-classes"/>
     <path id="instrument_classpath">
         <pathelement location="${out.dir}"/>
-        <path location="${user.home}/.m2/repository/org/javalite/activejdbc-instrumentation/1.4.11/activejdbc-instrumentation-1.4.11.jar"/>
+        <path location="${user.home}/.m2/repository/org/javalite/activejdbc-instrumentation/1.4.12/activejdbc-instrumentation-1.4.12.jar"/>
         <path location="${user.home}/.m2/repository/javassist/javassist/3.8.0.GA/javassist-3.18.2-GA.jar"/>
-        <path location="${user.home}/.m2/repository/org/javalite/activejdbc/1.4.11/activejdbc-1.4.11.jar"/>
+        <path location="${user.home}/.m2/repository/org/javalite/activejdbc/1.4.12/activejdbc-1.4.12.jar"/>
     </path>
     <target name="instrument">
         <java classname="org.javalite.instrumentation.Main">

@@ -17,10 +17,16 @@ Current spapshots are available from our repo: [http://repo.javalite.io/](http:/
 
 ## Latest releases (available from Maven Central)
 
+* [ActiveJDBC Docs - 1.4.12](http://javalite.github.io/activejdbc/1.4.12)
+* [ActiveWeb Docs - 1.14](http://javalite.github.io/activeweb/1.14)
+* [JSpec Docs - 1.4.12](http://javalite.github.io/activejdbc/1.4.12/org/javalite/test/jspec/JSpec.html)
+* [Http Docs - 1.4.12](http://javalite.github.io/activejdbc/1.4.12/org/javalite/http/Http.html)
+
+
+## Previous releases (available from Maven Central)
+
 * [ActiveJDBC Docs - 1.4.11](http://javalite.github.io/activejdbc/1.4.11)
 * [ActiveWeb Docs - 1.13](http://javalite.github.io/activeweb/1.13)
 * [JSpec Docs - 1.4.11](http://javalite.github.io/activejdbc/1.4.11/org/javalite/test/jspec/JSpec.html)
 * [Http Docs - 1.4.11](http://javalite.github.io/activejdbc/1.4.11/org/javalite/http/Http.html)
-
-
 
