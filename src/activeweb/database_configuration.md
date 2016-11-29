@@ -291,7 +291,7 @@ The [ActiveWeb Simple](https://github.com/javalite/activeweb-simple/) is one exa
 * [AppControllerConfig](https://github.com/javalite/activeweb-simple/blob/master/src/main/java/app/config/AppControllerConfig.java) - bind connections to controllers
 * DB-Migrator configuration: [pom.xml](https://github.com/javalite/activeweb-simple/blob/master/pom.xml#L35) - to configure [DB-Migrator](database_migrations). 
 
-## Running without the database
+## Running without a database
 
 If you need a simle  site that dies nto require a database or you are using a different type of a backend, you can simply delete the class `app.confic.DbConfig` 
 from  your project. When the framework starts, it will detect the absense of this class, will print a warning, but will operate without issues. 
