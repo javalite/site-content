@@ -293,7 +293,7 @@ The [ActiveWeb Simple](https://github.com/javalite/activeweb-simple/) is one exa
 
 ## Running without a database
 
-If you need a simle  site that dies nto require a database or you are using a different type of a backend, you can simply delete the class `app.confic.DbConfig` 
+If you need a simle  site that dies nto require a database or you are using a different type of a backend, you can simply delete the class `app.config.DbConfig` 
 from  your project. When the framework starts, it will detect the absense of this class, will print a warning, but will operate without issues. 
 
   
