@@ -39,7 +39,7 @@ While instrumentation introduces an additional step in the process, the benefit 
 
 ## Maven instrumentation plugin
 
-The simple usage of a Maven plugin is provided by a Maven ActiveJDBC Simple Example project: [Simple Mave Example](https://github.com/javalite/simple-example).
+The simple usage of a Maven plugin is provided by a Maven ActiveJDBC Simple Example project: [Simple Maven Example](https://github.com/javalite/simple-example).
 Specifically, the plugin is added to a pom like this:
 
 ~~~~ {.xml}
