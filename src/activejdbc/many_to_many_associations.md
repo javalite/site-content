@@ -201,7 +201,7 @@ doctor.remove(patient);
 ~~~~
 
 Here, only a join table record is being removed, the actual patient record stays unchanged.
-In this case, tThe API for removing a child is the same for one-to-many as for many-to-many relationships,
+In this case, the API for removing a child is the same for one-to-many as for many-to-many relationships,
 but semantics are different. In one-to-many association the child record will be removed from the DB.
 
 ### Deleting Entries
