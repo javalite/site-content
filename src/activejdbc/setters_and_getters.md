@@ -9,14 +9,14 @@ Java development is all about getters and setters. Ever since the Java Beans fra
 
 ActiveJDBC provides two base methods for getting information from DB and putting it in:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = Person.findById();
 name = p.get("name");
 ~~~~
 
 The `name` is a name of a column from a table PEOPLE. Same goes for a setter:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = new Person();
 p.set("name", "John");
 p.save();
@@ -26,7 +26,7 @@ p.save();
 
 ActiveJDBC will not provide these. However, you can have them if you like:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model{
    public void setFirstName(String firstName){
       set("first_name", firstName);
@@ -45,7 +45,7 @@ Please, see [Recommendation](#recommendation-use-tdd-in-combination-with-some-se
 
 ActiveJDBC provides a number of type conversion getters:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 
 Person p = Person.findById();
 String  name = p.getString("name");
@@ -55,7 +55,7 @@ Timestamp dob = p.getTimestamp("dob");
 
 ActiveJDBC will do all possible to convert your data into the type. This also goes for CLOBs:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 String body = article.get("body");
 ~~~~
 
@@ -70,7 +70,7 @@ as well as [JavaLite Commons Convert](http://javalite.github.io/activejdbc/org/j
 In our work, we start writing a test before writing much code. We create a one line model code, then start writing a test.
 Inside the test, we write a piece of code I know will fail:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Page p  = new Page();
 p.set("blah", 1);
 ~~~~

@@ -18,9 +18,9 @@ and how to perform dependency injection.
 
 Clone the app: [ActiveWeb simple example](https://github.com/javalite/activeweb-simple/)
 
-```
+~~~~
 git clone git@github.com:javalite/activeweb-simple.git
-```
+~~~~
 
 
 ## Adjust DB properties
@@ -28,25 +28,25 @@ git clone git@github.com:javalite/activeweb-simple.git
 Edit this file, and adjust connection properties, as well as database names for different environments
  
 
-```
+~~~~
 src/main/resources/database.properties
-```
+~~~~
 
 
 ## Create DB  schemas (in MySQL):
 
 Execute the following in the root of the app:
 
-```
+~~~~
 mvn db-migrator:create
 mvn db-migrator:migrate
-```
+~~~~
 
 This will create appropriate databases in MySQL and run migrations located in 
 
-```
+~~~~
 src/migrations
-```
+~~~~
 
 ## Start the app
 

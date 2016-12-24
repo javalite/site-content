@@ -7,7 +7,7 @@ Caching is an integral part of every major system, It improves performance, redu
 experience more pleasurable. Caching in ActiveJDBC works on the level of query and creation of model instances.
 For instance, the call:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Library> illLibs = Library.where("state = ?", "IL");
 ~~~~
 
@@ -17,14 +17,14 @@ might call into DB, or a result can come from cache, depending how cache and spe
 
 ActiveJDBC provides annotation to specify queries against which tables will be cached:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @Cached
 public class Library extends Model {}
 ~~~~
 
 As in other cases, this is a declaration that marks a model as "cachable". If you enable logging (by providing a system property `activejdbc.log`), you will see extensive output from ActiveJDBC, similar to this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 3076 [main] INFO org.javalite.activejdbc.DB - Query: "SELECT * FROM libraries WHERE id = ?", with parameters: [1], took: 0 milliseconds
 3076 [main] INFO org.javalite.activejdbc.cache.QueryCache - HIT, "SELECT * FROM libraries WHERE id = ?", with parameters: [1]
 3077 [main] INFO org.javalite.activejdbc.DB - Query: "INSERT INTO libraries (address, state, city) VALUES (?, ?, ?)", with parameters: [123 Pirate Street, CA, Bloomington], took: 1 milliseconds
@@ -62,13 +62,13 @@ a reason why a table "BOOKS" purged as well.
 
 If you want to manually purge caches (in cases you make destructive data operations outside Model API), you can do so:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 org.javalite.activejdbc.cache.QueryCache.instance().purgeTableCache("books");
 ~~~~
 
 or:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Books.purgeCache();
 ~~~~
 
@@ -86,7 +86,7 @@ cache in the first place.
 
 ActiveJDBC caches results from queries on object level. For instance, lets consider this code: 
 
-```java
+~~~~ {.java .numberLines}
 
 @Cached
 public class Student(){}
@@ -95,12 +95,12 @@ public class Student(){}
 
 List<Student> students = professor.getAll(Student.class); 
 
-```
+~~~~
 Essentially the framework generates a query like this: 
 
-```sql
+~~~~ {.sql .numberLines}
 SELECT * FROM students WHERE professor_id = ?;
-```
+~~~~
 
 and sets a parameter `professor_id` to prepared statement. Since the model `Student` is `@Cached`, 
 then entire `List<Student> students` list will be cached. 
@@ -111,10 +111,10 @@ then entire `List<Student> students` list will be cached.
 
 As a result, these two queries:
 
-```sql
+~~~~ {.sql .numberLines}
 SELECT * FROM students WHERE professor_id = 1;
 SELECT * FROM students WHERE professor_id = 2;
-```
+~~~~
 
 will produce two independent lists in cache just because their parameters are different. 
 So, what will happen if you run many thousands or millions of queries that are the same, but only differ 
@@ -125,7 +125,7 @@ The solution is to examine code, and ensure you are caching objects that are act
 
 It is possible to access and manage cache directly instead of `@Cached` annotation: 
 
-```java
+~~~~ {.java .numberLines}
 
 import org.javalite.activejdbc.Registry;
 
@@ -135,7 +135,7 @@ manager.addCache(group, key, object);
 ///then later in code: 
 
 List<Students> students = (List<Students>)manager.getCache(group, key);
-```
+~~~~
 
 This way, you have a fine-tuned ability to only store specific objects in cache.  
 
@@ -143,7 +143,7 @@ This way, you have a fine-tuned ability to only store specific objects in cache.
 
 When retrieving instances of cached models, be aware that exactly the same instances can be returned by subsequent calls to the same query. ActiveJDBC, as a lightweight framework, won't try to be "intelligent" and manage clones of cached data for you. So, for example, considering `Person` is annotated as `@Cached`, two subsequent calls to `Person.findById(1)` will return the same instance:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p1 = Person.findById(1);
 System.out.println(p1.get("name")); // prints: John
 
@@ -160,7 +160,7 @@ Caching and [optimistic_locking](optimistic_locking) don't get along. **Don't us
 
 Caching guarantees the result of subsequent calls to the same query return the same instances. So there can't be different versions of the same result set living in the memory shared by the cache manager. Suppose `Profile`, a model with [optimistic_locking](optimistic_locking#when-collisions-happen), is also annotated as `@Cached`. The following will happen:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Profile p1 = Profile.findById(1);
 Profile p2 = Profile.findById(1);
 // p1 and p2 are actually references to the same instance.
@@ -180,13 +180,13 @@ p2.saveIt();
 
 ActiveJDBC manages caches for models and their respective relationships (read above), but in some cases you will use a query that ties together unrelated models:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<User> users = User.where("id not in (select user_id from restricted_users)");
 ~~~~
 
 If there exists a model User that is cached, and model RestrictedUser, and these tables/models have no relationship, then the line above could present a logical problem. If you execute the line above, and later change content of RESTRICTED\_USERS table, then the query above will not see the change, and will return stale data. Developers need to be aware of this, and deal with these issues carefully. Whenever you change data in RESTRICTED\_USERS table, please purge User model:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 User.purgeCache();
 ~~~~
 
@@ -202,7 +202,7 @@ ActiveJDBC has a simple plugin framework for adding cache providers. Currently s
 
 Configuration needs to be provided in a file called `ehcache.xml` found at the root of a classpath. Example of a file content:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
          updateCheck="true" monitoring="autodetect">
@@ -230,13 +230,13 @@ Please, note that ActiveJDBC does not create named caches in EHCache, but only u
 Name of the cache mamager class: `org.javalite.activejdbc.cache.EHCache3Manager`. 
 Set the following in the file `activejsbc.properties`: 
 
-```
+~~~~
 cache.manager=org.javalite.activejdbc.cache.EHCache3Manager
-```
+~~~~
 
 In addition,  you will need to configure EHCacche itself. For that, add a file called `activejdbc-ehcache.xml`. Here is  simple EHCache v3 configuration: 
 
-```xml
+~~~~ {.xml .numberLines}
 <ehcache:config xmlns:ehcache="http://www.ehcache.org/v3">
     <ehcache:cache-template name="activejdbc">
         <ehcache:expiry>
@@ -246,7 +246,7 @@ In addition,  you will need to configure EHCacche itself. For that, add a file c
         <ehcache:heap size="5000" unit="entries" />
     </ehcache:cache-template>
 </ehcache:config>
-```
+~~~~
 For more involved configuration options, refer to EHCache v3 documentation. 
 
 
@@ -255,9 +255,9 @@ For more involved configuration options, refer to EHCache v3 documentation.
 Name of the cache mamager class: `org.javalite.activejdbc.cache.EHCache3Manager`.
 Set the following in the file `activejdbc.properties`:
 
-```
+~~~~
 cache.manager=org.javalite.activejdbc.cache.RedisCacheManager
-```
+~~~~
 
 Also, provide a property file called `activejdbc-redis.properties`
 with two properties: <`redist-host` and `edist-port`

@@ -18,7 +18,7 @@ All filters implement this interface:
 
 
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 package org.javalite.activeweb.controller_filters;
 public interface ControllerFilter {
     void before();
@@ -42,7 +42,7 @@ It has coarse grain methods for binding as well as fine grained.
 
 Adding a global filter adds it to all controllers. It makes sense to use this to add timing filters, logging filters, etc.
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
   public void init(AppContext context) {
     addGlobalFilters(new TimingFilter());
@@ -57,7 +57,7 @@ and there is no point to add it to non-secure controllers, or you have a DBConne
 open connections for controllers which you know will not use a DB connection (expensive resource).
 Then you can exclude some controllers from global filters:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
   public void init(AppContext context) {
     addGlobalFilters(new TimingFilter());
@@ -72,7 +72,7 @@ The `exceptFor()` method, takes a vararg, so you can pass multiple controllers t
 
 To add filters to specific controllers:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
   public void init(AppContext context) {
     add(new TimingFilter()).to(HomeController.class);
@@ -90,7 +90,7 @@ Adding filters to specific actions
 
 Here is an example of adding a filter to specific actions:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
   public void init(AppContext context) {
     add(new TimingFilter(), new DBConnectionFilter()).to(PostsController.class).forActions("index", "show");
@@ -109,7 +109,7 @@ page with a message.
 
 Here is an example:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class CatchAllFilter extends HttpSupportFilter {
     public void onException(Exception e) {
         logError(e.toString(), e);
@@ -130,7 +130,7 @@ ActiveWeb provides a number of filters for easy configuration of projects.
 `DBConnectionFilter` opens a connection before execution of a controller and closes it after execution. Here is an
 example of usage of this filter from the [Kitchensink](https://github.com/javalite/kitchensink) project:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
     public void init(AppContext context) {
         add(new DBConnectionFilter()).to(PostsController.class, RpostsController.class);
@@ -145,7 +145,7 @@ other controllers do not require a DB connection. If you use [ActiveJDBC](active
 for persistence layer, you do not need to do anything else. If you just want to get access to the underlying DB
 connection, you can do this inside a controller or inner filter:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 java.sql.Connection connection = Base.connection();
 ~~~~
 
@@ -157,7 +157,7 @@ Timing filter times how long a request takes to process and logs this to a loggi
 
 It is best to have a timing filter to be registered as a global filter:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
     public void init(AppContext context) {
         addGlobalFilters(new TimingFilter());
@@ -222,7 +222,7 @@ Header: Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 
 You can add a filter to AppContext before registration:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
     public void init(AppContext context) {
         HeadersLogFilter headersLogger = new HeadersLogFilter();
@@ -235,7 +235,7 @@ public class AppControllerConfig extends AbstractControllerConfig {
 
 This will ensure that you can get to these filters from controller later on:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class AdminController extends AppController {
     public void setHeadersLogLevel(){
         //how to disable logging of headers at run time:

@@ -34,7 +34,7 @@ ActiveJDBC uses ID presence to determine if it needs to generate INSERT or UPDAT
 However, sometimes a developer knows better than the framework, when to update and when to insert.
 In such cases, you can call insert directly like so:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Apple apple = new Apple();
 apple.set("apple_type", "sweet");
 apple.setId(1);
@@ -66,7 +66,7 @@ technology on stack.
 In some cases you cannot add a new column to an existing table. When this happens, ActibeJDBC stil provides some support. 
 You can use a <code>CompositePK</code> annotation: 
 
-```java
+~~~~ {.java .numberLines}
 @CompositePK({ "first_name", "last_name", "email" })
 public class Developer extends Model {
 	static {
@@ -74,16 +74,16 @@ public class Developer extends Model {
 				"one or more composite PK's missing!!!");
 	}
 }
-```
+~~~~
 
 The validator (see above) can also be used to prevent a trip to a database in case you do not have all required columns for a composite PK. 
 Searching with composite keys: 
 
-```java
+~~~~ {.java .numberLines}
 Developer.createIt("first_name", "Johnny", "last_name", "Cash", "email", "j.cash@spam.org", "address", "123 Pine St");
 Developer dev = Developer.findByCompositeKeys("Johnny", "WrongName", "j.cash@spam.org");
 // ... 
-```
+~~~~
 
 Ensure that the order of values is the same as in the definition of the <code>CompositePK</code> annotation. 
 For more examples, refer to tests: [CompositePkTest.java](https://github.com/javalite/activejdbc/blob/master/activejdbc/src/test/java/org/javalite/activejdbc/CompositePkTest.java)
@@ -106,7 +106,7 @@ CREATE TABLE people (
 
 You will then put annotation on the model:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @IdName("person_id")
 public class Person extends Model{}
 ~~~~
@@ -132,7 +132,7 @@ This example is taken from ActiveJDBC tests. The surrogate PK `id` will be prope
 
 Example:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = new Person();
 p.getId(); //<<< ===== returns null
 p.set("first_name", "Igor").set("last_name", "Polevoy").saveIt();
@@ -169,7 +169,7 @@ end;
 
 This SQL creates a DB structure that allows ActiveJDBC behave exactly the same as with MySQL:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = new Person();
 p.getId(); //<<< ===== returns null
 p.set("first_name", "Igor").set("last_name", "Polevoy").saveIt();
@@ -198,7 +198,7 @@ CREATE SEQUENCE main_seq START WITH 1 INCREMENT BY 1
 
 When defining a model, however, you will need to provide this piece of information to all models where you intend to use this sequence:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @IdGenerator("main_seq.nextVal")
 public class Person extends Model{}
 ~~~~

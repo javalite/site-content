@@ -9,7 +9,7 @@ JavaLite HTTP is a tiny library for making HTTP requests and returning responses
 
 ## How to GET
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Get get = Http.get("http://yahoo.com");
 System.out.println(get.text());
 System.out.println(get.headers());
@@ -20,7 +20,7 @@ System.out.println(get.responseCode())
 
 ### POST binary content
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 
 byte[] content = ...; // fill with your data
 
@@ -33,37 +33,37 @@ System.out.println(post.responseCode())
 
 ### POST JSON content 
 
-```java
+~~~~ {.java .numberLines}
 Post post = Http.post(url, content)
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json");
-```
+~~~~
 
 ### How to POST a form
 
 Posting a single value is easy:
 
-```java
+~~~~ {.java .numberLines}
 Post post = Http.post("http://example.com/hello")
                 .param("name", "John");
 System.out.println(post.text());
-```
+~~~~
 
 Posting multiple values can be done: 
 
-```java
+~~~~ {.java .numberLines}
 Post post = Http.post("http://example.com/hello")
                 .param("first_name", "John")
                 .param("last_name", "Doe");
 System.out.println(post.text());
-```
+~~~~
 
 or even better: 
 
-```java
+~~~~ {.java .numberLines}
 Post post = Http.post("http://example.com/hello").params("first_name", "John", "last_name", "Doe");
 System.out.println(post.text());
-```
+~~~~
 
 
 
@@ -75,9 +75,9 @@ Similar to the above.  You can find full JavaDoc here:
 
 ## Basic authentication
 
-```java
+~~~~ {.java .numberLines}
 String response = Http.get(url).basic(user, password).text();
-```
+~~~~
 
 ## Sending multipart requests
 
@@ -85,12 +85,12 @@ In case you need to send [multipart messages](https://en.wikipedia.org/wiki/MIME
 by executing one line of code: 
 
 
-```java
+~~~~ {.java .numberLines}
 Multipart mp = Http.multipart("http://myserver.com/upload/")
                 .field("name1", "val1")
                 .file("file1", "/home/johndoe/test.txt");
 System.out.println(mp.text());
-```
+~~~~
 
 You can use any combination of other methods to modify timeouts, basic authentication, headers, etc. 
 
@@ -98,7 +98,7 @@ You can use any combination of other methods to modify timeouts, basic authentic
 
 ## How to get the dependency
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <dependency>
     <groupId>org.javalite</groupId>
     <artifactId>javalite-common</artifactId>

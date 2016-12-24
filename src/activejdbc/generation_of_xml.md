@@ -11,14 +11,14 @@ basics.
 
 Here is code that will provide stock XML from a model:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p  = (Person)Person.findById(1);
 String xml = p.toXml(2, true);
 ~~~~
 
 The XML produced will look something like this:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <?xml version="1.0" encoding="UTF-8" ?>
   <person>
     <updated_at>2010-11-09 19:02:11.0</updated_at>
@@ -39,14 +39,14 @@ and second whether to add an XML declaration or not.
 A variation on the example above is to provide a list of attributes that you are interested in,
 so that only these attributes are included:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p  = (Person)Person.findById(1);
 String xml = p.toXml(2, true, "last_name", "dob");
 ~~~~
 
 The resulting XML will have nothing but the attributes specified:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <?xml version="1.0" encoding="UTF-8" ?>
 <person>
     <dob>1934-12-01</dob>
@@ -59,7 +59,7 @@ The resulting XML will have nothing but the attributes specified:
 When a model has relationships, the generated XML will loop through them to include their XML into the
 parent XML as well:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<User> personList = User.findAll().orderBy("id").include(Address.class);
 User u = personList.get(0);
 String xml = u.toXml(2, true);
@@ -67,7 +67,7 @@ String xml = u.toXml(2, true);
 
 result:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <?xml version="1.0" encoding="UTF-8" ?>
   <user>
     <addresses>
@@ -97,14 +97,14 @@ result:
 
 Generating XML from a LazyList is equally easy:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 LazyList<User> personList = User.findAll().orderBy("id").include(Address.class);
 String xml = personList.toXml(2, true);
 ~~~~
 
 An example of generated XML:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <?xml version="1.0" encoding="UTF-8" ?>
 <users>
   <user>

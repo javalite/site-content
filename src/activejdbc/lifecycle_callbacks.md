@@ -9,7 +9,7 @@ Like ActiveRecord, ActiveJDBC has lifecycle callbacks. These are methods that ca
 
 ## Callback interface
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public interface  CallbackListener {
 
     void afterLoad(Model m);
@@ -37,7 +37,7 @@ There are total of eight calls that a subclass can override to get notified of a
 You can implement the [CallbackListener](http://javalite.github.io/activejdbc/org/javalite/activejdbc/CallbackListener.html)
 interface external to any model and then register it:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 CallbackAdapter adapter = new CallbackAdapter() {
         @Override
         public void afterLoad(Model m) {
@@ -64,14 +64,14 @@ methods to perform a task at a certain time.
 
 Let's say we have a model `User`:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class User extends Model{}
 ~~~~
 
 A user also has a password that needs to be stored in a DB in an encrypted form. Using callbacks is useful in this case,
 since all you have to do is to override a `beforeSave()` method and provide some encryption routine to make the password secure:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class User extends Model{
    public void beforeSave(){
       set("password" encryptPassword());

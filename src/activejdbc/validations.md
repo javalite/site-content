@@ -12,7 +12,7 @@ The validation rules in ActiveJDBC are described in a model definition in a decl
 In order to add any validation, a model will declare a static bloc at the top of a class definition, and invoke all
 validation declaration inside this block:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model {
     static{
         validatePresenceOf("first_name", "last_name");
@@ -38,7 +38,7 @@ The semantic difference of `save()` and `saveIt()` methods is described on the [
 
 After the validation triggered, you can retrieve all messages from a model as a collection:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 //...trigger validation
 
 Map<String, String> errors = myPerson.errors();
@@ -51,7 +51,7 @@ As you can imagine, it is very easy to write web applications with form validati
 
 This is a pseudo-code of a web application controller where a form was submitted:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 
 public void doPost(...){
    Map params = ... // this is a map of HTML form submitted from a web page
@@ -69,7 +69,7 @@ public void doPost(...){
 
 In a JSP:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 
 <span style="error">${errors.first_name}</span>
 ...
@@ -79,7 +79,7 @@ In a JSP:
 
 In [ActiveWeb](activeweb):
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @POST
 public void create(){
     Book book = new Book();
@@ -103,7 +103,7 @@ Here is a link to controller: [ActiveWeb BookController](https://github.com/java
 You can call method `validatePresenceOf().message()` multiple times, providing different attribute names as well
 as different messages:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model {
     static{
         validatePresenceOf("first_name").message("Please, provide your first name");
@@ -116,7 +116,7 @@ public class Person extends Model {
 
 ActiveJDBC like ActiveRecord also provides other validators, for instance:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Account extends Model {
     static{
         validateNumericalityOf("amount", "account", "total");
@@ -130,7 +130,7 @@ Like the `validatePresenseOf()`, this method also takes in a vararg of strings, 
 
 When checking numericality of an attribute, you can have a finer control, including specifying that it could be `null`, providing a range and a custom message. In fact, all validators allow for custom message.
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Account extends Model {
     static{
         validateNumericalityOf("total")
@@ -148,7 +148,7 @@ as in many other places.
 
 Besides numeric validation, there is also a specific range validator:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Temperature extends Model {
     static{
         int min = 0, max = 100;
@@ -164,7 +164,7 @@ more concise syntax than numeric one.
 
 The email validator exists to check a proper format of email (it does not check if email actually exists!)
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class User extends Model {
     static{
         validateEmailOf("email");
@@ -176,7 +176,7 @@ public class User extends Model {
 
 You can probably guess, that the email validator is a special case of a regular expression validator:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class User extends Model {
     static{
         validateRegexpOf("email", "\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
@@ -190,7 +190,7 @@ This validator provides enough freedom to developers who know regular expression
 
 If all else fails, and ActiveJDBC does not provide a validator you want, you can extend a ValidatorAdapter class:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public interface Validator {
     void validate(Model m);
     void setMessage(String message);
@@ -200,7 +200,7 @@ public interface Validator {
 
 or better yet, [ValidatorAdapter](http://javalite.github.io/activejdbc/org/javalite/activejdbc/validation/ValidatorAdapter.html):
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class CustomValidator extends ValidatorAdapter{
    void validate(Model m){
        boolean valid = true;
@@ -213,7 +213,7 @@ public class CustomValidator extends ValidatorAdapter{
 
 Once you have a custom validation, you can register it with a model like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model{
    static{
       validateWith(new CustomValidator()).message("custom.message");
@@ -223,14 +223,14 @@ public class Person extends Model{
 
 Another way to register is outside your model class:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 CustomValidator cv = new CustomValidator();
 Person.addValidator(cv).message("blah, blah");
 ~~~~
 
 after a validation, you can retrieve an error like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = ...
 p.save();
 String errorMessage = p.errors().get("custom_error");
@@ -245,7 +245,7 @@ ActiveJDBC provides stock messages (one for each validator), which may not be ap
 For instance, `validatePresenseOf()` provides a simple message "value is missing". In order to customize these messages,
 the framework provides a DSL-ish like facility:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model {
     static{
         validatePresenceOf("first_name", "last_name").message("name.missing");
@@ -257,7 +257,7 @@ where `name.missing` is a key from a resource bundle `activejdbc_messages`.
 
 After a validation process, if there are errors, they are accessible via the `p.errors()` method, and a specific validation error message is accessed using an attribute name as a message key:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 String firstNameMissingErrorMessage = p.errors().get("first_name");
 ~~~~
 
@@ -274,7 +274,7 @@ temperature.outside.limits = Temperature is outside acceptable limits, while it 
 
 You might have a model defined like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Temperature extends Model{
    static{
       validateRange("temp", 10, 2000).message("temperature.outside.limits");
@@ -284,7 +284,7 @@ public class Temperature extends Model{
 
 You will then create an instance of Temperature, set the values and validate in a code pattern similar to this;
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Temperature temp = new Temperature();
 temp.set("temp", 5000);
 
@@ -308,7 +308,7 @@ temperature.outside.limits = Temperature is outside acceptable limits, while it 
 
 Model definition:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Temperature extends Model{
    static{
       validateRange("temp", 10, 2000).message("temperature.outside.limits");
@@ -320,7 +320,7 @@ As you can see, the message calls for three parameters, but the validator can on
 definition, the user is not known. However, the user can be provided when the validation fails, and an application
 calls for an error message:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Temperature temp = new Temperature();
 temp.set("temp", 5000);
 
@@ -354,7 +354,7 @@ temperature.outside.limits = Die Temperatur liegt außerhalb akzeptabler Grenzen
 
 At run time, the message will be printed in German if a locale provided is German:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Temperature temp = new Temperature();
 temp.set("temp", 5000);
 

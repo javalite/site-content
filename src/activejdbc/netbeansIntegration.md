@@ -20,7 +20,7 @@ For general questions, refer to [Instrumentation](instrumentation) page.
 * Click "Files" tab and open build.xml
 * Add "-post-compile" target :
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <target name="-post-compile">
     <java classname="org.javalite.instrumentation.Main" failonerror="true">
         <sysproperty key="outputDirectory" value="${build.classes.dir}"/>

@@ -22,10 +22,10 @@ most data conversions during read and write operations. Most database drivers do
 
 When loading child records, the parent used to load children does not retain references to children. Consider this: 
 
-```java
+~~~~ {.java .numberLines}
  Author author = Author.findById(1);
  List<Articles> articles2015 = author.get(Article.class, "year = ?", 2015);
-```
+~~~~
 
 The `author` does not retain references to articles, and if the same articles are requested from the author again, it 
  will again result in a trip to the database. 
@@ -37,11 +37,11 @@ related information into appropriate table(s). The parent model does not retain 
  
 Example: 
 
-```java
+~~~~ {.java .numberLines}
  Author author = Author.findById(1);
  author.add(new Article("How to use ActiveJDBC"));
  List<Article> articles = author.get("title = ?", "How to use ActiveJDBC").limit(1); 
-```
+~~~~
 
 In a code sample above, the last line will fetch a record from the database because a previous line was simply used 
    to generate a new INSERT statement.
@@ -73,29 +73,29 @@ For more on this, see [what happens if i stick a wrong type](data_conversions#wh
 The side effect of ActiveJDBC being a Pass-through framework is that when deleting models with cascade, 
 it cannot propagate "frozen" states. Here is an example: 
  
-```java
+~~~~ {.java .numberLines}
 
 Book book = new Book("All Quiet on the Western Front");
 Author author = new Author("Erich Maria Remarque").
 author.saveIt();
 author.add(book); // book saved into child table
 author.deleteCascade();
-```
+~~~~
 
 The last line will result in the two DELETE statements: 
 
-```
+~~~~
 DELETE FROM books WHERE author_id = ?
 DELETE FROM authors WHERE id = ?
-```
+~~~~
 
 As you can see, there were two queries issued to the database, the first one deleting all books (children) of the author.
 The side effect of this is that the instance of `Book` in memory is not aware that its underlying data is gone, 
 and as a result the `frozen()` will return incorrect value: 
 
-```java
+~~~~ {.java .numberLines}
 book.frozen() // < -- will return false. 
-```
+~~~~
 
 While this is unpleasant, the only way to fix this is to retain references to child objects in memory which will make the 
  framework more complicated and slower.

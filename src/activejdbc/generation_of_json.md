@@ -11,7 +11,7 @@ In more complicated situation, they probably would write some JSON generation co
 
 Here is code that will provide stock JSON from a model:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p  = (Person)Person.findById(1);
 String json = p.toJson(true);
 ~~~~
@@ -38,7 +38,7 @@ The boolean parameter to the method `toJson()` is whether to generate human read
 A variation on the example above is to provide a list of attributes that you are interested in,
 so that only these attributes are included:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p  = (Person)Person.findById(1);
 String json = p.toJson(true, "last_name", "dob");
 ~~~~
@@ -57,7 +57,7 @@ The resulting JSON will only include the attributes specified:
 When a model is has relationships, the generated JSON will loop through them to include their
 JSON into the parent JSON as well:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<User> personList = User.findAll().orderBy("id").include(Address.class);
 User u = personList.get(0);
 String json = u.toJson(true);
@@ -113,7 +113,7 @@ result:
 
 Generating JSON from a LazyList is equally easy:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 LazyList<User> personList = User.findAll().orderBy("id").include(Address.class);
 String json = personList.toJson(true);
 ~~~~
@@ -227,7 +227,7 @@ built into ActiveJDBC because this would require adding a dependency to parse JS
 projects. The solution is super simple: add a class with this code to your project:
 
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 import org.codehaus.jackson.map.ObjectMapper;
 import java.io.IOException; import java.util.Map;
 
@@ -248,7 +248,7 @@ public class JsonHelper {
 
 then add Jackson dependency:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
   <dependency>
     <groupId>org.codehaus.jackson</groupId>
     <artifactId>jackson-core-asl</artifactId>
@@ -266,7 +266,7 @@ then add Jackson dependency:
 
 After this, it is trivial to write code like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
  Person p = new Person();
  String personJson = ... // initialized from web request or another source
  p.fromMap(JsonHelper.toMap(personJson));

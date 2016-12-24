@@ -31,13 +31,13 @@ Let's say we have an empty table PEOPLE:
 
 A model will look like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person{}
 ~~~~
 
 Let's add some records:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = new Person();
 p.set("first_name", "John", "last_name", "Smith");
 p.saveIt();
@@ -56,7 +56,7 @@ The dates are the same for `created_at` and `updated_at`.
 
 Then, within the same program or another, we will do the following:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person john = Person.findById(1);
 john.set("first_name", "John", "last_name", "Smithe");
 john.saveIt();
@@ -78,7 +78,7 @@ The `updated_at` column reflects when this record was last updated.
 In some cases, you want to have a complete control of values of `created_at` and `updated_at` fields. For instance, you need to migrate data from one
 database to another and want to preserve these values. You can simply turn off automatic management of these fields:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person john = ...
 p.manageTime(false);
 p.set("created_at", createdVal);

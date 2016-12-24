@@ -9,7 +9,7 @@ Controllers are at the heart of an ActiveWeb application. These are classes whic
 Controllers are somewhat similar to Java Servlets, but even more similar to Ruby on Rails, Grails all SpringMVC
 controllers. A simplest controller looks like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void index(){}
 }
@@ -33,7 +33,7 @@ http://host:port/context/greeting/hello
 
 then it would map to action `hello`:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void hello(){}
 }
@@ -57,7 +57,7 @@ A destructive action is the one that is designed to change a state of a resource
 
 Here is an example of a destructive action is:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class BooksController extends AppController{
 
    @PUT
@@ -87,7 +87,7 @@ controller, you need to do two things:
 
 Here is an example of a RESTful controller taken from Kitchensink application:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @RESTful
 public class RpostsController extends AppController {
     public void index(){...}
@@ -124,7 +124,7 @@ This makes for elegant, REST-style URLs and leads ultimately to better user expe
 
 The page [Structure of a web project](structure_of_activeweb_project) states that controllers are located in a package:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 app.controllers
 ~~~~
 
@@ -137,21 +137,21 @@ underscored, flattened name part of a class' simple name.
 
 Example 1:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 package app.controllers;
 class BooksController{..} // ===> controller path: /books
 ~~~~
 
 Example 2:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 package app.controllers;
 class UniversityBooksController{..} // ===> controller path: /university_books
 ~~~~
 
 Example 3:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 package app.controllers.depaul;
 class UniversityBooksController{..} // ===> controller path: /depaul/university_books
 ~~~~
@@ -185,7 +185,7 @@ Under these conditions, there is no need for any configuration or code.
 Example: if a HTTP GET request is sent to this URL: `http://hostname/context/greeting`, then the framework will
 invoke a `GreetingControoller`, and by default action `index`:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void index(){}
 }
@@ -206,7 +206,7 @@ on conventions.
 
 In some cases, you need to override default mapping to views. You will use a `render()` method for this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void index(){
       //some code here
@@ -227,7 +227,7 @@ src/main/webapp/WEB-INF/views/greeting/show.ftl
 Sometimes you need to call a view that "belongs" to a different controller, or even some shared view. In that case,
 you can specify an "absolute" path to a view like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void index(){
       //some code here
@@ -253,7 +253,7 @@ There is no difference between these methods, they are aliases. Use whichever yo
 
 Example:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void index(){
        view("name", "John Doe");
@@ -280,7 +280,7 @@ achieve this goal:
 
 ### getting a single parameter
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void index(){
        String name = param("name");
@@ -302,7 +302,7 @@ public class GreetingController extends AppController{
 
 This is in cases for submit parameters with multiple values, such as selects:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void index(){
       List<String> states = params("states");
@@ -314,7 +314,7 @@ public class GreetingController extends AppController{
 
 This is in cases for submit parameters with multiple values, such as selects:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void index(){
       Map<String, String> firstValues = params1st()
@@ -327,7 +327,7 @@ even if such parameter has more than one value submitted.
 
 This method is used quite often whe a form is submitted. Using ActiveJDBC makes it trivial to accapet a form as well as validate it:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Post p = new Post();
 p.fromMap(params1st());
 ~~~~
@@ -347,7 +347,7 @@ The `Post` is an ActiveJDBC model. `params1st()` method returns a map of first v
 Controllers (and filters alike) provide a simple way to detect if a request is a from an
 [XmlHttpRequest](http://en.wikipedia.org/wiki/XMLHttpRequest) in browser:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void index(){
       if(xhr()){
@@ -365,7 +365,7 @@ The `xhr();` method also has an alias: `isXhr();`.
 
 ActiveWeb provides a simple method `respond(..)`:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void index(){
       respond("<message>hello</message>").contentType("text/xml").status(200);
@@ -383,7 +383,7 @@ power of a view expression language for condition, iteration, etc, you can use a
 that is also used for rendering HTML pages. However, for Ajax calls layouts are not necessary, so the call will
 look like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class AjaxController extends AppController{
    public void index(){
       //some code here
@@ -403,7 +403,7 @@ There are a few calls you can use for file download:
 
 -   sending files to a client:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GetPdfController extends AppController{
    public void index(){   
      File f;
@@ -415,7 +415,7 @@ public class GetPdfController extends AppController{
 
 -   Streaming bytes to a client:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GetPdfController extends AppController{
    public void index(){   
      byte[] bytes;
@@ -427,7 +427,7 @@ public class GetPdfController extends AppController{
 
 -   Reading from InputStream and sending to client:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GetPdfController extends AppController{
    public void index(){   
      InputStream in;
@@ -439,7 +439,7 @@ public class GetPdfController extends AppController{
 
 -   Steaming a file to a client with a file name
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GetCsvController extends AppController{
    public void index(){
      OutputStream out = outputStream("text/csv", map("Content-Disposition", "attachment;filename=metadata_" + param("type") + ".csv"), 200);
@@ -453,7 +453,7 @@ public class GetCsvController extends AppController{
 
 Controllers have a two ways for uploading data. Here is one:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class UploadController extends AppController{
 
    @POST
@@ -472,7 +472,7 @@ public class UploadController extends AppController{
 
 .. and here is another:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class UploadsController extends AppController {
     @POST
     public void index(){
@@ -488,7 +488,7 @@ The second method is preferred for large files, because they are streamed to har
 
 A session object is accessed with a `session()` call inside controllers:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class HomeController extends AppController{
    public void index(){   
      // put a value
@@ -511,7 +511,7 @@ Other methods available on a session object are:
 
 ### Sending cookies to a client
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 sendCookie(Cookie);               //sends a cookie to client
 sendCookie(name, value);          //simple short cut to do the same as above 
 sendPermanentCookie(name, value); //will send a cookie with time to live == 20 years
@@ -519,7 +519,7 @@ sendPermanentCookie(name, value); //will send a cookie with time to live == 20 y
 
 ### Getting cookies from request
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Cookie> cookies(); //gets a list of all cookies sent in request
 Cookie cookie(name);    //retrieve an individual cookie
 cookieValue(name);      //retrieve a cookie value by name of cookie

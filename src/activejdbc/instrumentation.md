@@ -14,7 +14,7 @@ Instrumentation is byte code manipulation that happens after a compile phase. It
 class to a subclass. Instrumentation allows to "inherit" static methods from a super class, making elegant code like this
 possible:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Person> retirees = Person.where("age >= ?", 65);
 ~~~~
 
@@ -23,13 +23,13 @@ what table to query.
 
 For instance, in a case of no instrumentation, this call in source code:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person.where(...);
 ~~~~
 
 translates to this logic in bytecode:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Model.where(...);
 ~~~~
 
@@ -42,7 +42,7 @@ While instrumentation introduces an additional step in the process, the benefit 
 The simple usage of a Maven plugin is provided by a Maven ActiveJDBC Simple Example project: [Simple Maven Example](https://github.com/javalite/simple-example).
 Specifically, the plugin is added to a pom like this:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>activejdbc-instrumentation</artifactId>
@@ -74,7 +74,7 @@ The instrumentation step is also available as a Gradle plugin, an example projec
 
 Add the plugin to your `build.gradle` file like this:
 
-~~~~ {.groovy}
+~~~~ {.groovy .numberLines}
 buildscript {
     repositories {
         mavenCentral()
@@ -97,7 +97,7 @@ Here is an example project with Ant - based instrumentation: [Ant exampe](https:
 
 The class responsible for instrumentation is called `org.javalite.instrumentation.Main`, and here is an example of using it:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <target name="instrument" depends="compile">
     <java classname="org.javalite.instrumentation.Main">
         <sysproperty key="outputDirectory" value="${classes}"/>
@@ -137,7 +137,7 @@ The Instrumentation package is required on the classpath only during instrumenta
 This Ant script can be used on any project in order to speed up development. The reason we use this script sometimes even on Maven projects is speed.
 Maven takes a few seconds to startup, but this barebones script is almost instant. You can hook it into IDE to trigger before executing tests:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script is used for fast instrumentation of the project's models-->
 <project default="instrument" basedir=".">

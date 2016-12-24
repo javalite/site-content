@@ -70,7 +70,7 @@ In an example above, there are three directories under `WEB-INF/views`: `books`,
 ActiveWeb framework is a Servlet filter. As a result it is easy to set it up in a file `web.xml`.
 Below is a configuration file from a real commercial project. Usually these files do not get any more complicated:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

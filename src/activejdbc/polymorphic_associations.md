@@ -27,7 +27,7 @@ table called 'TAGS', and add two columns to this table, besides the ones that yo
 
 After this, you will need to provide one last bit of information to the framework by specifying relationships:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Product extends Model{}
 
 public class Review extends Model{}
@@ -46,7 +46,7 @@ The annotation itself is easy to understand if you read it aloud.
 
 ## Adding and searching for polymorphic children
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Product p =  Product.findById(100);
 p.add(Tag.create("tag", "basket"));
 p.add(Tag.create("tag", "toy"));
@@ -79,7 +79,7 @@ The table TAG content might look like this after operations above:
 
 While the `getAll(type)` method returns all relations, the `get(type)` method allows for a selection criteria on the child table:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Tag> tags = product.get(Tag.class, "tag = ?", "toy");
 ~~~~
 
@@ -87,7 +87,7 @@ List<Tag> tags = product.get(Tag.class, "tag = ?", "toy");
 
 Removing children is as easy as expected;
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Product toyBasket =  Product.findById(100);
 Tag t = Tag.findById(1);
 toyBasket.remove(t);
@@ -101,13 +101,13 @@ When deleting a record that is a parent to polymorphic children, you have two op
 
 -   Only delete the parent itself. This will leave orphan children:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 toyBasket.delete();
 ~~~~
 
 -   Delete parent along with all the children:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 toyBasket.deleteCascade(); // or toyBasket.delete(true);
 ~~~~
 
@@ -118,7 +118,7 @@ See [Delete cascade](delete_cascade) for more information.
 
 Navigate from children to parents in relationships:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Tag t = Tag.findById(1);
 Product p = t.parent(Product.class);
 ...
@@ -132,7 +132,7 @@ This is usually a case when the same table backs a different ORM which also supp
 
 When faced with this problem, you can use annotation to override default behavior:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @BelongsToPolymorphic(
 parents     = { Vehicle.class, Mammal.class}, 
 typeLabels  = {"Vehicle",     "Mammal"} )

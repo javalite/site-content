@@ -30,7 +30,7 @@ heroku help config
 
 Your next task is to be able to read this variable at runtime. Here's a class and its spec for the Utility that I use to do so
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 package app.utils;
 import org.junit.Test;
 import java.net.URISyntaxException;
@@ -70,7 +70,7 @@ public class HerokuDbUrlParserSpec {
 
 And the implementation:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 package app.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -191,7 +191,7 @@ public class HerokuDbUrlParser {
 
 With that in place you call this use this method in your DbConfig with "production" and the jdbcProperties returned by the parser above to setup your ActiveJdbc connection
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 private void createConnection(String env, Properties jdbcProperties) {
     String driver = jdbcProperties.getProperty("driver");
     String url = jdbcProperties.getProperty("url");
@@ -239,7 +239,7 @@ TODO
 There's two things you need to do after you've enabled your SSL endpoint add-on in heroku. The first is to force traffic
 from regular http to https. This is easily done in a filter with methods like these
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 /**
  * http://stackoverflow.com/questions/7185074/heroku-nodejs-http-to-https-ssl-forced-redirect
  */
@@ -258,7 +258,7 @@ The next is to rewrite incoming requests so they appear as though they came stra
 been routed through the SSL endpoint. The best way I found to do this was with the XForwardedFilter from Xebia.
 To enable put this in your pom:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <dependency>
     <groupId>fr.xebia.web</groupId>
     <artifactId>xebia-servlet-extras</artifactId>
@@ -268,7 +268,7 @@ To enable put this in your pom:
 
 and then add this to your web.xml above the dispatcher's filter-mapping:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <filter>
     <filter-name>XForwardedFilter</filter-name>
     <filter-class>fr.xebia.servlet.filter.XForwardedFilter</filter-class>

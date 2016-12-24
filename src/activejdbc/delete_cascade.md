@@ -88,7 +88,7 @@ might have many prescriptions:
 Lets start with a simple example, Doctor John Druker. This doctor has one patient John Doe, and the patient has one
 prescription. So, when an instance of this doctor model is issued statement:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 drDruker.deleteCascade();
 ~~~~
 
@@ -127,7 +127,7 @@ Lets say you have models: Article, Comment and Tag such that Article has many Co
 
 This method then allows to skip some associations of a model from following:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Comment comment = Comment.findFirst(...criteria ...);
 comment.deleteCascadeExcept(Comment.getMetaModel().getAssociationForTarget("articles"));
 ~~~~

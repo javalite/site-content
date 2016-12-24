@@ -12,7 +12,7 @@ At the heart of a Google Guice DI, there is a concept of a module.
 
 Lets say we have a simple interface Greeter:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public interface Greeter {
     String greet();
 }
@@ -20,7 +20,7 @@ public interface Greeter {
 
 and implementation of this interface:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreeterImpl implements Greeter{    
     public String greet() {
         return "Hello from real greeter";        
@@ -30,13 +30,13 @@ public class GreeterImpl implements Greeter{
 
 We can then create a new Guice module:
 
-```java
+~~~~ {.java .numberLines}
 public class GreeterModule extends AbstractModule {
     protected void configure() {
         bind(Greeter.class).to(GreeterImpl.class).asEagerSingleton();
     }
 }
-```
+~~~~
 
 In this module, we are binding a `GreeterImpl` to `Greater` interface as a singleton.
 You can call `bind()` method many times, setting up your object graph.
@@ -45,7 +45,7 @@ You can call `bind()` method many times, setting up your object graph.
 
 The injection of a Guice module is executed as one line of code inside `AppBootstrap` class, like so:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class AppBootstrap extends Bootstrap {
 
     public void init(AppContext context) {}
@@ -62,7 +62,7 @@ The `Guice.createInjector(..)` takes a varargs, meaning you can inject multiple 
 
 Whenever you need a service inside a controller, you will use an `@Inject` annotation provided by Google Guice:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 public class HelloController extends AppController {
  @Inject
  private Greeter greeter;
@@ -101,7 +101,7 @@ Why would someone want to use a mock instead of a real implementation? Here are 
 
 Now, lets create an mock service (this can also be created using any other mocking libraries, such as [Mockito](https://code.google.com/p/mockito/)):
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreeterMock implements Greeter{
     public String greet() {
         return "Hello from " + this.getClass().toString();  
@@ -111,7 +111,7 @@ public class GreeterMock implements Greeter{
 
 and a new mock module we will use in tests:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreeterMockModule extends AbstractModule {
     @Override
     protected void configure() {
@@ -122,7 +122,7 @@ public class GreeterMockModule extends AbstractModule {
 
 Once we have this done, we can inject the mock module during the test of a controller:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
  public class HelloControllerSpec extends ControllerSpec {
      @Before
      public void before(){

@@ -15,7 +15,7 @@ managers as in other Java ORMs.
 
 Here is a simple program:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 public static void main(String[] args) {
    Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "the_user", "the_password");
    Employee.findAll().dump();
@@ -46,7 +46,7 @@ than one database in the system, such as "accounting" and "inventory".
 
 Example:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 new DB("inventory").open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "dbuser", "...");
 ~~~~
 
@@ -59,13 +59,13 @@ The classes Base and DB mirror one another, having exactly the same APIs, except
 
 This means that these lines are equivalent:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 new DB("default").open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "root", "p@ssw0rd");
 ~~~~
 
 and:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "root", "p@ssw0rd");
 ~~~~
 
@@ -75,7 +75,7 @@ Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "root", "p@ssw
 
 You can use the try-with-resources to automatically close a connection regardless if your code causes exception or not: 
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 try(DB db = new DB()){
   db.open();
   // your code here
@@ -90,7 +90,7 @@ try(DB db = new DB()){
 ActiveJDBC allows to have a mix of models in the application representing tables from different databases. By default
 a model belongs to a database "default", but an association of a model to a database can be overriden with annotation `@DbName`:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @DbName("corporation")
 public class Employee extends Model {}
 ~~~~
@@ -103,21 +103,21 @@ For this example, we will have two models, one representing a table in Oracle da
 
 The two models are defined like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @DbName("corporation")
 public class Employee extends Model {}
 ~~~~
 
 and:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @DbName("university")
 public class Student  extends Model {}
 ~~~~
 
 and the main class looks like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Main {
     public static void main(String[] args) {
         new DB("corporation").open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "root", "p@ssw0rd");
@@ -154,13 +154,13 @@ ActiveJDBC does not maintain connection pools and does not integrate with any po
 few `DB.open()` and `Base.open()` methods to open connections. If a version of methods used that takes standard JDBC
 parameters, then no pool is used this is only a convenience method to open a brand new connection, such as:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "root", "pwd");
 ~~~~
 
 If however, this call is used:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Base.open("java:comp/env/jdbc/testdb");
 ~~~~
 
@@ -169,7 +169,7 @@ to a pooled JNDI DataSource.
 
 If you want to work directly with some connection pool, you can do so by feeding a datasource to Base/DB class:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 new DB("default").open(datasourceInstance);
 ~~~~
 
@@ -182,7 +182,7 @@ The easiest way to configure multiple connections for different environments is 
 Here is an example of such a file:
 
 
-```
+~~~~
 development.driver=com.mysql.jdbc.Driver
 development.username=user1
 development.password=pwd
@@ -195,7 +195,7 @@ test.url=jdbc:mysql://localhost/acme_test
 
 production.jndi=java:comp/env/jdbc/acme
 
-```
+~~~~
 
 In order for this to work, you need to configure an environment variable `ACTIVE_ENV` to a value that is equal to a 
 property set key.  According to a file above, the `ACTIVE_ENV` can take on values `development` and `production`. 
@@ -204,9 +204,9 @@ The `test` is special because it is used in development environment, but for run
 Once the file is configured and placed at the root of classpath, you would open connections with a no-argument 
 method like this: 
 
-```java
+~~~~ {.java .numberLines}
 new DB("default").open();
-```
+~~~~
  
 A configuration related to the current environment will be selected and used to open a connection. This makes it easy 
 to develop applications that live on different environments, and simply "know" where to connect on each. 
@@ -227,9 +227,9 @@ Here is how to configure:
 
 Add a file `activejdbc.properties` to your project at root of classpath and configure a property in it: 
 
-```
+~~~~
 env.connections.file=/etc/my_project123/database.properties
-```
+~~~~
 
 Then, simply add connection properties to the file as usual. The methods `DB.open()` and `Base.open()` will locate 
 a connection from this file using the usual `ACTIVE_ENV` conventions. 
@@ -242,18 +242,18 @@ In some cases you will need to specify parameters as environment variables.
 This may happen on cloud based-environments such as Heroku, Jenkins CI, etc. 
 If you use direct JDBC parameters, there are 4 environments variables you can use: 
 
-```
+~~~~
 ACTIVEJDBC.URL
 ACTIVEJDBC.USER
 ACTIVEJDBC.PASSWORD
 ACTIVEJDBC.DRIVER
-```
+~~~~
 
 If you use JNDI connection, you can use 1 environment variable: 
 
-```
+~~~~
 ACTIVEJDBC.JNDI
-```
+~~~~
 
 These are self-explanatory JDBC connection parameters. 
 
@@ -265,18 +265,18 @@ These are self-explanatory JDBC connection parameters.
 In some cases you will need to specify connection parameters as JVM system properties. 
 If you are using standard JDBC parameters, there are 4 system properties you can use: 
 
-```
+~~~~
 activejdbc.url
 activejdbc.user
 activejdbc.password
 activejdbc.driver
-```
+~~~~
 
 If you are using JNDI, the system property is: 
 
-```
+~~~~
 activejdbc.jndi
-```
+~~~~
 
 > System properties - based configuration will override any configuration provided as environment variables as 
 > well as by the  `database.properties` file for current environment.
@@ -301,7 +301,7 @@ where "default" is a name of a database and "myschema" is a name of your schema 
 In case you do use multiple connections to different databases and you use DbName annotation, replace "default"
 to your DB name. For example:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @DbName("university")
 public class Student extends Model{}
 ~~~~

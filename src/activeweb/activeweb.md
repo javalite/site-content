@@ -52,7 +52,7 @@ Please, refer to [ActiveWeb Releases](activeweb_releases).
 
 ### Maven
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <dependency>
     <groupId>org.javalite</groupId>
     <artifactId>activeweb</artifactId>

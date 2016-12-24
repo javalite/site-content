@@ -15,18 +15,18 @@ It is now possible to change a table name associated with a model at runtime.
 
 For example, this code: 
  
-```java
+~~~~ {.java .numberLines}
 public class Person{}
-```
+~~~~
 
 defines a model automatically mapped to a table PEOPLE according to [English Inflections](english_inflections). 
 
 If this model's data is sharded across multiple tables (say named 'shard1_people', 'shard2_people', etc.), then 
 you can change the table  name before using a model like this: 
 
-```java
+~~~~ {.java .numberLines}
 Person.metaModel().setShardTableName("shard2_people");
-```
+~~~~
 
 > It is imperative that all tables representing shards for the same model MUST have exactly the same schema
  
@@ -34,18 +34,18 @@ Person.metaModel().setShardTableName("shard2_people");
 
 The call: 
 
-```java
+~~~~ {.java .numberLines}
 Person.metaModel().setShardTableName("shard2_people");
-```
+~~~~
 
 attaches a new table name for this model to a current thread using [ThreadLocal](http://docs.oracle.com/javase/7/docs/api/java/lang/ThreadLocal.html). 
 This means that if you are using a thread pool (working within a web app), you might run into issues in case threads are re-used. 
 
 Always ensure that you are cleaning the table name from a current thread: 
 
-```java
+~~~~ {.java .numberLines}
 Person.metaModel().clearShardTableName();
-```
+~~~~
 
 The call above ensures that the model `Person` will revert to its natural table name (in this case `PEOPLE`). 
  
@@ -59,9 +59,9 @@ There are two ways to go about this: 1. use of a base table, and 2. only use sha
 In the first scenario, you would have tables: `people`, `shard1_people`, `shard2_people`, `shard3_people`...
 The model will look like this:
 
-```java
+~~~~ {.java .numberLines}
 public class Person{}
-```
+~~~~
 
 So, the model `Person` will read the schema from table `people`, and will use it across all other tables. This is
 why it is so important that all these tables have exactly the same structure.
@@ -69,10 +69,10 @@ why it is so important that all these tables have exactly the same structure.
 In the second scenario, you would only have sharded tables: `shard1_people`, `shard2_people`, `shard3_people`. 
 You would use one of the sharded tables as a model base table:
 
-```java
+~~~~ {.java .numberLines}
 @Table("shard1_people")
 public class Person{}
-```
+~~~~
 
 It is up to you which scenario to choose. 
 

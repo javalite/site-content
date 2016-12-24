@@ -35,7 +35,7 @@ Examples:
 
 ### Default mapping
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Computer{}
 ~~~~
 
@@ -44,7 +44,7 @@ will be mapped to a table `COMPUTERS`.
 
 ### Default mapping with English exception
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Octopus{}
 ~~~~
 
@@ -53,7 +53,7 @@ will be mapped to a table `OCTOPI`.
 
 ### Overridden mapping
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @Table("Operator")
 public class Operator{}
 ~~~~

@@ -14,7 +14,7 @@ Here is how to configure:
 
 First, configure the routes to ignore "/bootstrap.css" route in all environments except development:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class RouteConfig extends AbstractRouteConfig {
     public void init(AppContext appContext) {
         ignore("/bootstrap.css").exceptIn("development");
@@ -26,7 +26,7 @@ public class RouteConfig extends AbstractRouteConfig {
 
 Then, create a new controller:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class BootstrapController extends AbstractLesscController {
     @Override
     protected File getLessFile() {
@@ -41,7 +41,7 @@ Additionally, add a Maven plugin to your pom file:
 
 ## Configuration for a Single LESS file
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>activeweb-lessc-maven-plugin</artifactId>
@@ -63,7 +63,7 @@ Additionally, add a Maven plugin to your pom file:
 
 If your project has more than one LESS files, you can use alternative configuration to compile multiple files during the build: 
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>activeweb-lessc-maven-plugin</artifactId>
@@ -101,7 +101,7 @@ If your project has more than one LESS files, you can use alternative configurat
 
 Configure to package the CSS file into the app with a War plugin:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-war-plugin</artifactId>

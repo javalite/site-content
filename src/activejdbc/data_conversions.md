@@ -11,7 +11,7 @@ Please, see [Pass-through framework](pass_through_framework) for more informatio
 
 This is pretty easy, insert a record into a table using standard DBMS tools, and then query it like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = Person.findAll().get(0);
 System.out.println("DOB type: " + p.get("dob").getClass());
 ~~~~
@@ -23,14 +23,14 @@ System.out.println("DOB type: " + p.get("dob").getClass());
 ActiveJDBC provides a number of getter methods for conversion. Most conversions use the
 underlying [Convert](http://javalite.github.io/activejdbc/org/javalite/common/Convert.html) class. Here are some examples:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Date date = person.getDate("dob");
 Boolean projectCompleted = project.getBoolean("completed");
 ~~~~
 
 Most all types can be converted to String, including a CLOB. Consider this example, where column CONTENT is defined as CLOB:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 String text = article.getString("content");
 ~~~~
 
@@ -38,7 +38,7 @@ String text = article.getString("content");
 
 Here is a list conversion getters available in models: 
 
-```
+~~~~
 BigDecimal	getBigDecimal(String attributeName)
 Boolean	getBoolean(String attributeName)
 byte[]	getBytes(String attributeName)
@@ -51,7 +51,7 @@ Short	getShort(String attributeName)
 String	getString(String attributeName)
 Time	getTime(String attributeName)
 Timestamp	getTimestamp(String attributeName)
-```
+~~~~
 
 
 
@@ -68,7 +68,7 @@ Converters will always convert from the original type of the value (for example,
 
 Date converters can do conversions between formatted string and java.sql.Date. Here is an example that registers date converters to "dob" attribute:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model {
     static {
         dateFormat("MM/dd/yyyy", "dob");
@@ -78,7 +78,7 @@ public class Person extends Model {
 
 and here how to use them:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = new Person();
 
 // will convert String to java.sql.Date
@@ -96,7 +96,7 @@ Date date = p.getDate("dob");
 
 Timestamp converters are identical to date converters, but do conversion to and from java.sql.Timestamp. Here is an example of declaration:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Message extends Model {
     static{
         timestampFormat("yyyy.MM.dd G 'at' HH:mm:ss z", "send_time");
@@ -109,7 +109,7 @@ public class Message extends Model {
 The blank to null converter transforms any `java.lang.String` values that are empty or contain only whitespaces to null. 
 It works with any getter or setter. Here is an example that registers it to two attributes:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model {
     static {
         blankToNull("name", "last_name");
@@ -122,7 +122,7 @@ public class Person extends Model {
 The zero to null converter works as the blank to null converter, but transforms `java.lang.Number` values that are equal 
 zero to null. Here is example of declaration:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Salary extends Model {
     static {
         zeroToNull("bonus");
@@ -134,7 +134,7 @@ public class Salary extends Model {
 
 If you like more control over types, you can provide typed getters and setters:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model{
     public void setName(String name){
        set("name", name);
@@ -147,7 +147,7 @@ public class Person extends Model{
 
 and then use it like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = new Person();
 p.setName("John");
 p.setDob(new Date(12345L));
@@ -159,7 +159,7 @@ For more information on setters and getters, see [Setters and getters](setters_a
 
 If you do this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Student p = new Student();
 p.set("first_name", "John");
 p.set("last_name", "Doe");
@@ -169,7 +169,7 @@ p.saveIt();
 
 you are going to get an exception from the DBMS itself, if it cannot convert the type:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 org.javalite.activejdbc.DBException: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Incorrect date value: '1' for column 'dob' at row 1, Query: INSERT INTO students (first_name, dob, last_name) VALUES (?, ?, ?), params: John,1,Doe
     at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2868)
     at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1573)
@@ -183,7 +183,7 @@ ActiveJDBC is a *pass-through* framework - it will pass data to lower level to h
 
 Is this possible? Yes, for instance, take this example:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 p.set("dob", "2011-12-3");
 p.saveIt();
 ~~~~

@@ -21,14 +21,14 @@ CREATE TABLE people (
 
 Simple models are written in one line of code. No need for setters or getters.
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model {}
 ~~~~
 
 Tip: name of the model reflects a singular form of the table name. ActiveJDBC models feel similar to Map interface (although they do not implement it).
 In order to access a model attributes, you usually use built-in dynamic setters and getters:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 person.get("first_name");
 ...
 person.set("first_name", "John");
@@ -36,7 +36,7 @@ person.set("first_name", "John");
 
 ## Simple selection
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Person> list = Person.where("name = 'John'");
 ~~~~
 
@@ -51,7 +51,7 @@ required to provide is the actual criteria. This is just plain old SQL, albeit o
 
 ## Parametrized search
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Person> list = Person.where("name = ?", "John");
 ~~~~
 
@@ -66,7 +66,7 @@ Within that callback, you perform whatever operation that makes sense for the ap
 approach is not needing to allocate a ton of memory. This is usually a preferred method for batch processes. Think of this as streaming
 of data from the database.
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person.find("name='John'", new ModelListener<Person>() {
     public void onModel(Person person) {
         System.out.println("Found person: " + person);
@@ -78,7 +78,7 @@ Person.find("name='John'", new ModelListener<Person>() {
 
 Finding just one record can be achieved with `findFirst` method. As name suggests, even if the query can result in multiple records, only the first one is returned.
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person person = Person.findFirst("id = 2");
 //parametrized:
 person = Person.findFirst("id = ?", 2);
@@ -90,7 +90,7 @@ person = Person.findFirst("id = ?", 2);
 This is a method or returning all records from a table, use carefully as this will load them all into memory (when you start
 processing the result, not when this method is called)
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Person> list = Person.findAll();
 for(Person p: list){   //<==== this line of code will initiate the actual query to DB
    System.out.println(p);
@@ -102,7 +102,7 @@ for(Person p: list){   //<==== this line of code will initiate the actual query 
 
 This convenience method is used while writing tests.
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person.findAll().dump();
 ~~~~
 
@@ -112,7 +112,7 @@ Statement above will dump all records into standard output. Do not execute for l
 
 There are many (more concise) methods of creation of models, this is being the most simple and self-explanatory:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = new Person();
 p.set("first_name", "Marilyn");
 p.set("last_name", "Monroe");
@@ -130,7 +130,7 @@ If you look at the SQL at the top of this page, you will see that the table back
 Since the framework will interrogate the DB at the startup and retrieve all metadata information for each table,
 it will know which model has which attributes. As such, setting a wrong attribute will generate a runtime exception.
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = new Person();
 p.set("name1", "Bob"); //<=== this will throw exception
 ~~~~
@@ -148,7 +148,7 @@ We often cause this exception in tests on purpose, just to see the attributes of
 
 Putting it together, it is trivial to look up data from DB, modify it, and then save.
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Person> list = Person.find("id = 1");
 Person p = list.get(0);
 p.set("name", "Bob");
@@ -159,7 +159,7 @@ p.saveIt();
 
 This is self-explanatory. If you know the ID, it is easy to get the model that represents this record.
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = Person.findById(1);
 ~~~~
 
@@ -167,7 +167,7 @@ Person p = Person.findById(1);
 
 Counting all records is as simple as calling the "count()" method
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 long personCount = Person.count();
 ~~~~
 
@@ -175,7 +175,7 @@ long personCount = Person.count();
 
 Counting some records is equally easy, all you have to do is to provide criteria.
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 long johnCount = Person.count("name = ? ", "John");
 ~~~~
 
@@ -183,7 +183,7 @@ long johnCount = Person.count("name = ? ", "John");
 
 In case, a query is really complicated, you can always resort to raw SQL like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Book> books = Book.findBySQL("select books.*, address from books, libraries where books.lib_id = libraries.id order by address");
 ~~~~
 

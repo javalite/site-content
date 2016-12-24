@@ -12,7 +12,7 @@ ActiveJDBC provides support for optimistic concurrency via a simple convention: 
 
 Say you have a model:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Profile extends Model{}
 ~~~~
 
@@ -27,7 +27,7 @@ which backs a table `PROFILES`:
 
 When you create a new record:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Profile.createIt("profile_type", "home");
 ~~~~
 
@@ -46,7 +46,7 @@ The value 1 in the `record_version` column signifies that this record has not be
 
 When a record is updated, the value of column `record_version` is incremented by one:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Profile p = Profile.findById(1);
 p.set("profile_type", "work");
 p.saveIt();
@@ -67,7 +67,7 @@ As you can see, ActiveJDBC tracks versions of the same record.
 
 Sometimes you might have code that reads the same record from a table in order to be updated. In those cases, the first update succeeds, but the second does not. Let's examine this situation:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 Profile p1 = Profile.findById(1);
 Profile p2 = Profile.findById(1);
 
@@ -103,7 +103,7 @@ By default a version column is called `version_record`. In cases where there is 
 with other systems, you can override the name with annotation:
 
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @VersionColumn("lock_version")
 public class Item extends Model { ... }
 ~~~~

@@ -27,7 +27,7 @@ Please, see [Logging](logging) to find out how to turn loggin on.
 
 Here is an example of registration, discovery and DDL log output:
 
-```
+~~~~
 Registered model: class org.javalite.activejdbc.test_models.Member
 Registered model: class org.javalite.activejdbc.test_models.Sword
 Registered model: class org.javalite.activejdbc.test_models.Plant
@@ -183,7 +183,7 @@ Association found: projects  >---------<  programmers, type: many-to-many, join:
 Association found: addresses  >----------  users, type: belongs-to
 Association found: users  ----------<  addresses, type: has-many
 
-```
+~~~~
 
 This output was taken from running [ModelTest.java](https://github.com/javalite/activejdbc/blob/master/activejdbc/src/test/java/org/javalite/activejdbc/ModelTest.java).
 There are three sections: registration, mapping, andAssociations. 
@@ -192,26 +192,26 @@ The Entity Relationship diagram is represented by a [Crow's foot notation](https
 
 ### One to many example
 
-```
+~~~~
 Association found: libraries  ----------<  books, type: has-many
-```
+~~~~
 Means that a library has many books
 
 
 ### Many to one example
 
-```
+~~~~
 Association found: books  >----------  libraries, type: belongs-to
-```
+~~~~
 
 Books belong to library 
 
 
 ### Many to many example
 
-```
+~~~~
 Association found: doctors  >---------<  patients, type: many-to-many, join: doctors_patients
-```
+~~~~
 
 A doctor sees many patients and a patient visits many doctors. 
 
@@ -219,13 +219,13 @@ A doctor sees many patients and a patient visits many doctors.
 
 Many to many relationship is in effect represented by other one-to-many relationships: 
 
-```
+~~~~
 Association found: doctors_patients  >----------  doctors, type: belongs-to
 Association found: doctors  ----------<  doctors_patients, type: has-many
 Association found: doctors  >---------<  patients, type: many-to-many, join: doctors_patients
 Association found: doctors_patients  >----------  patients, type: belongs-to
 Association found: patients  ----------<  doctors_patients, type: has-many
-```
+~~~~
 
 ### Polimorphic Associations
 

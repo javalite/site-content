@@ -12,7 +12,7 @@ stumble upon performance problems due to Clob sizes.
 For instance, if you have a table ARTICLES, which has a column CONTENT type of Clob, the writing into this column is
 not any different than writing into a VARCHAR or any other text field:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Article a = new Article():
 a.set("content", articleContent);
 a.saveIt();
@@ -26,7 +26,7 @@ support here is minimal.
 ActiveJDBC does not perform an implicit data conversion. This means that the `get("name")` method will return exactly
 the type that is provided by the driver. Armed with this knowledge, we can write code to fully read information from the Clob:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Article a = Article.findById(100);
 Clob c = (Clob)a.get("content");
 ///read from Clob...
@@ -37,7 +37,7 @@ Clob c = (Clob)a.get("content");
 Since ActiveJDBC does not do implicit data conversions, it does provide explicit convenient methods for conversion.
 One such method is `getString()`:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Article a = Article.findById(100);
 String content = a.getString("content");
 ~~~~
@@ -60,7 +60,7 @@ into `java.lang.String`s. This allows to access the content of Clobs from cached
 
 Getting strings is the same as in the first case:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 String articleContent = a.getString("content");
 ~~~~
 

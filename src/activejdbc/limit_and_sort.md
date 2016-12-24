@@ -12,7 +12,7 @@ An example could be paging through a catalog of products.
 The "finder" methods, such as `find()`, `findAll()` and `where()` return an instance of a `LazyList`. This class has a
  method called `limit(int)`. It will limit a number of results in the resultset when your programs starts to:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Person> people = People.findAll().limit(20);
 ~~~~
 
@@ -20,7 +20,7 @@ List<Person> people = People.findAll().limit(20);
 
 Once you got a first page, you might want to get a next one. This is done with the offset method, found on the same `LazyList` class like so:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Person> people = People.findAll().limit(40).offset(20);
 ~~~~
 
@@ -30,7 +30,7 @@ The code snippet above will find and return 40 records, starting with the 21st r
 
 Usually, you would limit, offset and order results in one statement:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Person> people = People.findAll().limit(40).offset(20).orderBy("age asc");
 ~~~~
 
@@ -42,7 +42,7 @@ is credited to Martin Fowler. This style of API is concise, readable and self ex
 Although `limit`, `offset` and `orderBy` themselves are quite simple and powerful methods, ActiveJDBC also provides a
 convenience class called `Paginator` especially designed for web applications:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Paginator p = new Paginator(Page.class, 10, "description like ?", "%Java%").orderBy("created_at desc");
 List<Page> items = p.getPage(1);
 List<Page> items = p.getPage(2);
@@ -50,13 +50,13 @@ List<Page> items = p.getPage(2);
 
 The instances of this class are lightweight and usually attached to a session. It can be queried for a current page displayed:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 int currentPage = paginator.getCurrentPage();
 ~~~~
 
 and for page count like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 int pageCount = paginator.getPageCount();
 ~~~~
 

@@ -27,7 +27,7 @@ interface.
 Freemarker configuration is optional. If an application needs to have access to configuration of Freemarker, the application
 needs to have a class:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 package app.config;
 public class FreeMarkerConfig extends AbstractFreeMarkerConfig {
     @Override
@@ -89,7 +89,7 @@ src/main/webapp/WEB-INF/views/layouts/default_layout.ftl
 Default layout is used by default to wrap any page generated as a result of controller execution. The content of the
 `default_layout.ftl` from a startup project looks like this (few lines omitted for clarity):
 
-~~~~ {.html  }
+~~~~ {.html  .numberLines}
 <title>ActiveWeb - <@yield to="title"/></title>
 <div class="main">
     <#include "header.ftl" >
@@ -116,13 +116,13 @@ course in the page itself. The tags `content for` abd `yield` work together to a
 
 Here is an example of passing a page title from a page template to layout:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@content for="title">Books List</@>
 ~~~~
 
 When the entire page with layout is rendered, the  line 3 will read like this:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <title>ActiveWeb - Books List</title>
 ~~~~
 
@@ -141,7 +141,7 @@ Sometimes you need to send multiple chunks of text from a page to layout. You ca
 with the same yield target:
 
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@content for="js">
 <script type="text/javascript">
     Window.alert("hello1");
@@ -151,7 +151,7 @@ with the same yield target:
 
 and more:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@content for="js">
 <script type="text/javascript">
     Window.alert("hello2");
@@ -164,13 +164,13 @@ and more:
 
 The yield tag in layout looking like this:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@yield to="js"/>
 ~~~~
 
 It will generate the following output in its place:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <script type="text/javascript">
     Window.alert("hello1");
 </script>
@@ -186,7 +186,7 @@ By default ActiveWeb will use a `/views/layouts/default_layout.ftl`. However, in
 instance, you are developing a web service or responding to Ajax calls).
 You can turn a layout rendering programmaticaly from controller:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class HomeController extends AppController {
     public void index() {
       render().noLayout();
@@ -240,7 +240,7 @@ src/main/webapp/WEB-INF/views/market/_fruit.ftl
 
 then you can render `_fruit.ftl` inside `index.ftl` like this:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@render partial="fruit"/>
 ~~~~
 
@@ -254,12 +254,12 @@ In a previous example, you can see that a partial was co-located with the host t
 a partial in a number of templates. To accomplish this, you can place a partial into a new view directory and refer
 to a partial with "absolute" path, such as:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@render partial="/shared/fruit"/>
 ~~~~
 
 This assumes that you have a partial fruit at this location:
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 src/main/webapp/WEB-INF/views/shared/_fruit.ftl
 ~~~~
 
@@ -273,20 +273,20 @@ this functionality, using partials provides a cleaner solution, as partials can 
 
 Lets say we have a partial called `_fruit.ftl`:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 Fruit name: ${fruit}<hr>
 ~~~~
 
 If we have a collection named fruits in context (`java.util.List` passed from controller) with these values: ["apple", "prune", "pear"],
 then we can render this partial as a collection from host page like this:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@render partial="fruit" collection=fruits/>
 ~~~~
 
 Rendering will result in this output:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 Fruit name: apple<hr>Fruit name: prune<hr>Fruit name: pear<hr>
 ~~~~
 
@@ -301,13 +301,13 @@ this variable is made up of a name of a partial and word "counter". This means t
 be "fruit_counter". You can use this value inside a partial like any other context value. The above example with
 the counter modification:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 Fruit name: ${fruit}, index: ${fruit_counter}<hr>
 ~~~~
 
 will yield:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 Fruit name: apple, index: 0<hr>Fruit name: prune, index: 1<hr>Fruit name: pear, index: 2<hr>
 ~~~~
 
@@ -319,19 +319,19 @@ HTML with some sort of a spacer made up of arbitrary HTML. Partials provide this
 "spacer" partial. Lets say we use this partial as a spacer
 (located in `src/main/webapp/WEB-INF/views/shared/_divider.ftl`):
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <div class="spacer"></div>
 ~~~~
 
 If we then render our fruits with this spacer such that:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@render partial="fruit" collection=fruits spacer="divider"/>
 ~~~~
 
 we will get the following output:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 Fruit name: apple<hr><div class="spacer"></div>
 Fruit name: prune<hr><div class="spacer"></div>
 Fruit name: pear<hr>
@@ -347,19 +347,19 @@ You can pass an argument value to a partial in much the same way as you can to a
 
 Lets say we have a host template:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@render partial="fruit_name" a_fruit=fruit_name/>
 ~~~~
 
 and a partial (`_fruit_name.ftl`) with content:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 Fruit name is: ${a_fruit}
 ~~~~
 
 Then the output of a partial will be:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 Fruit name is: apple
 ~~~~
 
@@ -371,7 +371,7 @@ considering that there is a variable `fruit_name` in context. This variable coul
 If you have a partial that iterates over a collection and you need to render special content conditionally if this is
 a first or last time in the iteration, you can use special variables set by the framework called `first` and `last`:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <#if first>
 I'm the first in line
 </#if>
@@ -402,13 +402,13 @@ greeting=Hello
 
 and tag code:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@message key="greeting"/>
 ~~~~
 
 then the output will be:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 Hello
 ~~~~
 
@@ -424,7 +424,7 @@ meeting=Meeting will take place on {0} at {1}
 
 You can then specify the tag with parameters:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@message key="meeting" param0="Wednesday" param1="2:00 PM"/>
 ~~~~
 
@@ -438,13 +438,13 @@ Meeting will take place on Wednesday at 2:00 PM
 
 In case a resource bundle does not have a key specified, the key is rendered as value verbatim:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@message key="greeting"/>
 ~~~~
 
 The output:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 greeting
 ~~~~
 
@@ -460,7 +460,7 @@ greeting=Bonjour
 
 then this tag:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@message key="greeting"/>
 ~~~~
 
@@ -474,7 +474,7 @@ Bonjour
 
 There is a "locale" argument you can pass to the tag to override the locale from request:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@message key="greeting" locale="de_DE"/>
 ~~~~
 
@@ -522,7 +522,7 @@ parameter is HTTP status code, the second is response text sent from server.
 
 ### Example 1: Non-Ajax link
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@link_to controller="books" action="fetch">Get Books</@>
 ~~~~
 
@@ -530,7 +530,7 @@ This will generate a simple non-Ajax link, such as: "..books/fetch"
 
 ### Example 2: Ajax link, sets data to destination element
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@link_to controller="books" action="fetch" destination="result">Get Books</@>
 ~~~~
 
@@ -541,7 +541,7 @@ an element with ID: "result", similar to: `<div id="result"></div>`
 ### Example 3: Confirmation and before/after callbacks
 
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@link_to controller="books"  id="123"
          method="delete" before="beforeDelete" after="afterDelete"
          confirm="Are you really sure you want to delete this book?">Delete Book</@>
@@ -557,7 +557,7 @@ above, the `beforeArg` and `afterArg` arguments have values null since the `befo
 
 ### Example 4: Before/after callback arguments
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@link_to controller="books" action="fetch" before="doBeforeWithArg" before_arg="books_result" after="doAfterWithArg"
  after_arg="books_result">Get Books</@>
 ~~~~
@@ -576,7 +576,7 @@ function doAfterWithArg(elm, data) {
 
 This is presuming that there is an element like this on the page:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <div id="books_result"></div>
 ~~~~
 
@@ -584,7 +584,7 @@ In this example, the "books_result" string is passed as argument to "doBeforeWit
 
 ### Example 5 - Error handling
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@link_to controller="books" action="doesnotexist" error="onError" destination="callbacks_result">Will cause error</@>
 
 <script>
@@ -611,7 +611,7 @@ Parameters:
 
 In addition to the collection, you can also add body to the tag. For instance, if you write the tag like this:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@select list=books>
    <option>Please, make a selection</option>
 </@>
@@ -619,7 +619,7 @@ In addition to the collection, you can also add body to the tag. For instance, i
 
 And pass this data from controller:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class BooksController extends AppController{
    public void index(){
        view("books", list(new SelectOption(1, "The Hitchhiker's Guide to the Galaxy"),
@@ -630,7 +630,7 @@ public class BooksController extends AppController{
 
 then the output from the tag will be:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <select>
     <option>Please, make a selection</option>
     <option value="1">The Hitchhiker&amp;aposs Guide to the Galaxy</option>
@@ -671,26 +671,26 @@ Examples (given that the current context is "example"):
 
 code:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@form controller="simple" action="index" method="get"/>
 ~~~~
 
 will generate this HMTL:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <form action="/example/simple/index" method="get" />
 ~~~~
 
 POST form with ID
 code:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@form controller="simple" action="index" id="123" method="post" html_id="formA"/>
 ~~~~
 
 will generate:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <form action="/example/simple/index/123" method="get" id="formA" />
 ~~~~
 
@@ -700,15 +700,15 @@ will generate:
 
 code:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@form controller="simple" action="index" method="put">
      <input type="hidden" name="blah">
 </@>
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 
 will generate this HMTL:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <form action="/example/simple/index" method="put" id="formA" >
     <input type="hidden" name="_method" value="put">
     <input type="hidden" name="blah">
@@ -723,7 +723,7 @@ controller is RESTful or not.
 
 code:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@form controller="photos"  id="x123" method="put" html_id="formA">
       <input type="hidden" name="blah">
 </@>
@@ -731,7 +731,7 @@ code:
 
 will generate:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <form action="/example/photos/index" method="put" id="formA" >
     <input type="hidden" name="_method" value="put">
     <input type="hidden" name="blah">
@@ -743,7 +743,7 @@ will generate:
 Debug tag prints an arbitrary object from page context. FreeMarker special handling of types sometimes makes it hard
 to see the value(s) of an object when debugging, but this tag makes it easy:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@debug print=objectname/>;
 ~~~~
 
@@ -782,7 +782,7 @@ In all these cases, the definitive exception will be printed to the log.
 
 By default, error pages are displayed in default layout `/views/layouts/default_layout.ftl`. In some cases, you want to conditionally display error pages in different layouts. This can be achieved by turning the default layout for error pages off:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class AppBootstrap extends Bootstrap {
     public void init(AppContext context) {
         Configuration.setUseDefaultLayoutForErrors(false);
@@ -792,7 +792,7 @@ public class AppBootstrap extends Bootstrap {
 
 and then using a `<@wrap ..>` tag inside pages:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@wrap with="/layouts/system_error_layout">
     <h1>404 - Resource Not Found</h1>
 </@>
@@ -808,7 +808,7 @@ There are two parameters that the framework passes into error views:
 
 These can be rendered on a page as any other parameters:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 Error message: <code>${message}</code>
 Stack trace: <code>{stack_trace}</code>
 ~~~~

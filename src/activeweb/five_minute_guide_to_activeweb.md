@@ -11,7 +11,7 @@ an HTTP request. This is similar to a Servlet, or a controller class other web f
 
 Here is an example of the simplest controller:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void index(){}
 }
@@ -43,7 +43,7 @@ http://localhost:8080/testapp/greeting/hello
 
 then the system would expect that the controller would have a "hello" action, as in:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class GreetingController extends AppController{
    public void hello(){}
 }

@@ -25,7 +25,7 @@ specific to ActiveWeb, except some system properties, see below
 
 Typical configuration of the Jetty plugin:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <plugin>
     <groupId>org.mortbay.jetty</groupId>
     <artifactId>maven-jetty-plugin</artifactId>
@@ -69,7 +69,7 @@ If you do not use ActiveJDBC, you can remove it.
 In some cases you might want to develop on Tomcat. This is useful if your target deployment in production is also
 Tomcat, and you might want to catch some Tomcat-related problems sooner rather than later. Here is default configuration for Tomcat:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <plugin>
     <groupId>org.apache.tomcat.maven</groupId>
     <artifactId>tomcat7-maven-plugin</artifactId>

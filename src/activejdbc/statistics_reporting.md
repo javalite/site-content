@@ -21,7 +21,7 @@ On the next start of the application, ActiveJDBC will collect statistical data o
 
 The API to get statistical data is:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<QueryStats>  statistics = Registry.instance().getStatisticsQueue().getReportSortedBy("avg");
 ~~~~
 
@@ -39,7 +39,7 @@ object is a simple bean which contains the query text, as well as values: "total
 In some cases, you might want to accumulate statistical information for actions in your application which have nothing
 to do with ActiveJDBC. You can then perform this operation:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Registry.instance().getStatisticsQueue().enqueue(new QueryExecutionEvent(query, System.currentTimeMillis() - start));
 ~~~~
 

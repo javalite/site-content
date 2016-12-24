@@ -10,7 +10,7 @@ has Captcha built-in and does not depend on any third party library for it.
 
 Here is an example of a CaptchaController:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 public class CaptchaController extends AppController {
     public void index() throws IOException {
         String captchaText = Captcha.generateText();
@@ -30,7 +30,7 @@ the same text as as what is stored in the current session, and once the form is 
 
 ## Rendering Captcha
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <img class="captcha" src="${context_path}/captcha" id="captcha_img">
 <a href="#" onclick="$('#captcha_img').attr('src', '${context_path}/captcha?t=' + new Date().getTime());">Reset captcha</a>
 ~~~~

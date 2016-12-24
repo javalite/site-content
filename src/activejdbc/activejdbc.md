@@ -28,7 +28,7 @@ CREATE TABLE people (
 
 The corresponding model looks like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model {}
 ~~~~
 
@@ -40,7 +40,7 @@ map to a table called `PEOPLE` *automatically*. Read more on [English Inflection
 
 Simplest query example:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Person> people = Person.where("first_name = 'John'");
 Person aJohn = people.get(0);
 String johnsLastName = aJohn.get("last_name");
@@ -51,7 +51,7 @@ The `where()` method takes a snippet of real SQL. The first line above will gene
 
 Finder methods can also be parametrized:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Person> people = Person.where("first_name = ?", "John");
 Person aJohn = people.get(0);
 String johnsLastName = aJohn.get("last_name");
@@ -61,7 +61,7 @@ The `where()` method takes a vararg, allowing unlimited any number of parameters
 
 ### Paging through data
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Employee> people = Employee.where("department = ? and hire_date > ? ", "IT", hireDate)
     .offset(21)
     .limit(10)
@@ -77,7 +77,7 @@ records, starting with 1.
 
 There are several ways to do this, and the simplest is:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = new Person();
 p.set("first_name", "Marilyn");
 p.set("last_name", "Monroe");
@@ -87,26 +87,26 @@ p.saveIt();
 
 There is also a shorthand version of doing the same:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 new Person().set("first_name", "Marilyn").set("last_name", "Monroe").set("dob", "1935-12-06").saveIt();
 ~~~~
 
 and yet shorter one :
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person.createIt("first_name", "Marilyn", "last_name", "Monroe", "dob", "1935-12-06");
 ~~~~
 
 ### Updating a record
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Employee e = Employee.findFirst("first_name = ?", "John");
 e.set("last_name", "Steinbeck").saveIt();
 ~~~~
 
 ### Deleting a record
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Employee e = Employee.findFirst("first_name = ?", "John");
 e.delete();
 ~~~~
@@ -170,7 +170,7 @@ Please, refer to [ActiveJDBC Releases](activejdbc_releases).
 For the latest version  refer to [ActiveJDBC on Maven Central](http://search.maven.org/#search%7Cga%7C1%7Corg.javalite.activejdbc).
 If you use Maven add this to your pom:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <dependency>
     <groupId>org.javalite</groupId>
     <artifactId>activejdbc</artifactId>
@@ -185,7 +185,7 @@ Current latest version: [1.4.12](http://search.maven.org/#artifactdetails%7Corg.
 
 Additionally, configure Instrumentation plugin:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>activejdbc-instrumentation</artifactId>
@@ -207,7 +207,7 @@ Or download from: [ActiveJDBC Instrumentation plugin on Maven Central](http://se
 
 If you are using Maven, add these repositories to your pom:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <repositories>
     <repository>
         <id>javalite-snapshots</id>

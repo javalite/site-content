@@ -11,7 +11,7 @@ The simple example app needs a few small modification to run on OS X. See below 
 On OS X there is no "tools.jar", its instead named "classes.jar" and lives in a different directory.
 Here's how to pick it up in your pom.xml
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <profiles>
     <profile>
         <id>default-profile</id>
@@ -42,7 +42,7 @@ Here's how to pick it up in your pom.xml
 
 And then update this dependency to use the toolsjar variable:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <dependency>
         <groupId>com.sun</groupId>
         <artifactId>tools</artifactId>
@@ -62,7 +62,7 @@ or you can switch to use the Tomcat plugin instead of Jetty. Here's the details 
 
 To get Jetty to work update your jetty-env.xml file like this:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 
 <?xml version="1.0"?>
 <!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
@@ -77,7 +77,7 @@ Alternatively switch to the Tomcat plugin in pom.xml. The only oddity about Tomc
 pinned to the "compile" phase, which means that unlike Jetty it will not run instrumentation automatically.
 Other then that, no issues with Tomcat plugin on MaxOS. Here is the configuration:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
  <plugin>
         <groupId>org.apache.tomcat.maven</groupId>
         <artifactId>tomcat7-maven-plugin</artifactId>

@@ -124,7 +124,7 @@ Besides standard and RESTful, ActiveWeb also offers custom routing. Custom routi
 As with any other types of configuration, ActiveWeb route configuration is done in code, rather that property or XML files.
 Custom routing is done by adding a new class to the application: `app.config.RouteConfig`:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class RouteConfig extends AbstractRouteConfig {
     public void init(AppContext appContext) {
         route("/myposts").to(PostsController.class);
@@ -175,7 +175,7 @@ Will be routed to: `app.controllers.PhotoController#show` with ID ==123.
 
 Static segments are simply plain text without the braces. The are matched one to one with the incoming request. Example:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 route("/{action}/greeting/{name}").to(HelloController.class);
 ~~~~
 
@@ -185,7 +185,7 @@ In the snippet above, "greeting" is a static segment.
 
 User segments are any text in braces in configuration which are then converted to parameters that can be retrieved inside controllers and filters. Here is an example:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 route("/{action}/greeting/{name}").to(HelloController.class);
 ~~~~
 
@@ -199,7 +199,7 @@ URL submitted:
 
 will be routed to controller `app.controllers.HelloController#show` and value `name` will be available:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class HelloController extends AppController{
   public void show(){
     String name = param("name");
@@ -211,7 +211,7 @@ public class HelloController extends AppController{
 
 Sometimes you need to route a really long URI to a controller. Here is how:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 route("/blog/*items").to(PostsController.class).action("index");
 ~~~~
 
@@ -223,7 +223,7 @@ In a case the following URL is submitted:
 
 it will be routed to controller `app.controllers.PostsController#index` and value `items` will be available:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class PostsController extends AppController{
   public void index(){
     logInfo(param("items")); // will print: 2014/07/23/how-to-define-activeweb-routes
@@ -235,7 +235,7 @@ public class PostsController extends AppController{
 
 You can include an Http method used in the request into the routing rule:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 route("/{action}/greeting/{name}").to(HelloController.class).get();
 ~~~~
 
@@ -243,7 +243,7 @@ In this example, this route will only match the incoming request if the Http met
 There are four corresponding methods: `get()`, `post()`, `put()` and `delete()`.
 They can be used in isolation or in combination. For instance, this route:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 route("/{action}/greeting").to(HelloController.class).get().post();
 ~~~~
 
@@ -286,7 +286,7 @@ in development environment, but also want the same URL be served directly from c
 
 Here is an example configuration:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class RouteConfig extends AbstractRouteConfig {
     public void init(AppContext appContext) {
         ignore("/bootstrap.css").exceptIn("development");

@@ -23,7 +23,7 @@ Such an object is absent in ActiveJDBC.
 
 Here is an example of the most basic of the ActiveJDBC application without transaction management:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public static void main(String[] args) {
    Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "the_user", "the_password");
    Employee e = new Employee();
@@ -43,19 +43,19 @@ reuse this connection. The call `Base.close()` closes connection and removes it 
 
 Starting transaction:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Base.openTransaction();
 ~~~~
 
 Committing transaction:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Base.commitTransaction();
 ~~~~
 
 and rolling back:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Base.rollbackTransaction();
 ~~~~
 
@@ -66,7 +66,7 @@ As you can see, ActiveJDBC is not trying to do much here, just trying to not get
 
 In cases where you need a finer control, you can get a current connection and perform pure JDBC operations on it:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 java.sql.Connection con = Base.connection();
 con.setAutocommit(false);
 ...//or:
@@ -77,7 +77,7 @@ Base.connection().setAutocommit(false);
 
 A simple program using transactions will look like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public static void main(String[] args) {
    try{
       Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "the_user", "the_password");
@@ -102,7 +102,7 @@ provided by container configuration. In these cases, the usage is the same (almo
 that that some calls might not succeed, or you might have unexpected side effects by the driver.
 For example, if you request a connection from a pool, the transaction might start then, and when you call:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Base.connection().setAutocommit(true/false);
 ~~~~
 
@@ -112,7 +112,7 @@ ActiveJDBC does not add anything special here to what J2EE and JDBC already prov
 
 Here is an example of ActiveJDBC used in a MessageDriven Bean (JMS):
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 
 public void onMessage(Message m){
    Base.open("myConnectionJNDIName");

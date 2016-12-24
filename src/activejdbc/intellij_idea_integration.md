@@ -24,9 +24,9 @@ Perform these steps:
 
 * Enter this as a post-Make step:
 
-```
+~~~~
 org.javalite:activejdbc-instrumentation:[VERSION]:instrument
-```
+~~~~
 
 ![Intellij Idea](images/idea_config.png)
 

@@ -40,7 +40,7 @@ having to destroy your development database.
 While DBSpec is usually used to test models, it can be used to test any code that require a database connection.
 If you need to get a hold of that connection, you can use class Base from ActiveJDBC:
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 java.sql.Connection connection = Base.connection();
 ~~~~
 
@@ -52,7 +52,7 @@ DBSpec class will look for connections configured with a method `testing()`.
 
 Example:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 public class DbConfig extends AbstractDBConfig {
     public void init(AppContext context) {
          environment("development").jndi("jdbc/kitchensink_development");
@@ -79,7 +79,7 @@ DBSpec will  start a transaction before the test and roll it back after the test
 Lets say we are developing a blog, and we need to persist a post. A post will have title, content and author.
 All these attributes are required. A test will look like this then:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class PostSpec extends DBSpec {
     @Test
     public void shouldValidateRequiredAttributes() {
@@ -100,7 +100,7 @@ Model tests are tests for ActiveJDBC models.
 
 Here is an example of a model we are testing:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Post extends Model {
     static {
         validatePresenceOf("title", "content");
@@ -126,7 +126,7 @@ involved, and no container initialized).
 
 For example, if there is a controller:
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 package app.controllers;
 public class GreeterController extends AppController {
    ///...
@@ -135,7 +135,7 @@ public class GreeterController extends AppController {
 
 then the spec will be called:
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 package app.controllers;
 public class GreeterControllerSpec extends ControllerSpec {
  ///...
@@ -177,7 +177,7 @@ Here ActiveWeb expects the following conventions:
 
 ## Sending parameters with HTTP requests
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldSendParamsToIndex() {
@@ -192,7 +192,7 @@ controller assigned to a view.
 
 The above example can be simplified with a use of a ` params()` method that takes an even number of names an values for parameters:
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldSendParamsToIndex() {
@@ -240,7 +240,7 @@ We simply test on line 5 that there exists a span with specific content merged b
 
 Use the `text(cssSelector)` method to find content of a node by CSS selectors.
 
-```java
+~~~~ {.java .numberLines}
 public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldHaveContentHello() {
@@ -248,14 +248,14 @@ public class HelloControllerSpec extends ControllerSpec {
         a(text("div[class='main']")).shouldEqual("Hello!");
     }
 }
-```
+~~~~
 
 **Counting HTML elements**
 
 Sometimes you need to verify a number of nodes in HTML (expected number of specific elements generated on page).   
 Use the `count(cssSelector)` method to find nodes matching a CSS selector.
 
-```java
+~~~~ {.java .numberLines}
 public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldCountListElements() {
@@ -263,7 +263,7 @@ public class HelloControllerSpec extends ControllerSpec {
         a(count("li[class='disabled']")).shouldEqual(3);
     }
 }
-```
+~~~~
 
 > Implementation is based on the Open Source Project [JSoup](http://jsoup.org), which can be used in combination 
  with the `responseContent()` directly for more sophisticated cases. 
@@ -280,7 +280,7 @@ Mocking and testing of services is related to the concept of Dependency Injectio
 Sometimes you need to test a case when binary data is POSTed to a web application. This can be easily tested with the
 `content()` method:
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldSendBytes() {
@@ -295,7 +295,7 @@ public class HelloControllerSpec extends ControllerSpec {
 
 Simulating file upload can be done with the formItem() method:
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldUploadImageFile() {
@@ -315,7 +315,7 @@ This allows to call the same method more than once, including `formItem()` to si
 The `session()`  method allows to setting objects into session before a
 test and also used to inspect objects in session after some action (execution of a controller)
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 public class LoginControllerSpec extends ControllerSpec {
    @Test
    public void shouldLoginByIdAndPassword() {
@@ -331,7 +331,7 @@ Conversely, you could "login" by placing a User object into a session before exe
 
 Cookies can be sent with a response using a `cookie()` method:
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldCookie() {
@@ -351,7 +351,7 @@ cookie to the client.
 ActiveWeb controller specs allow for true TDD, since they do not have a compiler dependency on controllers.
 You can describe full behavior of your controller before a controller class even exists. Simplest example:
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 public GreeterControllerSpec extends ControllerSpec {
     @Test
     public void shouldRespondWithGreetingMessage() {
@@ -382,7 +382,7 @@ to write entire scenarios for testing multiple controllers.
 
 Example:
 
-```java
+~~~~ {.java .numberLines}
 public class SimpleSpec extends IntegrationSpec {
     @Test
     public void shouldNavigateToTwoControllers() {
@@ -392,7 +392,7 @@ public class SimpleSpec extends IntegrationSpec {
         a(responseContent()).shouldContain("Our special greeting is extended to Bob");
     }
 }
-```
+~~~~
 
 Lets decompose code snippet:
 
@@ -406,7 +406,7 @@ Note that we can run this code in the absence of both controllers (of course it 
 
 Lets write a `GreetingController` (as being the most "complicated" of the two):
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 public void GreeterController extends AppController {
     public void index() {
         view("name", param("name"));
@@ -461,7 +461,7 @@ Name: ${name}
 
 The view test might look something like this:
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 public class PersonSpec extends ViewSpec {
     @Test
     public void shouldRenderShow() {

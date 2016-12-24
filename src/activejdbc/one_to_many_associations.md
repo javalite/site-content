@@ -35,13 +35,13 @@ Table `ADDRESSES`:
 
 Model for USERS table:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class User extends Model {}
 ~~~~
 
 Model for ADDRESSES table:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Address extends Model {}
 ~~~~
 
@@ -53,7 +53,7 @@ public class Address extends Model {}
 
 Adding children is the same as in any other association:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 user.add(address);
 ~~~~
 
@@ -70,7 +70,7 @@ In case the User model is new (has not been save yet), the method `user.add(chil
 
 Nothing can be simpler:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Address> addresses = user.getAll(Address.class);
 ~~~~
 
@@ -80,7 +80,7 @@ Here the `Address.class` needs to be passed in because a model User might have m
 
 Sometimes you need to collect children of a model based on a selection criteria: In such cases, use the `get(type)` method:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Address> shippingAddresses = customer.get(Address.class, "address_type = ?", "shipping");
 ~~~~
 
@@ -88,7 +88,7 @@ It is expected that the table `ADDRESSES` will have a column `address_type`. Con
 
 ## How to get Parent
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 User user = address.parent(User.class);
 ~~~~
 
@@ -98,7 +98,7 @@ Here, we have to pass a `User.class` to indicate which parent type we want becau
 
 A simple way to delete a parent is:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 User u = address.parent(User.class);
 u.delete();
 ~~~~
@@ -108,14 +108,14 @@ you will get an exception from DB. If you do not have child records, this user w
 the `ADDRESSES` table and no referential integrity constraint, the user will be deleted and you will have orphan
 records in the `ADDRESSES` table. In order to delete a user and all it's child records, execute this method:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 u.deleteCascade();
 ~~~~
 
 This method will walk over all parent/child relationships and delete the user and all child records associated with it.
 There is also a convenience methods that will do the same:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 u.delete(true);//true for cascade.
 ~~~~
 
@@ -128,7 +128,7 @@ u.delete(true);//true for cascade.
 In cases where a surrogate foreign key is already present and has a name that does not follow the ActiveJDBC
 conventions, you could easily override it like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @BelongsTo(parent = User.class, foreignKeyName = "usr_id")
 public class Address extends Model {}
 ~~~~
@@ -138,7 +138,7 @@ The `@BelongsTo` annotation will ensure that API on both ends will work. ActiveJ
 
 In cases a model belongs to many parents, you can use this annotation:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @BelongsToParents({ 
 @BelongsTo(foreignKeyName="key_id",parent=Keyboard.class), 
 @BelongsTo(foreignKeyName="mother_id",parent=Motherboard.class) 

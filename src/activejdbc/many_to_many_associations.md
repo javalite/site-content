@@ -58,19 +58,19 @@ support ActiveJDBC provides when it comes to many to many relationship. We will 
 
 Model for table `DOCTORS`:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Doctor extends Model {}
 ~~~~
 
 Model for table `PATIENT`:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Patient extends Model {}
 ~~~~
 
 Model for table `DOCTORS_PATIENTS`:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class DoctorsPatients extends Model {}
 ~~~~
 
@@ -87,7 +87,7 @@ All the usual CRUD operations are supported right out of the box, see below.
 
 The select API for many to many is identical that of one to many, The framework is smart enough figure this out:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 //Let's lookup a doctor:
 Doctor doctor = Doctor.findById(1);
 //get all patients of this doctor
@@ -107,14 +107,14 @@ The framework will generate appropriate select statement and execute it across t
 ActiveJDBC provides a way to filter related objects. Let's say that there are tables `PROGRAMMERS`, `PROJECTS`
 and `PROGRAMMERS_PROJECTS`. In this case, we will create a model `Assignments` that will represent the join table:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @Table("programmers_projects")
 public class Assignments extends Model{}
 ~~~~
 
 as well as other models:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Project extends Model{}
 ..
 public class Programmer extends Model{}
@@ -123,7 +123,7 @@ public class Programmer extends Model{}
 You can treat a Many-to-many relationship as two one-to-many relationships. In this case, you could say that a
 project has many assignments and a programmer has many assignments. Armed with this knowledge, we can write some code:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Programmer programmer = Programmer.createIt("first_name", "Jim", "last_name", "Garnoe");
 
 Assignment assignment = Assignment.createIt("duration_weeks", 3);
@@ -151,7 +151,7 @@ Where the first assignment is set for 3 weeks, and a second has no `duration_wee
 
 Having this data, we can query many to many relationship using a select filter on a join table:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Project> projects = programmer.get(Project.class, "duration_weeks = ?", 3);
 ~~~~
 
@@ -162,7 +162,7 @@ the query is applied to a join table, and not the "child".
 
 This is pretty simple:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 System.out.println(Patient.belongsTo(Doctor.class));//prints "true"
 ~~~~
 
@@ -176,7 +176,7 @@ In many to many associations, there are no parents or children, as both sides of
 
 Adding new entries then is pretty easy:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Doctor doctor = Doctor.findById(1);
 Patient patient = Patient.create("first_name", "Jim", "last_name", "Smith");
 doctor.add(patient);
@@ -196,7 +196,7 @@ In the case where a patient exists already, it will only add a join record in th
 
 Removing is also easy:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 doctor.remove(patient);
 ~~~~
 
@@ -208,7 +208,7 @@ but semantics are different. In one-to-many association the child record will be
 
 Deleting entries is similar to deleting in One to Many associations:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 doctor.deleteCascade();
 ~~~~
 
@@ -223,7 +223,7 @@ For more see here: [Delete cascade](delete_cascade)
 If the naming conventions cannot be used, you can override the convention to let the framework know which
 models are bound in many-to-many association:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @Many2Many(other = Course.class, join = "registrations", sourceFKName = "astudent_id", targetFKName = "acourse_id")
 public class Student extends Model {}
 ~~~~
@@ -245,14 +245,14 @@ If join tables are represented by real models, ActiveJDBC handles it transparent
 doctor - patient example above, you might want to indicate where a specific patient is treated.You would
 then add a new column to the `DOCTORS_PATIENTS` table called `location`. Then you would define a model like so:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @Table("DOCTORS_PATIENTS")
 class DocPat extends Model{}
 ~~~~
 
 In the case of the student/course, the join table already has a good name, so it is easy to define a new model:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 class Registration extends Model{}
 ~~~~
 

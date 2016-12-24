@@ -20,13 +20,13 @@ While the change is in the name, it might be enough to have a slight shift in me
 
 Lets write a simple model:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model{}
 ~~~~
 
 Usually, at this point it is time to write a test:
 
-~~~~ {.java   }
+~~~~ {.java  .numberLines}
 public class PersonSpec{
   @Test
   public void shouldValidatePresenceOfFirstNameAndLastName(){
@@ -40,7 +40,7 @@ When the code above runs, the spec is in red because the class Person does not s
 therefore it is valid. This test will fail on line 5. However, our goal for this model is not be valid if it is
 missing first and last name attributes. In order to make it pass, you need to add validations to the model:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class Person extends Model{
    validatePresenceOf("first_name", "last_name");
 }
@@ -50,7 +50,7 @@ When you re-run test, it will pass.
 
 At this point, we need to add values for first and last name, as well as an expectation of a valid state of the model:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 public class PersonSpec{
   @Test
   public void shouldValidatePresenceOfFirstNameAndLastName(){
@@ -75,7 +75,7 @@ complete to satisfy it.
 In a real scenario, you would also need to open a database connection before the test and close it after the test.
 This provides an example of a real working test from one of the example projects:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 @Test
 public void shouldValidateMandatoryFields(){
     Employee employee = new Employee();

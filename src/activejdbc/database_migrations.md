@@ -162,11 +162,10 @@ production environments, we certainly recommend using property file configuratio
 
 Here is a simple plugin element for the plugin:
 
-~~~~{.xml}
-
+~~~~{.xml .numberLines}
 <properties>
     <activejdbc.version>1.4.12</activejdbc.version>
-    <environments>test,development</environments>
+    <environments>development.test,development</environments>
 </properties>
 <build>
     <plugin>
@@ -200,7 +199,7 @@ Here is a simple plugin element for the plugin:
 As you can see, the configuration is really located in file `${project.basedir}/src/main/resources/database.properties`.
 The contents of this file might look lile this:
 
-```
+~~~~{.numberLines}
 development.driver=com.mysql.jdbc.Driver
 development.username=dev1
 development.password=passwd
@@ -226,7 +225,7 @@ production.username=prod1
 production.password=passwd
 production.url=jdbc:mysql://192.168.20.40/project1_production
 
-```
+~~~~
 
 In the file above, the blocks of properties with a specific prefix belong to a corresponding environment.
 For example, there are 5 environments defined on this file:
@@ -243,9 +242,9 @@ The plugin will run migrations for environments `test` and `development` because
 `<properties>` section (see above). In order to override this behavior, you need to override the `<environments>`
 property from a command line like this:
 
-```
+~~~~
 mvn db-migrator:migrate -Denvironments=staging
-```
+~~~~
 
 The command above will run the goal `migrate` with a set of properties to point to staging environment.
 It makes it easy to point the plugin to different databases and write simple scripts for migrations.
@@ -253,9 +252,9 @@ It makes it easy to point the plugin to different databases and write simple scr
 If you want to execute for multiple environments (typical example, is to migrate all local databases), simply 
  list environments as a comma separated list:
 
-```
+~~~~
 mvn db-migrator:migrate -Denvironments=development.test,development
-```
+~~~~
 
 
 ### Property file location
@@ -273,7 +272,7 @@ Please, see property file-based configuration above.
 
 Here is an example of simple configuration:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>db-migrator-maven-plugin</artifactId>
@@ -299,7 +298,7 @@ In order to migrate multiple databases, use Maven executions:
 
 First, configure the plugin in `pluginManagement`:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <pluginManagement>
     <plugins>
         <plugin>
@@ -328,7 +327,7 @@ where user, password and driver are configured as project properties.
  After that, you can configure the plugin to execute multiple databases by adding many executions.
  Here is example of one execution:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>db-migrator-maven-plugin</artifactId>
@@ -411,14 +410,14 @@ new migration and checks it in, which makes it propagate to other developer mach
 
 At the root of your project execute: 
 
-```
+~~~~
 mvn db-migrator:new -Dname=create_people_table
-```
+~~~~
 This will simply create a new empty text file: 
 
-```
+~~~~
 Created new migration: .../src/migrations/20160130213201_create_people_table.sql
-```
+~~~~
 
 where 20160130213201 is a timestamp that is a good indicator when this migration was created. 
 
@@ -426,7 +425,7 @@ where 20160130213201 is a timestamp that is a good indicator when this migration
 
 Open this file with your favorite text editor and add free hand SQL there: 
 
-```
+~~~~
 CREATE TABLE people (
   id  int(11) DEFAULT NULL auto_increment PRIMARY KEY,
   first_name VARCHAR(128),
@@ -434,13 +433,13 @@ CREATE TABLE people (
   created_at DATETIME,
   updated_at DATETIME
 )ENGINE=InnoDB;
-```
+~~~~
 
 ### Step 3: Run migration:
 
 Execute this command and observe output: 
 
-```
+~~~~
 $mvn db-migrator:migrate
 [INFO] Scanning for projects...
 [INFO]                                                                         
@@ -465,18 +464,18 @@ $mvn db-migrator:migrate
 [INFO] CREATE TABLE people ( id  int(11) DEFAULT NULL auto_increment PRIMARY KEY, first_name VARCHAR(128), last_name  VARCHAR(128), created_at DATETIME, updated_at DATETIME )ENGINE=InnoDB
 [INFO] Migrated database
 
-```
+~~~~
 
-as you can see from above in this case. two databases were migrated: test and development. The output of the migration command is self-explanatory. 
+as you can see from above in this case, two databases were migrated: test and development. The output of the migration command is self-explanatory. 
 If you had more migration files defined that have not yet been migrated, they all will be migrated by this step. 
 
 ### Step 3 alternative
 
 Since the DB-Migrator is a Maven plugin and is executed during a normal build, every time you run a project build with:
 
-```
+~~~~
 mvn clean install
-```
+~~~~
 
 your new migrations will be executed against target databases. This means you do not need to execute 
 `mvn db-migrator:migrate` during a normal development process. 

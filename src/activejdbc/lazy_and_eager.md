@@ -40,13 +40,13 @@ there is no access to database. All that is happening is that the [LazyList](htt
 If you have a model User and a model Address, and they have a one to many relationship, when a
 user has many addresses, the code:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 User u = User.findById(1);
 ~~~~
 
 does not load the associated addresses. Only when you call the getter for addresses, a query is generated and executed against DB:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Address> addresses = u.getAll(Address.class);
 ~~~~
 
@@ -60,7 +60,7 @@ DB as many times as this getter is called.
 
 Let's consider an example where an ORM could unexpectedly generate a huge number of inefficient queries:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 List<Address> addresses = Address.findAll();
 
 for(Address address: addresses){
@@ -75,7 +75,7 @@ to get a user parent (line 4).
 
 This approach is going to kill performance in some applications. A better way is to load all parents at once by a single query:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Address> addresses = Address.findAll().include(User.class);
 
 for(Address address: addresses){
@@ -96,7 +96,7 @@ The same logic can be applied to all relationships **going up and down**: one-to
 Suppose we have two one to many relationships: Author has many Posts and a Post has many Comments. In cases like these,
 we can load a post and all corresponding Authors and Comments very efficiently:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Post> todayPosts = Post.where("post_date = ?", today).include(Author.class, Comment.class);
 ~~~~
 
@@ -110,7 +110,7 @@ see if eager loading is improving or degrading performance.
 When a model with included children is converted to a map, all the dependencies are converted to maps and inserted
 into a parent model map too. Here is an example:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 LazyList<User> users = User.findAll().include(Address.class);
 List<Map> maps = users.toMaps();
 

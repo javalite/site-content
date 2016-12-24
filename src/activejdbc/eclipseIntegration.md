@@ -9,9 +9,9 @@ operate properly. Since Eclipse automatically recompiles classes each time you m
 instrumented ActiveJDBC classes and replace them with just compiled versions (non-instrumented).
 
 When this happens, you will see an exception similar to:
-```
+~~~~
  org.javalite.activejdbc.InitException: failed to determine Model class name, are you sure models have been instrumented?
-```
+~~~~
 This means that in before you run your program, model classes need to be instrumented.
 
 ## Create instrumentation script
@@ -21,42 +21,42 @@ This page provides instructions based on a simple Maven ActiveJDBC example. Sour
 
 Create a directory scripts:
 
-```
+~~~~
 mkdir scripts
-```
+~~~~
 
 Create instrumentation script:
 
-```
+~~~~
 vi ./scripts/instrumentation.sh
-```
+~~~~
 
 and place this content into the script:
 
-```
+~~~~
 mvn process-classes
-```
+~~~~
 
 Since Instrumentation plugin is bound to the `process-classes` phase, it will be executed when this goal is invoked. Make script executable:
 
-```
+~~~~
 chmod a+x ./scripts/instrumentation.sh
-```
+~~~~
 
 Execute script from the root of project:
-```
+~~~~
 $./scripts/instrumentation.sh
-```
+~~~~
 
 and observe output similar to this:
 
-```
+~~~~
 **************************** START INSTRUMENTATION ****************************
 Directory: /home/igor/tmp/simple-example/target/classes
 Found model: org.javalite.activejdbc.examples.simple.Employee
 Instrumented class: org.javalite.activejdbc.examples.simple.Employee in directory: /home/igor/tmp/simple-example/target/classes/
 **************************** END INSTRUMENTATION ****************************
-```
+~~~~
 
 If you see this output, everything is fine.
 
@@ -87,7 +87,7 @@ Also you can refer to this thread: [Plugin execution not covered by lifecycle co
 Generally you need to add `build > pluginManagement` tag and add the following content there: 
 
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <pluginManagement>
     <plugins>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->

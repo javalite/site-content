@@ -13,7 +13,7 @@ Flash messages are useful in cases when a POST/Redirect to GET pattern is used.
 
 Flash messages are created in controllers (or filters) like so:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 @POST
 public void create(){
     Book book = new Book();
@@ -41,7 +41,7 @@ is a generic message displayed at the top of page, "params" is a map with submit
 * Line 11 -  In case of success request is redirected to BooksController index method and the flash message is sent to view.
 The file `/views/books/index.ftl` would have a flash message displayed with "flash" tag:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@flash name="message"/>
 ~~~~
 
@@ -64,7 +64,7 @@ Leaving a user on a POSTed page is a bad idea, because the same request can be r
 
 If you need to display a more complex HTML than a simple string, you can do so by placing a flash tag with body on the page: 
 
-~~~~ {.html  }
+~~~~ {.html  .numberLines}
 <@flash name="warning">
  <div class="warning">${message}</div>
 </@flash>
@@ -72,7 +72,7 @@ If you need to display a more complex HTML than a simple string, you can do so b
 
 and calling a single argument method inside the controller: 
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 @POST
 public void create(){
 //.. code before
@@ -85,7 +85,7 @@ public void create(){
 The body inside the flash tag lives by the same rules as any other in the template. You can use variables, normal syntax, lists or even 
 partials: 
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@flash name="warning">
 <@render partial="message"/>
 </@flash>
@@ -98,7 +98,7 @@ It allows to organize code for error and warning messages into reusable componet
 
 In case you only need one flash tag with body, no need to specify a name:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@flash>
     <div class="message">Hello, this is a flash message!</div>
 </@flash>
@@ -107,7 +107,7 @@ In case you only need one flash tag with body, no need to specify a name:
 
 In controller:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 @POST
 public void create(){
     //...
@@ -120,7 +120,7 @@ public void create(){
 
 If you set this in the controller: 
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 @POST
 public class BooksController extends AppController{
     public void create(){
@@ -134,7 +134,7 @@ public class BooksController extends AppController{
 
 Then you can write a test like this:
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 public class BooksControllerSpec extends DBControllerSpec{
    public void shouldSaveBook(){
         request().params("title", "To Kill a Mockingbird", "author", "Harper Lee").post("save");
@@ -150,7 +150,7 @@ public class BooksControllerSpec extends DBControllerSpec{
 
 If you set this in the controller: 
 
-~~~~ {.java  }
+~~~~ {.java  .numberLines}
 @POST
 public class BooksController extends AppController{
     public void create(){
@@ -163,7 +163,7 @@ public class BooksController extends AppController{
 
 and your view looks like this: 
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@flash name="success">
     <div class="success">Your book was saved successfully!</div>
 </@flash>
@@ -172,7 +172,7 @@ and your view looks like this:
 
 Then you can write a test like this:
 
-```java
+~~~~ {.java .numberLines}
 public class BooksControllerSpec extends DBControllerSpec{
    public void shouldSaveBook(){
         request().params("title", "To Kill a Mockingbird", "author", "Harper Lee").post("save");
@@ -180,7 +180,7 @@ public class BooksControllerSpec extends DBControllerSpec{
         the(responseContent()).shouldContain("Your book was saved successfully!");
    }
 }
-```
+~~~~
 
 
 
@@ -188,7 +188,7 @@ public class BooksControllerSpec extends DBControllerSpec{
 
 Older method is still operational, but not recommended: 
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <#if (flasher.message) ??>
    <span style="background-color:red">
    <@flash name="message"/>
@@ -214,19 +214,19 @@ Please, refer to [org.javalite.activejdbc.Messages](http://javalite.github.io/ac
 
 In controller write this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 flash("saved", Messages.message("book_added", "Hunger Games", "Suzanne Collins"));
 ~~~~ 
 
 In view: 
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@flash name="saved" />
 ~~~~
 
 This will print:  
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 A book Hunger Games was added to your library. Author: Suzanne Collins
 ~~~~ 
 
@@ -234,20 +234,20 @@ A book Hunger Games was added to your library. Author: Suzanne Collins
 
 Lets say your `activeweb_messages_properties` file contains this entry:
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 book_added=A book was added to your library.
 ~~~~ 
 
 In controller:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 flash("saved");
 ~~~~ 
 
 In view: 
 
 
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 <@flash name="saved">
   <@message key="book_added"/>
 </@flash>
@@ -256,7 +256,7 @@ In view:
 
 This will print: 
     
-~~~~ {.html}
+~~~~ {.html  .numberLines}
 A book {0} was added to your library. Author: {1}
 ~~~~ 
 

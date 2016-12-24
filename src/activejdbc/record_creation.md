@@ -22,7 +22,7 @@ This code should be self explanatory. As you can see, ActiveJDBC does not requir
 
 ActiveJDBC class Model provides two methods for saving an entity: `save()` and `saveIt()`. Both methods will involve validations during saving, but in the case of the method save() will silently exit without throwing exceptions. In case validations failed, the instance will have an errors collection attached to it. This is very useful in the context of a web application. Here is an example:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person person = new Person();
 person.fromMap(requestParams);
 if(person.save()) //<<<===  will not throw exception and will not save in case there are validation errors. 
@@ -41,14 +41,14 @@ The `saveIt()` method will throw an exception in case there was a validation pro
 
 The `set(name, value)` method returns reference to the same model object, which makes it possible to string method calls like this:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = new Person();
 p.set("name", "John").set("last_name", "Doe").set("dob", "1935-12-06").saveIt();
 ~~~~
 
 ..or make it shorter:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 new Person().set("first_name", "Marilyn").set("last_name", "Monroe").set("dob", "1935-12-06").saveIt();
 ~~~~
 
@@ -56,7 +56,7 @@ new Person().set("first_name", "Marilyn").set("last_name", "Monroe").set("dob", 
 
 There is a way to batch names and values into arrays:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 String[] names = {"first_name", "last_name", "dob"};
 Object[] values = {"John", "Doe", dob}
 new Person().set(names, values).saveIt();
@@ -68,7 +68,7 @@ Of course, the names is a String array and the two arrays need to be the same si
 
 This method of creation is useful for web applications if request parameters are posted from a form an available in a Map instance:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Map values = ... initialize map
 Person p = new Person();
 p.fromMap(values);
@@ -79,7 +79,7 @@ p.saveIt();
 
 Model also provides another convenience method for entity initialization, the set methods that accepts a varargs:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = new Person();
 p.set("first_name", "Sam", "last_name", "Margulis", "dob", "2001-01-07");
 p.saveIt();
@@ -91,14 +91,14 @@ The argument list is a string of names and corresponding values where names are 
 
 The class Model also provides two convenience methods for creation of records: `create()` and `createIt()`. There is a semantic difference between these two methods, and it is the same as between `save()` and `saveIt()` methods, except in this case, ActiveJDBC creates and attempts to save an object in one step.
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = Person.create("first_name", "Sam", "last_name", "Margulis", "dob", "2001-01-07");
 p.saveIt();
 ~~~~
 
 or:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person p = Person.createIt("first_name", "Sam", "last_name", "Margulis", "dob", "2001-01-07");
 ~~~~
 

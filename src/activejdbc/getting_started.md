@@ -33,7 +33,7 @@ CREATE TABLE employees (
 
 ### Add ActiveJDBC dependency
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <dependency>
     <groupId>org.javalite</groupId>
     <artifactId>activejdbc</artifactId>
@@ -47,7 +47,7 @@ CREATE TABLE employees (
 
 Add the     following to the plugins section of the POM:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>activejdbc-instrumentation</artifactId>
@@ -67,7 +67,7 @@ Add the     following to the plugins section of the POM:
 
 This is the easiest thing - writing a simple model is usually done with one line of code:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 import org.javalite.activejdbc.Model;
 
 public class Employee extends Model {}
@@ -81,7 +81,7 @@ This of course can be overridden by a `@Table` annotation.
 
 ## Open a connection
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/test", "user1", "xxxxx");
 ~~~~
 
@@ -91,7 +91,7 @@ to the current thread, and can be consumed by any ActiveJDBC API.
 
 ## Create a new record
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Employee e = new Employee();
 e.set("first_name", "John");
 e.set("last_name", "Doe");
@@ -103,7 +103,7 @@ You can still write them if you like, see [Setters and getters](setters_and_gett
 
 The same logic can be written in one line:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 new Employee().set("first_name", "John", "last_name", "Doe").saveIt();
 ~~~~
 
@@ -111,7 +111,7 @@ The framework has quite a few shortcuts like this one.
 
 ## Finding a single record
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Employee e = Employee.findFirst("first_name = ?", "John");
 ~~~~
 
@@ -119,7 +119,7 @@ This line will find an instance of Employee (conditionally), if one exists, or n
 
 ## Finding some records
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Employee> employees = Employee.where("first_name = ?", "John");
 ~~~~
 
@@ -127,27 +127,27 @@ List<Employee> employees = Employee.where("first_name = ?", "John");
 
 This snippet should also be self-explanatory:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Employee e = Employee.findFirst("first_name = ?", "John");
 e.set("last_name", "Steinbeck").saveIt();
 ~~~~
 
 ## Deleting a record
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Employee e = Employee.findFirst("first_name = ?", "John");
 e.delete();
 ~~~~
 
 ## Deleting all records
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Employee.deleteAll();
 ~~~~
 
 ## Selecting all records
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 List<Employee> employees = Employee.findAll();
 ~~~~
 

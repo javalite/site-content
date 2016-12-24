@@ -55,7 +55,7 @@ You can create a file called `database.properties` and place it on classpath or 
 
 The content of the file can be similar to: 
 
-```
+~~~~ {.numberLines}
 development.driver=com.mysql.jdbc.Driver
 development.username=root
 development.password=pwd1
@@ -75,19 +75,19 @@ production.driver=com.mysql.jdbc.Driver
 production.username=root
 production.password=pwd2
 production.url=jdbc:mysql://localhost/simple_test
-```
+~~~~
 
 The configure the class `app.config.DbConfig`: 
 
 
-```java
+~~~~ {.java .numberLines}
 public class DbConfig extends AbstractDBConfig {
     public void init(AppContext context) {
         configFile("/database.properties");
         environment("production", true).jndi("jdbc/simple_production");        
     }
 }
-```
+~~~~
 
 The property file configuration works well with [Database Migration](database_migrations) system, so that 
 configuration of database connections is done only in one place. 
@@ -102,7 +102,7 @@ from a pool provided by container.
 
 ### Java code configuration
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class DbConfig extends AbstractDBConfig {
     public void init(AppContext context) {
          environment("development").jndi("jdbc/kitchensink_development");
@@ -138,7 +138,7 @@ connections in the same environment:
 
 Code configuration:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 public class DbConfig extends AbstractDBConfig {
     public void init(AppContext context) {
          // default DB:
@@ -152,21 +152,21 @@ public class DbConfig extends AbstractDBConfig {
 Two different databases are configured for environment 'production'. A corresponding binding of two instances 
 if `DBConnectionFilter` will look like this:
   
-```java
+~~~~ {.java .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
   @Override
   public void init(AppContext context) {
       addGlobalFilters(new DBConnectionFilter("default", true), new DBConnectionFilter("prod2", true));
   }
 }
-```
+~~~~
 
 Binding of two instances of `DBConnectionFilter` class will ensure opening and closing connections to corresponding 
 databases before/after  execution of controllers as specified in the `DbConfig` above.
   
 Additionally, if you do not need the second connection on all controllers, then your configuration might like this: 
 
-```java
+~~~~ {.java .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
   @Override
   public void init(AppContext context) {
@@ -174,7 +174,7 @@ public class AppControllerConfig extends AbstractControllerConfig {
       add(new DBConnectionFilter("prod2", true)).to(MySpecialController.class);
   }
 }
-```
+~~~~
 
 This way, the connection to `prod2` will be opened only for execution of `MySpecialController`. 
 
@@ -186,7 +186,7 @@ If you need to use different connectios for different controllers, you  have to 
 your  named connections to databases in the DBConfig class: 
 
 
-~~~~{.java}
+~~~~ {.java .numberLines}
 public class DbConfig extends AbstractDBConfig {
     public void init(AppContext context) {
          environment("production", true).db("apples").jndi("java:comp/env/jdbc/apples_db; 
@@ -200,7 +200,7 @@ Remember, that this is just configurations. The class `DbConfig` does not open a
 Opening connections is a responsibility of `DBConnectionFilter` class: 
 
 
-```java
+~~~~ {.java .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
   @Override
   public void init(AppContext context) {
@@ -210,16 +210,16 @@ public class AppControllerConfig extends AbstractControllerConfig {
   }
 }
 
-```
+~~~~
 
 **NOTE:** in this case, you will have different named databases on current thread. This means that the 
 models executed in the `ApplesController` should be tagged with `apples` dababase name: 
 
 
-```java
+~~~~ {.java .numberLines}
 @DbName("apples")
 public class Apple extends Model{}
-```
+~~~~
 
 If not, you will get a "connection not found" exception. 
 
@@ -246,20 +246,20 @@ Binding connections to controllers is done with `DBConnectionFilter` in `AppCont
 Here is a typical example: 
   
 
-```java
+~~~~ {.java .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
   @Override
   public void init(AppContext context) {
       addGlobalFilters(new DBConnectionFilter("default", true));
   }
 }
-```
+~~~~
 
 Binding above will open a "default" database connection before execution of any controller. If this is too crude, you 
  can open connections for specific controllers: 
  
  
-```java
+~~~~ {.java .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
     @Override
     public void init(AppContext context) {
@@ -269,18 +269,18 @@ public class AppControllerConfig extends AbstractControllerConfig {
        );
     }
 }
-```
+~~~~
  
  You can configure a fine-grain binding to a specific action: 
  
-```java
+~~~~ {.java .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
     @Override
     public void init(AppContext context) {
         add(new DBConnectionFilter("default", true)).to(MyPrivateController1.class).forActions("index");
     }
 }
-```
+~~~~
 
 ## Tying it all together
  

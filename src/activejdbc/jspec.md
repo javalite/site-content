@@ -16,7 +16,7 @@ true TDD/BDD - when specifications are written before implementation, sometimes 
 
 JSpec uses 'should' word instead of 'assert'. Here is an example of an old style test:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @Test
 public void testCalculator(){
    Calculator c = new Calculator();
@@ -27,7 +27,7 @@ public void testCalculator(){
 
 The JSpec style of writing this test would be:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 @Test
 public void shouldAddNumbersCorrectly(){
    Calculator c = new Calculator();
@@ -61,14 +61,14 @@ expectation "sentence" sound better. Use whichever method that makes your assert
 
 The `a()`, `the()` and `$()` methods are numeric type agnostic. In JUnit this will fail:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 assertEqual(3, 3L); // will fail
 ~~~~
 
 while the two numbers are identical in value for all practical purposes, the JUnit assertion will fail just because the
 types are different, one being an Integer, and another a Long. The same test in JSpec using either 'a' or 'the' will succeed:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 a(3).shouldBeEqual(3L); // will succeed
 ~~~~
 
@@ -77,7 +77,7 @@ a(3).shouldBeEqual(3L); // will succeed
 The only difference between the `it()` method and `a()` or `the()` is that in the `it()` method the tested object type and
 expected object type are parametrized with Java Generics. This means that they must be the same type:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 it(3).shouldBeEqual(3L);// will not compile
 ~~~~
 
@@ -88,14 +88,14 @@ it(3).shouldBeEqual(3L);// will not compile
 
 Expect that the two objects are equal with the use of a standard `java.lang.Object.equals()` method:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 a(obj1).shouldEqual(obj2);
 ~~~~
 
 The great thing about this method is that it will check that the objects are the same type, has a protection for
 `null` and will produce a good quality message in case objects are not equal. This code:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 String a = "a", b = "b";
 a(a).shouldBeEqual(b);
 ~~~~
@@ -111,7 +111,7 @@ java.lang.String == <b>
 
 while this code:
 
-~~~~ {.java }
+~~~~ {.java  .numberLines}
 String a = "a", b = null;
 a(a).shouldBeEqual(b);
 ~~~~
@@ -138,7 +138,7 @@ There are three dynamic boolean methods that are supported by JSpec:
 
 For all three methods, the argument is an abridged boolean method of a tested class. This means that if there is such a class Person:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 class Person{
   private String name;
   ... setter/getter
@@ -148,7 +148,7 @@ class Person{
 
 you can write an expectation in this style:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Person person = new Person();
 a(person).shouldBe("valid");
 ~~~~
@@ -158,7 +158,7 @@ return value. If the value returned is false, the expectation is not met, and te
 
 Example for shouldHave():
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 class Validation{
   public boolean hasErrors(){...};
 }
@@ -166,7 +166,7 @@ class Validation{
 
 and the expectation is:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 Validation validation = new Validation();
 a(validation).shouldHave("errors");
 ~~~~
@@ -177,7 +177,7 @@ The goal of this style of expectations to make them as close as possible to soun
 
 Expects that the tested reference is not null (or is):
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 a(x).shouldNotBeNull();
 ~~~~
 
@@ -191,7 +191,7 @@ org.javalite.test.jspec.TestException: Object is null, while it is not expected
 
 Sets up expectation for a tested object's type:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 the(count).shouldBeType(Long.class);
 ~~~~
 
@@ -207,13 +207,13 @@ org.javalite.test.jspec.TestException: class java.lang.String is not class java.
 
 These are self-explanatory:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 a( 2 * 2 == 4).shouldBeTrue();
 ~~~~
 
 and:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 a( 2 * 2 == 5).shouldBeFalse();
 ~~~~
 
@@ -228,19 +228,19 @@ Tests that an expected value is contained in the tested object. The tested objec
 -   Any object - the string representation of this object is tested to contain a string representation of
 expected value as a substring. For example, this will pass:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
   the("meaning of life is 42").shouldContain("meaning");
 ~~~~
 
 -   `java.util.List` - the tested list is expected to contain an expected object. For example, this will pass:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
   a(Arrays.asList(1, 2, 3)).shouldContain(3);
 ~~~~
 
 -   `java.util.Map` - the tested map is expected to contain an object whose key is the expected object. For example, this will pass:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
   Map map = new HashMap();
   map.put("one", 1);
   map.put("two", 2);
@@ -255,7 +255,7 @@ The method `shouldNotContain()` is exactly the opposite of shouldContain().
 Often times you need to ensure that some number before and after the operation is different. For instance, this could
 be a total count of specific records in a table, or a size of a list. Here is an example of using a difference expectation with JSpec:
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
 expect(new DifferenceExpectation(Person.find("last_name like ?", "Smith").size()) {
   public Object exec() {
      Person.updateAll("last_name = ?", "Smith");
@@ -289,7 +289,7 @@ JSpec is packaged into JavaLite Common library, which is published into [Maven C
 
 Adding it to your project is easy:
 
-~~~~ {.xml}
+~~~~ {.xml  .numberLines}
 <dependency>
     <groupId>org.javalite</groupId>
     <artifactId>javalite-common</artifactId>

@@ -52,7 +52,7 @@ This does not require explanation.
 ActiveJDBC provides a way to actually batch destructive operations into a single batch.
 In some cases it can provide significant performance improvements
 
-~~~~ {.java}
+~~~~ {.java  .numberLines}
  PreparedStatement ps = Base.startBatch("insert into people (NAME, LAST_NAME, DOB) values(?, ?, ?)");
  Base.addBatch(ps, "Mic", "Jagger", "1962-01-01");
  Base.addBatch(ps, "Marilyn", "Monroe", "1932-01-01");
