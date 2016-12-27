@@ -2,6 +2,11 @@
    <h1>ActiveJDBC Release December 22 2016</h1>
 </div>
 
+
+## Released version
+
+Released version: [1.4.13](http://search.maven.org/#artifactdetails%7Corg.javalite%7Cactivejdbc%7C1.4.13%7Cjar)
+
 ## Release notes
 * 2016-12-20 20:54:39 -0600 Igor Polevoy [#562 Implement delete children shallow](https://github.com/javalite/activejdbc/commit/a004066)
 * 2016-12-12 23:49:53 -0600 Igor Polevoy [#561 Implement configuration of RedisCacheManager with AppConfig](https://github.com/javalite/activejdbc/commit/1333727)

@@ -56,7 +56,7 @@ Please, refer to [ActiveWeb Releases](activeweb_releases).
 <dependency>
     <groupId>org.javalite</groupId>
     <artifactId>activeweb</artifactId>
-    <version>1.13</version>
+    <version>1.15</version>
 </dependency>
 ~~~~
 
