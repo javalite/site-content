@@ -105,7 +105,7 @@ Generally you need to add `build > pluginManagement` tag and add the following c
                                     activejdbc-instrumentation
                                 </artifactId>
                                 <versionRange>
-                                    [1.4.12,)
+                                    [1.4.13,)
                                 </versionRange>
                                 <goals>
                                     <goal>instrument</goal>
