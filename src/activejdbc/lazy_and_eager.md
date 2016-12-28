@@ -127,3 +127,31 @@ by a string "addresses" as evident on line 6. The key in each case like this is 
 child model to plural form according to the rules of the English language, which resulted in "addresses" in this case.
 
 The same logic applies to many-to-one and many-to-many relationships.
+
+## Pre-loading data into a list
+
+In some cases, you will need to force loading of data. One example, is when you are passing a list of models to
+another thread. Consider this code:
+
+~~~~ {.java  .numberLines}
+List<User> users = User.where("zip = ?", 60606).limit(10).offset(20);
+~~~~
+
+As mentioned above, there was no access to the database. However, when you call any method of this class
+that requires any data from the database, the `List` will make a call to the underlying table to get the data.
+
+This  means, that if you just create a list like this and pass it off to another thread, and if that thread
+does not have a database connection attached to it, the list will not be able to load data and will throw exception complaining that
+a database connection was not found on this thread.
+
+In order to pre-populate the list before passing it off, you need to call any method that will force loading (hydrating)
+of the list from the database. Example:
+
+~~~~ {.java  .numberLines}
+List<User> users = User.where("zip = ?", 60606).limit(10).offset(20);
+users.size();
+~~~~
+
+Even if you do not use the result of the method `size()`, it will load data into the list. Any successive calls
+to the list will bring cached (in the list) results.
+
