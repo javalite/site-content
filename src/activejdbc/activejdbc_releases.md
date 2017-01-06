@@ -6,6 +6,7 @@
 ## ActiveJDBC Releases
 
 
+* [January 6 2017 Release notes](activejdbc-release-notes-january-06-2017)
 * [December 22 2016 Release Notes](activejdbc-release-notes-december-22-2016)
 * [August 14 2016 Release Notes](activejdbc-release-notes-august14-2016)
 * [June 17 2015 Release Notes](activejdbc-release-notes-june17-2015)
