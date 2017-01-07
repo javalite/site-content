@@ -44,8 +44,9 @@ chmod a+x ./scripts/instrumentation.sh
 ~~~~
 
 Execute script from the root of project:
+
 ~~~~
-$./scripts/instrumentation.sh
+./scripts/instrumentation.sh
 ~~~~
 
 and observe output similar to this:
