@@ -300,7 +300,7 @@ public class HelloControllerSpec extends ControllerSpec {
     @Test
     public void shouldUploadImageFile() {
         byte[] imagebytes = ...
-        request().contentType("multipart/form-data").formItem("file.png", "image", true,  "applicaiton/png", imagebytes).post("upload");
+        request().contentType("multipart/form-data").formItem("file.png", "image", true,  "application/png", imagebytes).post("upload");
         a(responseContent()).shouldContain("<message>success</message>");
     }
 }

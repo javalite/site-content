@@ -432,7 +432,7 @@ public class GetPdfController extends AppController{
    public void index(){   
      InputStream in;
       //... point input stream to data
-     streamOut(in).contentType("applicaiton/pdf");
+     streamOut(in).contentType("application/pdf");
    }
 }
 ~~~~
