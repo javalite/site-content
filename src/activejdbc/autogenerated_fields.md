@@ -17,7 +17,7 @@ hence you can use it to investigate data change issues.
 
 ## Column "updated_at"
 
-This column will be updated each time there an update to an existing record via a corresponding model.
+This column will be updated each time there is an update to an existing record via a corresponding model.
 
 ## Example
 
