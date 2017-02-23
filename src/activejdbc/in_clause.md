@@ -34,8 +34,8 @@ You can use this approach with relatively small lists, as the bigger the list, t
 so  your mileage may vary.
 
 
-> Please, see references to methods [Util#join](http://javalite.github.io/activejdbc/org/javalite/common/Util.html#join-java.lang.String:A-java.lang.String-)
-and [Collections#list](http://javalite.github.io/activejdbc/org/javalite/common/Collections.html#list-T...-) .
+> Please, see references to methods [Util#join](http://javalite.github.io/activejdbc/snapshot/org/javalite/common/Util.html#join-java.lang.String:A-java.lang.String-)
+and [Collections#list](http://javalite.github.io/activejdbc/snapshot/org/javalite/common/Collections.html#list-T...-) .
 These classes are already on a classpath of every ActiveJDBC application.
 
 

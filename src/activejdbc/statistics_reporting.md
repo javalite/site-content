@@ -26,7 +26,7 @@ List<QueryStats>  statistics = Registry.instance().getStatisticsQueue().getRepor
 ~~~~
 
 Where argument to `getReportSortedBy(...)` methods can be one of: "total", "avg", "min", "max", "count" and
-this indicates how you want to sort the results (the values are self-explanatory). The [QueryStats](http://javalite.github.io/activejdbc/org/javalite/activejdbc/statistics/QueryStats.html#getAvg())
+this indicates how you want to sort the results (the values are self-explanatory). The [QueryStats](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/statistics/QueryStats.html#getAvg())
 object is a simple bean which contains the query text, as well as values: "total", "avg", "min", "max", "count".
 
 

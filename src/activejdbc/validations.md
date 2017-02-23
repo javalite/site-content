@@ -198,7 +198,7 @@ public interface Validator {
 }
 ~~~~
 
-or better yet, [ValidatorAdapter](http://javalite.github.io/activejdbc/org/javalite/activejdbc/validation/ValidatorAdapter.html):
+or better yet, [ValidatorAdapter](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/validation/ValidatorAdapter.html):
 
 ~~~~ {.java  .numberLines}
 public class CustomValidator extends ValidatorAdapter{

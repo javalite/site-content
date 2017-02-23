@@ -71,7 +71,7 @@ System.out.println(post.text());
 ## How to PUT and DELETE
 
 Similar to the above.  You can find full JavaDoc here:
-<a href="http://javalite.github.io/activejdbc/org/javalite/http/package-summary.html">JavaLite HTTP JavaDoc</a>
+<a href="http://javalite.github.io/activejdbc/snapshot/org/javalite/http/package-summary.html">JavaLite HTTP JavaDoc</a>
 
 ## Basic authentication
 

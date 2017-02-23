@@ -120,5 +120,5 @@ Conversely, if you want to turn it off, drop column `record_version` and restart
 
 ## Advice
 
-Application developers using optimistic locking should be aware of exception [StaleModelException](http://javalite.github.io/activejdbc/org/javalite/activejdbc/StaleModelException.html)
+Application developers using optimistic locking should be aware of exception [StaleModelException](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/StaleModelException.html)
 (even though it is a RuntimeException) and build controls into their code to intercept and handle it appropriately.

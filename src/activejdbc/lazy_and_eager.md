@@ -16,7 +16,7 @@ for(User u: users){
 }
 ~~~~
 
-the list `users` is a type of [LazyList](http://javalite.github.io/activejdbc/org/javalite/activejdbc/LazyList.html).
+the list `users` is a type of [LazyList](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/LazyList.html).
 
 Despite what it looks, the line 1. is not when the framework makes a call to the database. Only when the objects are
  queried from loop  on line 2, the framework pulls data from the database.
@@ -31,7 +31,7 @@ List<Employee> people = Employee.where("department = ? and hire_date > ? ", "IT"
     .orderBy("hire_date asc");
 ~~~~
 
-there is no access to database. All that is happening is that the [LazyList](http://javalite.github.io/activejdbc/org/javalite/activejdbc/LazyList.html)
+there is no access to database. All that is happening is that the [LazyList](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/LazyList.html)
  is progressively configured on lines 2, 3 and 4 in order to build a correct SQL query when the objects are requested from the list.
 
 

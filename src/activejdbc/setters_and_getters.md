@@ -62,7 +62,7 @@ String body = article.get("body");
 If the "BODY" column in your table is CLOB, ActiveJDBC will automatically convert it to Java String.
 
 Please, see [Clob support and caching](clob_support_and_caching)
-as well as [JavaLite Commons Convert](http://javalite.github.io/activejdbc/org/javalite/common/Convert.html) class for more information.
+as well as [JavaLite Commons Convert](http://javalite.github.io/activejdbc/snapshot/org/javalite/common/Convert.html) class for more information.
 
 ## Recommendation: Use TDD, in combination with *some* setters and getters
 

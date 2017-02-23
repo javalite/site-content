@@ -210,7 +210,7 @@ Lets say your `activeweb_messages_properties` file contains this entry:
 
     book_added=A book {0} was added to your library. Author: {1}
 
-Please, refer to [org.javalite.activejdbc.Messages](http://javalite.github.io/activejdbc/org/javalite/activejdbc/Messages.html)
+Please, refer to [org.javalite.activejdbc.Messages](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/Messages.html)
 
 In controller write this:
 

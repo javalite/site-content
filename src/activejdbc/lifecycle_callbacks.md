@@ -28,13 +28,13 @@ public interface  CallbackListener {
 }
 ~~~~
 
-See: [CallbackListener](http://javalite.github.io/activejdbc/org/javalite/activejdbc/CallbackListener.html)
+See: [CallbackListener](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/CallbackListener.html)
 
 There are total of eight calls that a subclass can override to get notified of a specific event.
 
 ## Registration of external listeners
 
-You can implement the [CallbackListener](http://javalite.github.io/activejdbc/org/javalite/activejdbc/CallbackListener.html)
+You can implement the [CallbackListener](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/CallbackListener.html)
 interface external to any model and then register it:
 
 ~~~~ {.java  .numberLines}
@@ -50,13 +50,13 @@ Person.callbackWith(adapter);
 
 
 
-This is assuming that Person is a model. You can implement either the [CallbackListener](http://javalite.github.io/activejdbc/org/javalite/activejdbc/CallbackListener.html) interface or extend
-[CallbackAdapter](http://javalite.github.io/activejdbc/org/javalite/activejdbc/CallbackAdapter.html) (where all methods
+This is assuming that Person is a model. You can implement either the [CallbackListener](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/CallbackListener.html) interface or extend
+[CallbackAdapter](http://javalite.github.io/activejdbc/org/javalite/activejdbc/snapshot/CallbackAdapter.html) (where all methods
 are implemented with blank bodies) and only override the ones you need.
 
 ## Override Model callback methods
 
-The Model class already extends a class [CallbackAdapter](http://javalite.github.io/activejdbc/org/javalite/activejdbc/CallbackAdapter.html),
+The Model class already extends a class [CallbackAdapter](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/CallbackAdapter.html),
 which provides empty implementations of these eight methods. All a developer needs to do is to override one or more
 methods to perform a task at a certain time.
 

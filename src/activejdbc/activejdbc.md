@@ -130,7 +130,7 @@ Other working examples:
 * [Ant example](https://github.com/javalite/ant-example)
 * [Standalone example](https://github.com/javalite/standalone-example) - neither Maven nor Ant
 
-Here is the [JavaDoc for ActiveJDBC](http://javalite.github.io/activejdbc/)
+Here is the [JavaDoc for ActiveJDBC](http://javalite.github.io/activejdbc/snapshot)
 
 
 ## Design principles
