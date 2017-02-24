@@ -23,27 +23,7 @@ with [JSpec](jspec)
 
 ## DBSpec for database tests
 
-`org.javalite.activeweb.DBSpec`  is a super-class for tests that require a database connection. It is integrated with
-[database configuration](database_configuration) and will automatically open a corresponding database connection before
-a test execution and close it after the test.
-
-It is customary for ActiveWeb projects to use one database for testing and a different one for running the system locally
-on a developers workstation. It makers it easy to preserve data in place in the "development" database, and still use
-the full power of database CRUD access to your test database.
-
-For example, you could have some user data in a development database which will allow you to log in, and perform other
-operations, and yet you can run test logic against your test database, destroy and re-create any data in it, without
-having to destroy your development database.
-
-> Please, see more on environments and modes on [database configuration](database_configuration) page.
-
-While DBSpec is usually used to test models, it can be used to test any code that require a database connection.
-If you need to get a hold of that connection, you can use class Base from ActiveJDBC:
-
-~~~~ {.java .numberLines}
-java.sql.Connection connection = Base.connection();
-~~~~
-
+You can use a class [DBSpec](testing_with_db_connection) for writing tests that depend on a database connection. 
 
 ## Configuration
 
@@ -69,45 +49,11 @@ marked for tests.
 
 ## Transaction management
 
-DBSpec will  start a transaction before the test and roll it back after the test, ensuring that you have:
+`DBSpec` will  start a transaction before the test and roll it back after the test, ensuring that you have:
 
 1. integrity of data in your test
 2. no conflicts of data in the database from one test to another
 
-## Example of a DBSpec test
-
-Lets say we are developing a blog, and we need to persist a post. A post will have title, content and author.
-All these attributes are required. A test will look like this then:
-
-~~~~ {.java  .numberLines}
-public class PostSpec extends DBSpec {
-    @Test
-    public void shouldValidateRequiredAttributes() {
-        Post post = new Post();
-        a(post).shouldNotBe("valid");
-        a(post.errors().get("author")).shouldBeEqual("Author must be provided");
-        post.set("title", "fake title", "author", "fake author", "content", "fake content");
-        a(post).shouldBe("valid");
-        post.save();
-        a(post.getId()).shouldNotBeNull();
-        a(Post.count()).shouldBeEqual(1);
-    }
-}
-~~~~
-
-Technically speaking you can use it for any test requiring a connection, but it also easy to use for Model tests.
-Model tests are tests for ActiveJDBC models.
-
-Here is an example of a model we are testing:
-
-~~~~ {.java  .numberLines}
-public class Post extends Model {
-    static {
-        validatePresenceOf("title", "content");
-        validatePresenceOf("author").message("Author must be provided");
-    }
-}
-~~~~
 
 ## ControllerSpec - test your controllers
 
