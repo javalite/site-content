@@ -19,7 +19,7 @@ public class GreetingController extends AppController{
 
 ## URL mapping convention
 
-Controllers are automatically mapped to a URL, such that a controller name underscored or hyphened is converted to CaleCase controller class nane
+Controllers are automatically mapped to a URL, such that a controller name underscored or hyphened is converted to CamelCase controller class name
 (without the word Controller). Here is an example:
 
 ~~~~ {.prettyprint}
