@@ -57,7 +57,7 @@ int currentPage = paginator.getCurrentPage();
 and for page count like this:
 
 ~~~~ {.java  .numberLines}
-int pageCount = paginator.getPageCount();
+int pageCount = paginator.pageCount();
 ~~~~
 
 Using this class in a context of a web application makes it easy to build paging through resultsets.
