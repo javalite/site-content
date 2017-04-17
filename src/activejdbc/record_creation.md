@@ -33,7 +33,7 @@ else{
 }
 ~~~~
 
-More on validations , see this page: [validations](Validations)
+More on validations , see this page: [Validations](validations)
 
 The `saveIt()` method will throw an exception in case there was a validation problem. The `save()` method makes more sense in the context of a web application, whereas `saveIt()` is more useful in a non-web app situations - batch inserts, tests, etc.
 
