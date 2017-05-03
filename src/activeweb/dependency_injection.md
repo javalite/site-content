@@ -166,3 +166,32 @@ Internally ActiveWeb simply creates dynamic modules on the fly.
 
 Here, the `GreeterMock.class` will replace the real implementation of `Greeter.class` provided in the module 
 (supposedly `GreeterImpl.class`). 
+
+## Easier Yet Mocking
+
+In some cases you will not want to create a new module class for one or two services. There is an easier way 
+to set your service interfaces and implementations without a new module.Here is one example: 
+  
+~~~~ {.java  .numberLines}
+public void before(){
+        Injector i = injector().bind(Greeter.class).to(GreeterMock.class)
+                .bind(Redirector.class).to(RedirectorImpl.class).create();
+}
+~~~~
+
+The framework will create a dynamic module, bind interfaces and implementations and will use it to create a new Injecotr 
+ on the fly. 
+ 
+Sometimes, you will only have a single service class not broken inti an interface and implementation.
+  In such a case, the `to()` method is optional: 
+  
+~~~~ {.java  .numberLines}
+public void before(){
+        injector().bind(EmailService.class).create();
+}
+~~~~
+  
+> The instance of a new injector will be added to the current context and will be used to inject
+services into filters and controllers executing by this test. 
+
+**_Do not forget to call a 'terminal' method `create()`_** 
