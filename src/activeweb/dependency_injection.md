@@ -170,7 +170,9 @@ Here, the `GreeterMock.class` will replace the real implementation of `Greeter.c
 ## Easier Yet Mocking
 
 In some cases you will not want to create a new module class for one or two services. There is an easier way 
-to set your service interfaces and implementations without a new module.Here is one example: 
+to set your service interfaces and implementations without a new module. 
+
+Here is one example: 
   
 ~~~~ {.java  .numberLines}
 public void before(){
