@@ -174,8 +174,8 @@ to set your service interfaces and implementations without a new module.Here is 
   
 ~~~~ {.java  .numberLines}
 public void before(){
-        Injector i = injector().bind(Greeter.class).to(GreeterMock.class)
-                .bind(Redirector.class).to(RedirectorImpl.class).create();
+    Injector i = injector().bind(Greeter.class).to(GreeterMock.class)
+                           .bind(Redirector.class).to(RedirectorImpl.class).create();
 }
 ~~~~
 
