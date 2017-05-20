@@ -36,6 +36,18 @@ org.javalite.activejdbc.LogFilter.setLogExpression("regular expression goes here
 
 This will dynamically change ActiveJDBC log output at run time.
 
+## Custom logger
+
+If you want 100% control over logging, you can implement [ActiveJDBCLogger](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/ActiveJDBCLogger.html)
+and configure it by adding this property to the `activejdbc.properties` file: 
+
+```
+activejdbc.logger=com.myproject.MyLogger
+```
+
+Ensure that this class has a default constructor. 
+
+
 ## JSON Log4j logging
 
 Many companies use advanced tools to analyze structured logs 
