@@ -229,7 +229,7 @@ the framework will reset caches for both: User and Address models, not just user
 
 Constantly changing cached data will then lead to [Cache Stampede](https://en.wikipedia.org/wiki/Cache_stampede). 
 
-### Unrelating caches
+### Unrelating models
 
 In some cases, you need  proper foreign keys in tables, but want to disconnect convention-based relationships in code
 
