@@ -184,11 +184,83 @@ ActiveJDBC manages caches for models and their respective relationships (read ab
 List<User> users = User.where("id not in (select user_id from restricted_users)");
 ~~~~
 
-If there exists a model User that is cached, and model RestrictedUser, and these tables/models have no relationship, then the line above could present a logical problem. If you execute the line above, and later change content of RESTRICTED\_USERS table, then the query above will not see the change, and will return stale data. Developers need to be aware of this, and deal with these issues carefully. Whenever you change data in RESTRICTED\_USERS table, please purge User model:
+If there exists a model User that is cached, and model RestrictedUser, and these tables/models have no relationship, then the line above could present a logical problem. 
+If you execute the line above, and later change content of RESTRICTED\_USERS table, then the query above will not see the change,
+ and will return stale data. Developers need to be aware of this, and deal with these issues carefully. Whenever you change data in 
+ RESTRICTED\_USERS table, please purge User model:
 
 ~~~~ {.java  .numberLines}
 User.purgeCache();
 ~~~~
+
+
+### Destructive operations
+ 
+Whenever you execute a destructive operation against a model (INSERT, UPDATE, DELETE), the entire cache for that model is invalidated. 
+ This means that caches are best used for lookup data (duh!). 
+ 
+The framework will also invalidate and drop caches of all related tables. For instance:
+
+Given the tables:
+
+~~~sql
+create table USERS (INT id, name VARCHAR);
+create table ADDRESSES (INT id, street VARCHAR, city VARCHAR, user_id INT);
+~~~
+ 
+ and the models:
+ 
+~~~java
+@Cached
+public class User extends Model{}
+
+@Cached
+public class Addressextends Model{}
+~~~
+
+
+If you do this: 
+
+~~~java
+user.delete();
+~~~
+
+the framework will reset caches for both: User and Address models, not just user. This is done in order to prevent logical errors in the application. 
+
+Constantly changing cached data will then lead to [Cache Stampede](https://en.wikipedia.org/wiki/Cache_stampede). 
+
+### Unrelating caches
+
+In some cases, you need  proper foreign keys in tables, but want to disconnect convention-based relationships in code
+
+Given the tables:
+
+~~~sql
+create table USERS (INT id, name VARCHAR);
+create table ADDRESSES (INT id, street VARCHAR, city VARCHAR, user_id INT);
+~~~
+ 
+and the models:
+ 
+~~~java
+@Cached
+public class User extends Model{}
+
+@Cached UnrelatedTo({User.class})
+public class Addressextends Model{}
+~~~
+
+
+If you do this: 
+
+~~~java
+user.delete();
+~~~
+
+the framework will just reset the cache of the User model, and will not touch the cache of the Address model.
+ 
+For more information, refer to JavaDoc: [UnrelatedTo](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/annotations/UnrelatedTo.html).
+
 
 ## Cache providers
 
