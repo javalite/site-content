@@ -14,16 +14,15 @@ headers, etc. They can also preempt controllers and send different responses tha
 (think of a permission access filter for example, which will redirect to a login screen in case there is an attempt to
 access a protected resource).
 
-All filters implement this interface:
-
+All filters extends this class:
 
 
 ~~~~ {.java  .numberLines}
 package org.javalite.activeweb.controller_filters;
-public interface ControllerFilter {
-    void before();
-    void after();
-    void onException(Exception e);
+public class HttpSupportFilter {
+    void before(){}
+    void after(){}
+    void onException(Exception e){}
 }
 ~~~~
 
@@ -31,26 +30,86 @@ public interface ControllerFilter {
 
 Configuration of filters is done in a class called `app.config.AppControllerConfig`, which needs to extend
 `org.javalite.activeweb.AbstractControllerConfig`. This class provides ways to bind filters to controllers.
-It has coarse grain methods for binding as well as fine grained.
+It has coarse as well as fine grained grain methods for binding .
 
 
-> Filters `before()` methods are executed in the same order as filters are registered.
+## Filter ordering
+
+Filters follow a so-called The Onion pattern. The `before()` methods are executed before a controller executer
+
+> The `before()` methods are executed in the same order as filters are registered.
+
+The `after()` methods are executed .. after a controller.
+
+> The `after()` methods are executed in the opposite order as filters are registered.
+
+For example, lets say we have the following configuration: 
+
+~~~~ {.java  .numberLines}
+public class AppControllerConfig extends AbstractControllerConfig {
+    public void init(AppContext appContext) {
+        add(new GlobalFilter1(), new GlobalFilter2());
+        add(new ControllerFilter1(), new ControllerFilter2()).to(DoFiltersController.class);
+    }
+}
+~~~~
+ 
+ The order of execution will be: 
+ 
+ 
+~~~~ {.numberLines}
+GlobalFilter1#before()
+GlobalFilter2#before()
+ControllerFilter1#before()
+ControllerFilter2#before()
+DoFiltersController#index()
+ControllerFilter2#after()
+ControllerFilter1#after()
+GlobalFilter2#after()
+GlobalFilter1#after()
+~~~~
 
 
-### Adding global filters
+
+## Filter interruptions
+
+A filter may interrupt a flow  of execution in case where it generates a response to a web client.
+ A classic example is checking authentication filter: 
+
+~~~~ {.java  .numberLines}
+public class AuthorizationFilter extends HttpSupportFilter {
+    @Override
+    public void before() {
+        if(!sessionHas("user"){
+            redirect(LoginController.class);
+        }
+    }
+}
+~~~~
+
+In this case, if the session has no object called "user", the filter will redirect to a login controller. 
+
+> If a filter generated a response to a controller from the `before()` method, all following `before()` methods of downstream filters
+as well as the target controller are skipped.
+ 
+This rule does not affect the `after()` methods, which will execute in the same  order as described above. 
 
 
-Adding a global filter adds it to all controllers. It makes sense to use this to add timing filters, logging filters, etc.
+## Adding global filters
+
+Adding global filter adds the to all controllers. It makes sense to use  this feature to add logging, authentication filters, etc.
 
 ~~~~ {.java  .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
   public void init(AppContext context) {
-    addGlobalFilters(new TimingFilter());
+    add(new AuthenticationFilter());
   }
 }
 ~~~~
 
-### Adding global filters to all controllers, except some
+Not specifying what controller a filter is added to makes it a global filter(will execute fro any controller)
+
+## Excluding controllers
 
 In some cases, you need to add filters to all controllers, except a few. For example, you might have a security filter,
 and there is no point to add it to non-secure controllers, or you have a DBConnectionFilter, and you do not want to
@@ -60,15 +119,14 @@ Then you can exclude some controllers from global filters:
 ~~~~ {.java  .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
   public void init(AppContext context) {
-    addGlobalFilters(new TimingFilter());
-    addGlobalFilters(new DBConnectionFilter()).exceptFor(HomeController.class);
+    add(new DBConnectionFilter()).exceptFor(HomeController.class);
   }
 }
 ~~~~
 
 The `exceptFor()` method, takes a vararg, so you can pass multiple controllers there.
 
-### Adding controller filters to specific controllers
+## Adding filters to specific controllers
 
 To add filters to specific controllers:
 
@@ -80,13 +138,11 @@ public class AppControllerConfig extends AbstractControllerConfig {
 }
 ~~~~
 
-Both the "add()" an the "to()" methods take in varargs, allowing to bind multiple filters to multiple controllers in
+Both the `add()` an the `to()` methods take in varargs, allowing to bind multiple filters to multiple controllers in
 one line of code.
 
-> Filters' `after()` methods are executed in the opposite order to filter registration.
 
-Adding filters to specific actions
-----------------------------------
+## Adding filters to specific actions
 
 Here is an example of adding a filter to specific actions:
 
@@ -151,27 +207,6 @@ java.sql.Connection connection = Base.connection();
 
 which gives you a full control over this connection.
 
-### TimingFilter
-
-Timing filter times how long a request takes to process and logs this to a logging system inside its `after()` method.
-
-It is best to have a timing filter to be registered as a global filter:
-
-~~~~ {.java  .numberLines}
-public class AppControllerConfig extends AbstractControllerConfig {
-    public void init(AppContext context) {
-        addGlobalFilters(new TimingFilter());
-        //..register other filters
-    }
-}
-~~~~
-
-Example output from `TimingFilter`:
-
-~~~~ {.prettyprint}
-[1942033436@qtp-1818747191-30] INFO org.javalite.activeweb.controller_filters.TimingFilter - Processed request in: 6 milliseconds, path: /books, method: GET
-~~~~
-
 ### RequestPropertiesLogFilter
 
 This filter will log properties of a request to a log system. It is useful for debugging. Example output of this filter:
@@ -218,7 +253,7 @@ Header: Connection=keep-alive
 Header: Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 ~~~~
 
-### How to change log level of provided filters on the fly
+### Changing log levels
 
 You can add a filter to AppContext before registration:
 
@@ -227,7 +262,7 @@ public class AppControllerConfig extends AbstractControllerConfig {
     public void init(AppContext context) {
         HeadersLogFilter headersLogger = new HeadersLogFilter();
         context.set("headersLogger", headersLogger);
-        addGlobalFilters(new TimingFilter(), new RequestPropertiesLogFilter(), new RequestParamsLogFilter(),
+        add(new TimingFilter(), new RequestPropertiesLogFilter(), new RequestParamsLogFilter(),
                 headersLogger);
     }
 }
