@@ -88,6 +88,18 @@ will print the following into a log:
 Such information id easy to ship to a log analyzer such as  [Splunk](https://www.splunk.com/) as well as various [ELK](https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=elk+service&*)
 for easy search and analysis. 
 
+### Custom date format
+
+In order to format the timestamp in a log line you can add an optional parameter: `DateFormatPattern`:
+ 
+
+```
+log4j.appender.FILE.layout=org.javalite.logging.JsonLog4jLayout
+log4j.appender.FILE.layout.DateFormatPattern=yyyy-MM-dd HH:mm:ss.SSS
+```
+
+The format for this parameter is the same as for [SimpleDateFormat](https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html) 
+
 ### Using Context parameters
 
 Sometimes you need to comprehend multiple log entries in a context (web request, user actions, etc). You can use a class 
