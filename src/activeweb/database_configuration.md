@@ -156,7 +156,7 @@ if `DBConnectionFilter` will look like this:
 public class AppControllerConfig extends AbstractControllerConfig {
   @Override
   public void init(AppContext context) {
-      addGlobalFilters(new DBConnectionFilter("default", true), new DBConnectionFilter("prod2", true));
+      add(new DBConnectionFilter("default", true), new DBConnectionFilter("prod2", true));
   }
 }
 ~~~~
@@ -170,7 +170,7 @@ Additionally, if you do not need the second connection on all controllers, then 
 public class AppControllerConfig extends AbstractControllerConfig {
   @Override
   public void init(AppContext context) {
-      addGlobalFilters(new DBConnectionFilter("default", true));
+      add(new DBConnectionFilter("default", true));
       add(new DBConnectionFilter("prod2", true)).to(MySpecialController.class);
   }
 }
@@ -204,7 +204,7 @@ Opening connections is a responsibility of `DBConnectionFilter` class:
 public class AppControllerConfig extends AbstractControllerConfig {
   @Override
   public void init(AppContext context) {
-      addGlobalFilters(new DBConnectionFilter("default", true));
+      add(new DBConnectionFilter("default", true));
       add(new DBConnectionFilter("apples", true)).to(ApplesController.class);
       add(new DBConnectionFilter("oranges", true)).to(OrangesController.class);
   }
@@ -250,7 +250,7 @@ Here is a typical example:
 public class AppControllerConfig extends AbstractControllerConfig {
   @Override
   public void init(AppContext context) {
-      addGlobalFilters(new DBConnectionFilter("default", true));
+      add(new DBConnectionFilter("default", true));
   }
 }
 ~~~~
