@@ -24,4 +24,4 @@ or more public void methods. An instance of such a class is used to process web 
 
 For better understanding of control flow of HTTP request from controllers to views, please refer
 to [Five Minute Guide To ActiveWeb](five_minute_guide_to_activeweb). For more information on controllers, navigate
-to [Controller explained](controller_explained) page.
+to [Controllers explained](controllers) page.
