@@ -77,6 +77,7 @@
 * [Controllers](controllers)
 * [Views](views)
 * [Routing](routing)
+* [View routing](view-routing)
 * [Controller Filters](controller_filters)
 * [Dependency Injection](dependency_injection)
 * [Database Configuration](database_configuration)
