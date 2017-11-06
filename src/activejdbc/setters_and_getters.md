@@ -39,7 +39,7 @@ public class Person extends Model{
 
 This will provide a safety net to those wishing some compiler static checking.
 With ActiveJDBC you can use dynamic getters and setters or write wrapper getter and setter methods.
-Please, see [Recommendation](#recommendation-use-tdd-in-combination-with-some-setters-and-getters) below for mor information.
+Please, see [Recommendation](#recommendation-use-tdd-in-combination-with-some-setters-and-getters) below for more information.
 
 ##Type conversion getters
 
