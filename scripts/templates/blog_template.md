@@ -1,5 +1,5 @@
 <!--example of an image link-->
-![](/blog/images/gold_shoes.jpg)
+![](/img/happy-dev.png)
 
 <!--excerpt:-->
 

@@ -4,8 +4,8 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.javalite</groupId>
-    <artifactId>javalite-site</artifactId>
-    <name>JavaLite Site </name>
+    <artifactId>javalite-site-content</artifactId>
+    <name>JavaLite Site Content </name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
