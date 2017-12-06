@@ -144,7 +144,7 @@ public class DbConfig extends AbstractDBConfig {
          // default DB:
          environment("production", true).jndi("java:comp/env/jdbc/myproject_production1); 
          // named DB:
-         environment("production", true).db("prod2").jndi("java:comp/env/jdbc/myproject_production2);
+         environment("production", false).db("prod2").jndi("java:comp/env/jdbc/myproject_production2);
     }
 }
 ~~~~
