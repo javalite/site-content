@@ -1,0 +1,138 @@
+<div class="page-header">
+<h1>
+Mac osx
+</h1>
+</div>
+<p>The simple example app needs a few small modification to run on OS X. See below for each.</p>
+<h2 id="setting-tools-jar-path">Setting Tools Jar Path</h2>
+<p>On OS X there is no &quot;tools.jar&quot;, its instead named &quot;classes.jar&quot; and lives in a different directory. Here's how to pick it up in your pom.xml</p>
+<div class="sourceCode"><table class="sourceCode xml numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="sourceCode"><pre><code class="sourceCode xml"><span class="kw">&lt;profiles&gt;</span>
+    <span class="kw">&lt;profile&gt;</span>
+        <span class="kw">&lt;id&gt;</span>default-profile<span class="kw">&lt;/id&gt;</span>
+        <span class="kw">&lt;activation&gt;</span>
+            <span class="kw">&lt;activeByDefault&gt;</span>true<span class="kw">&lt;/activeByDefault&gt;</span>
+            <span class="kw">&lt;file&gt;</span>
+                <span class="kw">&lt;exists&gt;</span>${java.home}/../lib/tools.jar<span class="kw">&lt;/exists&gt;</span>
+            <span class="kw">&lt;/file&gt;</span>
+        <span class="kw">&lt;/activation&gt;</span>
+        <span class="kw">&lt;properties&gt;</span>
+            <span class="kw">&lt;toolsjar&gt;</span>${java.home}/../lib/tools.jar<span class="kw">&lt;/toolsjar&gt;</span>
+        <span class="kw">&lt;/properties&gt;</span>
+    <span class="kw">&lt;/profile&gt;</span>
+    <span class="kw">&lt;profile&gt;</span>
+        <span class="kw">&lt;id&gt;</span>mac-profile<span class="kw">&lt;/id&gt;</span>
+        <span class="kw">&lt;activation&gt;</span>
+            <span class="kw">&lt;activeByDefault&gt;</span>false<span class="kw">&lt;/activeByDefault&gt;</span>
+            <span class="kw">&lt;file&gt;</span>
+                <span class="kw">&lt;exists&gt;</span>${java.home}/../Classes/classes.jar<span class="kw">&lt;/exists&gt;</span>
+            <span class="kw">&lt;/file&gt;</span>
+        <span class="kw">&lt;/activation&gt;</span>
+        <span class="kw">&lt;properties&gt;</span>
+            <span class="kw">&lt;toolsjar&gt;</span>${java.home}/../Classes/classes.jar<span class="kw">&lt;/toolsjar&gt;</span>
+        <span class="kw">&lt;/properties&gt;</span>
+    <span class="kw">&lt;/profile&gt;</span>
+<span class="kw">&lt;/profiles&gt;</span></code></pre></td></tr></table></div>
+<p>And then update this dependency to use the toolsjar variable:</p>
+<div class="sourceCode"><table class="sourceCode xml numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="sourceCode"><pre><code class="sourceCode xml"><span class="kw">&lt;dependency&gt;</span>
+        <span class="kw">&lt;groupId&gt;</span>com.sun<span class="kw">&lt;/groupId&gt;</span>
+        <span class="kw">&lt;artifactId&gt;</span>tools<span class="kw">&lt;/artifactId&gt;</span>
+        <span class="kw">&lt;version&gt;</span>1.5.0<span class="kw">&lt;/version&gt;</span>
+        <span class="kw">&lt;scope&gt;</span>system<span class="kw">&lt;/scope&gt;</span>
+        <span class="kw">&lt;systemPath&gt;</span>${toolsjar}<span class="kw">&lt;/systemPath&gt;</span>
+ <span class="kw">&lt;/dependency&gt;</span></code></pre></td></tr></table></div>
+<h2 id="picking-an-app-server">Picking an App Server</h2>
+<p>You have two choices here. You can either make a change to the jetty-env.xml file to get jetty working, or you can switch to use the Tomcat plugin instead of Jetty. Here's the details for both.</p>
+<h2 id="jetty-plugin">Jetty plugin</h2>
+<p>To get Jetty to work update your jetty-env.xml file like this:</p>
+<div class="sourceCode"><table class="sourceCode xml numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="sourceCode"><pre><code class="sourceCode xml">
+<span class="kw">&lt;?xml</span> version=&quot;1.0&quot;<span class="kw">?&gt;</span>
+<span class="dt">&lt;!DOCTYPE </span>Configure PUBLIC &quot;-//Mort Bay Consulting//DTD Configure//EN&quot; &quot;http://jetty.mortbay.org/configure.dtd&quot;<span class="dt">&gt;</span>
+<span class="kw">&lt;Configure</span><span class="ot"> class=</span><span class="st">&quot;org.mortbay.jetty.webapp.WebAppContext&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;Set</span><span class="ot"> name=</span><span class="st">&quot;parentLoaderPriority&quot;</span><span class="kw">&gt;</span>true<span class="kw">&lt;/Set&gt;</span>
+<span class="kw">&lt;/Configure&gt;</span></code></pre></td></tr></table></div>
+<h2 id="tomcat-plugin">Tomcat plugin</h2>
+<p>Alternatively switch to the Tomcat plugin in pom.xml. The only oddity about Tomcat plugin is that it is pinned to the &quot;compile&quot; phase, which means that unlike Jetty it will not run instrumentation automatically. Other then that, no issues with Tomcat plugin on MaxOS. Here is the configuration:</p>
+<div class="sourceCode"><table class="sourceCode xml numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="sourceCode"><pre><code class="sourceCode xml"> <span class="kw">&lt;plugin&gt;</span>
+        <span class="kw">&lt;groupId&gt;</span>org.apache.tomcat.maven<span class="kw">&lt;/groupId&gt;</span>
+        <span class="kw">&lt;artifactId&gt;</span>tomcat7-maven-plugin<span class="kw">&lt;/artifactId&gt;</span>
+        <span class="kw">&lt;version&gt;</span>2.0-beta-1<span class="kw">&lt;/version&gt;</span>
+        <span class="kw">&lt;configuration&gt;</span>
+            <span class="kw">&lt;path&gt;</span>/<span class="kw">&lt;/path&gt;</span>
+            <span class="kw">&lt;systemProperties&gt;</span>
+                <span class="kw">&lt;activejdbc.log/&gt;</span>
+                <span class="kw">&lt;active_reload&gt;</span>true<span class="kw">&lt;/active_reload&gt;</span>
+                <span class="kw">&lt;activeweb.log.request&gt;</span>true<span class="kw">&lt;/activeweb.log.request&gt;</span>
+            <span class="kw">&lt;/systemProperties&gt;</span>
+        <span class="kw">&lt;/configuration&gt;</span>
+        <span class="kw">&lt;dependencies&gt;</span>
+            <span class="kw">&lt;dependency&gt;</span>
+                <span class="kw">&lt;groupId&gt;</span>com.sun<span class="kw">&lt;/groupId&gt;</span>
+                <span class="kw">&lt;artifactId&gt;</span>tools<span class="kw">&lt;/artifactId&gt;</span>
+                <span class="kw">&lt;version&gt;</span>1.6.0<span class="kw">&lt;/version&gt;</span>
+                <span class="kw">&lt;scope&gt;</span>system<span class="kw">&lt;/scope&gt;</span>
+                <span class="kw">&lt;systemPath&gt;</span>${toolsjar}<span class="kw">&lt;/systemPath&gt;</span>
+            <span class="kw">&lt;/dependency&gt;</span>
+        <span class="kw">&lt;/dependencies&gt;</span>
+<span class="kw">&lt;/plugin&gt;</span></code></pre></td></tr></table></div>
+<p>Evan</p>

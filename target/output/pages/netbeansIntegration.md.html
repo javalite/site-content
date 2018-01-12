@@ -1,0 +1,52 @@
+<div class="page-header">
+<h1>
+Netbeans Integration
+</h1>
+</div>
+<p>For general questions, refer to <a href="instrumentation">Instrumentation</a> page.</p>
+<ul>
+<li>Create new Netbeans project</li>
+<li>Add dependent libraries:
+<ul>
+<li>Right click on the newly created project -&gt; Properties -&gt; Libraries</li>
+<li>Add &quot;Compile&quot; libraries from <a href="https://github.com/javalite/ant-example/tree/master/lib" class="uri">https://github.com/javalite/ant-example/tree/master/lib</a></li>
+<li>Add &quot;Processor&quot; libraries from <a href="https://github.com/javalite/ant-example/tree/master/build_time_libs" class="uri">https://github.com/javalite/ant-example/tree/master/build_time_libs</a></li>
+<li>Close</li>
+</ul></li>
+</ul>
+<blockquote>
+<p>Ensure you add the latest versions: <a href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.javalite%22%20AND%20a%3A%22activejdbc%22">Search in Maven Central</a></p>
+</blockquote>
+<ul>
+<li>Click &quot;Files&quot; tab and open build.xml</li>
+<li>Add &quot;-post-compile&quot; target :</li>
+</ul>
+<div class="sourceCode"><table class="sourceCode xml numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="sourceCode"><pre><code class="sourceCode xml"><span class="kw">&lt;target</span><span class="ot"> name=</span><span class="st">&quot;-post-compile&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;java</span><span class="ot"> classname=</span><span class="st">&quot;org.javalite.instrumentation.Main&quot;</span><span class="ot"> failonerror=</span><span class="st">&quot;true&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;sysproperty</span><span class="ot"> key=</span><span class="st">&quot;outputDirectory&quot;</span><span class="ot"> value=</span><span class="st">&quot;${build.classes.dir}&quot;</span><span class="kw">/&gt;</span>
+        <span class="kw">&lt;classpath&gt;</span>
+            <span class="kw">&lt;pathelement</span><span class="ot"> path=</span><span class="st">&quot;${build.classes.dir}&quot;</span> <span class="kw">/&gt;</span>
+            <span class="kw">&lt;pathelement</span><span class="ot"> path=</span><span class="st">&quot;${javac.classpath}&quot;</span> <span class="kw">/&gt;</span>
+            <span class="kw">&lt;pathelement</span><span class="ot"> path=</span><span class="st">&quot;${javac.processorpath}&quot;</span> <span class="kw">/&gt;</span>
+        <span class="kw">&lt;/classpath&gt;</span>
+    <span class="kw">&lt;/java&gt;</span>
+<span class="kw">&lt;/target&gt;</span>
+ </code></pre></td></tr></table></div>
+<ul>
+<li>Save and close the file</li>
+</ul>
+<p>If you are running project from Netbeans you need to perform additional step:</p>
+<ul>
+<li>Right click on the project -&gt; Properties -&gt; Compiling and uncheck &quot;Compile on save&quot;</li>
+</ul>

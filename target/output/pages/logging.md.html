@@ -1,0 +1,72 @@
+<div class="page-header">
+<h1>
+Logging
+</h1>
+</div>
+<p>ActiveJDBC uses <a href="http://www.slf4j.org/">SLF4J</a> logging facade. Please, refer to SLF4J documentation to see how to configure it with Log4J, Java Logging, Apache logging, etc.</p>
+<h2 id="activejdbc-logging">ActiveJDBC Logging</h2>
+<p>ActiveJDBC uses a system property <code>activejdbc.log</code> for specifying logging. The value of this property can be:</p>
+<ul>
+<li>blank - in this case, ActiveJDBC will spit out all available information - every SQL statement, cache hits/misses, cache purge events, etc.</li>
+<li>regular expression - in this case, ActiveJDBC will only log statements that match a regular expression</li>
+</ul>
+<p>If you just want to see all messages from ActiveJDBC, start your program like this:</p>
+<pre class="prettyprint"><code>java -Dactivejdbc.log com.acme.YourProgram</code></pre>
+<p>If you only want to see select messages, you can provide an expression:</p>
+<pre class="prettyprint"><code>java -Dactivejdbc.log=select.* com.acme.YourProgram</code></pre>
+<h2 id="dynamically-filter-log-output">Dynamically filter log output</h2>
+<p>Use this call:</p>
+<pre class="prettyprint"><code>org.javalite.activejdbc.LogFilter.setLogExpression(&quot;regular expression goes here&quot;);</code></pre>
+<p>This will dynamically change ActiveJDBC log output at run time.</p>
+<h2 id="custom-logger">Custom logger</h2>
+<p>If you want 100% control over logging, you can implement <a href="http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/ActiveJDBCLogger.html">ActiveJDBCLogger</a> and configure it by adding this property to the <code>activejdbc.properties</code> file:</p>
+<pre><code>activejdbc.logger=com.myproject.MyLogger</code></pre>
+<p>Ensure that this class has a default constructor.</p>
+<h2 id="json-log4j-logging">JSON Log4j logging</h2>
+<p>Many companies use advanced tools to analyze structured logs using such services as <a href="https://www.splunk.com/">Splunk</a> as well as various <a href="https://www.google.com/webhp?sourceid=chrome-instant&amp;ion=1&amp;espv=2&amp;ie=UTF-8#q=elk+service&amp;*">ELK</a> implementation.</p>
+<h3 id="log4j-configuration">Log4j configuration</h3>
+<p>You can use a classes <a href="http://javalite.github.io/activejdbc/snapshot/org/javalite/logging/JsonLog4jLayout.html">JsonLog4jLayout</a> to configure your Log4j logger to achieve JSON format.</p>
+<p>Here is an example of the <code>log4j.properties</code> file:</p>
+<pre class="prettyprint"><code>log4j.rootLogger=INFO, FILE
+
+log4j.appender.FILE=org.apache.log4j.RollingFileAppender  
+log4j.appender.FILE.layout=org.javalite.logging.JsonLog4jLayout</code></pre>
+<p>Such configuration will convert every log line into a self-contained JSON document with the same values as a regular log line. For example, this code:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">Logger logger = LoggerFactory.<span class="fu">getLogger</span>(<span class="fu">getClass</span>());
+logger.<span class="fu">info</span>(<span class="st">&quot;hello&quot;</span>);
+logger.<span class="fu">error</span>(<span class="st">&quot;world&quot;</span>);</code></pre></td></tr></table></div>
+<p>will print the following into a log:</p>
+<pre class="prettyprint"><code>{&quot;level&quot;:&quot;INFO&quot;,&quot;timestamp&quot;:&quot;Fri Feb 24 15:20:15 CST 2017&quot;,&quot;thread&quot;:&quot;main&quot;,&quot;logger&quot;:&quot;org.javalite.activejdbc.logging.JsonLog4jLayoutSpec&quot;,&quot;message&quot;:&quot;hello&quot;}
+{&quot;level&quot;:&quot;ERROR&quot;,&quot;timestamp&quot;:&quot;Fri Feb 24 15:20:15 CST 2017&quot;,&quot;thread&quot;:&quot;main&quot;,&quot;logger&quot;:&quot;org.javalite.activejdbc.logging.JsonLog4jLayoutSpec&quot;,&quot;message&quot;:&quot;world&quot;}</code></pre>
+<p>Such information id easy to ship to a log analyzer such as <a href="https://www.splunk.com/">Splunk</a> as well as various <a href="https://www.google.com/webhp?sourceid=chrome-instant&amp;ion=1&amp;espv=2&amp;ie=UTF-8#q=elk+service&amp;*">ELK</a> for easy search and analysis.</p>
+<h3 id="custom-date-format">Custom date format</h3>
+<p>In order to format the timestamp in a log line you can add an optional parameter: <code>DateFormatPattern</code>:</p>
+<pre><code>log4j.appender.FILE.layout=org.javalite.logging.JsonLog4jLayout
+log4j.appender.FILE.layout.DateFormatPattern=yyyy-MM-dd HH:mm:ss.SSS</code></pre>
+<p>The format for this parameter is the same as for <a href="https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html">SimpleDateFormat</a></p>
+<h3 id="using-context-parameters">Using Context parameters</h3>
+<p>Sometimes you need to comprehend multiple log entries in a context (web request, user actions, etc). You can use a class <a href="http://javalite.github.io/activejdbc/snapshot/org/javalite/logging/Context.html">Context</a> to do just that.</p>
+<p>Here is an example:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">Logger logger = LoggerFactory.<span class="fu">getLogger</span>(<span class="fu">getClass</span>());
+Context.<span class="fu">put</span>(<span class="st">&quot;user&quot;</span>, <span class="st">&quot;joeschmoe&quot;</span>, <span class="st">&quot;user_id&quot;</span>, <span class="st">&quot;234&quot;</span>, <span class="st">&quot;email&quot;</span>, <span class="st">&quot;joe@schmoe.me&quot;</span>);
+logger.<span class="fu">info</span>(<span class="st">&quot;hello&quot;</span>);
+logger.<span class="fu">error</span>(<span class="st">&quot;world&quot;</span>);
+Context.<span class="fu">clear</span>();</code></pre></td></tr></table></div>
+<p>will print the following into a log:</p>
+<pre class="prettyprint"><code>{&quot;level&quot;:&quot;INFO&quot;,&quot;timestamp&quot;:&quot;Fri Feb 24 15:20:15 CST 2017&quot;,&quot;thread&quot;:&quot;main&quot;,&quot;logger&quot;:&quot;org.javalite.activejdbc.logging.JsonLog4jLayoutSpec&quot;,&quot;message&quot;:&quot;hello&quot;, &quot;context&quot;:{&quot;user&quot;:&quot;joeschmoe&quot;,&quot;user_id&quot;:&quot;234&quot;,&quot;email&quot;:&quot;joe@schmoe.me&quot;}}
+{&quot;level&quot;:&quot;ERROR&quot;,&quot;timestamp&quot;:&quot;Fri Feb 24 15:20:15 CST 2017&quot;,&quot;thread&quot;:&quot;main&quot;,&quot;logger&quot;:&quot;org.javalite.activejdbc.logging.JsonLog4jLayoutSpec&quot;,&quot;message&quot;:&quot;world&quot;, &quot;context&quot;:{&quot;user&quot;:&quot;joeschmoe&quot;,&quot;user_id&quot;:&quot;234&quot;,&quot;email&quot;:&quot;joe@schmoe.me&quot;}}</code></pre>
+<p>As you can see, every log line now includes an object &quot;context&quot; with corresponding values.</p>
+<blockquote>
+<p>Class <a href="http://javalite.github.io/activejdbc/snapshot/org/javalite/logging/Context.html">Context</a> attaches parameters to a current thread, making them available to execution down the stack trace.</p>
+</blockquote>
+<blockquote>
+<p>Class <a href="http://javalite.github.io/activejdbc/snapshot/org/javalite/logging/JsonLog4jLayout.html">JsonLog4jLayout</a> locates context values on the current thread and appends them to every log line.</p>
+</blockquote>

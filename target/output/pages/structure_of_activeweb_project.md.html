@@ -1,0 +1,95 @@
+<div class="page-header">
+<h1>
+Structure of ActiveWeb project
+</h1>
+</div>
+<p>An ActiveWeb project a Maven project, therefore it has all the usual Maven conventions. However there are some specifics regarding ActiveWeb, which are discussed below. Here is a structure of a typical ActiveWeb project:</p>
+<div class="figure">
+<img src="images/aw-structure.png" />
+
+</div>
+<h2 id="configuration">Configuration</h2>
+<p>ActiveWeb uses Java code for configuration, instead of XML or other files. The picture above shows a package <code>app.config</code>. This package contains 2 - 3 classes responsible for configuration of AvtiveWeb project. In fact, it barely has any configuration. Most configuration of the application is dealing with configuring database connections. For more on configuration, see here: <a href="database_configuration">Database configuration</a></p>
+<h2 id="location-of-controllers">Location of controllers</h2>
+<p>Controllers are <em>always</em> located in a package <code>app.controllers</code> (and sub-packages). At first this looks strange, but this is a requirement of the framework and a general convention. Developers after a while get used to and start to appreciate it. A controller is a Web component, and as such is not a subject of sharing across multiple applications. Controllers of one web applications will not intermingle with controllers of another. This approach yields the following benefits:</p>
+<ul>
+<li>ActiveWeb application structure is identical from one project to another, making it easier to onboard new developers</li>
+<li>Controllers are compiled on the fly and reloaded on every request in development mode.</li>
+</ul>
+<h2 id="location-of-models">Location of models</h2>
+<p>ActiveWeb has excellent integration with <a href="activejdbc">ActiveJDBC</a>, and the <code>app.models</code> package is for ActiveJDBC models. Placing models into package <code>app.models</code> is a convention and a recommendation. In more complex projects models are kept in a different shared module used across multiple project modules.</p>
+<h2 id="location-of-services">Location of services</h2>
+<p>The package <code>app.services</code> is a suggestion and a convention for services. If a service is not shared across multiple modules, it makes sense to place it into this package. If a service is used in other places, it might actually be in a completely different module/package.</p>
+<p>ActiveWeb also provides automatic dependency injection of services into controllers and filters. ActiveWeb is integrated with <a href="http://code.google.com/p/google-guice/">Google Guice</a>. For more information, please refer to <a href="dependency_injection">Dependency injection</a>.</p>
+<h2 id="location-of-views">Location of views</h2>
+<p>ActiveWeb uses <a href="http://freemarker.sourceforge.net/">FreeMarker</a> for rendering and does not use JSPs. The FreeMarker templates are located in directory</p>
+<pre class="prettyprint"><code>src/main/webapp/WEB-INF/views</code></pre>
+<p>The subdirectories indicate controller names.</p>
+<p>In an example above, there are three directories under <code>WEB-INF/views</code>: <code>books</code>, <code>layouts</code> and <code>system</code></p>
+<p><code>books</code> is a directory specific to this small example project. It hosts templates for <code>app.controllers.BooksController</code></p>
+<p><code>system</code> is a directory provided by ActiveWeb. It contains two templates which are used by framework. Application developers are free to customize these according to the look and feel of the website.</p>
+<ul>
+<li>The <code>404.ftl</code> is rendered when a resource not found (no controller, or action, or template)</li>
+<li>the <code>system.ftl</code> is used when there is an internal system error (exceptions in controllers, etc.).</li>
+</ul>
+<p><code>layouts</code> is a directory to hold default and other layouts. The default layout is called <code>default_layout.ftl</code> and is invoked automatically by default (wraps every page into a layout)</p>
+<h2 id="requestdispatcher-configuration">RequestDispatcher configuration</h2>
+<p>ActiveWeb framework is a Servlet filter. As a result it is easy to set it up in a file <code>web.xml</code>. Below is a configuration file from a real commercial project. Usually these files do not get any more complicated:</p>
+<div class="sourceCode"><table class="sourceCode xml numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="sourceCode"><pre><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;web-app</span><span class="ot"> xmlns=</span><span class="st">&quot;http://java.sun.com/xml/ns/javaee&quot;</span><span class="ot"> version=</span><span class="st">&quot;2.5&quot;</span>
+<span class="ot">xmlns:xsi=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<span class="ot">xsi:schemaLocation=</span><span class="st">&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;display-name&gt;</span>activeweb<span class="kw">&lt;/display-name&gt;</span>
+    <span class="kw">&lt;filter&gt;</span>
+        <span class="kw">&lt;filter-name&gt;</span>dispatcher<span class="kw">&lt;/filter-name&gt;</span>
+        <span class="kw">&lt;filter-class&gt;</span>org.javalite.activeweb.RequestDispatcher<span class="kw">&lt;/filter-class&gt;</span>
+        <span class="kw">&lt;init-param&gt;</span>
+            <span class="kw">&lt;param-name&gt;</span>encoding<span class="kw">&lt;/param-name&gt;</span>
+            <span class="kw">&lt;param-value&gt;</span>UTF-8<span class="kw">&lt;/param-value&gt;</span>
+        <span class="kw">&lt;/init-param&gt;</span>
+        <span class="kw">&lt;init-param&gt;</span>
+            <span class="kw">&lt;param-name&gt;</span>exclusions<span class="kw">&lt;/param-name&gt;</span>
+            <span class="kw">&lt;param-value&gt;</span>css,images,js,html,ico,png<span class="kw">&lt;/param-value&gt;</span>
+        <span class="kw">&lt;/init-param&gt;</span>
+        <span class="kw">&lt;init-param&gt;</span>
+            <span class="kw">&lt;param-name&gt;</span>root_controller<span class="kw">&lt;/param-name&gt;</span>
+            <span class="kw">&lt;param-value&gt;</span>home<span class="kw">&lt;/param-value&gt;</span>
+        <span class="kw">&lt;/init-param&gt;</span>
+    <span class="kw">&lt;/filter&gt;</span>
+    <span class="kw">&lt;filter-mapping&gt;</span>
+        <span class="kw">&lt;filter-name&gt;</span>dispatcher<span class="kw">&lt;/filter-name&gt;</span>
+        <span class="kw">&lt;url-pattern&gt;</span>/*<span class="kw">&lt;/url-pattern&gt;</span>
+    <span class="kw">&lt;/filter-mapping&gt;</span>
+<span class="kw">&lt;/web-app&gt;</span></code></pre></td></tr></table></div>
+<p>There are three parameters you can use to configure the framework:</p>
+<ul>
+<li><strong>encoding</strong> - this is what encoding to set on HTTP request and response just before using either. We recommend to always set it to UTF-8 to avoid issues with internationalization</li>
+<li><strong>exclusions</strong> - this is a comma-separated list of strings on URI which the framework should ignore (not attempt to process are requests to controllers). These are static files, like images, HTML, CSS, JavaScript, PDF downloads, etc. The format is a comma separated list of sub-strings that are present on URIs of requests that are to be excluded.</li>
+<li><strong>root_controller</strong> - this is a name if a controller that the framework will automatically call if no path is provided, such as: <code>http://yourdomain.com</code>. For this specific example, the controller called will be <code>app.controllers.HomeController</code> with default action <code>index</code>. It is equivalent to calling URL: <code>http://yourdomain.com/home</code>.</li>
+</ul>

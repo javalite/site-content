@@ -1,0 +1,58 @@
+<div class="page-header">
+<h1>
+Pass-through framework
+</h1>
+</div>
+<p>Unlike other ORMs, ActiveJDBC is a Pass-Through framework. It means that ActiveJDBC is not trying to be smart, but rather relies on underlying technology to pass data back and forth. It enables it have less magic, and makes it faster and leaner. Most older ORMs (Hibernate) do retain references to related objects, but they were also created in the client-server days.</p>
+<p>Today, 99% of modern business application development has moved to the web (and web services). ActiveJDBC was built for the web, where models are assembled together for a brief moment of time (serving one web request), used to generate a view (HTML, XML, JSON, etc.) and immediately discarded.</p>
+<p>In a context of short web requests, the Pass-through framework is smaller, faster, and simpler than the one that is based on reference graphs.</p>
+<p>ActiveJDBC also does not attempt (by default) to convert data types but rather relies on the underlying JDBC driver for most data conversions during read and write operations. Most database drivers do a great deal of conversion</p>
+<h2 id="loading-records">Loading records</h2>
+<p>When loading child records, the parent used to load children does not retain references to children. Consider this:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"> Author author = Author.<span class="fu">findById</span>(<span class="dv">1</span>);
+ List&lt;Articles&gt; articles2015 = author.<span class="fu">get</span>(Article.<span class="fu">class</span>, <span class="st">&quot;year = ?&quot;</span>, <span class="dv">2015</span>);</code></pre></td></tr></table></div>
+<p>The <code>author</code> does not retain references to articles, and if the same articles are requested from the author again, it will again result in a trip to the database.</p>
+<h2 id="storing-records">Storing records</h2>
+<p>When storing records, either as <code>model.save()</code>, <code>parent.add(child)</code> or any similar methods, the framework simply stored related information into appropriate table(s). The parent model does not retain a reference to a child model.</p>
+<p>Example:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"> Author author = Author.<span class="fu">findById</span>(<span class="dv">1</span>);
+ author.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Article</span>(<span class="st">&quot;How to use ActiveJDBC&quot;</span>));
+ List&lt;Article&gt; articles = author.<span class="fu">get</span>(<span class="st">&quot;title = ?&quot;</span>, <span class="st">&quot;How to use ActiveJDBC&quot;</span>).<span class="fu">limit</span>(<span class="dv">1</span>); </code></pre></td></tr></table></div>
+<p>In a code sample above, the last line will fetch a record from the database because a previous line was simply used to generate a new INSERT statement.</p>
+<h2 id="loading-attributes">Loading attributes</h2>
+<p>Think of a model as a Map. It has keys (attribute names) and values (attribute values). The keys are type of <code>java.lang.String</code> and mimic the underlying table's column names. The values are whatever you set using setter methods, or whatever comes from the database.</p>
+<blockquote>
+<p>During select operations, the driver will populate your models with whatever types that are mapped from DB table columns to appropriate Java types.</p>
+</blockquote>
+<p>In other words, whatever the JDBC Driver loads, becomes the type of your attribute value.</p>
+<p>For more on this, see <a href="data_conversions">Data conversions</a>.</p>
+<h2 id="storing-attributes">Storing attributes</h2>
+<p>During inserts or updates, the DBMS driver will perform conversions where necessary and possible. In cases a conversion is not possible, you are going to get a runtime exception from DBMS (see below)</p>
+<p>For more on this, see <a href="data_conversions#what-happens-if-i-stick-a-wrong-type">what happens if i stick a wrong type</a>?</p>
+<h2 id="delete-cascade-and-frozen">Delete cascade and frozen</h2>
+<p>The side effect of ActiveJDBC being a Pass-through framework is that when deleting models with cascade, it cannot propagate &quot;frozen&quot; states. Here is an example:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">
+Book book = <span class="kw">new</span> Book(<span class="st">&quot;All Quiet on the Western Front&quot;</span>);
+Author author = <span class="kw">new</span> <span class="fu">Author</span>(<span class="st">&quot;Erich Maria Remarque&quot;</span>).
+author.<span class="fu">saveIt</span>();
+author.<span class="fu">add</span>(book); <span class="co">// book saved into child table</span>
+author.<span class="fu">deleteCascade</span>();</code></pre></td></tr></table></div>
+<p>The last line will result in the two DELETE statements:</p>
+<pre><code>DELETE FROM books WHERE author_id = ?
+DELETE FROM authors WHERE id = ?</code></pre>
+<p>As you can see, there were two queries issued to the database, the first one deleting all books (children) of the author. The side effect of this is that the instance of <code>Book</code> in memory is not aware that its underlying data is gone, and as a result the <code>frozen()</code> will return incorrect value:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">book.<span class="fu">frozen</span>() <span class="co">// &lt; -- will return false. </span></code></pre></td></tr></table></div>
+<p>While this is unpleasant, the only way to fix this is to retain references to child objects in memory which will make the framework more complicated and slower.</p>
+<p>Generally in web applications this will not happen, but in cases of desktop apps, the developers need to be aware of this behavior.</p>

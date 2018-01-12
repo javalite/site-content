@@ -1,0 +1,64 @@
+<div class="page-header">
+<h1>
+Testing with database connection
+</h1>
+</div>
+<p>ActiveJDBC Models are easy to test, and there is a convenience class for opening and closing connections during tests.</p>
+<h2 id="test-database-for-testing">Test database for testing</h2>
+<p>It is customary for JavaLite projects to use <strong>one database</strong> for testing and a <strong>different</strong> one for running the system locally. It makers it easy to preserve data in place in the &quot;development&quot; database, and still use the full power of database access to your test database during tests.</p>
+<p>For example, you could have some user data in a development database which will allow you to log in, and perform other operations, and yet you can run test logic against your test database, destroy and re-create any data in it, without having to wipe clean your development database.</p>
+<h2 id="dbspec-for-database-tests">DBSpec for database tests</h2>
+<p><code>org.javalite.activejdbc.test.DBSpec</code> is a super-class for tests that require a database connection. It is integrated with <a href="database_configuration#property-file-configuration">database file configuration</a> and will automatically open a corresponding database connection before a test execution and close it after the test.</p>
+<blockquote>
+<p>Please, see more on environments on <a href="database_configuration#property-file-configuration">database file configuration</a> page.</p>
+</blockquote>
+<h2 id="example-of-a-dbspec-test">Example of a <code>DBSpec</code> test</h2>
+<p>Lets say we are developing a blog, and we need to persist a post. A post will have title, content and author. All these attributes are required. Here is an example of a model we are testing:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Post <span class="kw">extends</span> Model {
+    <span class="dt">static</span> {
+        <span class="fu">validatePresenceOf</span>(<span class="st">&quot;title&quot;</span>, <span class="st">&quot;content&quot;</span>);
+        <span class="fu">validatePresenceOf</span>(<span class="st">&quot;author&quot;</span>).<span class="fu">message</span>(<span class="st">&quot;Author must be provided&quot;</span>);
+    }
+}</code></pre></td></tr></table></div>
+<p>A test will look like this:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> PostSpec <span class="kw">extends</span> DBSpec {
+    <span class="fu">@Test</span>
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">shouldValidateRequiredAttributes</span>() {
+        Post post = <span class="kw">new</span> <span class="fu">Post</span>();
+        <span class="fu">a</span>(post).<span class="fu">shouldNotBe</span>(<span class="st">&quot;valid&quot;</span>);
+        <span class="fu">a</span>(post.<span class="fu">errors</span>().<span class="fu">get</span>(<span class="st">&quot;author&quot;</span>)).<span class="fu">shouldBeEqual</span>(<span class="st">&quot;Author must be provided&quot;</span>);
+        post.<span class="fu">set</span>(<span class="st">&quot;title&quot;</span>, <span class="st">&quot;fake title&quot;</span>, <span class="st">&quot;author&quot;</span>, <span class="st">&quot;fake author&quot;</span>, <span class="st">&quot;content&quot;</span>, <span class="st">&quot;fake content&quot;</span>);
+        <span class="fu">a</span>(post).<span class="fu">shouldBe</span>(<span class="st">&quot;valid&quot;</span>);
+        post.<span class="fu">save</span>();
+        <span class="fu">a</span>(post.<span class="fu">getId</span>()).<span class="fu">shouldNotBeNull</span>();
+        <span class="fu">a</span>(Post.<span class="fu">count</span>()).<span class="fu">shouldBeEqual</span>(<span class="dv">1</span>);
+    }
+}</code></pre></td></tr></table></div>
+<p>Technically speaking, you can use it for any test requiring a connection, but it is also easy to use for Model tests.</p>
+<blockquote>
+<p>In the test above the <code>DBSpec</code> will: * open a test connection defined in <code>database.properties</code> * start a transaction * make connection available during tests * roll back transaction after the test execution to keep the database clean * close the connection</p>
+</blockquote>
+<p>This class allows for tests to run in a &quot;clean room&quot; environment, since the database tables will always have a clean state for any given test.</p>
+<h2 id="non-models-database-tests">Non-models database tests</h2>
+<p>While <code>DBSpec</code> is usually used to test models, it can be used to test any code that require a database connection. If you need to get a hold of that connection, you can use class <code>Base</code>:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">java.<span class="fu">sql</span>.<span class="fu">Connection</span> connection = Base.<span class="fu">connection</span>();</code></pre></td></tr></table></div>

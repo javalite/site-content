@@ -1,0 +1,47 @@
+<div class="page-header">
+<h1>
+Sharding
+</h1>
+</div>
+<p>Sharding is a method of spreading data across multiple tables. Please, see more on <a href="https://en.wikipedia.org/wiki/Shard_(database_architecture)">Sharding and database architecture</a>. While sharding can be a complicated architectural approach, and every database provides some sort of sharding, The ActiveJDBC has a built-in mechanism that is at the framework level, which makes it available for all supported databases.</p>
+<h2 id="changing-table-name-at-run-time">Changing table name at run time</h2>
+<p>It is now possible to change a table name associated with a model at runtime.</p>
+<p>For example, this code:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person{}</code></pre></td></tr></table></div>
+<p>defines a model automatically mapped to a table PEOPLE according to <a href="english_inflections">English Inflections</a>.</p>
+<p>If this model's data is sharded across multiple tables (say named 'shard1_people', 'shard2_people', etc.), then you can change the table name before using a model like this:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">Person.<span class="fu">metaModel</span>().<span class="fu">setShardTableName</span>(<span class="st">&quot;shard2_people&quot;</span>);</code></pre></td></tr></table></div>
+<blockquote>
+<p>It is imperative that all tables representing shards for the same model MUST have exactly the same schema</p>
+</blockquote>
+<h2 id="propagation-of-table-name">Propagation of table name</h2>
+<p>The call:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">Person.<span class="fu">metaModel</span>().<span class="fu">setShardTableName</span>(<span class="st">&quot;shard2_people&quot;</span>);</code></pre></td></tr></table></div>
+<p>attaches a new table name for this model to a current thread using <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/ThreadLocal.html">ThreadLocal</a>. This means that if you are using a thread pool (working within a web app), you might run into issues in case threads are re-used.</p>
+<p>Always ensure that you are cleaning the table name from a current thread:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">Person.<span class="fu">metaModel</span>().<span class="fu">clearShardTableName</span>();</code></pre></td></tr></table></div>
+<p>The call above ensures that the model <code>Person</code> will revert to its natural table name (in this case <code>PEOPLE</code>).</p>
+<h2 id="initialization-of-sharded-models">Initialization of sharded models</h2>
+<p>Since models load their metadata (columns, types, etc) during runtime, there needs to be a base table that is always mapped to a model.</p>
+<p>There are two ways to go about this: 1. use of a base table, and 2. only use sharded tables.</p>
+<p>In the first scenario, you would have tables: <code>people</code>, <code>shard1_people</code>, <code>shard2_people</code>, <code>shard3_people</code>... The model will look like this:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> Person{}</code></pre></td></tr></table></div>
+<p>So, the model <code>Person</code> will read the schema from table <code>people</code>, and will use it across all other tables. This is why it is so important that all these tables have exactly the same structure.</p>
+<p>In the second scenario, you would only have sharded tables: <code>shard1_people</code>, <code>shard2_people</code>, <code>shard3_people</code>. You would use one of the sharded tables as a model base table:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="fu">@Table</span>(<span class="st">&quot;shard1_people&quot;</span>)
+<span class="kw">public</span> <span class="kw">class</span> Person{}</code></pre></td></tr></table></div>
+<p>It is up to you which scenario to choose.</p>
+<h2 id="table-name-strategy">Table name strategy</h2>
+<p>The strategy for changing the name of a table for a model is external to ActiveJDBC framework. You, the developer choose when to change it and to what value. However, we can recommend a few typical approaches for these cases:</p>
+<ol style="list-style-type: decimal">
+<li><p>You use ActiveWeb: we recommend creating a <a href="controller_filters">Controller Filter</a> and make changes to specific model table names in the <code>before()</code> method. The logic for this can be anything: date, user name, session, etc.</p></li>
+<li><p>You develop web app and it is not ActiveWeb. We recommend creating a <a href="http://www.oracle.com/technetwork/java/filters-137243.html">Servlet Filter</a> and putting logic there, the same way as in #1</p></li>
+<li><p>You develop a standalone app (console, or desktop). We recommend to use some sort of <a href="https://en.wikipedia.org/wiki/Aspect-oriented_programming">Aspect-Oriented programming</a> in order to keep logic for changing table names out of business logic.</p></li>
+</ol>

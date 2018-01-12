@@ -1,0 +1,555 @@
+<div class="page-header">
+<h1>
+Database migrations
+</h1>
+</div>
+<p>Database migrations is a process of making changes to database schema during a development process. See <a href="http://en.wikipedia.org/wiki/Schema_migration">Schema_migration</a> to understand better what database migrations are.</p>
+<h2 id="db-migrator-is-maven-plugin">DB-Migrator is Maven plugin</h2>
+<p>Current implementation of this project is a Maven Plugin. Future releases might include a standalone library for non-Maven projects.</p>
+<h2 id="writing-a-new-migration">Writing a new migration</h2>
+<p>Generate a new migration file:</p>
+<pre class="prettyprint"><code>mvn db-migrator:new -Dname=create_people_table</code></pre>
+<p>This command will result in:</p>
+<pre class="prettyprint"><code>...
+[INFO] Created new migration: src/migrations/20140211113507_create_people_table.sql
+...</code></pre>
+<p>The newly created fle is empty. Go ahead and add raw SQL to the file</p>
+<pre class="prettyprint"><code>create table people ( name varchar (10));</code></pre>
+<p>Run migration:</p>
+<pre class="prettyprint"><code>mvn db-migrator:migrate
+...
+[INFO] Migrating jdbc:mysql://localhost/test_project using migrations at src/migrations/
+[INFO] Migrating database, applying 1 migration(s)
+[INFO] Running migration 20140211113507_create_people_table.sql</code></pre>
+<p>Alternatively, you can just run the build.</p>
+<h2 id="custom-delimiter">Custom delimiter</h2>
+<p>By default, the migrator uses semicolon to separate statements in a file from one another.<br />
+However, in some cases you need to write a complicated query, which will be hard to parse. Examples might be sequences, stored procedures, inserts with semicolons in content, etc. For cases like that you can define a custom delimiter with a keyword <code>DELIMITER</code>:</p>
+<div class="sourceCode"><table class="sourceCode prettyprint sql numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+</pre></td><td class="sourceCode"><pre><code class="sourceCode sql"><span class="kw">CREATE</span> <span class="kw">TABLE</span> course_profiles (
+  <span class="kw">id</span>           <span class="dt">INT</span>(<span class="dv">11</span>) <span class="kw">NOT</span> <span class="kw">NULL</span> AUTO_INCREMENT,
+  course_id    <span class="dt">INT</span>(<span class="dv">11</span>),
+  title        <span class="dt">VARCHAR</span>(<span class="dv">128</span>),
+  subject      <span class="dt">VARCHAR</span>(<span class="dv">128</span>),
+  description  TEXT,
+  language     <span class="dt">VARCHAR</span>(<span class="dv">16</span>),
+  created_at   DATETIME <span class="kw">DEFAULT</span> <span class="kw">NULL</span>,
+  updated_at   DATETIME <span class="kw">DEFAULT</span> <span class="kw">NULL</span>,
+  <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (<span class="kw">id</span>),
+  <span class="kw">INDEX</span> course_language (course_id, language)
+)
+  ENGINE=InnoDB
+  <span class="kw">DEFAULT</span> CHARSET=utf8;
+
+DELIMITER $$
+
+<span class="kw">CREATE</span> <span class="kw">PROCEDURE</span> migrate_courses_details()
+  <span class="kw">BEGIN</span>
+    <span class="kw">DECLARE</span> done <span class="dt">INT</span> <span class="kw">DEFAULT</span> <span class="kw">FALSE</span>;
+    <span class="kw">DECLARE</span> cId <span class="dt">INT</span>(<span class="dv">11</span>);
+    <span class="kw">DECLARE</span> cTitle <span class="dt">VARCHAR</span>(<span class="dv">128</span>);
+    <span class="kw">DECLARE</span> cSubject <span class="dt">VARCHAR</span>(<span class="dv">128</span>);
+    <span class="kw">DECLARE</span> cDesc TEXT;
+    <span class="kw">DECLARE</span> createdAt DATETIME;
+    <span class="kw">DECLARE</span> updatedAt DATETIME;
+    <span class="kw">DECLARE</span> courseCursor <span class="kw">CURSOR</span> <span class="kw">FOR</span>  <span class="kw">select</span> <span class="kw">id</span>, title, subject, description, created_at, updated_at <span class="kw">from</span> courses;
+    <span class="kw">DECLARE</span> <span class="kw">CONTINUE</span> HANDLER <span class="kw">FOR</span> <span class="kw">NOT</span> FOUND <span class="kw">SET</span> done = <span class="kw">TRUE</span>;
+
+    <span class="kw">OPEN</span> courseCursor;
+
+    courses_loop: <span class="kw">LOOP</span>
+      FETCH courseCursor <span class="kw">INTO</span>  cId, cTitle, cSubject, cDesc, createdAt, updatedAt;
+      <span class="kw">IF</span> done <span class="kw">THEN</span>
+        LEAVE courses_loop;
+      <span class="kw">END</span> <span class="kw">IF</span>;
+      <span class="kw">INSERT</span> <span class="kw">INTO</span> course_profiles
+      <span class="kw">SET</span>
+        course_id = cId,
+        title = cTitle,
+        subject = cSubject,
+        description = cDesc,
+        language = <span class="st">&#39;en-US&#39;</span>,
+        created_at = createdAt,
+        updated_at = updatedAt;
+
+    <span class="kw">END</span> <span class="kw">LOOP</span>;
+    <span class="kw">CLOSE</span> courseCursor;
+  <span class="kw">END</span> $$
+DELIMITER ;
+
+<span class="kw">CALL</span> migrate_courses_details();
+
+<span class="kw">DROP</span> <span class="kw">PROCEDURE</span> migrate_courses_details;
+
+<span class="kw">ALTER</span> <span class="kw">TABLE</span> courses <span class="kw">DROP</span> <span class="kw">COLUMN</span> title;
+<span class="kw">ALTER</span> <span class="kw">TABLE</span> courses <span class="kw">DROP</span> <span class="kw">COLUMN</span> subject;
+<span class="kw">ALTER</span> <span class="kw">TABLE</span> courses <span class="kw">DROP</span> <span class="kw">COLUMN</span> description;</code></pre></td></tr></table></div>
+<p>Note on line 16 <code>DELIMITER $$</code> defining the delimiter as <code>$$</code>. The Migrator will use <code>$$</code> as delimiter until it is redefined again, which happens on line 50.</p>
+<h2 id="all-goals">All goals</h2>
+<p>You can execute plugin help goal to get all information on all other goals:</p>
+<pre class="prettyprint"><code>mvn  db-migrator:help
+...
+[INFO] db-migrator:drop
+[INFO]   drops database configured in pom
+[INFO] db-migrator:create
+[INFO]   creates database configured in pom
+[INFO] db-migrator:new
+[INFO]   creates a new migration file
+[INFO] db-migrator:check
+[INFO]   checks that no pending migrations remain. This can be used in build lifecycle to fail the build if pending migrations are found
+[INFO] db-migrator:migrate
+[INFO]   migrates all pending migrations
+[INFO] db-migrator:validate
+[INFO]   validates and prints a report listing pending migrations
+[INFO] db-migrator:reset
+[INFO]   drops/re-creates the database, and runs all migrations, effectively resetting database to pristine state
+[INFO] db-migrator:help
+[INFO]   prints this message</code></pre>
+<h2 id="where-to-get">Where to get</h2>
+<p>Generally, just add a plugin configuration to your pom, as described below. If you want to download, you can do so here: <a href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22db-migrator-maven-plugin%22">db-migrator-maven-plugin</a></p>
+<h2 id="property-file-configuration">Property file configuration</h2>
+<blockquote>
+<p>Using a property file for connection configuration is a preferred way of configuring JavaLite DB-Migrator.</p>
+</blockquote>
+<p>If you have only one database, it does not make much difference which method of configuration you use. However if you have a test and development databases locally (recommended), then you also have staging and production environments, we certainly recommend using property file configuration over Maven profiles.</p>
+<p>Here is a simple plugin element for the plugin:</p>
+<div class="sourceCode"><table class="sourceCode xml numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="sourceCode"><pre><code class="sourceCode xml"><span class="kw">&lt;properties&gt;</span>
+    <span class="kw">&lt;activejdbc.version&gt;</span>1.4.13<span class="kw">&lt;/activejdbc.version&gt;</span>
+    <span class="kw">&lt;environments&gt;</span>development.test,development<span class="kw">&lt;/environments&gt;</span>
+<span class="kw">&lt;/properties&gt;</span>
+<span class="kw">&lt;build&gt;</span>
+    <span class="kw">&lt;plugin&gt;</span>
+        <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
+        <span class="kw">&lt;artifactId&gt;</span>db-migrator-maven-plugin<span class="kw">&lt;/artifactId&gt;</span>
+        <span class="kw">&lt;version&gt;</span>${activejdbc.version}<span class="kw">&lt;/version&gt;</span>
+        <span class="kw">&lt;configuration&gt;</span>
+            <span class="kw">&lt;configFile&gt;</span>${project.basedir}/src/main/resources/database.properties<span class="kw">&lt;/configFile&gt;</span>
+            <span class="kw">&lt;environments&gt;</span>${environments}<span class="kw">&lt;/environments&gt;</span>
+        <span class="kw">&lt;/configuration&gt;</span>
+        <span class="kw">&lt;executions&gt;</span>
+            <span class="kw">&lt;execution&gt;</span>
+                <span class="kw">&lt;id&gt;</span>dev_migrations<span class="kw">&lt;/id&gt;</span>
+                <span class="kw">&lt;phase&gt;</span>validate<span class="kw">&lt;/phase&gt;</span>
+                <span class="kw">&lt;goals&gt;</span>
+                    <span class="kw">&lt;goal&gt;</span>migrate<span class="kw">&lt;/goal&gt;</span>
+                <span class="kw">&lt;/goals&gt;</span>
+            <span class="kw">&lt;/execution&gt;</span>
+        <span class="kw">&lt;/executions&gt;</span>
+        <span class="kw">&lt;dependencies&gt;</span>
+            <span class="kw">&lt;dependency&gt;</span>
+                <span class="kw">&lt;groupId&gt;</span>mysql<span class="kw">&lt;/groupId&gt;</span>
+                <span class="kw">&lt;artifactId&gt;</span>mysql-connector-java<span class="kw">&lt;/artifactId&gt;</span>
+                <span class="kw">&lt;version&gt;</span>5.1.34<span class="kw">&lt;/version&gt;</span>
+            <span class="kw">&lt;/dependency&gt;</span>
+        <span class="kw">&lt;/dependencies&gt;</span>
+    <span class="kw">&lt;/plugin&gt;</span>
+<span class="kw">&lt;/build&gt;</span></code></pre></td></tr></table></div>
+<p>As you can see, the configuration is really located in file <code>${project.basedir}/src/main/resources/database.properties</code>. The contents of this file might look lile this:</p>
+<div class="sourceCode"><table class="sourceCode numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="sourceCode"><pre><code class="sourceCode">development.driver=com.mysql.jdbc.Driver
+development.username=dev1
+development.password=passwd
+development.url=jdbc:mysql://localhost/project1_development
+
+development.test.driver=com.mysql.jdbc.Driver
+development.test.username=dev1
+development.test.password=passwd
+development.test.url=jdbc:mysql://localhost/project1_test
+
+jenkins.test.driver=com.mysql.jdbc.Driver
+jenkins.test.username=jenkins
+jenkins.test.password=passwd
+jenkins.test.url=jdbc:mysql://localhost/project1_testenv
+
+staging.driver=com.mysql.jdbc.Driver
+staging.username=stage1
+staging.password=passwd
+staging.url=jdbc:mysql://192.168.80.40/project1_staging
+
+production.driver=com.mysql.jdbc.Driver
+production.username=prod1
+production.password=passwd
+production.url=jdbc:mysql://192.168.20.40/project1_production</code></pre></td></tr></table></div>
+<p>In the file above, the blocks of properties with a specific prefix belong to a corresponding environment. For example, there are 5 environments defined on this file:</p>
+<ul>
+<li>development</li>
+<li>testenv</li>
+<li>staging</li>
+<li>production</li>
+</ul>
+<h3 id="executing-for-environment">Executing for environment</h3>
+<p>Executing DB-Migrator is described above in section <a href="#all-goals">All goals</a>. The plugin will run migrations for environments <code>test</code> and <code>development</code> because they are configured in the <code>&lt;properties&gt;</code> section (see above). In order to override this behavior, you need to override the <code>&lt;environments&gt;</code> property from a command line like this:</p>
+<pre><code>mvn db-migrator:migrate -Denvironments=staging</code></pre>
+<p>The command above will run the goal <code>migrate</code> with a set of properties to point to staging environment. It makes it easy to point the plugin to different databases and write simple scripts for migrations.</p>
+<p>If you want to execute for multiple environments (typical example, is to migrate all local databases), simply list environments as a comma separated list:</p>
+<pre><code>mvn db-migrator:migrate -Denvironments=development.test,development</code></pre>
+<h3 id="property-file-location">Property file location</h3>
+<p>In the example above, the file is located in project sources: <code>${project.basedir}/src/main/resources/database.properties</code>. This means that it will probably be pushed to your source repository with credentials. In some projects this is acceptable, while in others it is not. However, location of this file is irrelevant to the plugin, so a development team can decide whether they want to commit it to a repository, or keep locally private.</p>
+<h2 id="maven-configuration">Maven configuration</h2>
+<p>Maven configuration is more complicated, and not recommended. Please, see property file-based configuration above.</p>
+<p>Here is an example of simple configuration:</p>
+<div class="sourceCode"><table class="sourceCode xml numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="sourceCode"><pre><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
+    <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
+    <span class="kw">&lt;artifactId&gt;</span>db-migrator-maven-plugin<span class="kw">&lt;/artifactId&gt;</span>
+    <span class="kw">&lt;version&gt;</span>1.4.13<span class="kw">&lt;/version&gt;</span>
+    <span class="kw">&lt;configuration&gt;</span>
+        <span class="kw">&lt;driver&gt;</span>com.mysql.jdbc.Driver<span class="kw">&lt;/driver&gt;</span>
+        <span class="kw">&lt;url&gt;</span>jdbc:mysql://localhost/test_project<span class="kw">&lt;/url&gt;</span>
+        <span class="kw">&lt;username&gt;</span>your user<span class="kw">&lt;/username&gt;</span>
+        <span class="kw">&lt;password&gt;</span>your password<span class="kw">&lt;/password&gt;</span>
+    <span class="kw">&lt;/configuration&gt;</span>
+    <span class="kw">&lt;dependencies&gt;</span>
+        <span class="kw">&lt;dependency&gt;</span>
+            <span class="kw">&lt;groupId&gt;</span>mysql<span class="kw">&lt;/groupId&gt;</span>
+            <span class="kw">&lt;artifactId&gt;</span>mysql-connector-java<span class="kw">&lt;/artifactId&gt;</span>
+            <span class="kw">&lt;version&gt;</span>5.1.25<span class="kw">&lt;/version&gt;</span>
+        <span class="kw">&lt;/dependency&gt;</span>
+    <span class="kw">&lt;/dependencies&gt;</span>
+<span class="kw">&lt;/plugin&gt;</span></code></pre></td></tr></table></div>
+<p>In a more realistic project, you will have more than one database, such as test, development, production, etc. In order to migrate multiple databases, use Maven executions:</p>
+<p>First, configure the plugin in <code>pluginManagement</code>:</p>
+<div class="sourceCode"><table class="sourceCode xml numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="sourceCode"><pre><code class="sourceCode xml"><span class="kw">&lt;pluginManagement&gt;</span>
+    <span class="kw">&lt;plugins&gt;</span>
+        <span class="kw">&lt;plugin&gt;</span>
+            <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
+            <span class="kw">&lt;artifactId&gt;</span>db-migrator-maven-plugin<span class="kw">&lt;/artifactId&gt;</span>
+            <span class="kw">&lt;version&gt;</span>1.4.13<span class="kw">&lt;/version&gt;</span>
+            <span class="kw">&lt;configuration&gt;</span>
+                <span class="kw">&lt;username&gt;</span>${jdbc.user}<span class="kw">&lt;/username&gt;</span>
+                <span class="kw">&lt;password&gt;</span>${jdbc.password}<span class="kw">&lt;/password&gt;</span>
+                <span class="kw">&lt;driver&gt;</span>${jdbc.driver}<span class="kw">&lt;/driver&gt;</span>
+            <span class="kw">&lt;/configuration&gt;</span>
+            <span class="kw">&lt;dependencies&gt;</span>
+                <span class="kw">&lt;dependency&gt;</span>
+                    <span class="kw">&lt;groupId&gt;</span>mysql<span class="kw">&lt;/groupId&gt;</span>
+                    <span class="kw">&lt;artifactId&gt;</span>mysql-connector-java<span class="kw">&lt;/artifactId&gt;</span>
+                    <span class="kw">&lt;version&gt;</span>5.1.25<span class="kw">&lt;/version&gt;</span>
+                <span class="kw">&lt;/dependency&gt;</span>
+            <span class="kw">&lt;/dependencies&gt;</span>
+        <span class="kw">&lt;/plugin&gt;</span>
+    <span class="kw">&lt;/plugins&gt;</span>
+<span class="kw">&lt;/pluginManagement&gt;</span></code></pre></td></tr></table></div>
+<p>where user, password and driver are configured as project properties.</p>
+<p>After that, you can configure the plugin to execute multiple databases by adding many executions. Here is example of one execution:</p>
+<div class="sourceCode"><table class="sourceCode xml numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="sourceCode"><pre><code class="sourceCode xml"><span class="kw">&lt;plugin&gt;</span>
+    <span class="kw">&lt;groupId&gt;</span>org.javalite<span class="kw">&lt;/groupId&gt;</span>
+    <span class="kw">&lt;artifactId&gt;</span>db-migrator-maven-plugin<span class="kw">&lt;/artifactId&gt;</span>
+    <span class="kw">&lt;executions&gt;</span>
+        <span class="kw">&lt;execution&gt;</span>
+            <span class="kw">&lt;id&gt;</span>dev_migrations<span class="kw">&lt;/id&gt;</span>
+            <span class="kw">&lt;phase&gt;</span>validate<span class="kw">&lt;/phase&gt;</span>
+            <span class="kw">&lt;goals&gt;</span>
+                <span class="kw">&lt;goal&gt;</span>migrate<span class="kw">&lt;/goal&gt;</span>
+            <span class="kw">&lt;/goals&gt;</span>
+        <span class="kw">&lt;/execution&gt;</span>
+        <span class="kw">&lt;execution&gt;</span>
+            <span class="kw">&lt;id&gt;</span>test_migrations<span class="kw">&lt;/id&gt;</span>
+            <span class="kw">&lt;phase&gt;</span>validate<span class="kw">&lt;/phase&gt;</span>
+            <span class="kw">&lt;goals&gt;</span>
+                <span class="kw">&lt;goal&gt;</span>migrate<span class="kw">&lt;/goal&gt;</span>
+            <span class="kw">&lt;/goals&gt;</span>
+            <span class="kw">&lt;configuration&gt;</span>
+                <span class="kw">&lt;url&gt;</span>${jdbc.test.url}<span class="kw">&lt;/url&gt;</span>
+            <span class="kw">&lt;/configuration&gt;</span>
+        <span class="kw">&lt;/execution&gt;</span>
+    <span class="kw">&lt;/executions&gt;</span>
+<span class="kw">&lt;/plugin&gt;</span></code></pre></td></tr></table></div>
+<p>The plugin tied to a validate phase, which will ensure that it will migrate schema at the very start of the build. Add more executions to run against multiple databases. You can use Maven profiles with this plugin to migrate databases in different environments, such as production.</p>
+<h3 id="configuration-properties">Configuration properties</h3>
+<ul>
+<li><code>url</code> - JDBC connection URL</li>
+<li><code>driver</code> - JDBC connection driver</li>
+<li><code>username</code> - JDBC connection user name</li>
+<li><code>password</code> - JDBC connection password</li>
+<li><code>migrationsPath</code> - location of migration files, defaults to <code>src/migrations/</code></li>
+<li><code>createSql</code> - create database SQL, defaults to <code>create database {$your database}</code></li>
+<li><code>dropSql</code> - drop database SQL, defaults to <code>drop database {$your database}</code></li>
+</ul>
+<h3 id="maintaining-multiple-databases">Maintaining multiple databases</h3>
+<p>You can use Maven profiles to maintain multiple database, as well as specific configuration for different executions of the same plugin.</p>
+<h2 id="migration-records">Migration records</h2>
+<p>DB-Migrator maintains a record of executing migrations in table <code>SCHEMA_VERSION</code> and will not execute the same migration twice:</p>
+<pre class="prettyprint"><code>mysql&gt; select * from schema_version;</code></pre>
+<p>Results in the following output:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">version</th>
+<th align="left">applied_on</th>
+<th align="left">duration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">20140302193112</td>
+<td align="left">2014-07-03 22:08:41</td>
+<td align="left">22</td>
+</tr>
+<tr class="even">
+<td align="left">20140302193141</td>
+<td align="left">2014-07-03 22:08:41</td>
+<td align="left">12</td>
+</tr>
+<tr class="odd">
+<td align="left">20140303150340</td>
+<td align="left">2014-07-03 22:08:41</td>
+<td align="left">13</td>
+</tr>
+<tr class="even">
+<td align="left">20140304173708</td>
+<td align="left">2014-07-03 22:08:41</td>
+<td align="left">20</td>
+</tr>
+<tr class="odd">
+<td align="left">20140304174236</td>
+<td align="left">2014-07-03 22:08:41</td>
+<td align="left">18</td>
+</tr>
+<tr class="even">
+<td align="left">20140305235518</td>
+<td align="left">2014-07-03 22:08:41</td>
+<td align="left">13</td>
+</tr>
+<tr class="odd">
+<td align="left">20140306002924</td>
+<td align="left">2014-07-03 22:08:41</td>
+<td align="left">12</td>
+</tr>
+<tr class="even">
+<td align="left">20140307192002</td>
+<td align="left">2014-07-03 22:08:41</td>
+<td align="left">25</td>
+</tr>
+<tr class="odd">
+<td align="left">20140309143448</td>
+<td align="left">2014-07-03 22:08:41</td>
+<td align="left">25</td>
+</tr>
+<tr class="even">
+<td align="left">20140310141755</td>
+<td align="left">2014-07-03 22:08:41</td>
+<td align="left">25</td>
+</tr>
+</tbody>
+</table>
+<h2 id="development-process">Development process</h2>
+<p>Since all migrations are recorded as text (SQL) files, and contain a time stamp in the name, every time a developer pulls sources from source repository and executes a build, your database is migrated to the latest migration automatically. In our experience, this reduced amount of attention we had to give a DB to a minimum. Basically a developer creates a new migration and checks it in, which makes it propagate to other developer machines automatically.</p>
+<h3 id="step-1-create-migration-file">Step 1: Create migration file</h3>
+<p>At the root of your project execute:</p>
+<pre><code>mvn db-migrator:new -Dname=create_people_table</code></pre>
+<p>This will simply create a new empty text file:</p>
+<pre><code>Created new migration: .../src/migrations/20160130213201_create_people_table.sql</code></pre>
+<p>where 20160130213201 is a timestamp that is a good indicator when this migration was created.</p>
+<h3 id="step-2-write-sql">Step 2: Write SQL:</h3>
+<p>Open this file with your favorite text editor and add free hand SQL there:</p>
+<pre><code>CREATE TABLE people (
+  id  int(11) DEFAULT NULL auto_increment PRIMARY KEY,
+  first_name VARCHAR(128),
+  last_name  VARCHAR(128),
+  created_at DATETIME,
+  updated_at DATETIME
+)ENGINE=InnoDB;</code></pre>
+<h3 id="step-3-run-migration">Step 3: Run migration:</h3>
+<p>Execute this command and observe output:</p>
+<pre><code>$mvn db-migrator:migrate
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building ActiveWeb Example WebApp 1.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- db-migrator-maven-plugin:1.4.13:migrate (default-cli) @ activeweb-simple ---
+[INFO] Sourcing database configuration from file: /home/igor/projects/javalite/activeweb-simple/src/main/resources/database.properties
+[INFO] Environment: test
+[INFO] Migrating jdbc:mysql://localhost/simple_test using migrations at /home/igor/projects/javalite/activeweb-simple/src/migrations/
+[INFO] Trying migrations at: /home/igor/projects/javalite/activeweb-simple/src/migrations 
+[INFO] Migrating database, applying 1 migration(s)
+[INFO] Running migration 20160130213201_create_person_table.sql
+[INFO] CREATE TABLE people ( id  int(11) DEFAULT NULL auto_increment PRIMARY KEY, first_name VARCHAR(128), last_name  VARCHAR(128), created_at DATETIME, updated_at DATETIME )ENGINE=InnoDB
+[INFO] Migrated database
+[INFO] Environment: development
+[INFO] Migrating jdbc:mysql://localhost/simple_development using migrations at /home/igor/projects/javalite/activeweb-simple/src/migrations/
+[INFO] Trying migrations at: /home/igor/projects/javalite/activeweb-simple/src/migrations 
+[INFO] Migrating database, applying 1 migration(s)
+[INFO] Running migration 20160130213201_create_person_table.sql
+[INFO] CREATE TABLE people ( id  int(11) DEFAULT NULL auto_increment PRIMARY KEY, first_name VARCHAR(128), last_name  VARCHAR(128), created_at DATETIME, updated_at DATETIME )ENGINE=InnoDB
+[INFO] Migrated database
+</code></pre>
+<p>as you can see from above in this case, two databases were migrated: test and development. The output of the migration command is self-explanatory. If you had more migration files defined that have not yet been migrated, they all will be migrated by this step.</p>
+<h3 id="step-3-alternative">Step 3 alternative</h3>
+<p>Since the DB-Migrator is a Maven plugin and is executed during a normal build, every time you run a project build with:</p>
+<pre><code>mvn clean install</code></pre>
+<p>your new migrations will be executed against target databases. This means you do not need to execute <code>mvn db-migrator:migrate</code> during a normal development process.</p>

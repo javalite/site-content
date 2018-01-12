@@ -1,0 +1,110 @@
+<div class="page-header">
+<h1>
+View routing
+</h1>
+</div>
+<p>ActiveWeb allows to render the same values and collections in a variety of formats, such as XML, JSON, etc, as long as they are based on text (not binary).</p>
+<h2 id="url-mapping">URL mapping</h2>
+<p>A URL can have the following structure:</p>
+<pre><code>http://host:port/controller.format?param=val</code></pre>
+<p>where <code>format</code> is... format which can be detected to match an appropriate view</p>
+<h2 id="mapping-urls-to-formats">Mapping URLs to formats</h2>
+<p>The format portion of the URL is used to map a view automatically:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">URL example</th>
+<th align="left">Format</th>
+<th align="left">View file location</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">http://host:port/controller.xml</td>
+<td align="left">xml</td>
+<td align="left">/vews/controller/action.xml.ftl</td>
+</tr>
+<tr class="even">
+<td align="left">http://host:port/controller.json</td>
+<td align="left">json</td>
+<td align="left">/vews/controller/action.json.ftl</td>
+</tr>
+<tr class="odd">
+<td align="left">http://host:port/controller.xyz</td>
+<td align="left">xyz</td>
+<td align="left">/vews/controller/action.xml.ftl</td>
+</tr>
+</tbody>
+</table>
+<p>where <code>xyz</code> is just a bogus example, which will work nonetheless!</p>
+<h2 id="format-detection-in-controller">Format detection in controller</h2>
+<p>Inside the controller, you can use a method <code>format()</code> n order to detect what format was requested by the client. Here is an example from <a href="https://github.com/javalite/activeweb-simple">ActiveWeb-Simple</a> example project:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> BooksController <span class="kw">extends</span> AppController {
+    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">index</span>(){
+        <span class="kw">if</span>(<span class="st">&quot;xml&quot;</span>.<span class="fu">equals</span>(<span class="fu">format</span>())){
+            <span class="fu">render</span>().<span class="fu">noLayout</span>().<span class="fu">contentType</span>(<span class="st">&quot;text/xml&quot;</span>);
+        }
+        <span class="kw">if</span>(<span class="st">&quot;json&quot;</span>.<span class="fu">equals</span>(<span class="fu">format</span>())){
+            <span class="fu">render</span>().<span class="fu">noLayout</span>().<span class="fu">contentType</span>(<span class="st">&quot;application/json&quot;</span>);
+        }
+        <span class="fu">view</span>(<span class="st">&quot;books&quot;</span>, Book.<span class="fu">findAll</span>().<span class="fu">toMaps</span>());
+    }</code></pre></td></tr></table></div>
+<p>As you can see, the detection of a format and appropriate logic is easy. The conditional logic in this example is needed only because this controller serves HTML, XML and JSON outputs. Their respective sources are below.</p>
+<p>The controller by calling <code>noLayout()</code> method tells the framework to not use a layout for these views. If you are building a controller like this one, that may serve HTML, and in addition, XML or JSON, which do not require a layout, you have to call these methods to prevent your view wrapped in an HTML layout.</p>
+<p>If you are building a true webservice, you will not need any layouts. You can then override the <code>getLayout()</code> methods in your controller and simply return <code>null</code> from it. Do it in a a super class of all controllers to concentrate this in one place. Please, see such an example: <a href="https://github.com/javalite/activeweb-rest/blob/master/src/main/java/app/controllers/APIController.java">APIController</a>.</p>
+<h2 id="html-view">HTML View</h2>
+<p>Found in a file: <code>src/main/webapp/WEB-INF/views/books/index.ftl</code>:</p>
+<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;table&gt;</span>
+    <span class="kw">&lt;tr&gt;</span>
+        <span class="kw">&lt;td&gt;</span>Title<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td&gt;</span>Author<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td&gt;</span>Edit<span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;/tr&gt;</span>
+<span class="er">&lt;</span>#list books as book&gt;
+    <span class="kw">&lt;tr&gt;</span>
+        <span class="kw">&lt;td&gt;</span>
+            <span class="er">&lt;</span>@link_to action=&quot;show&quot; id=book.id&gt;${book.title}<span class="er">&lt;</span>/@link_to&gt;
+        <span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td&gt;</span>
+            ${book.author}<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td&gt;</span>
+            <span class="er">&lt;</span>@form  id=book.id action=&quot;delete&quot; method=&quot;delete&quot; html_id=book.id &gt;
+                <span class="kw">&lt;button</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="kw">&gt;</span>delete<span class="kw">&lt;/button&gt;</span>
+            <span class="er">&lt;</span>/@form&gt;
+        <span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;/tr&gt;</span>
+<span class="er">&lt;</span>/#list&gt;
+<span class="kw">&lt;/table&gt;</span></code></pre></div>
+<h2 id="xml-view">XML View</h2>
+<p>Found in a file: <code>src/main/webapp/WEB-INF/views/books/index.xml.ftl</code>:</p>
+<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;books&gt;</span>
+<span class="er">&lt;</span>#list books as book&gt;
+    <span class="kw">&lt;book&gt;</span>
+        <span class="kw">&lt;id&gt;</span>${book.id}<span class="kw">&lt;/id&gt;</span>
+        <span class="kw">&lt;title&gt;</span>${book.title}<span class="kw">&lt;/title&gt;</span>
+        <span class="kw">&lt;author&gt;</span>${book.author}<span class="kw">&lt;/author&gt;</span>
+    <span class="kw">&lt;/book&gt;</span>
+<span class="er">&lt;</span>/#list&gt;
+<span class="kw">&lt;/books&gt;</span></code></pre></div>
+<h2 id="json-view">JSON View</h2>
+<p>Found in a file: <code>src/main/webapp/WEB-INF/views/books/index.json.ftl</code>:</p>
+<div class="sourceCode"><pre class="sourceCode json"><code class="sourceCode json"><span class="ot">[</span>
+<span class="er">&lt;#list</span> <span class="er">books</span> <span class="er">as</span> <span class="er">book&gt;</span>
+    <span class="fu">{</span>
+        <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="st">&quot;${book.id}&quot;</span><span class="fu">,</span>
+        <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;${book.title}&quot;</span><span class="fu">,</span>
+        <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;${book.author}&quot;</span>
+    <span class="fu">}</span>
+    <span class="er">&lt;#if</span> <span class="er">book_has_next&gt;</span><span class="ot">,</span><span class="er">&lt;/#if&gt;</span>
+<span class="er">&lt;/#list&gt;</span>
+<span class="ot">]</span></code></pre></div>

@@ -3,9 +3,9 @@ package groovy
 import java.nio.file.*
 
 GroovyShell shell = new GroovyShell()
-common = shell.parse(Paths.get("${basedir}/target/classes/groovy/Common.groovy").toFile())
+common = shell.parse(Paths.get("/home/igor/projects/javalite/site-content/target/classes/groovy/Common.groovy").toFile())
 
-String src = "${basedir}/src"
+String src = "/home/igor/projects/javalite/site-content/src"
 String output = "target/output"
 String outBlog = "${output}/blog"
 String outImages = "${output}/content-images"

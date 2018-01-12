@@ -1,0 +1,45 @@
+<div class="page-header">
+<h1>
+AppConfig
+</h1>
+<h4>
+configuration library for Java apps
+</h4>
+</div>
+<p>AppConfig is a small application configuration library to provide properties for applications deployed to different environments.</p>
+<h2 id="usage">Usage</h2>
+<p>First, do a static <code>import AppConfig.p(...)</code> method:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java"><span class="kw">import static org.javalite.app_configAppConfig.p;</span></code></pre></td></tr></table></div>
+<p>then, simply call a statis <code>p(..)</code> method in places where you need to inject a property:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">String name = <span class="fu">p</span>(<span class="st">&quot;name&quot;</span>);</code></pre></td></tr></table></div>
+<h2 id="usage-1">Usage</h2>
+<p>AppConfig allows configuration of applications that is specific for different deployment environments. Applications could have environment-specific files, whose names follow this pattern: environment.properties, where environment is a name of a deployment environment, such as development, staging, production, etc.</p>
+<p>You can also provide a global file, properties from which will be loaded in all environments: global.properties.</p>
+<blockquote>
+<p>In all cases the files need to be on the classpath under directory/package <code>/app_config</code>.</p>
+</blockquote>
+<p>Environment-specific file will have an &quot;environment&quot; part of the file name match to an environment variable called <code>ACTIVE_ENV</code>. Such configuration is easy to achieve in Unix shell:</p>
+<div class="sourceCode"><table class="sourceCode java numberLines"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode java">export ACTIVE_ENV=test</code></pre></td></tr></table></div>
+<p>Typical file structure</p>
+<pre><code>/app_config
+        |
+        +--global.properties
+        |
+        +--development.properties
+        |
+        +--staging.properties
+        |
+        +--production.properties
+        </code></pre>
+<p>Global property file will always be loaded, while others will be loaded depending on the value of ACTIVE_ENV environment variable.</p>
+<blockquote>
+<p>If environment variable <code>ACTIVE_ENV</code> is missing, it defaults to <code>development</code>.</p>
+</blockquote>
+<h2 id="system-property-override">System property override</h2>
+<p>You can also provide an environment as a system property app_config.properties.</p>
+<p>Here is an example (add this to the startup script for your app):</p>
+<pre><code>-Dapp_config.properties=/opt/project1/production.properties</code></pre>
+<p>The <code>app_config.properties</code> system property points to a file specific to that computer (local box, server, etc.). If a specific property is provided in the properties file loaded on classpath, and the same property is also found in the file <code>app_config.properties</code>, then the value loaded from a local file overrides the one loaded from classpath.</p>
