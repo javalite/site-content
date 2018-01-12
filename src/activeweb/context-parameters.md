@@ -24,7 +24,9 @@ you will see the following output:
 ## ActiveWeb parameters
 
 Currently these parameters are set on every view by the framework:
-`environment`, `controller`, `action`, `restful`. 
+`activeweb.environment`, `activeweb.controller`, `activeweb.action`, `activeweb.restful`. 
+  
+> The ActiveWeb parameters are always present in a view. 
  
 ### The environment parameter
 
@@ -55,7 +57,7 @@ This is simply an action of the controller that is being executed according to t
 
 It simply contains the boolean value that shows if this controller is [Restful](routing#restful-routing). 
   
-## Usage
+### Usage
 
 Generally you might use the `environment` parameter to expose a special feature in let's say development environment:  
 
@@ -67,4 +69,33 @@ Generally you might use the `environment` parameter to expose a special feature 
 
 ```
 
-Using other parameters might be considered a hack - you decide. 
+Using other parameters might be considered a hack - you decide.
+ 
+## Session parameters
+
+The session object is always available in views, just like it does in a standard Servlet applicaiton. 
+Setting and reading the session from controllers and filters is described here: 
+[Session management](http://javalite.io/controllers#session-management). 
+
+On the views, you would simply use: 
+
+```html
+And the session parameter is: ${session.param1}. 
+
+```
+
+
+## Request parameters
+
+If your request has any parameters attached to it, they will be available on the view by accessing the `request` object. 
+For example, if your URL looks like this: 
+ 
+```
+http://mysite.com/controller1?name=John
+```
+
+Then you can access the `name` from a view directly: 
+
+```html
+Your name is: ${request.name}. 
+```
