@@ -9,12 +9,14 @@ operate properly. Since Eclipse automatically recompiles classes each time you m
 instrumented ActiveJDBC classes and replace them with just compiled versions (non-instrumented).
 
 When this happens, you will see an exception similar to:
+
 ~~~~
  org.javalite.activejdbc.InitException: failed to determine Model class name, are you sure models have been instrumented?
 ~~~~
+
 This means that in before you run your program, model classes need to be instrumented.
 
-## Create instrumentation script
+## Create Maven instrumentation script
 
 This page provides instructions based on a simple Maven ActiveJDBC example. Sources can be found here:
 [https://github.com/javalite/simple-example](https://github.com/javalite/simple-example)
@@ -60,6 +62,12 @@ Instrumented class: org.javalite.activejdbc.examples.simple.Employee in director
 ~~~~
 
 If you see this output, everything is fine.
+
+
+## Non-Maven instrumentation script
+
+If you are not using Maven, you can create a shell script for Linux or Mac, or a batch script for Windows. 
+More details are here: [Standalone instrumentation](instrumentation#standalone-instrumentation).
 
 ## Configure Eclipse builder
 

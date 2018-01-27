@@ -53,7 +53,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>${basedir}/target/classes/groovy/BuildBlog.groovy</source>
+                            <source>${basedir}/target/classes/groovy/ProcessMarkdown.groovy</source>
                         </configuration>
                     </execution>
                 </executions>
