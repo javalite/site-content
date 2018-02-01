@@ -1,12 +1,12 @@
 <div class="page-header">
    <h1>AppConfig </h1> 
-   <h4>configuration library for Java apps</h4>
+   <h4>A configuration library for Java apps</h4>
 </div>
 
 
 AppConfig is a small configuration library which provides properties for applications deployed to different environments.
 For example, your local file storage is located at `/home/joe/project1/files` in a development environment (laptop), 
-but in production it is located on hte NFS: `/opt/project1/files`. 
+but in production it is located on the NFS: `/opt/project1/files`. 
 
 `AppConfig` makes it easy to configure multiple property files, one per environment and load just one depending what environment 
  the application is running on. 
@@ -38,6 +38,26 @@ then, simply call it as: `p(..)` in places where you need to inject a property:
 String name = p("name");
 ~~~~
 
+## Property substitution
+ 
+AppConfig allows a property substitution to make it possible to refactor large property files by specifying a
+repeating value once. 
+
+If your property file has these properties:
+ 
+``` 
+first.name=John
+phrase= And the name is ${first.name}
+```
+
+than this code will print `And the name is John`:
+ 
+```java
+System.out.println(p("phrase"));
+```
+
+> Note: The order of properties does not matter.
+ 
 
 ## Setting an environment 
 
