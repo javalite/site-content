@@ -186,7 +186,7 @@ Association found: users  ----------<  addresses, type: has-many
 ~~~~
 
 This output was taken from running [ModelTest.java](https://github.com/javalite/activejdbc/blob/master/activejdbc/src/test/java/org/javalite/activejdbc/ModelTest.java).
-There are three sections: registration, mapping, andAssociations. 
+There are three sections: registration, mapping, and Associations. 
 
 The Entity Relationship diagram is represented by a [Crow's foot notation](https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model#Crow.27s_foot_notation). 
 
