@@ -164,7 +164,7 @@ Adding a new dialect is relatively easy. Just look at commits on this branch: [h
 
 ## Releases
 
-Please, refer to [ActiveJDBC Releases](activejdbc_releases).
+Please, refer to the [Releases](releases) page.
 
 ## Getting the latest version
 

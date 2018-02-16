@@ -45,7 +45,7 @@ To get a quick idea on what this is about, see [Five Minute Guide To ActiveWeb](
 
 ## Releases
 
-Please, refer to [ActiveWeb Releases](activeweb_releases).
+Please, refer to [the Releases](releases) page.
 
 
 ## How to download
