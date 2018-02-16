@@ -17,7 +17,6 @@ pickle-email-*.html
 doc/structures.csv
 *.iml
 .idea/
-./target
-target/output
+target
 
 
