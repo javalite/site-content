@@ -3,7 +3,9 @@
    <h4>History of releases</h4>
 </div>
 
-## ActiveJDBC Releases
+> For latest release, refer to the [Releases](releases) page. 
+
+## ActiveJDBC Releases (OLD RELEASES)
 
 
 * [January 6 2017 Release notes](activejdbc-release-notes-january-06-2017)

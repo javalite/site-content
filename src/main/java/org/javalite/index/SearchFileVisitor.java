@@ -1,4 +1,4 @@
-package com.javalite.index;
+package org.javalite.index;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -36,9 +36,10 @@ class SearchFileVisitor extends SimpleFileVisitor<Path> {
 
         if (path.toString().endsWith("html") && !path.toString().contains("excerpt")) {
             System.out.println("visiting " + path);
+
             Document document = new Document();
             document.add(new StringField("PATH", path.toString(), Field.Store.YES));
-            String text = new HtmlConvertService().completelyStripHTMLandPRE(read(newInputStream(path)));
+            String text = HtmlConverter.convert2text(read(newInputStream(path)));
 
             Properties props = getDocumentProperties(path);
 
@@ -54,6 +55,14 @@ class SearchFileVisitor extends SimpleFileVisitor<Path> {
                 addField(document, "YEAR", yearMonthDay[0]);
                 addField(document, "MONTH", yearMonthDay[1]);
                 addField(document, "DAY", yearMonthDay[2]);
+            }
+
+            if(path.toString().contains("blog")){
+                addField(document, "TYPE","blog");
+            }
+
+            if(path.toString().contains("pages")){
+                addField(document, "TYPE","page");
             }
 
 

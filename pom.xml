@@ -71,7 +71,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>com.javalite.index.IndexMain</mainClass>
+                            <mainClass>org.javalite.index.IndexMain</mainClass>
                             <arguments>
                                 <argument>target/output/blog/posts</argument>
                                 <argument>target/output/pages</argument>
@@ -106,6 +106,13 @@
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
             <version>4.10.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

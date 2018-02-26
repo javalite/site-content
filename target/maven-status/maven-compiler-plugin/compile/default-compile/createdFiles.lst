@@ -1,6 +1,5 @@
-com/javalite/index/IndexMain.class
-com/javalite/index/HtmlConvertService$1.class
-com/javalite/index/HtmlConvertService.class
-com/javalite/index/Indexer.class
-com/javalite/index/HtmlConvertService$2.class
-com/javalite/index/SearchFileVisitor.class
+org/javalite/index/HtmlConverter.class
+org/javalite/index/Indexer.class
+org/javalite/index/HtmlConverter$1.class
+org/javalite/index/IndexMain.class
+org/javalite/index/SearchFileVisitor.class

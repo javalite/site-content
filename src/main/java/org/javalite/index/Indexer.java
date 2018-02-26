@@ -1,4 +1,4 @@
-package com.javalite.index;
+package org.javalite.index;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,6 +24,7 @@ public class Indexer {
     }
 
     public int index(String contentPath) throws IOException {
+
         FSDirectory dir = FSDirectory.open(this.indexPath.toFile());
         IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_3, this.analyzer);
         config.setOpenMode(OpenMode.CREATE_OR_APPEND);
@@ -36,4 +37,5 @@ public class Indexer {
         dir.close();
         return visitor.getCount();
     }
+
 }
