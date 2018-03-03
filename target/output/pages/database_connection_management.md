@@ -216,6 +216,19 @@ to develop applications that live on different environments, and simply "know" w
 
 ## Location of property file
 
+### Using system property
+ 
+You can tell the framework the location of the file by supplying a system property at the start of your program: 
+
+```
+java com.company.project.Main -cp myprogram.jar -Denv.connections.file=/path/to/file/database.properties
+```
+ 
+Even if you have `database.properties` packaged into your Jar/war file, this setting will override the packaged file. 
+Use it for production environments where database passwords cannot be checked into source control.
+
+### Using `activejdbc.properties`
+
 In some cases it is inconvenient to bundle the `database.properties` file with class files on classpath. 
 There can be different reasons for it: you want to be able to change passwords, do not want to commit credentials to
 code repoository, etc. 
@@ -232,9 +245,9 @@ env.connections.file=/etc/my_project123/database.properties
 ~~~~
 
 Then, simply add connection properties to the file as usual. The methods `DB.open()` and `Base.open()` will locate 
-a connection from this file using the usual `ACTIVE_ENV` conventions. 
+a connection from this file using the usual `ACTIVE_ENV` conventions.
  
-
+ 
 
 ## Environment variables override
 

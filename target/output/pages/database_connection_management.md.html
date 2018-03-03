@@ -155,6 +155,11 @@ production.jndi=java:comp/env/jdbc/acme
 <p>If environment variable <code>ACTIVE_ENV</code> is not defined, the framework defaults to environment <code>development</code>.</p>
 </blockquote>
 <h2 id="location-of-property-file">Location of property file</h2>
+<h3 id="using-system-property">Using system property</h3>
+<p>You can tell the framework the location of the file by supplying a system property at the start of your program:</p>
+<pre><code>java com.company.project.Main -cp myprogram.jar -Denv.connections.file=/path/to/file/database.properties</code></pre>
+<p>Even if you have <code>database.properties</code> packaged into your Jar/war file, this setting will override the packaged file. Use it for production environments where database passwords cannot be checked into source control.</p>
+<h3 id="using-activejdbc.properties">Using <code>activejdbc.properties</code></h3>
 <p>In some cases it is inconvenient to bundle the <code>database.properties</code> file with class files on classpath. There can be different reasons for it: you want to be able to change passwords, do not want to commit credentials to code repoository, etc.</p>
 <p>The database connection properties file can be given any name and can reside on a file system somewhere.</p>
 <p>Here is how to configure:</p>
