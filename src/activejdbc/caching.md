@@ -34,9 +34,9 @@ As in other cases, this is a declaration that marks a model as "cachable". If yo
 3078 [main] INFO org.javalite.activejdbc.DB - Query: "SELECT * FROM libraries WHERE id = ?", with parameters: [1], took: 0 milliseconds
 ~~~~
 
-## Cache Configuration (AJ Version 1.1 and above)
+## Cache Configuration
 
-The new cache configuration includes providing a cache manager class name in the file `activejdbc.properties`.
+The cache configuration includes providing a cache manager class name in the file `activejdbc.properties`.
 This file will have to be on the root of classpath. Here is one example:
 
 ~~~~ {.prettyprint}
@@ -47,7 +47,7 @@ cache.manager=org.javalite.activejdbc.cache.EHCacheManager
 ~~~~
 
 Here two things happen: 1. Cache in general is enabled (it is not enabled even if you have @Cached annotations on classes),
-and 2. AJ will be using EHCacheManager as implementation of cache.
+and 2. ActiveJDBC will be using EHCacheManager as an implementation of cache.
 
 ## Automatic cache purging
 
@@ -71,6 +71,37 @@ or:
 ~~~~ {.java  .numberLines}
 Books.purgeCache();
 ~~~~
+
+## Purge all caches
+
+If you want  to purge all caches, here is a snippet: 
+
+```java
+QueryCache.instance().getCacheManager().flush(CacheEvent.ALL);
+```
+
+## Listen/Propagate cache events
+
+In more complex  applications you may want to listen to cache events and then act on them: lets say  propagate 
+cache purging across cluster. 
+
+First, you need to create a listener for the cache events: 
+
+```java 
+public class AppCacheEventListener implements CacheEventListener{
+   public void void onFlush(CacheEvent event){
+       // implementation goes here
+   }
+}
+```
+Then, register the listener: 
+
+```java
+Registry.cacheManager().addCacheEventListener(new AppCacheEventListener());
+```
+
+Once this is done, the listener will start getting notified if a cache for a specific table is getting purged.  
+
 
 ## What to cache
 
