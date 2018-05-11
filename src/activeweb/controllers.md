@@ -130,6 +130,18 @@ app.controllers
 
 ActiveWeb specifies that all controllers are located in this package or sub-packages.
 
+## Controller names
+
+A controller name is a name of the controller that can be deduced from the controller class name.  
+
+
+> Controller name is an undescroder lower case controller class name  without the "Controller" part.
+
+For instance, if you have a controller class `TimeServerController`, then the controller name will be `time_server`.
+
+
+
+
 ## Controller paths
 
 A controller path is made of a sub-package and a controller name. A controller name is *not* a class name, but rather
