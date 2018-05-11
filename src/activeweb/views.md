@@ -190,14 +190,10 @@ public class HomeController extends AppController {
     public void index() {
       render().noLayout();
     }
-
-    public void show() {
-      render().layout("my_special_layout");
-    }
 }
 ~~~~
 
-In the first case, the template will be rendered without a layout. In the second case it will use the specified layout.
+In this case, the template will be rendered without a layout. 
 
 ### Override default layout
 
@@ -207,15 +203,28 @@ to override this method to return a different value.
 
 ~~~~ {.java  .numberLines}
 public class DifferentLayoutController extends AppController {
-
     @Override
     protected String getLayout() {
         return "/layouts/my_other_layout";
     }
+}
 ~~~~
 
 If you have 2 - 3 super classes for controllers that override this method, you can have different areas of the site
 decorated by different layouts, based on which child controller is rendering.
+
+
+~~~~ {.java  .numberLines}
+public class HelloController extends AppController {
+    public void show() {
+        // code to add stuff to view ...
+        render().layout("my_special_layout");
+    }
+}
+~~~~
+
+In the example above,   a layout is overridden only for a specific action. 
+    
 
 ##Partials
 
