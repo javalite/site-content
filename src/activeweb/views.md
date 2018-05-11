@@ -183,24 +183,36 @@ It will generate the following output in its place:
 ### Rendering without layout
 
 By default ActiveWeb will use a `/views/layouts/default_layout.ftl`. However, in some cases you do not need a layout (for
-instance, you are developing a web service or responding to Ajax calls).
-You can turn a layout rendering programmaticaly from controller:
+instance, you are developing a web service or responding to Ajax calls). You can return a layout rendering programmaticaly from controller:
 
 ~~~~ {.java  .numberLines}
 public class HomeController extends AppController {
     public void index() {
       render().noLayout();
     }
+
+    public void show() {
+      render().layout("my_special_layout");
+    }
 }
 ~~~~
 
-In this case, the template will be rendered without a layout.
+In the first case, the template will be rendered without a layout. In the second case it will use the specified layout.
 
 ### Override default layout
 
 If you wonder how default layout is set, the answer is simple: the class `AppController` has a method `String getLayout()`
 which returns a string with value `/layouts/default_layout`. The easiest way to change a layout for a controller is
-to override  this method to return a different value.
+to override this method to return a different value.
+
+~~~~ {.java  .numberLines}
+public class DifferentLayoutController extends AppController {
+
+    @Override
+    protected String getLayout() {
+        return "/layouts/my_other_layout";
+    }
+~~~~
 
 If you have 2 - 3 super classes for controllers that override this method, you can have different areas of the site
 decorated by different layouts, based on which child controller is rendering.
