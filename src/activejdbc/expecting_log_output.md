@@ -25,12 +25,15 @@ log4j.rootLogger=INFO,CONSOLE
 log4j.appender.CONSOLE=org.javalite.logging.LoggingTestAppender
 ```
 
-This logger simply drops everything in STDIO. 
+This logger simply drops everything in STDIO.
+
+Maven will place the `src/test/resources` at the top of the classpath for tests but will not package into the 
+final artifact, so your real Log4j configuration is safe.   
 
 ## Writing a spec
 
 
-```java
+~~~~ {.java .numberLines}
 @Test
 public void shouldExpectFoo() {
     SystemStreamUtil.replaceOut();
@@ -41,7 +44,7 @@ public void shouldExpectFoo() {
     SystemStreamUtil.restoreSystemOut();
  }
 
-```
+~~~~
 
 * Line 3: will start intercepting and accumulating all output to `System.out`.   
 * Line 5: get all log output as a single `String` object
@@ -52,8 +55,9 @@ public void shouldExpectFoo() {
 
 ## STDERR?
 
-The same technique can be done with `SystemStreamUtil.getSystemOut()` 
-and `SystemStreamUtil.restoreSystemOut()` respectively.
+The same technique can be done with `SystemStreamUtil.getSystemErr()` 
+and `SystemStreamUtil.restoreSystemErr()` respectively.
 
 ----
-  
+> Do not forget to restore the STDIO or STDERR output, otherwise you will not see much of log output. 
+ 
