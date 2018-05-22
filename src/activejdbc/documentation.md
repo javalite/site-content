@@ -57,6 +57,9 @@
 ### Testing
 * [JSpec](jspec)    
 * [Writing tests](writing_tests)
+* [Expecting log output](expecting_log_output)
+* [Testing](testing) (ActiveWeb)
+* [Testing of models with DB connection](testing_with_db_connection)
 
 ### IDE Integrations
 

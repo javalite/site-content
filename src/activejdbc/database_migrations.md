@@ -27,7 +27,7 @@ This command will result in:
 ...
 ~~~~
 
-The newly created fle is empty. Go ahead and add raw SQL to the file
+The newly created file is empty. Go ahead and add raw SQL to the file
 
 ~~~~ {.prettyprint}
 create table people ( name varchar (10));
