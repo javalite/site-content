@@ -237,7 +237,7 @@ public class HelloControllerSpec extends ControllerSpec {
 }
 ~~~~
 
-## Uploading files
+## Testing uploads
 
 Simulating file upload can be done with the formItem() method:
 
@@ -254,6 +254,42 @@ public class HelloControllerSpec extends ControllerSpec {
 
 Most methods chained after method `request()` are chained because they all return a special instance of `RequestBuilder`.
 This allows to call the same method more than once, including `formItem()` to simulate uploading of multiple files.
+
+
+
+## Testing downloads
+
+Downloading files or streaming data from a controller to a browser is described here: [Controllers: downloading of files](controllers#downloading-of-files).
+
+Lets say you have a controller that streams out some CSV data like this: 
+
+~~~~ {.java .numberLines}
+public void csv(){
+    OutputStream out = outputStream("text/csv", map("Content-Disposition", "attachment; filename=messages.csv"), 200);
+    Base.find("select * from messages where user_id = ?", param("user_id")).with(row -> {
+        try {
+            out.write(toCSV(row));
+        } catch (IOException e) {
+            flash("csv_error", "Apologies, we experienced an error while generating a CSV file. ");
+            redirect(CSVController.class, "messages");
+        }
+        return true;
+    });
+}
+~~~~ 
+
+Testing such a controller can be done in this manner: 
+
+~~~~ {.java .numberLines}
+public class CSVControllerSpec extends ControllerSpec {
+    @Test
+    public void shouldDownloadCSV() {
+        request().param("user_id", 123).get("download");
+        String csvContent = new String(bytesContent());
+        /// provide ways to test the content, such as parse CSV, etc. 
+    }
+}
+~~~~
 
 
 ## Working with sessions

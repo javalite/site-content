@@ -4,7 +4,6 @@
 
 
 
-ActiveJDBC - Writing tests| <a href="/activejdbc">ActiveJDBC</a>, Writing tests
 
 While you can use any Java technology to do this, JavaLite provides a combination of [JUnit](http://junit.org/) and
 [JSpec](jspec). Test methods are written in a style where a name of a method is a phrase reflecting the
@@ -90,6 +89,6 @@ public void shouldValidateMandatoryFields(){
 }
 ~~~~
 
-For a complete code please refer to:
-[EmployeeSpec.java](https://github.com/javalite/simple-example/blob/master/src/test/java/activejdbc/examples/simple/EmployeeSpec.java)
+For a similar spec, refer to:
+[MovieSpec.java](https://github.com/javalite/simple-example/blob/master/src/test/java/activejdbc/examples/simple/MovieSpec.java)
 and enclosing project.
