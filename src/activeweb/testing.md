@@ -271,7 +271,7 @@ public void csv(){
             out.write(toCSV(row));
         } catch (IOException e) {
             flash("csv_error", "Apologies, we experienced an error while generating a CSV file. ");
-            redirect(CSVController.class, "messages");
+            redirect(CSVController.class, "download");
         }
         return true;
     });
