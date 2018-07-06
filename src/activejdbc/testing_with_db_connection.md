@@ -61,13 +61,15 @@ public class PostSpec extends DBSpec {
 
 Technically speaking, you can use it for any test requiring a connection, but it is also easy to use for Model tests.
  
+### Steps of execution 
 
-> In the test above the `DBSpec` will: 
-* open a test connection defined in `database.properties`
-* start a transaction
-* make connection available during tests
-* roll back transaction after the test execution to keep the database clean 
-* close the connection
+In the test above the `DBSpec` will: 
+
+1. open a test connection defined in `database.properties`
+2. start a transaction
+3. make connection available during tests
+4. roll back transaction after the test execution to keep the database clean 
+5. close the connection
 
 This class allows for tests to run in a "clean room" environment, since the database tables  will always have a 
 clean state for any given test.

@@ -82,7 +82,19 @@ try(DB db = new DB()){
 }
 ~~~~
 
+## Use with Lambdas
 
+If you static-import `Base.withDB()`, you can execute code in the context of a 
+connection using a simple block like this: 
+
+~~~~ {.java  .numberLines}
+withDb(() -> {
+        // some code that uses a connection
+}); 
+~~~~
+
+There are various versions of `withDB` on classes [DB](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/DB.html#withDb-javax.sql.DataSource-java.lang.Runnable-) 
+and [Base](http://javalite.github.io/activejdbc/snapshot/org/javalite/activejdbc/Base.html#withDb-javax.sql.DataSource-java.lang.Runnable-). 
 
 
 ## Models associated with multiple databases
