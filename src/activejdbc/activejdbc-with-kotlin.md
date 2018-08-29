@@ -3,10 +3,10 @@
 </div>
 
 
-## How to setup it
-With the same manner it's done with the Java ActiveJDBC layer, you should setup both dependency and instrumentation like explained [there](/activejdbc#getting-the-latest-version).
+## Dependency Setup
 
-Then you have to add the following dependency to get the Kotlin layer available.
+In order to setup ActiveJDBC with Kotlin, add the [ActiveJDBC dependency](/activejdbc#getting-the-latest-version) 
+as well as the Kotlin module: 
 
 ~~~~ {.xml}
 <dependency>
@@ -16,18 +16,23 @@ Then you have to add the following dependency to get the Kotlin layer available.
 </dependency>
 ~~~~
 
+## Instrumentation
+
+Setting up instrumentation is not any different, please follow instructions [here](instrumentation). 
 
 
-## How to use it ?
-Unlike the Java layer, the Kotlin layer offers two ways of setting up a model, both are equivalent.
+## Usage
+
+Unlike the Java layer, the Kotlin layer offers two similar ways of setting up a model.
 
 
-#### First usage (close to Java)
+### Approach #1
+
 First define an entity
 
 ~~~~ {.java}
 import org.javalite.activejdbc.Model;
-import org.javalite.activejdbc.CompanionModel
+import org.javalite.activejdbc.CompanionModel;
 
 open class Person():Model() {
     companion object:CompanionModel<Person>(Person::class)
@@ -35,17 +40,14 @@ open class Person():Model() {
 ~~~~
 
 
-
-Then use it (like in Java)
+Then use it as in Java
 
 ~~~~ {.java}
 val person:Person = Person.findById(1)
 ~~~~
 
 
-
-
-#### Second usage (with English inflections)
+### Approach #2 (with English inflections)
 
 The first class is only for the entity itself
 
@@ -57,18 +59,17 @@ open class Person():Model()
 
 
 
-The second class concerns the table itself and its name matches English inflection (Person => People)
+The second class stands for the table and its name matches English inflection (Person => People)
 
 ~~~~ {.java}
-import org.javalite.activejdbc.CompanionModel
+import org.javalite.activejdbc.CompanionModel;
 
 open class People {
     companion object:CompanionModel<Person>(Person::class)
 }
+~~~~
 
-
-
-Then use it like in Java
+Usage: 
 
 ~~~~ {.java}
 val person:Person = People.findById(1L)

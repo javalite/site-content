@@ -53,6 +53,7 @@
 * [IN Clause](in_clause)
 * [Delete cascade](delete_cascade)
 * [Inheritance](inheritance)
+* [Kotlin support](activejdbc-with-kotlin)
 
 ### Testing
 * [JSpec](jspec)    

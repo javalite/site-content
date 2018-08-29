@@ -181,8 +181,6 @@ If you use Maven add this to your pom:
 
 Do not forget to replace LATEST_VERSION with the latest version deployed to Maven Central (see above)
 
-Current latest version: [1.4.13](http://search.maven.org/#artifactdetails%7Corg.javalite%7Cactivejdbc-root%7C1.4.13%7Cpom).
-
 
 Additionally, configure Instrumentation plugin:
 
