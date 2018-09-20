@@ -6,6 +6,9 @@
 
 The latest current release version is 2.2 and can be downloaded from [Maven Central](http://search.maven.org).
 
+Please, see [2.2 release notes](release-notes-22).
+
+
 ## Where is release 2.1?
 
 We had some issues in the process of releasing 2.1. As a result, it is not complete and should not be used. 
@@ -27,7 +30,7 @@ Replace `activeweb` with the name of the module you are using (activejdbc, app-c
 
 ## Current snapshot 2.3-SNAPSHOT
 
-Can be downloaded from the JavaLite Repo: [https://oss.sonatype.org/content/repositories/snapshots/](https://oss.sonatype.org/content/repositories/snapshots/).
+Can be downloaded from the Sonatype Repo: [https://oss.sonatype.org/content/repositories/snapshots/](https://oss.sonatype.org/content/repositories/snapshots/).
 
 If you feel adventurous, you can automatically download snapshots from our repo by adding this config to your pom file:  
 
@@ -63,6 +66,6 @@ For Meven plugins:
   
 ## Past releases
 
-* [Javaite release notes 2.0](release-notes-20) 
+* [JavaLite release notes 2.0](release-notes-20) 
 * [ActiveWeb releases](activeweb_releases)
 * [ActiveJDBC releases](activejdbc_releases)

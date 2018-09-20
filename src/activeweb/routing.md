@@ -13,7 +13,7 @@ supports:
 
 There are some routing terms defined in ActiveWeb:
  
-* **Controller name** - logical name of controller as it relates to the URI mapping 
+* **Controller name** - logical name of controller as it relates to the URI mapping. a controller name is an underscored or hyphenated short class name. For instance, if the class name is `app.controllers.api.v2.AuthorsController` then the controller name  is `authors_controller`. It will be the same for a class `app.controllers.AuthorsController`.
 * **Controller class** - Java class name of controller
 * **Action** - action is part of URL mapped to a method of a controller.
 * **Action method** - method of controller mapped to an action. Every public method of a controller is theoretically an action. 
@@ -264,6 +264,12 @@ POST:
 Of course the action `save()` needs to have a @POST annotation for this to work. Annotations are independent of routing rules.
 
 > Default Http method used in routing rules is `get()`.
+
+### Custom routing with packages
+
+It works similarly to standard routing with packages: 
+
+Path: `/api/v2/authors/9` will map to a custom route: `route("/api/v2/{controller}/{aut_id}").to(AuthorsController.class).action("findById");`
 
 ### RouteConfig reloaded
 

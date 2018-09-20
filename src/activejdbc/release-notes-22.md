@@ -129,10 +129,10 @@
 
 ### ActiveWeb Repo
 
-* 2018-08-29 12:53:26 -0500 ipolevoy [#387 Remove double quote hack from RequestSpecHelper](https://github.com/javalite/activejdbc/commit/5cc93df)
-* 2018-08-23 23:32:36 -0500 ipolevoy [#393 Implement TravisCI build](https://github.com/javalite/activejdbc/commit/2a4520d)
-* 2018-08-06 15:11:01 -0500 ipolevoy [#390 Migrate deployment of snapshots to Sonatype](https://github.com/javalite/activejdbc/commit/6a1436e)
-* 2018-07-27 16:04:24 -0500 ipolevoy [#389 DBConnectionFilter commits transactions after rollback](https://github.com/javalite/activejdbc/commit/ce57641)
-* 2018-07-13 12:41:19 -0500 ipolevoy [#367 StringIndexOutOfBoundsException when parsing a route](https://github.com/javalite/activejdbc/commit/1b3a27b)
-* 2018-07-06 17:31:10 -0500 ipolevoy [#386 Change log level to ERROR and throw exception if AppConfig fails to initialize](https://github.com/javalite/activejdbc/commit/f5a9ffd)
-* 2018-03-15 14:18:01 -0500 Igor Polevoy [#385 Provide ability to specify what headers are logged to a log system](https://github.com/javalite/activejdbc/commit/9c912e8)
+* 2018-08-29 12:53:26 -0500 ipolevoy [#387 Remove double quote hack from RequestSpecHelper](https://github.com/javalite/activeweb/commit/5cc93df)
+* 2018-08-23 23:32:36 -0500 ipolevoy [#393 Implement TravisCI build](https://github.com/javalite/activeweb/commit/2a4520d)
+* 2018-08-06 15:11:01 -0500 ipolevoy [#390 Migrate deployment of snapshots to Sonatype](https://github.com/javalite/activeweb/commit/6a1436e)
+* 2018-07-27 16:04:24 -0500 ipolevoy [#389 DBConnectionFilter commits transactions after rollback](https://github.com/javalite/activeweb/commit/ce57641)
+* 2018-07-13 12:41:19 -0500 ipolevoy [#367 StringIndexOutOfBoundsException when parsing a route](https://github.com/javalite/activeweb/commit/1b3a27b)
+* 2018-07-06 17:31:10 -0500 ipolevoy [#386 Change log level to ERROR and throw exception if AppConfig fails to initialize](https://github.com/javalite/activeweb/commit/f5a9ffd)
+* 2018-03-15 14:18:01 -0500 Igor Polevoy [#385 Provide ability to specify what headers are logged to a log system](https://github.com/javalite/activeweb/commit/9c912e8)
