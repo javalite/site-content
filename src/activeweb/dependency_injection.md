@@ -184,7 +184,7 @@ public void before(){
 The framework will create a dynamic module, bind interfaces and implementations and will use it to create a new Injecotr 
  on the fly. 
  
-Sometimes, you will only have a single service class not broken inti an interface and implementation.
+Sometimes, you will only have a single service class not broken into an interface and implementation.
   In such a case, the `to()` method is optional: 
   
 ~~~~ {.java  .numberLines}
