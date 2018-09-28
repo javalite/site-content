@@ -150,7 +150,7 @@ public class DbConfig extends AbstractDBConfig {
 ~~~~
 
 Two different databases are configured for environment 'production'. A corresponding binding of two instances 
-if `DBConnectionFilter` will look like this:
+in `DBConnectionFilter` will look like this:
   
 ~~~~ {.java .numberLines}
 public class AppControllerConfig extends AbstractControllerConfig {
