@@ -60,7 +60,7 @@ a reason why a table "BOOKS" purged as well.
 ## Manual cache purging
 
 
-If you want to manually purge caches (in cases you make destructive data operations outside Model API), you can do so:
+If you want to manually purge caches (in cases you make mutative or destructive data operations outside Model API), you can do so:
 
 ~~~~ {.java  .numberLines}
 org.javalite.activejdbc.cache.QueryCache.instance().purgeTableCache("books");
@@ -225,9 +225,9 @@ User.purgeCache();
 ~~~~
 
 
-### Destructive operations
+### Mutative or destructive operations
  
-Whenever you execute a destructive operation against a model (INSERT, UPDATE, DELETE), the entire cache for that model is invalidated. 
+Whenever you execute a mutative or destructive operation against a model (INSERT, UPDATE, DELETE), the entire cache for that model is invalidated. 
  This means that caches are best used for lookup data (duh!). 
  
 The framework will also invalidate and drop caches of all related tables. For instance:
@@ -246,7 +246,7 @@ create table ADDRESSES (INT id, street VARCHAR, city VARCHAR, user_id INT);
 public class User extends Model{}
 
 @Cached
-public class Addressextends Model{}
+public class Address extends Model{}
 ~~~
 
 
@@ -278,7 +278,7 @@ and the models:
 public class User extends Model{}
 
 @Cached UnrelatedTo({User.class})
-public class Addressextends Model{}
+public class Address extends Model{}
 ~~~
 
 
@@ -330,14 +330,14 @@ Please, note that ActiveJDBC does not create named caches in EHCache, but only u
 
 ## EHCache configuration (v 3.x)
 
-Name of the cache mamager class: `org.javalite.activejdbc.cache.EHCache3Manager`. 
-Set the following in the file `activejsbc.properties`: 
+Name of the cache manager class: `org.javalite.activejdbc.cache.EHCache3Manager`. 
+Set the following in the file `activejdbc.properties`: 
 
 ~~~~
 cache.manager=org.javalite.activejdbc.cache.EHCache3Manager
 ~~~~
 
-In addition,  you will need to configure EHCacche itself. For that, add a file called `activejdbc-ehcache.xml`. Here is  simple EHCache v3 configuration: 
+In addition,  you will need to configure EHCache itself. For that, add a file called `activejdbc-ehcache.xml`. Here is  simple EHCache v3 configuration: 
 
 ~~~~ {.xml .numberLines}
 <ehcache:config xmlns:ehcache="http://www.ehcache.org/v3">
@@ -355,7 +355,7 @@ For more involved configuration options, refer to EHCache v3 documentation.
 
 ## Redis cache configuration
 
-Name of the cache mamager class: `org.javalite.activejdbc.cache.EHCache3Manager`.
+Name of the cache manager class: `org.javalite.activejdbc.cache.RedisCacheManager`.
 Set the following in the file `activejdbc.properties`:
 
 ~~~~
@@ -363,7 +363,7 @@ cache.manager=org.javalite.activejdbc.cache.RedisCacheManager
 ~~~~
 
 Also, provide a property file called `activejdbc-redis.properties`
-with two properties: <`redist-host` and `edist-port`
+with two properties: `redis.cache.manager.host` and `redis.cache.manager.port`
 The properties file needs to be at the root of classpath.
 
 
