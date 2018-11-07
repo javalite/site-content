@@ -25,8 +25,8 @@ public class Indexer {
 
     public int index(String contentPath) throws IOException {
 
-        FSDirectory dir = FSDirectory.open(this.indexPath.toFile());
-        IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_3, this.analyzer);
+        FSDirectory dir = FSDirectory.open(indexPath);
+        IndexWriterConfig config = new IndexWriterConfig(this.analyzer);
         config.setOpenMode(OpenMode.CREATE_OR_APPEND);
         IndexWriter indexWriter = new IndexWriter(dir, config);
         Path directory = Paths.get(contentPath);

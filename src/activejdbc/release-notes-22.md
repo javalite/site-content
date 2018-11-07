@@ -1,6 +1,11 @@
 ## Release notes v2.2
 
-### ActiveJDBC Repo
+### Supported Java
+
+Oracle JDK v 8.x
+
+
+### ActiveJDBC Repo Changelog
 
 * 2018-08-28 23:34:42 -0500 ipolevoy [#774 - NPE in Paginator.pageCount](https://github.com/javalite/activejdbc/commit/1e56a4f)
 * 2018-08-28 22:43:11 -0500 ipolevoy [#776 - Release next version due to problems in release 2.1](https://github.com/javalite/activejdbc/commit/1b1ac10)
@@ -127,7 +132,7 @@
 * 2018-02-13 10:35:30 +0100 cschabli [Fix of #671: "dos2unix" of list.ftl read by FreemarkerSpec](https://github.com/javalite/activejdbc/commit/bc4592e)
 
 
-### ActiveWeb Repo
+### ActiveWeb Repo Chanhelog
 
 * 2018-08-29 12:53:26 -0500 ipolevoy [#387 Remove double quote hack from RequestSpecHelper](https://github.com/javalite/activeweb/commit/5cc93df)
 * 2018-08-23 23:32:36 -0500 ipolevoy [#393 Implement TravisCI build](https://github.com/javalite/activeweb/commit/2a4520d)

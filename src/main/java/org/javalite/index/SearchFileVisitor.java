@@ -5,6 +5,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.FieldInfo;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 
 import java.io.FileInputStream;
@@ -65,13 +66,7 @@ class SearchFileVisitor extends SimpleFileVisitor<Path> {
                 addField(document, "TYPE","page");
             }
 
-
-            FieldType type = new FieldType();
-            type.setIndexed(true);
-            type.setStored(true); // it needs to be stored to be properly highlighted
-            type.setTokenized(true);
-            type.setIndexOptions(FieldInfo.IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS); // necessary for PostingsHighlighter
-            document.add(new Field("CONTENT", title + ". " + text, type));
+            document.add(new StringField("CONTENT", title + ". " + text, Field.Store.YES));
 
             indexWriter.addDocument(document);
             count++;

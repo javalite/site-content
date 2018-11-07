@@ -46,7 +46,7 @@ Specifically, the plugin is added to a pom like this:
 <plugin>
     <groupId>org.javalite</groupId>
     <artifactId>activejdbc-instrumentation</artifactId>
-    <version>1.4.13</version>
+    <version>${activejdbc.version}</version>
     <executions>
         <execution>
             <phase>process-classes</phase>
