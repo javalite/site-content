@@ -49,7 +49,7 @@ This does not require explanation.
 
 ## Complex batch operations
 
-ActiveJDBC provides a way to actually batch destructive operations into a single batch.
+ActiveJDBC provides a way to actually batch DML operations into a single batch.
 In some cases it can provide significant performance improvements
 
 ~~~~ {.java  .numberLines}
@@ -57,5 +57,8 @@ In some cases it can provide significant performance improvements
  Base.addBatch(ps, "Mic", "Jagger", "1962-01-01");
  Base.addBatch(ps, "Marilyn", "Monroe", "1932-01-01");
  Base.executeBatch(ps);
- ps.close();
+ Base.closePreparedStatement(ps);
 ~~~~
+
+Note that because these are not Model operations, ActiveJDBC will not automatically populate any created_at or updated_at columns.
+You'll need to either include those as arguments and/or set table defaults/triggers.
