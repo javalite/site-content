@@ -1,16 +1,3 @@
-# Content for the [JavaLite](http://javalite.io) site.
+# THIS PROJECT IS DEPRECATED!
 
-## Getting Started
-
-Install pandoc first:
-
-~~~~
-sudo apt-get install pandoc
-~~~~
-
-## Build
-
-~~~~
-./build.sh
-~~~~
-
+The content of the site has moved to [JavaLite Site](https://github.com/javalite/javalite-site) project. 
